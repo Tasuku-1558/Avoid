@@ -5,7 +5,7 @@
 
 const float HitChecker::RADIUS_GOOD		 = 30.0f;		//good‚Ì”ÍˆÍ
 const float HitChecker::RADIUS_GREAT	 = 25.0f;		//great‚Ì”ÍˆÍ
-const float HitChecker::RADIUS_EXCELLENT = 20.0f;		//excellent‚Ì”ÍˆÍ
+const float HitChecker::RADIUS_EXCELLENT = 10.0f;		//excellent‚Ì”ÍˆÍ
 const float HitChecker::RADIUS_MISS		 =  4.0f;		//miss‚Ì”ÍˆÍ
 
 

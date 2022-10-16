@@ -26,7 +26,7 @@ void ResultScene::Initialize()
 SceneType ResultScene::Update(float deltaTime)
 {
 	//HitCheckerのスコアを取得
-	//Score = hitchecker->GetScore();
+	Score = hitchecker->GetScore();
 
 	////スコアを目標スコアに足し引きする処理
 	//if (TargetScore != Score)
@@ -42,12 +42,10 @@ SceneType ResultScene::Update(float deltaTime)
 	//}
 
 	//次のシーンへ
-	//BackキーでTitleSceneへ
 	if (CheckHitKey(KEY_INPUT_BACK))
 	{
 		NowSceneType = SceneType::TITLE;
 	}
-	//BキーでPlaySceneへ
 	else if (CheckHitKey(KEY_INPUT_B))
 	{
 		NowSceneType = SceneType::PLAY;
@@ -59,5 +57,7 @@ SceneType ResultScene::Update(float deltaTime)
 void ResultScene::Draw()
 {
 	//獲得スコア表示
-	DrawFormatString(500, 150, GetColor(255, 255, 0), "獲得SCORE : %d", Score);
+	DrawFormatString(750, 400, GetColor(255, 255, 0), "獲得SCORE : %d", Score);
+
+	DrawFormatString(250, 800, GetColor(255, 255, 255), "BackキーでTitleに戻る or Bキーでもう一度プレイする");
 }

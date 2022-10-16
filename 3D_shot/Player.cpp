@@ -6,7 +6,6 @@ using namespace Math3d;
 
 //コンストラクタ
 Player::Player() : PlayerBase(ObjectTag::Player)
-	
 {
 	//処理なし
 }
@@ -62,7 +61,7 @@ void Player::Move(float deltaTime)
 	InputDirection = ZERO_VECTOR;
 
 	InputFlag = false;
-
+	
 	//上を押していたら上に進む
 	if (CheckHitKey(KEY_INPUT_UP))
 	{
@@ -76,7 +75,7 @@ void Player::Move(float deltaTime)
 		InputDirection += DOWN;
 		InputFlag = true;
 	}
-	
+
 	//右を押していたら右に進む
 	else if (CheckHitKey(KEY_INPUT_RIGHT))
 	{
@@ -105,6 +104,7 @@ void Player::Move(float deltaTime)
 //描画処理
 void Player::Draw()
 {
+
 	MV1DrawModel(ModelHandle);
 
 	// 当たり判定デバッグ描画（後で消す）

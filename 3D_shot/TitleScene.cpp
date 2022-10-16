@@ -1,7 +1,7 @@
 #include "TitleScene.h"
 #include "DxLib.h"
 
-const int TitleScene::TitleNameX = 700;
+const int TitleScene::TitleNameX = 600;
 const int TitleScene::TitleNameY = 500;
 
 
@@ -25,7 +25,7 @@ void TitleScene::Initialize()
 
 SceneType TitleScene::Update(float deltaTime)
 {
-	//スペースキーを押して次のシーンへ
+	//次のシーンへ
 	if (CheckHitKey(KEY_INPUT_SPACE))
 	{
 		NowSceneType = SceneType::PLAY;
@@ -74,7 +74,7 @@ void TitleScene::Blink()
 {
 	// 明滅ルーチン
 	static int Alpha = 0;
-	static int Inc = 12;
+	static int Inc = 5;
 
 	if (Alpha > 255 && Inc > 0)
 		Inc *= -1;
@@ -85,7 +85,7 @@ void TitleScene::Blink()
 	Alpha += Inc;
 
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, Alpha);
-	DrawFormatString(500, 800, GetColor(255, 0, 0), "Push Space Key To GameStart!");
+	DrawFormatString(200, 700, GetColor(255, 0, 0), "Push Space Key To GameStart!");
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, Alpha);
 }
 
@@ -93,9 +93,10 @@ void TitleScene::Draw()
 {
 	DrawGraph(TitleBackgroundX, TitleBackgroundY, TitleImage, TRUE);
 
-	SetFontSize(80);			//文字のフォントサイズ変更
+	ChangeFont("ＭＳ 明朝");	//種類をMS明朝に変更
+	SetFontSize(110);			//文字のフォントサイズ変更
 
-	DrawString(TitleNameX, TitleNameY, TitleName, GetColor(255, 255, 255));
+	DrawString(TitleNameX, TitleNameY, TitleName, GetColor(170, 200, 200));
 
 	Blink();
 }

@@ -72,7 +72,7 @@ void PlayScene::Initialize()
 	//Meteorite* meteorite[Meteorite::METEORITE_ARRAY_NUMBER] = { nullptr };
 
 	//ゲーム画面背景
-	GameBackground = LoadGraph("data/Image/galaxy.png");
+	GameBackground = LoadGraph("data/Image/GameBackground.png");
 
 }
 
@@ -162,13 +162,13 @@ void PlayScene::Draw()
 	ChangeFont("ＭＳ 明朝");	//種類をMS明朝に変更
 
 	//制限時間表示
-	DrawFormatString(500, 100, GetColor(255, 0, 0), "TIME : %d", CountDown);
+	DrawFormatString(800, 100, GetColor(255, 0, 0), "TIME : %d", CountDown);
 
 	//獲得スコア表示
-	DrawFormatString(500, 150, GetColor(255, 255, 0), "SCORE : %d", Score);
+	DrawFormatString(800, 150, GetColor(255, 255, 0), "SCORE : %d", Score);
 
 	//デバック用
-	DrawFormatString(500, 400, GetColor(255, 0, 0), "x : %d", x);
-	DrawFormatString(500, 450, GetColor(255, 0, 0), "y : %d", y);
-	DrawFormatString(500, 500, GetColor(255, 0, 0), "Direction : %f", Direction);
+	DrawFormatString(500, 300, GetColor(255, 0, 0), "x : %d", x);
+	DrawFormatString(500, 350, GetColor(255, 0, 0), "y : %d", y);
+	DrawFormatString(500, 400, GetColor(255, 0, 0), "Direction : %f", Direction);
 }

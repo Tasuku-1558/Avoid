@@ -17,7 +17,7 @@ public:
 private:
 	class Camera* camera;
 	class Player* player;
-	class Meteorite* meteorite[10] = { nullptr };/*[Meteorite::METEORITE_ARRAY_NUMBER10] = { nullptr };*/
+	class Meteorite* meteorite[20] = { nullptr };/*[Meteorite::METEORITE_ARRAY_NUMBER10] = { nullptr };*/
 	class HitChecker* hitchecker;
 	
 	int  StartTime;				//‹N“®ŽžŠÔ

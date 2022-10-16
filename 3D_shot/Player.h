@@ -22,7 +22,7 @@ public:
 	
 private:
 	Player(const Player&);			//コピーコンストラクタ
-
+	class HitChecker* hitchecker;
 	
 	Math3d::Sphere CollisionSphere;	//当たり判定球 
 };

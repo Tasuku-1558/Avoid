@@ -6,7 +6,7 @@ const int	MeteoriteBase::RANDOM_RANGE_X_OR_Y	  = 450;		//XÀ•W‚ÆYÀ•W‚Ìƒ‰ƒ“ƒ_ƒ€
 const float MeteoriteBase::Z_POSITION			  = 1600.0f;	//ZÀ•W
 const int   MeteoriteBase::RANDOM_ROTATION_SPEED  = 400;		//ƒ‰ƒ“ƒ_ƒ€‚È‰ñ“]ƒXƒs[ƒh
 const float MeteoriteBase::RADIUS				  = 65.0f;		//”¼Œa‚Ì”ÍˆÍ
-const int   MeteoriteBase::METEORITE_ARRAY_NUMBER = 10;			//è¦Î‚Ì”z—ñ”
+const int   MeteoriteBase::METEORITE_ARRAY_NUMBER = 20;			//è¦Î‚Ì”z—ñ”
 
 
 MeteoriteBase::MeteoriteBase(ObjectTag tag)

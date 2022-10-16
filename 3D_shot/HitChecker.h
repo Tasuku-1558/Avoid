@@ -20,14 +20,13 @@ public:
 	double GetDirection() { return Direction; }	//デバック用
 
 	int GetScore() { return Score; }
-	
+
 private:
 	HitChecker(const HitChecker&);			//コピーコンストラクタ
 
 	double Direction;				//デバック用
 
 	int Score;
-	
 
 	double dis[10];
 	int meteoriteHitChecker[10];
