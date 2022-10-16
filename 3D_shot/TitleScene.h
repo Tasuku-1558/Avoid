@@ -23,8 +23,13 @@ private:
 	int TitleBackgroundY;	//タイトル背景Y座標
 
 	char TitleName[14] = { "Just in Avoid" };
+	
 
 	float StartTitleCount;
 	float* TitleAnimTime;		//タイトル文字アニメーションカウンタ
 	Point2D* TitleNowPos;
+
+	//静的定数
+	static const int TitleNameX;
+	static const int TitleNameY;
 };

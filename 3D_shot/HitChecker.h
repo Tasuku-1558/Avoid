@@ -4,31 +4,38 @@
 class Meteorite;
 class Player;
 
+enum Check
+{
+	HIT, EXCELLENT, GREAT, GOOD
+};
 
 class HitChecker final
 {
 public:
 	HitChecker();
 	~HitChecker();
-	static void PlayerAndMeteorite(Player* player, Meteorite* meteorite[]);		//当たりチェック
 
-	static double GetDirection() { return Direction; }
+	void PlayerAndMeteorite(Player* player, Meteorite* meteorite[]);		//当たりチェック
 
-	static int GetScore() { return Score; }
+	double GetDirection() { return Direction; }	//デバック用
+
+	int GetScore() { return Score; }
 	
 private:
 	HitChecker(const HitChecker&);			//コピーコンストラクタ
 
-	static double Direction;
+	double Direction;				//デバック用
 
-	static int Score;
+	int Score;
+	
 
+	double dis[10];
+	int meteoriteHitChecker[10];
 
 	//静的定数
-	static const float RADIUS_GOOD;
-	static const float RADIUS_GREAT;
-	static const float RADIUS_EXCELLENT;
-	static const float RADIUS_DEAD;
+	static const float RADIUS_GOOD;			//goodの範囲
+	static const float RADIUS_GREAT;		//greatの範囲
+	static const float RADIUS_EXCELLENT;	//excellentの範囲
+	static const float RADIUS_MISS;			//missの範囲
 
-	
 };

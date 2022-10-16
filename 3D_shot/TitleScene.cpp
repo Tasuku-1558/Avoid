@@ -1,6 +1,9 @@
 #include "TitleScene.h"
 #include "DxLib.h"
 
+const int TitleScene::TitleNameX = 700;
+const int TitleScene::TitleNameY = 500;
+
 
 TitleScene::TitleScene():SceneBase(SceneType::TITLE)
 	, TitleImage(0)
@@ -89,6 +92,10 @@ void TitleScene::Blink()
 void TitleScene::Draw()
 {
 	DrawGraph(TitleBackgroundX, TitleBackgroundY, TitleImage, TRUE);
+
+	SetFontSize(80);			//文字のフォントサイズ変更
+
+	DrawString(TitleNameX, TitleNameY, TitleName, GetColor(255, 255, 255));
 
 	Blink();
 }

@@ -19,8 +19,7 @@ public:
 	void Update(float deltaTime, Player* player);
 	void Move(float deltaTime, Player* player);
 	void Draw() override;
-	//void MeteoritePopCount(float deltaTime);
-	//float GetMeteoriteCount() { return PopCount; }
+	
 
 	Math3d::Sphere GetCollisionSphere() { return CollisionSphere; } //“–‚½‚è”»’è‹…‚ð•Ô‚·
 

@@ -18,7 +18,7 @@ namespace Math3d
 	};
 
 	// “–‚½‚è”»’è‚ÌŠÖ”‘g‚İ‡‚í‚¹
-	bool CollisionPair(const Sphere& sphere1, const Sphere& sphere2);
+	//bool CollisionPair(const Sphere& sphere1, const Sphere& sphere2);
 
 
 }

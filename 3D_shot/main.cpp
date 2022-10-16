@@ -54,7 +54,11 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	{
 		return -1;			// エラーが起きたら直ちに終了
 	}
+	// Ｚバッファを有効にする
+	SetUseZBuffer3D(TRUE);
 
+	// Ｚバッファへの書き込みを有効にする
+	SetWriteZBuffer3D(TRUE);
 	//ひとつ前のシーン
 	SceneType PrevSceneType = SceneType::PLAY/*TITLE*/;
 
@@ -69,7 +73,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	SceneBase* scenebase = new PlayScene/*TitleScene*/;
 
 	ModelManager::GetInstance();	//モデル管理クラスの生成
-	
+
 	// エスケープキーが押されるかウインドウが閉じられるまでループ
 	while (ProcessMessage() == 0 && CheckHitKey(KEY_INPUT_ESCAPE) == 0)
 	{
@@ -83,7 +87,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 		// 画面を初期化する
 		ClearDrawScreen();
-
+		
 		scenebase->Draw();
 		
 		//位置関係がわかるように
@@ -125,7 +129,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			SAFE_DELETE(scenebase);						//シーンの解放
 			scenebase = CreateScene(NowSceneType);		//シーンの生成
 		}
-
 
 		prevTime = nowTime;
 

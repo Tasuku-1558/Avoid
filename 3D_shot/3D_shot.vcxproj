@@ -153,13 +153,13 @@
   <ItemGroup>
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Collision.cpp" />
-    <ClCompile Include="math2D.cpp" />
+    <ClCompile Include="Math2D.cpp" />
     <ClCompile Include="MeteoriteBase.cpp" />
     <ClCompile Include="ModelManager.cpp" />
     <ClCompile Include="ObjectBase.cpp" />
     <ClCompile Include="HitChecker.cpp" />
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="math3D.cpp" />
+    <ClCompile Include="Main.cpp" />
+    <ClCompile Include="Math3D.cpp" />
     <ClCompile Include="Meteorite.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="PlayerBase.cpp" />
@@ -176,7 +176,7 @@
     <ClInclude Include="ModelManager.h" />
     <ClInclude Include="ObjectBase.h" />
     <ClInclude Include="HitChecker.h" />
-    <ClInclude Include="math3D.h" />
+    <ClInclude Include="Math3D.h" />
     <ClInclude Include="Meteorite.h" />
     <ClInclude Include="ObjectTag.h" />
     <ClInclude Include="Player.h" />

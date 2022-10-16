@@ -6,11 +6,12 @@
 #include "HitChecker.h"
 #include "Utility.h"
 
-const int PlayScene::GameTime = 60;
+const int PlayScene::GameTime = 60;		//ゲーム時間
 
 PlayScene::PlayScene():SceneBase(SceneType::PLAY)
 		, camera(new Camera())
 		, player(new Player())
+		, hitchecker(new HitChecker())
 		, MeteoritePopFlag(false)
 		, StartTime(0)
 		, NowTime(0)
@@ -49,6 +50,9 @@ PlayScene::~PlayScene()
 	//プレイヤーを解放
 	SAFE_DELETE(player);
 
+	//HitCheckerを解放
+	SAFE_DELETE(hitchecker);
+
 	//隕石を解放
 	for (int i = 0; i < Meteorite::METEORITE_ARRAY_NUMBER; i++)
 	{
@@ -58,7 +62,7 @@ PlayScene::~PlayScene()
 		}
 	}
 
-	//ゲーム背景を解放
+	//ゲーム画面背景を解放
 	DeleteGraph(GameBackground);
 }
 
@@ -67,10 +71,9 @@ void PlayScene::Initialize()
 	////隕石クラスのポインタを確保するための配列作成
 	//Meteorite* meteorite[Meteorite::METEORITE_ARRAY_NUMBER] = { nullptr };
 
-	//ゲーム背景
+	//ゲーム画面背景
 	GameBackground = LoadGraph("data/Image/galaxy.png");
 
-	
 }
 
 
@@ -91,22 +94,14 @@ SceneType PlayScene::Update(float deltaTime)
 			//隕石出現フラグがtrueの時
 			if (MeteoritePopFlag)
 			{
-				//隕石出現カウント
-				//meteorite[i]->MeteoritePopCount(deltaTime);
 				MeteoritePopFlag = false;
 
 				//隕石制御
 				meteorite[i]->Update(deltaTime, player);
 
 				//プレイヤーと隕石の当たり判定
-				HitChecker::PlayerAndMeteorite(player, meteorite);
+				hitchecker->PlayerAndMeteorite(player, meteorite);
 			}
-			
-			////隕石出現カウント
-			//if (meteorite[i]->GetMeteoriteCount() > 0.01f)
-			//{
-			//	
-			//}
 		}
 	}
 
@@ -114,10 +109,10 @@ SceneType PlayScene::Update(float deltaTime)
 	//デバック用
 	x = player->GetPosition().x;
 	y = player->GetPosition().y;
-	Direction = HitChecker::GetDirection();
+	Direction = hitchecker->GetDirection();
 
-	//ヒットチェッカーのスコアを取得
-	TargetScore = HitChecker::GetScore();
+	//HitCheckerのスコアを取得
+	TargetScore = hitchecker->GetScore();
 
 	//スコアを目標スコアに足し引きする処理
 	if (TargetScore != Score)
@@ -138,6 +133,7 @@ SceneType PlayScene::Update(float deltaTime)
 	//制限時間が0になったら
 	if (CountDown == 0)
 	{
+		clsDx();
 		NowSceneType = SceneType::RESULT;
 	}
 
@@ -146,7 +142,7 @@ SceneType PlayScene::Update(float deltaTime)
 
 void PlayScene::Draw()
 {
-	//ゲーム背景描画
+	//ゲーム画面背景描画
 	DrawBillboard3D(VGet(0.0f, 300.0f, 1200.0f), 0.5f, 0.5f, 4000.0f, 0.0f, GameBackground, TRUE);
 
 	//プレイヤー描画

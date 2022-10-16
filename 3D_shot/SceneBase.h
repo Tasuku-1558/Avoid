@@ -9,7 +9,6 @@ enum class SceneType
 	RESULT
 };
 
-
 class SceneBase
 {
 public:

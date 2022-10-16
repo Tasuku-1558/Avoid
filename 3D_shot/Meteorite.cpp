@@ -28,7 +28,7 @@ void Meteorite::Initialize()
 		printfDx("モデルデータ読み込みに失敗 [METEORITE]\n");
 	}
 
-	Position = VGet(/*GetRand(RANDOM_RANGE_X_OR_Y), GetRand(RANDOM_RANGE_X_OR_Y)*/0.0f,100.0f, Z_POSITION);
+	Position = VGet(GetRand(RANDOM_RANGE_X_OR_Y), GetRand(RANDOM_RANGE_X_OR_Y)/*0.0f,100.0f*/, Z_POSITION);
 	Dir = VGet(0.0f, 0.0f, -1.0f);
 
 	// ランダムな回転角速度をセット
@@ -57,7 +57,7 @@ void Meteorite::Update(float deltaTime, Player* player)
 void Meteorite::Move(float deltaTime, Player* player)
 {
 	
-	/*if (PopFlag)
+	if (PopFlag)
 	{
 		Dir = player->GetPosition() - Position;
 
@@ -66,7 +66,7 @@ void Meteorite::Move(float deltaTime, Player* player)
 			Dir = VNorm(Dir);
 		}
 		PopFlag = false;
-	}*/
+	}
 	/*else if()
 	{
 		Dir = VGet(10.0f,10.0f,0.0f);
@@ -89,14 +89,3 @@ void Meteorite::Draw()
 	// 当たり判定デバッグ描画（後で消す）
 	DrawSphere3D(CollisionSphere.WorldCenter, CollisionSphere.Radius, 8, GetColor(0, 255, 255), 0, FALSE);
 }
-
-//隕石出現カウント
-//void Meteorite::MeteoritePopCount(float deltaTime)
-// {
-//	PopCount += deltaTime;
-//
-//	if (PopCount > 1.0)
-//	{
-//		PopCount = 0.0f;
-//	}
-//}

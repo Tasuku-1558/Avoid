@@ -31,13 +31,7 @@
     <ClCompile Include="HitChecker.cpp">
       <Filter>ソースファイル\System</Filter>
     </ClCompile>
-    <ClCompile Include="main.cpp">
-      <Filter>ソースファイル\System</Filter>
-    </ClCompile>
-    <ClCompile Include="Camera.cpp">
-      <Filter>ソースファイル\System</Filter>
-    </ClCompile>
-    <ClCompile Include="math3D.cpp">
+    <ClCompile Include="Math3D.cpp">
       <Filter>ソースファイル\System</Filter>
     </ClCompile>
     <ClCompile Include="PlayerBase.cpp">
@@ -64,8 +58,14 @@
     <ClCompile Include="Point2D.cpp">
       <Filter>ソースファイル\System</Filter>
     </ClCompile>
-    <ClCompile Include="math2D.cpp">
+    <ClCompile Include="Math2D.cpp">
       <Filter>ソースファイル\System</Filter>
+    </ClCompile>
+    <ClCompile Include="Main.cpp">
+      <Filter>ソースファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>ソースファイル</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -81,16 +81,13 @@
     <ClInclude Include="Utility.h">
       <Filter>ソースファイル\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="Camera.h">
-      <Filter>ソースファイル\System</Filter>
-    </ClInclude>
     <ClInclude Include="HitChecker.h">
       <Filter>ソースファイル\System</Filter>
     </ClInclude>
     <ClInclude Include="Common.h">
       <Filter>ソースファイル\System</Filter>
     </ClInclude>
-    <ClInclude Include="math3D.h">
+    <ClInclude Include="Math3D.h">
       <Filter>ソースファイル\System</Filter>
     </ClInclude>
     <ClInclude Include="ModelManager.h">
@@ -122,6 +119,9 @@
     </ClInclude>
     <ClInclude Include="Point2D.h">
       <Filter>ソースファイル\System</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>ソースファイル</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
