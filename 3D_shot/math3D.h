@@ -33,5 +33,4 @@ namespace Math3d
 
 	//ƒ‰ƒ“ƒ_ƒ€’l‚ğ¶¬
 	float GetRandf(float min, float max);
-
 }

@@ -1,40 +1,42 @@
 #pragma once
 #include "ObjectBase.h"
 
+class MeteoriteManager;
 class Meteorite;
 class Player;
 
-enum Check
-{
-	HIT, EXCELLENT, GREAT, GOOD
-};
 
 class HitChecker final
 {
 public:
 	HitChecker();
 	~HitChecker();
+	void Initialize();
+	void PlayerAndMeteorite(Player* player, Meteorite* meteorite[]/*, MeteoriteManager* meteoriteManager*/);		//当たりチェック
 
-	void PlayerAndMeteorite(Player* player, Meteorite* meteorite[]);		//当たりチェック
+	double GetDirection() { return direction; }	//デバック用
 
-	double GetDirection() { return Direction; }	//デバック用
-
-	int GetScore() { return Score; }
+	int GetScore() { return score; }
 
 private:
 	HitChecker(const HitChecker&);			//コピーコンストラクタ
 
-	double Direction;				//デバック用
+	double direction;
 
-	int Score;
-
-	double dis[10];
-	int meteoriteHitChecker[10];
+	int score;
 
 	//静的定数
 	static const float RADIUS_GOOD;			//goodの範囲
 	static const float RADIUS_GREAT;		//greatの範囲
 	static const float RADIUS_EXCELLENT;	//excellentの範囲
 	static const float RADIUS_MISS;			//missの範囲
+
+	static const int   SCORE_GOOD;			//goodのスコア
+	static const int   SCORE_GREAT;			//greatのスコア
+	static const int   SCORE_EXCELLENT;		//excellentのスコア
+	static const int   SCORE_MISS;			//missのスコア
+
+	static const int   FIRST_SCORE;
+	static const int   FIRST_DIRECTION;
 
 };

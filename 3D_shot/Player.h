@@ -1,28 +1,41 @@
 #pragma once
 
 #include "DxLib.h"
-#include "math3D.h"
+#include "Math3D.h"
 #include "Collision.h"
 #include "PlayerBase.h"
 
+//Playerの状態
+enum class State
+{
+	Nomal,
+	Miss,
+	Excellent,
+	Great,
+	Good
+};
 
 //PlayerBaseクラスを継承
 class Player final : public PlayerBase
 {
 public:
-	Player();    //コンストラクタ
-	~Player();   //デストラクタ
+	 Player();    //コンストラクタ
+	~Player();    //デストラクタ
 
 	void Initialize();
+	void Activate();
 	void Update(float deltaTime);
+	void PUpdate(float deltaTime);
 	void Move(float deltaTime);
+	void Damege(float deltaTime);
 	void Draw() override;
 
-	Math3d::Sphere GetCollsionSphere() { return CollisionSphere; }
-	
+	Math3d::Sphere GetCollsionSphere() { return collisionSphere; }
+	enum class State state;
 private:
 	Player(const Player&);			//コピーコンストラクタ
-	class HitChecker* hitchecker;
+	bool noDrawFrame;				//描画しないフレームか
+	int damegeCount;
 	
-	Math3d::Sphere CollisionSphere;	//当たり判定球 
+	Math3d::Sphere collisionSphere;	//当たり判定球 
 };

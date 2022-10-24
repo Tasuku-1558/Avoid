@@ -1,0 +1,34 @@
+#include "LargeExplosion.h"
+#include "DxLib.h"
+
+
+
+LargeExplosion::LargeExplosion()
+{
+	//èàóùÇ»Çµ
+}
+
+LargeExplosion::~LargeExplosion()
+{
+	//èàóùÇ»Çµ
+}
+
+void LargeExplosion::Initialize()
+{
+}
+
+void LargeExplosion::Finalize()
+{
+}
+
+void LargeExplosion::Activate()
+{
+}
+
+void LargeExplosion::Update()
+{
+}
+
+void LargeExplosion::Draw()
+{
+}

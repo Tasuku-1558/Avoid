@@ -8,8 +8,8 @@ const float PlayerBase::RADIUS = 41.0f;		//”¼Œa‚Ì”ÍˆÍ
 
 PlayerBase::PlayerBase(ObjectTag tag)
 	: Tag(tag)
-	, InputDirection()
-	, InputFlag(false)
+	, inputDirection()
+	, inputFlag(false)
 	, UP()
 	, DOWN()
 	, LEFT()

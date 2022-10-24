@@ -1,14 +1,25 @@
 #include "Player.h"
 #include "Meteorite.h"
 #include "ModelManager.h"
+#include "Common.h"
 #include <math.h>
 
 using namespace Math3d;
 
+const int Meteorite::RANGE = 2;			//ランダム値の範囲
+
 
 Meteorite::Meteorite() : MeteoriteBase(ObjectTag::Meteorite)
+	, random(0)
 {
-	//処理なし
+	modelHandle = MV1DuplicateModel(ModelManager::GetInstance().GetModelHandle(ModelManager::METEORITE));
+	MV1SetScale(modelHandle, VGet(SIZE, SIZE, SIZE));
+
+	//読み込み失敗でエラー
+	if (modelHandle < 0)
+	{
+		printfDx("モデルデータ読み込みに失敗 [METEORITE]\n");
+	}
 }
 
 Meteorite::~Meteorite()
@@ -19,26 +30,24 @@ Meteorite::~Meteorite()
 //初期化処理
 void Meteorite::Initialize()
 {
-	ModelHandle = MV1DuplicateModel(ModelManager::GetInstance().GetModelHandle(ModelManager::METEORITE));
-	MV1SetScale(ModelHandle, VGet(SIZE, SIZE, SIZE));
+	//処理なし
+}
 
-	//読み込み失敗でエラー
-	if (ModelHandle < 0)
-	{
-		printfDx("モデルデータ読み込みに失敗 [METEORITE]\n");
-	}
-
-	Position = VGet(GetRand(RANDOM_RANGE_X_OR_Y), GetRand(RANDOM_RANGE_X_OR_Y)/*0.0f,100.0f*/, Z_POSITION);
-	Dir = VGet(0.0f, 0.0f, -1.0f);
+//活性化処理
+void Meteorite::Activate()
+{
+	position = VGet(GetRand(RANDOM_RANGE_X_OR_Y), GetRand(RANDOM_RANGE_X_OR_Y), Z_POSITION);
+	dir = VGet(0.0f, 0.0f, -1.0f);
+	random = rand() % RANGE;
 
 	// ランダムな回転角速度をセット
-	RotateSpeed = VGet(GetRand(RANDOM_ROTATION_SPEED) / 1000.0f, GetRand(RANDOM_ROTATION_SPEED) / 1000.0f, GetRand(RANDOM_ROTATION_SPEED) / 1000.0f);
-	RotateAngle = VGet(0, 0, 0);
+	rotateSpeed = VGet(GetRand(RANDOM_ROTATION_SPEED) / 1000.0f, GetRand(RANDOM_ROTATION_SPEED) / 1000.0f, GetRand(RANDOM_ROTATION_SPEED) / 1000.0f);
+	rotateAngle = ZERO_VECTOR;
 
 	// 当たり判定球を設定
-	CollisionSphere.LocalCenter = VGet(0, 0, 0);
-	CollisionSphere.Radius = RADIUS;
-	CollisionSphere.WorldCenter = Position;
+	collisionSphere.localCenter = ZERO_VECTOR;
+	collisionSphere.radius = RADIUS;
+	collisionSphere.worldCenter = position;
 }
 
 //更新処理
@@ -46,46 +55,41 @@ void Meteorite::Update(float deltaTime, Player* player)
 {
 	Move(deltaTime, player);
 
-	MV1SetPosition(ModelHandle, Position);
-	MV1SetRotationXYZ(ModelHandle, RotateAngle);
+	MV1SetPosition(modelHandle, position);
+	MV1SetRotationXYZ(modelHandle, rotateAngle);
 
 	// 当たり判定の移動
-	CollisionSphere.HitTestMove(Position);
+	collisionSphere.HitTestMove(position);
 }
 
 //移動処理
 void Meteorite::Move(float deltaTime, Player* player)
 {
-	
-	if (PopFlag)
-	{
-		Dir = player->GetPosition() - Position;
 
-		if (VSize(Dir) > 0.1f)
-		{
-			Dir = VNorm(Dir);
-		}
-		PopFlag = false;
-	}
-	/*else if()
+	if (popFlag && random == 0)
 	{
-		Dir = VGet(10.0f,10.0f,0.0f);
-		if (VSize(Dir) > 0.1f)
+		dir = player->GetPosition() - position;
+
+		if (VSize(dir) > 0.1f)
 		{
-			Dir = VNorm(Dir);
+			dir = VNorm(dir);
 		}
-	}*/
+		popFlag = false;
+	}
+	else if(random == 1)
+	{
+		dir = VGet(0.0f, 0.0f, -1.0f);
+	}
 	
-	
-	Position += Dir * deltaTime * SPEED;
-	RotateAngle += RotateSpeed;
+	position += dir * deltaTime * SPEED;
+	rotateAngle += rotateSpeed;
 }
 
 //描画処理
 void Meteorite::Draw()
 {
-	MV1DrawModel(ModelHandle);
+	MV1DrawModel(modelHandle);
 
 	// 当たり判定デバッグ描画（後で消す）
-	DrawSphere3D(CollisionSphere.WorldCenter, CollisionSphere.Radius, 8, GetColor(0, 255, 255), 0, FALSE);
+	DrawSphere3D(collisionSphere.worldCenter, collisionSphere.radius, 8, GetColor(0, 255, 255), 0, FALSE);
 }

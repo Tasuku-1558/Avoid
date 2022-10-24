@@ -1,24 +1,22 @@
 #pragma once
 
-
-//シーンの種類
-enum class SceneType
-{
-	TITLE,
-	PLAY,
-	RESULT
-};
+class SceneManager;
 
 class SceneBase
 {
 public:
-	SceneBase(SceneType sceneType):NowSceneType(sceneType){ /*処理なし*/} //コンストラクタ
-	virtual ~SceneBase(){/*処理なし*/} //デストラクタ
+	SceneBase(SceneManager* const sceneManager) : parent(sceneManager){ /*処理なし*/ }	//コンストラクタ
+	virtual ~SceneBase(){/*処理なし*/}													//デストラクタ
 
 	virtual void Initialize() = 0;
-	virtual SceneType Update(float deltaTime) = 0;
+	virtual void Finalize() = 0;
+	virtual void Activate() = 0;
+	virtual void Update(float deltaTime) = 0;
 	virtual void Draw() = 0;
 
 protected:
-	SceneType NowSceneType;
+	SceneManager* const parent;
+
+private:
+	SceneBase(const SceneBase&);		//コピーコンストラクタ
 };

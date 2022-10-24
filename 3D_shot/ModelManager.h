@@ -13,7 +13,6 @@ public:
 	{
 		PLAYER,
 		METEORITE,
-		
 		MODEL_AMOUNT	//モデルの個数
 	};
 
@@ -22,7 +21,7 @@ public:
 	const int& GetModelHandle(ModelKind modelKind) const; // モデルハンドルの参照を返す
 
 private:
-	ModelManager();								//コンストラクタ
+	 ModelManager();							//コンストラクタ
 	~ModelManager();							//デストラクタ
 	ModelManager(const ModelManager&);			//コピーコンストラクタ
 

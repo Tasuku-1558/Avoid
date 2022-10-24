@@ -2,40 +2,45 @@
 
 #include "SceneBase.h"
 
+class Camera;
+class Player;
+class Meteorite;
+class HitChecker;
+
 class PlayScene final : public SceneBase
 {
 public:
-	 PlayScene();
+	 PlayScene(SceneManager* const sceneManager);
 	~PlayScene()override;
 
 	void Initialize() override;
-	SceneType Update(float deltaTime) override;
+	void Finalize()override;
+	void Activate()override;
+	void Update(float deltaTime) override;
 	void Draw() override;
 	
-	int GetScore() { return Score; }
+	int GetScore() { return score; }
 
 private:
-	class Camera* camera;
-	class Player* player;
-	class Meteorite* meteorite[20] = { nullptr };/*[Meteorite::METEORITE_ARRAY_NUMBER10] = { nullptr };*/
-	class HitChecker* hitchecker;
+	Camera* camera;
+	Player* player;
+	Meteorite* meteorite[20] = { nullptr };
+	HitChecker* hitchecker;
 	
-	int  StartTime;				//起動時間
-	int  NowTime;				//現在の時間
-	int  CountDown;				//制限時間
-	bool MeteoritePopFlag;		//隕石の出現フラグ
-
-	int  GameBackground;		//ゲーム画面背景
+	int  startTime;				//起動時間
+	int  nowTime;				//現在の時間
+	int  countDown;				//制限時間
+	bool meteoritePopFlag;		//隕石の出現フラグ
+	int  gameBackground;		//ゲーム画面背景
+	int  targetScore;			//目標スコア
+	int  score;					//獲得スコア
 
 	//デバック用
 	int x;
 	int y;
 	double Direction = 0.0f;
 
-	int  TargetScore;			//目標スコア
-	int  Score;					//獲得スコア
-	
 	
 	//静的定数
-	static const int GameTime;	//ゲーム時間
+	static const int GAMETIME;	//ゲーム時間
 };

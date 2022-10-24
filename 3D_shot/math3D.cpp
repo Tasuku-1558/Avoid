@@ -1,4 +1,4 @@
-#include "math3D.h"
+#include "Math3D.h"
 
 namespace Math3d
 {
@@ -126,5 +126,4 @@ namespace Math3d
 		float Random = GetRand(1000.0f * max) / 1000.0f;
 		return Random + min;
 	}
-
 } 

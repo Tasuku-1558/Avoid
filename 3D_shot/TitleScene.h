@@ -1,35 +1,33 @@
 #pragma once
 
 #include "SceneBase.h"
-#include "Point2D.h"
 
 class TitleScene final : public SceneBase
 {
 public:
-	TitleScene();
+	 TitleScene(SceneManager* const sceneManager);
 	~TitleScene()override;
 
 	void Initialize()override;					//初期化
-	SceneType Update(float deltaTime)override;	//更新
-	void TitleNameMove();
+	void Finalize()override;
+	void Activate()override;
+	void Update(float deltaTime)override;		//更新
 
-	void Blink();
+	void Blink();								//文字を明滅
 
 	void Draw()override;						//描画
 	
 private:
-	int TitleImage;			//タイトル画像
-	int TitleBackgroundX;	//タイトル背景X座標
-	int TitleBackgroundY;	//タイトル背景Y座標
 
-	char TitleName[14] = { "Just in Avoid" };
-	
+	TitleScene(const TitleScene&);				//コピーコンストラクタ
 
-	float StartTitleCount;
-	float* TitleAnimTime;		//タイトル文字アニメーションカウンタ
-	Point2D* TitleNowPos;
+	int titleImage;			//タイトル画像
+	int titleBackgroundX;	//タイトル背景X座標
+	int titleBackgroundY;	//タイトル背景Y座標
+
+	char titleName[14];
 
 	//静的定数
-	static const int TitleNameX;
-	static const int TitleNameY;
+	static const int TITLE_NAME_X;
+	static const int TITLE_NAME_Y;
 };

@@ -1,14 +1,17 @@
 #include "TitleScene.h"
 #include "DxLib.h"
+#include "SceneManager.h"
 
-const int TitleScene::TitleNameX = 600;
-const int TitleScene::TitleNameY = 500;
+const int TitleScene::TITLE_NAME_X = 600;
+const int TitleScene::TITLE_NAME_Y = 500;
 
 
-TitleScene::TitleScene():SceneBase(SceneType::TITLE)
-	, TitleImage(0)
-	, TitleBackgroundX(0)
-	, TitleBackgroundY(0)
+TitleScene::TitleScene(SceneManager* const sceneManager)
+	: SceneBase(sceneManager)
+	, titleImage(0)
+	, titleBackgroundX(0)
+	, titleBackgroundY(0)
+	, titleName{ "Just in Avoid" }
 {
 	//処理なし
 }
@@ -20,52 +23,24 @@ TitleScene::~TitleScene()
 
 void TitleScene::Initialize()
 {
-	TitleImage = LoadGraph("data/Image/TitleBackground.png");
+	titleImage = LoadGraph("data/Image/TitleBackground.png");
 }
 
-SceneType TitleScene::Update(float deltaTime)
+void TitleScene::Finalize()
+{
+}
+
+void TitleScene::Activate()
+{
+}
+
+void TitleScene::Update(float deltaTime)
 {
 	//次のシーンへ
 	if (CheckHitKey(KEY_INPUT_SPACE))
 	{
-		NowSceneType = SceneType::PLAY;
-	}
-	
-	return NowSceneType;
-}
-
-void TitleScene::TitleNameMove()
-{
-	if (StartTitleCount < 1.0f)
-	{
-		StartTitleCount += 0.01f;
-	}
-
-	if (StartTitleCount > 1.0f)
-	{
-		StartTitleCount = 1.0f;
-	}
-
-	for (int i = 0; i < 1; i++)
-	{
-		TitleAnimTime[i] += 0.01f;
-
-		if (TitleAnimTime[i] > 1.0f)
-		{
-			TitleAnimTime[i] = 1.0f;
-		}
-	}
-
-	//イージング処理
-	for (int i = 0; i < 1; i++)
-	{
-		float Time = TitleAnimTime[i];
-		if (Time < 0.0f)
-		{
-			Time = 0.0f;
-		}
-
-		//TitleNowPos[i] = EaseInExponential();
+		parent->SetNextScene(SceneManager::PLAY);
+		return;
 	}
 }
 
@@ -91,12 +66,12 @@ void TitleScene::Blink()
 
 void TitleScene::Draw()
 {
-	DrawGraph(TitleBackgroundX, TitleBackgroundY, TitleImage, TRUE);
+	DrawGraph(titleBackgroundX, titleBackgroundY, titleImage, TRUE);
 
 	ChangeFont("ＭＳ 明朝");	//種類をMS明朝に変更
 	SetFontSize(110);			//文字のフォントサイズ変更
 
-	DrawString(TitleNameX, TitleNameY, TitleName, GetColor(170, 200, 200));
+	DrawString(TITLE_NAME_X, TITLE_NAME_Y, titleName, GetColor(170, 200, 200));
 
 	Blink();
 }

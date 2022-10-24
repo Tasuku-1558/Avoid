@@ -1,7 +1,7 @@
 #pragma once
 
 #include "DxLib.h"
-#include "math3D.h"
+#include "Math3D.h"
 #include "ObjectTag.h"
 
 
@@ -11,15 +11,17 @@ public:
 	         ObjectBase();		//コンストラクタ
 	virtual ~ObjectBase();		//デストラクタ
 
-	//virtual  void Update(float dltaTime) = 0;						//= 0は純粋仮想関数
-	virtual void Draw();
+	virtual void Initialize() = 0;
+	virtual void Activate() = 0;
+	//virtual void Update(float dltaTime) = 0;				//純粋仮想関数
+	virtual void Draw() = 0;
 
-	const VECTOR& GetPosition() const; 	//Positionのgetter
-	const VECTOR& GetDir() const;		//Dirのgetter
+	const VECTOR& GetPosition() const; 	//positionのgetter
+	const VECTOR& GetDir() const;		//dirのgetter
 
 protected:
-	VECTOR Position;						//現在の座標
-	VECTOR Dir;								//向きベクトル
-	int	   ModelHandle;						//モデルハンドル
+	VECTOR position;						//現在の座標
+	VECTOR dir;								//向きベクトル
+	int	   modelHandle;						//モデルハンドル
 	
 };

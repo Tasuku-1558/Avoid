@@ -1,25 +1,27 @@
 #include "Player.h"
+#include "MeteoriteManager.h"
 #include "Meteorite.h"
 #include "HitChecker.h"
-#include <math.h>
 
-const float HitChecker::RADIUS_GOOD		 = 30.0f;		//goodの範囲
-const float HitChecker::RADIUS_GREAT	 = 25.0f;		//greatの範囲
-const float HitChecker::RADIUS_EXCELLENT = 10.0f;		//excellentの範囲
-const float HitChecker::RADIUS_MISS		 =  4.0f;		//missの範囲
 
+const float HitChecker::RADIUS_GOOD		 = 700.0f;	//goodの範囲
+const float HitChecker::RADIUS_GREAT	 = 500.0f;	//greatの範囲
+const float HitChecker::RADIUS_EXCELLENT = 40.0f;	//excellentの範囲
+const float HitChecker::RADIUS_MISS		 = 4.0f;	//missの範囲
+
+const int	HitChecker::SCORE_GOOD		 = 100;		//goodのスコア
+const int	HitChecker::SCORE_GREAT		 = 200;		//greatのスコア
+const int	HitChecker::SCORE_EXCELLENT  = 600;		//excellentのスコア
+const int	HitChecker::SCORE_MISS		 = 300;		//missのスコア
+
+const int	HitChecker::FIRST_SCORE		 = 0;
+const int	HitChecker::FIRST_DIRECTION  = 0;
 
 HitChecker::HitChecker()
-	: Score(0)
-	, Direction(0.0f)
-	, dis{0}
-	, meteoriteHitChecker{0}
+	: score(0)
+	, direction(0.0f)
 {
-	/*for (int i = 0; i < Meteorite::METEORITE_ARRAY_NUMBER; i++)
-	{
-		dis[i] = 100.0f;
-		meteoriteHitChecker[i] = { GOOD };
-	}*/
+	//処理なし
 }
 
 HitChecker::~HitChecker()
@@ -27,66 +29,41 @@ HitChecker::~HitChecker()
 	//処理なし
 }
 
+void HitChecker::Initialize()
+{
+	score = FIRST_SCORE;
+	direction = FIRST_DIRECTION;
+}
 
-void HitChecker::PlayerAndMeteorite(Player* player, Meteorite* meteorite[])
+void HitChecker::PlayerAndMeteorite(Player* player, Meteorite* meteorite[]/*, MeteoriteManager* meteoriteManager*/)
 {
 	for (int i = 0; i < Meteorite::METEORITE_ARRAY_NUMBER; i++)
 	{
 		if (meteorite[i] != nullptr)
 		{
-
-			/*dis[i] = sqrt((player->GetPosition().x - meteorite[i]->GetPosition().x) *
-				(player->GetPosition().x - meteorite[i]->GetPosition().x) +
-				(player->GetPosition().y - meteorite[i]->GetPosition().x) *
-				(player->GetPosition().x - meteorite[i]->GetPosition().y) +
-				(player->GetPosition().x - meteorite[i]->GetPosition().z) *
-				(player->GetPosition().x - meteorite[i]->GetPosition().z));*/
-
-			double HIT_DIS = 10.0f;
-			double EXCELLENT_DIS = 15.0f;
-
 			if (meteorite[i]->GetPosition().z <= 10)
 			{
 				//当たったかどうか
-				bool Hit = true;
+				bool hit = true;
 				
-				/*if (meteoriteHitChecker[i] != HIT)
-				{
-					if (dis[i] < HIT_DIS)
-					{
-						meteoriteHitChecker[i] = HIT;
+				
+				//隕石の当たり判定球を取得
+				Math3d::Sphere sphereMeteorite = meteorite[i]->GetCollisionSphere();
 
-						Score -= 300;
-						printfDx("miss! ");
-					}
-					else if (dis[i] < EXCELLENT_DIS)
-					{
-						meteoriteHitChecker[i] = EXCELLENT;
-
-						Score += 600;
-						printfDx("excellent! ");
-					}
-				}*/
-
-
-				//プレイヤーと隕石両方から当たり判定球を取得
-				Math3d::Sphere SpherePlayer = player->GetCollsionSphere();
-				Math3d::Sphere SphereMeteorite = meteorite[i]->GetCollisionSphere();
-
-				double a = player->GetPosition().x - meteorite[i]->GetPosition().x;
-				double b = player->GetPosition().y - meteorite[i]->GetPosition().y;
-
+				double posX = player->GetPosition().x - meteorite[i]->GetPosition().x;
+				double posY = player->GetPosition().y - meteorite[i]->GetPosition().y;
 				
 				//プレイヤーと隕石の２点間の距離を計算
-				Direction = sqrt(pow(a, 2) + pow(b, 2));
+				direction = sqrt(pow(posX, 2) + pow(posY, 2));
 				
 
 				//隕石と衝突したら
-				if (Direction < RADIUS_MISS + SphereMeteorite.Radius)
+				if (direction < RADIUS_MISS + sphereMeteorite.radius)
 				{
-
-					Score -= 300;
 					
+					score -= SCORE_MISS;
+					player->state = State::Miss;
+
 					//当たったか確認用
 					//後で消す
 					printfDx("miss! ");
@@ -94,10 +71,10 @@ void HitChecker::PlayerAndMeteorite(Player* player, Meteorite* meteorite[])
 				}
 
 				//隕石とギリギリの範囲
-				else if (Direction < RADIUS_EXCELLENT + SphereMeteorite.Radius)
+				else if (direction < RADIUS_EXCELLENT + sphereMeteorite.radius)
 				{
-
-					Score += 600;
+					
+					score += SCORE_EXCELLENT;
 
 					//当たったか確認用
 					//後で消す
@@ -106,10 +83,10 @@ void HitChecker::PlayerAndMeteorite(Player* player, Meteorite* meteorite[])
 				}
 
 				//隕石と中くらいの範囲
-				else if (Direction < RADIUS_GREAT + SphereMeteorite.Radius)
+				else if (direction < RADIUS_GREAT + sphereMeteorite.radius)
 				{
-
-					Score += 200;
+					
+					score += SCORE_GREAT;
 
 					//当たったか確認用
 					//後で消す
@@ -117,10 +94,10 @@ void HitChecker::PlayerAndMeteorite(Player* player, Meteorite* meteorite[])
 				}
 
 				//隕石と一番離れている
-				else if (Direction < RADIUS_GOOD + SphereMeteorite.Radius)
+				else if (direction < RADIUS_GOOD + sphereMeteorite.radius)
 				{
 					
-					Score += 100;
+					score += SCORE_GOOD;
 
 					//当たったか確認用
 					//後で消す
@@ -128,14 +105,11 @@ void HitChecker::PlayerAndMeteorite(Player* player, Meteorite* meteorite[])
 				}
 
 				//隕石と接触もしくは避けたら
-				if (Hit)
+				if (hit)
 				{
-					/*dis[i] = 100.0f;
-					meteoriteHitChecker[i] = { GOOD };*/
-
 					//隕石を消す
-					delete meteorite[i];
 					meteorite[i] = nullptr;
+					delete meteorite[i];
 				}
 			}
 		}

@@ -2,9 +2,9 @@
 
 
 ObjectBase::ObjectBase()
-    : Position()
-    , Dir()
-    , ModelHandle(-1)
+    : position()
+    , dir()
+    , modelHandle(-1)
 {
     //ˆ—‚È‚µ
 }
@@ -14,18 +14,18 @@ ObjectBase::~ObjectBase()
     //ˆ—‚È‚µ
 }
 
-void ObjectBase::Draw()
-{
-    //ˆ—‚È‚µ
-}
+//void ObjectBase::Draw()
+//{
+//    //ˆ—‚È‚µ
+//}
 
 //ƒQƒbƒ^[ŠÖ”ŒQ
 const VECTOR& ObjectBase::GetPosition() const
 {
-    return Position;
+    return position;
 }
 
 const VECTOR& ObjectBase::GetDir() const
 {
-    return Dir;
+    return dir;
 }

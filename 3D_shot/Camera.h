@@ -5,7 +5,7 @@
 class Camera final
 {
 public: 
-	Camera();		//コンストラクタ
+	 Camera();		//コンストラクタ
 	~Camera();		//デストラクタ
 
 	void Update();

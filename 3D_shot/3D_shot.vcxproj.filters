@@ -17,6 +17,12 @@
     <Filter Include="ソースファイル\Meteorite">
       <UniqueIdentifier>{602706be-7843-40be-9f5b-44cfb61ba16a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソースファイル\ObjectBase">
+      <UniqueIdentifier>{a05ef2fa-2c99-4700-839c-c8885d667aaa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソースファイル\Effect">
+      <UniqueIdentifier>{bef52072-5951-4788-9349-0c7a8d0d42b0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Player.cpp">
@@ -27,9 +33,6 @@
     </ClCompile>
     <ClCompile Include="PlayScene.cpp">
       <Filter>ソースファイル\Scene</Filter>
-    </ClCompile>
-    <ClCompile Include="HitChecker.cpp">
-      <Filter>ソースファイル\System</Filter>
     </ClCompile>
     <ClCompile Include="Math3D.cpp">
       <Filter>ソースファイル\System</Filter>
@@ -46,26 +49,32 @@
     <ClCompile Include="Meteorite.cpp">
       <Filter>ソースファイル\Meteorite</Filter>
     </ClCompile>
-    <ClCompile Include="Collision.cpp">
-      <Filter>ソースファイル\System</Filter>
-    </ClCompile>
-    <ClCompile Include="ObjectBase.cpp">
-      <Filter>ソースファイル\System</Filter>
-    </ClCompile>
     <ClCompile Include="ResultScene.cpp">
       <Filter>ソースファイル\Scene</Filter>
-    </ClCompile>
-    <ClCompile Include="Point2D.cpp">
-      <Filter>ソースファイル\System</Filter>
-    </ClCompile>
-    <ClCompile Include="Math2D.cpp">
-      <Filter>ソースファイル\System</Filter>
     </ClCompile>
     <ClCompile Include="Main.cpp">
       <Filter>ソースファイル</Filter>
     </ClCompile>
     <ClCompile Include="Camera.cpp">
       <Filter>ソースファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneManager.cpp">
+      <Filter>ソースファイル\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="HitChecker.cpp">
+      <Filter>ソースファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="ObjectBase.cpp">
+      <Filter>ソースファイル\ObjectBase</Filter>
+    </ClCompile>
+    <ClCompile Include="Collision.cpp">
+      <Filter>ソースファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="MeteoriteManager.cpp">
+      <Filter>ソースファイル\System</Filter>
+    </ClCompile>
+    <ClCompile Include="LargeExplosion.cpp">
+      <Filter>ソースファイル\Effect</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -77,15 +86,6 @@
     </ClInclude>
     <ClInclude Include="PlayScene.h">
       <Filter>ソースファイル\Scene</Filter>
-    </ClInclude>
-    <ClInclude Include="Utility.h">
-      <Filter>ソースファイル\Scene</Filter>
-    </ClInclude>
-    <ClInclude Include="HitChecker.h">
-      <Filter>ソースファイル\System</Filter>
-    </ClInclude>
-    <ClInclude Include="Common.h">
-      <Filter>ソースファイル\System</Filter>
     </ClInclude>
     <ClInclude Include="Math3D.h">
       <Filter>ソースファイル\System</Filter>
@@ -108,20 +108,35 @@
     <ClInclude Include="ResultScene.h">
       <Filter>ソースファイル\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="Collision.h">
-      <Filter>ソースファイル\System</Filter>
-    </ClInclude>
-    <ClInclude Include="ObjectBase.h">
-      <Filter>ソースファイル\System</Filter>
-    </ClInclude>
-    <ClInclude Include="ObjectTag.h">
-      <Filter>ソースファイル\System</Filter>
-    </ClInclude>
-    <ClInclude Include="Point2D.h">
-      <Filter>ソースファイル\System</Filter>
-    </ClInclude>
     <ClInclude Include="Camera.h">
       <Filter>ソースファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneManager.h">
+      <Filter>ソースファイル\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Common.h">
+      <Filter>ソースファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="HitChecker.h">
+      <Filter>ソースファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjectBase.h">
+      <Filter>ソースファイル\ObjectBase</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjectTag.h">
+      <Filter>ソースファイル\ObjectBase</Filter>
+    </ClInclude>
+    <ClInclude Include="Collision.h">
+      <Filter>ソースファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="MeteoriteManager.h">
+      <Filter>ソースファイル\System</Filter>
+    </ClInclude>
+    <ClInclude Include="LargeExplosion.h">
+      <Filter>ソースファイル\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="EffectBase.h">
+      <Filter>ソースファイル\Effect</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

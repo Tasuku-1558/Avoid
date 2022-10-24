@@ -2,43 +2,13 @@
 // @brief  メイン処理
 //-----------------------------------------------------------------------------
 #include "DxLib.h"
-#include "SceneBase.h"
-#include "TitleScene.h"
-#include "PlayScene.h"
-#include "ResultScene.h"
-#include "ModelManager.h"
 #include "Common.h"
-#include "Utility.h"
+#include "SceneManager.h"
+#include "ModelManager.h"
 
 #pragma warning(disable:4996)
 
 using std::string;
-
-
-//新しいシーンを生成する
-SceneBase* CreateScene(SceneType Now)
-{
-	SceneBase* RetScene = nullptr;
-
-	switch (Now)
-	{
-	case SceneType::TITLE:
-		RetScene = new TitleScene;
-		break;
-
-	case SceneType::PLAY:
-		RetScene = new PlayScene;
-		break;
-
-	case SceneType::RESULT:
-		RetScene = new ResultScene;
-		break;
-
-	default:
-		break;
-	}
-	return RetScene;
-}
 
 //-----------------------------------------------------------------------------
 // @brief  メイン関数
@@ -54,25 +24,22 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	{
 		return -1;			// エラーが起きたら直ちに終了
 	}
+	
 	// Ｚバッファを有効にする
 	SetUseZBuffer3D(TRUE);
 
 	// Ｚバッファへの書き込みを有効にする
 	SetWriteZBuffer3D(TRUE);
-	//ひとつ前のシーン
-	SceneType PrevSceneType = SceneType::PLAY/*TITLE*/;
 
-	//今のシーン
-	SceneType NowSceneType = SceneType::PLAY/*TITLE*/;
-	
 	// 時間計測
 	int nowTime = GetNowCount();
 	int prevTime = nowTime;
-	
-	//シーンを生成
-	SceneBase* scenebase = new PlayScene/*TitleScene*/;
 
 	ModelManager::GetInstance();	//モデル管理クラスの生成
+
+	SceneManager* sceneManager = new SceneManager();
+
+	sceneManager->Initialize();
 
 	// エスケープキーが押されるかウインドウが閉じられるまでループ
 	while (ProcessMessage() == 0 && CheckHitKey(KEY_INPUT_ESCAPE) == 0)
@@ -81,14 +48,11 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		nowTime = GetNowCount();
 		float deltaTime = (nowTime - prevTime) / 1000.0f;
 		
-		scenebase->Initialize();
-
-		NowSceneType = scenebase->Update(deltaTime);
+		sceneManager->Update(deltaTime);
 
 		// 画面を初期化する
 		ClearDrawScreen();
-		
-		scenebase->Draw();
+		sceneManager->Draw();
 		
 		//位置関係がわかるように
 		//後で消す
@@ -123,20 +87,16 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		// 裏画面の内容を表画面に反映させる
 		ScreenFlip();
 
-		//SceneTypeが切り替わったらシーンの切り替え
-		if (NowSceneType != PrevSceneType)
+		//次のシーンがENDなら
+		if (sceneManager->GetNextScene() == SceneManager::END)
 		{
-			SAFE_DELETE(scenebase);						//シーンの解放
-			scenebase = CreateScene(NowSceneType);		//シーンの生成
+			break;
 		}
-
+		
 		prevTime = nowTime;
-
-		//直前のシーンを記録
-		PrevSceneType = NowSceneType;
 	}
 
-	SAFE_DELETE(scenebase);	//シーンの解放
+	SafeDelete(sceneManager);	//シーンマネージャーの解放
 	
 	DxLib_End();			// ＤＸライブラリ使用の終了処理
 
