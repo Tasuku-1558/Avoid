@@ -4,15 +4,15 @@
 class MeteoriteManager;
 class Meteorite;
 class Player;
-
+class LargeExplosion;
 
 class HitChecker final
 {
 public:
-	HitChecker();
+	 HitChecker();
 	~HitChecker();
 	void Initialize();
-	void PlayerAndMeteorite(Player* player, Meteorite* meteorite[]/*, MeteoriteManager* meteoriteManager*/);		//当たりチェック
+	void PlayerAndMeteorite(Player* player, Meteorite* meteorite[], /*MeteoriteManager* meteoriteManager, */LargeExplosion* largeexplosion);		//当たりチェック
 
 	double GetDirection() { return direction; }	//デバック用
 
@@ -25,6 +25,7 @@ private:
 
 	int score;
 
+
 	//静的定数
 	static const float RADIUS_GOOD;			//goodの範囲
 	static const float RADIUS_GREAT;		//greatの範囲
@@ -36,7 +37,7 @@ private:
 	static const int   SCORE_EXCELLENT;		//excellentのスコア
 	static const int   SCORE_MISS;			//missのスコア
 
-	static const int   FIRST_SCORE;
-	static const int   FIRST_DIRECTION;
+	static const int   FIRST_SCORE;			//スコアの初期値
+	static const int   FIRST_DIRECTION;		//距離の初期値
 
 };

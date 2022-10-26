@@ -5,7 +5,9 @@
 class Camera;
 class Player;
 class Meteorite;
+class MeteoriteManager;
 class HitChecker;
+class LargeExplosion;
 
 class PlayScene final : public SceneBase
 {
@@ -24,8 +26,10 @@ public:
 private:
 	Camera* camera;
 	Player* player;
-	Meteorite* meteorite[20] = { nullptr };
+	Meteorite* meteorite[20] /*= { nullptr }*/;
+	MeteoriteManager* meteoriteManager;
 	HitChecker* hitchecker;
+	LargeExplosion* largeexplosion;
 	
 	int  startTime;				//‹N“®ŠÔ
 	int  nowTime;				//Œ»İ‚ÌŠÔ

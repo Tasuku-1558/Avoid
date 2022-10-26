@@ -2,6 +2,7 @@
 // @brief  メイン処理
 //-----------------------------------------------------------------------------
 #include "DxLib.h"
+#include "EffekseerForDXLib.h"
 #include "Common.h"
 #include "SceneManager.h"
 #include "ModelManager.h"
@@ -17,14 +18,27 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 {
 	SetOutApplicationLogValidFlag(FALSE);			// ログファイルを出力しない
 	ChangeWindowMode(IS_WINDOW_MODE);				// ウィンドウモードにするか
-	SetGraphMode(SCREEN_WIDTH, SCREEN_HEIGHT, 16);	//画面モードのセット
+	SetGraphMode(SCREEN_WIDTH, SCREEN_HEIGHT, 16);	// 画面モードのセット
+	SetUseDirect3DVersion(DX_DIRECT3D_11);
 
-	// ＤＸライブラリ初期化処理
+	// DXライブラリ初期化処理
 	if (DxLib_Init() == -1)
 	{
 		return -1;			// エラーが起きたら直ちに終了
 	}
+
+	// Effekseerを初期化処理
+	if (Effekseer_Init(8000) == -1)
+	{
+		DxLib_End();
+		return -1;
+	}
 	
+	// フルスクリーンウインドウの切り替えでリソースが消えるのを防ぐ
+	SetChangeScreenModeGraphicsSystemResetFlag(FALSE);
+
+	Effekseer_SetGraphicsDeviceLostCallbackFunctions();
+
 	// Ｚバッファを有効にする
 	SetUseZBuffer3D(TRUE);
 
@@ -47,13 +61,17 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		// フレーム時間を算出
 		nowTime = GetNowCount();
 		float deltaTime = (nowTime - prevTime) / 1000.0f;
-		
+
+		// DXライブラリのカメラとEffekseerのカメラを同期する。
+		Effekseer_Sync3DSetting();
+
 		sceneManager->Update(deltaTime);
 
 		// 画面を初期化する
 		ClearDrawScreen();
+
 		sceneManager->Draw();
-		
+
 		//位置関係がわかるように
 		//後で消す
 		{
@@ -96,7 +114,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		prevTime = nowTime;
 	}
 
-	SafeDelete(sceneManager);	//シーンマネージャーの解放
+	SafeDelete(sceneManager);	// シーンマネージャーの解放
+
+	Effkseer_End();			// Effekseerの終了処理
 	
 	DxLib_End();			// ＤＸライブラリ使用の終了処理
 

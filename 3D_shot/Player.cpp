@@ -48,7 +48,7 @@ void Player::Update(float deltaTime)
 {
 	Move(deltaTime);
 
-	PUpdate(deltaTime);
+	Pstate(deltaTime);
 
 	// mPosition , mDir よりキャラクターの位置・回転をセット
 	MV1SetPosition(modelHandle, position);
@@ -57,7 +57,7 @@ void Player::Update(float deltaTime)
 	collisionSphere.HitTestMove(position);
 }
 
-void Player::PUpdate(float deltaTime)
+void Player::Pstate(float deltaTime)
 {
 	switch (state)
 	{
@@ -128,12 +128,12 @@ void Player::Damege(float deltaTime)
 	noDrawFrame = !noDrawFrame;
 	damegeCount += deltaTime;
 
-	////通常状態へ
-	//if (DamegeCount < 5.0)
-	//{
-	//	DamegeCount = 0.0f;
-	//	NoDrawFrame = false;
-	//}
+	//通常状態へ
+	if (damegeCount < 1.0)
+	{
+		damegeCount = 0.0f;
+		noDrawFrame = false;
+	}
 }
 
 //描画処理

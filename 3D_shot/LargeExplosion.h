@@ -2,6 +2,8 @@
 
 #include "EffectBase.h"
 
+class Meteorite;
+
 class LargeExplosion final : public EffectBase
 {
 public:
@@ -11,9 +13,19 @@ public:
 	void Initialize() override;					//初期化
 	void Finalize()override;
 	void Activate()override;
-	void Update() override;						//更新
+	void Update(Meteorite* meteorite);				//更新
 	void Draw() override;						//描画
 
-private:
 
+private:
+	int effectHandle;
+	/*int grBackgroundHandle;
+	int grFrontHandle;*/
+	
+	int time = 0;
+
+	float effectPos_X;
+	float effectPos_Y;
+
+	int playingEffectHandle = -1;		// 再生中のエフェクトのハンドルを初期化
 };

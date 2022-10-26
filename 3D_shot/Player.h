@@ -25,7 +25,7 @@ public:
 	void Initialize();
 	void Activate();
 	void Update(float deltaTime);
-	void PUpdate(float deltaTime);
+	void Pstate(float deltaTime);
 	void Move(float deltaTime);
 	void Damege(float deltaTime);
 	void Draw() override;

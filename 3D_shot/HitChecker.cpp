@@ -2,6 +2,7 @@
 #include "MeteoriteManager.h"
 #include "Meteorite.h"
 #include "HitChecker.h"
+#include "LargeExplosion.h"
 
 
 const float HitChecker::RADIUS_GOOD		 = 700.0f;	//goodの範囲
@@ -14,8 +15,9 @@ const int	HitChecker::SCORE_GREAT		 = 200;		//greatのスコア
 const int	HitChecker::SCORE_EXCELLENT  = 600;		//excellentのスコア
 const int	HitChecker::SCORE_MISS		 = 300;		//missのスコア
 
-const int	HitChecker::FIRST_SCORE		 = 0;
-const int	HitChecker::FIRST_DIRECTION  = 0;
+const int	HitChecker::FIRST_SCORE		 = 0;		//スコアの初期値
+const int	HitChecker::FIRST_DIRECTION  = 0;		//距離の初期値
+
 
 HitChecker::HitChecker()
 	: score(0)
@@ -35,9 +37,9 @@ void HitChecker::Initialize()
 	direction = FIRST_DIRECTION;
 }
 
-void HitChecker::PlayerAndMeteorite(Player* player, Meteorite* meteorite[]/*, MeteoriteManager* meteoriteManager*/)
+void HitChecker::PlayerAndMeteorite(Player* player, Meteorite* meteorite[], /*MeteoriteManager* meteoriteManager,*/ LargeExplosion* largeexplosion)
 {
-	for (int i = 0; i < Meteorite::METEORITE_ARRAY_NUMBER; i++)
+	for (int i = 0; i < Meteorite::METEORITE_ARRAY_NUMBER/*meteoriteManager->GetSize()*/; i++)
 	{
 		if (meteorite[i] != nullptr)
 		{
@@ -62,8 +64,11 @@ void HitChecker::PlayerAndMeteorite(Player* player, Meteorite* meteorite[]/*, Me
 				{
 					
 					score -= SCORE_MISS;
-					player->state = State::Miss;
 
+					largeexplosion->Update(meteorite[i]);
+
+					player->state = State::Miss;
+					
 					//当たったか確認用
 					//後で消す
 					printfDx("miss! ");
@@ -75,7 +80,7 @@ void HitChecker::PlayerAndMeteorite(Player* player, Meteorite* meteorite[]/*, Me
 				{
 					
 					score += SCORE_EXCELLENT;
-
+					
 					//当たったか確認用
 					//後で消す
 					printfDx("excellent！ ");

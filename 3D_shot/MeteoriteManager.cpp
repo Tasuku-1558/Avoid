@@ -122,5 +122,5 @@ void MeteoriteManager::Draw()
 
 int MeteoriteManager::GetSize()
 {
-	return pendingObjects.size();
+	return instance->pendingObjects.size();
 }

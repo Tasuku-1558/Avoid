@@ -6,16 +6,18 @@
 #include "Meteorite.h"
 #include "MeteoriteManager.h"
 #include "HitChecker.h"
+#include "LargeExplosion.h"
 #include "SceneManager.h"
 
 
-const int PlayScene::GAMETIME = 5;		//ゲーム時間
+const int PlayScene::GAMETIME = 60;		//ゲーム時間
 
 PlayScene::PlayScene(SceneManager* const sceneManager)
 		: SceneBase(sceneManager)
 		, camera(nullptr)
 		, hitchecker(nullptr)
 		, player(nullptr)
+		, largeexplosion(nullptr)
 		, meteorite()
 		, meteoritePopFlag(false)
 		, startTime(0)
@@ -44,6 +46,8 @@ void PlayScene::Initialize()
 
 	hitchecker = new HitChecker();
 
+	largeexplosion = new LargeExplosion();
+
 	for (int i = 0; i < Meteorite::METEORITE_ARRAY_NUMBER; i++)
 	{
 		//隕石生成
@@ -61,6 +65,8 @@ void PlayScene::Initialize()
 
 	//プレイヤー初期化
 	player->Initialize();
+
+	largeexplosion->Initialize();
 }
 
 void PlayScene::Finalize()
@@ -89,6 +95,7 @@ void PlayScene::Finalize()
 	//ヒットチェッカーを解放
 	SafeDelete(hitchecker);
 	
+	SafeDelete(largeexplosion);
 }
 
 void PlayScene::Activate()
@@ -116,6 +123,8 @@ void PlayScene::Activate()
 	startTime = GetNowCount();
 
 	hitchecker->Initialize();
+
+	
 }
 
 
@@ -129,29 +138,34 @@ void PlayScene::Update(float deltaTime)
 
 	meteoritePopFlag = true;
 	
-
+	float count = 0.0f;
+	count += deltaTime;
 	for (int i = 0; i < Meteorite::METEORITE_ARRAY_NUMBER; i++)
 	{
 		if (meteorite[i] != nullptr)
 		{
 			//隕石出現フラグがtrueの時
-			if (meteoritePopFlag)
+			if (/*meteoritePopFlag*/count<10.0f)
 			{
-				meteoritePopFlag = false;
+				//meteoritePopFlag = false;
 				
-
+				
 				//隕石制御
 				meteorite[i]->Update(deltaTime, player);
 				
 
 				//プレイヤーと隕石の当たり判定
-				hitchecker->PlayerAndMeteorite(player, meteorite);
+				hitchecker->PlayerAndMeteorite(player, meteorite,/* meteoriteManager, */largeexplosion);
+
 				//MeteoriteManager::Update(deltaTime, player);
+
+				count = 0.0f;
 			}
 		}
 	}
 	
 	
+
 	//デバック用
 	x = player->GetPosition().x;
 	y = player->GetPosition().y;
@@ -179,7 +193,7 @@ void PlayScene::Update(float deltaTime)
 	//制限時間が0になったら
 	if (countDown == 0)
 	{
-		clsDx();
+		clsDx();	//デバック用
 		parent->SetNextScene(SceneManager::RESULT);
 		return;
 	}
@@ -192,6 +206,8 @@ void PlayScene::Draw()
 	
 	//プレイヤー描画
 	player->Draw();
+
+	largeexplosion->Draw();
 
 	for (int i = 0; i < Meteorite::METEORITE_ARRAY_NUMBER; i++)
 	{
