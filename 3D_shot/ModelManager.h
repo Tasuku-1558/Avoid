@@ -23,7 +23,7 @@ public:
 private:
 	 ModelManager();							//コンストラクタ
 	~ModelManager();							//デストラクタ
-	ModelManager(const ModelManager&);			//コピーコンストラクタ
+	 ModelManager(const ModelManager&);			//コピーコンストラクタ
 
 	void LoadAllModel();						//全てのモデルの読み込み
 	void DeleteAllModel();						//全てのモデルの削除

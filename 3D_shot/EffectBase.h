@@ -5,7 +5,7 @@ class EffectBase
 {
 public:
 	 EffectBase(){/*ˆ—‚È‚µ*/};
-	 virtual ~EffectBase(){/*ˆ—‚È‚µ*/ };
+	 virtual ~EffectBase(){/*ˆ—‚È‚µ*/};
 
 	virtual void Initialize() = 0;
 	virtual void Finalize() = 0;

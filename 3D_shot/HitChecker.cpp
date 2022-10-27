@@ -22,6 +22,9 @@ const int	HitChecker::FIRST_DIRECTION  = 0;		//距離の初期値
 HitChecker::HitChecker()
 	: score(0)
 	, direction(0.0f)
+	, hit(false)
+	, excellentGraph(0)
+	, excellentF(false)
 {
 	//処理なし
 }
@@ -35,18 +38,20 @@ void HitChecker::Initialize()
 {
 	score = FIRST_SCORE;
 	direction = FIRST_DIRECTION;
+
+	excellentGraph = LoadGraph("data/Image/ExcellentEffect.png");
 }
 
-void HitChecker::PlayerAndMeteorite(Player* player, Meteorite* meteorite[], /*MeteoriteManager* meteoriteManager,*/ LargeExplosion* largeexplosion)
+void HitChecker::PlayerAndMeteorite(Player* player, Meteorite* meteorite[], MeteoriteManager* meteoriteManager, LargeExplosion* largeexplosion)
 {
-	for (int i = 0; i < Meteorite::METEORITE_ARRAY_NUMBER/*meteoriteManager->GetSize()*/; i++)
+	for (int i = 0; i < Meteorite::METEORITE_ARRAY_NUMBER/*meteoriteManager->GetSize()*/; ++i)
 	{
 		if (meteorite[i] != nullptr)
 		{
 			if (meteorite[i]->GetPosition().z <= 10)
 			{
 				//当たったかどうか
-				bool hit = true;
+				hit = true;
 				
 				
 				//隕石の当たり判定球を取得
@@ -62,10 +67,8 @@ void HitChecker::PlayerAndMeteorite(Player* player, Meteorite* meteorite[], /*Me
 				//隕石と衝突したら
 				if (direction < RADIUS_MISS + sphereMeteorite.radius)
 				{
-					
+					excellentF = true;
 					score -= SCORE_MISS;
-
-					largeexplosion->Update(meteorite[i]);
 
 					player->state = State::Miss;
 					
@@ -80,7 +83,11 @@ void HitChecker::PlayerAndMeteorite(Player* player, Meteorite* meteorite[], /*Me
 				{
 					
 					score += SCORE_EXCELLENT;
+
+					largeexplosion->Update(meteorite[i]);
+
 					
+
 					//当たったか確認用
 					//後で消す
 					printfDx("excellent！ ");
@@ -117,6 +124,21 @@ void HitChecker::PlayerAndMeteorite(Player* player, Meteorite* meteorite[], /*Me
 					delete meteorite[i];
 				}
 			}
+		}
+	}
+}
+
+void HitChecker::Draw()
+{
+	if (excellentF)
+	{
+		DrawGraph(800, 50, excellentGraph, TRUE);
+		count += 1.0f;
+
+		if (count < 10.0f)
+		{
+			excellentF = false;
+			count = 0.0f;
 		}
 	}
 }

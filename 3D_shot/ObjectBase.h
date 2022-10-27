@@ -1,7 +1,6 @@
 #pragma once
 
 #include "DxLib.h"
-#include "Math3D.h"
 #include "ObjectTag.h"
 
 

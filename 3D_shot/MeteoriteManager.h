@@ -3,7 +3,7 @@
 #include <vector>
 #include "DxLib.h"
 #include "Meteorite.h"
-#include "Math3D.h"
+//#include "Math3D.h"
 
 class Player;
 

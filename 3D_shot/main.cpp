@@ -62,7 +62,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		nowTime = GetNowCount();
 		float deltaTime = (nowTime - prevTime) / 1000.0f;
 
-		// DXライブラリのカメラとEffekseerのカメラを同期する。
+		// DXライブラリのカメラとEffekseerのカメラを同期
 		Effekseer_Sync3DSetting();
 
 		sceneManager->Update(deltaTime);

@@ -8,6 +8,8 @@ LargeExplosion::LargeExplosion()
 	: effectHandle(0)
 	, effectPos_X(0.0f)
 	, effectPos_Y(0.0f)
+	, effectTime(0)
+	, playingEffectHandle(-1)
 {
 	//処理なし
 }
@@ -40,7 +42,7 @@ void LargeExplosion::Update(Meteorite* meteorite)
 	effectPos_Y = meteorite->GetPosition().y;
 
 	// 定期的にエフェクトを再生
-	if (time % 1 == 0)
+	if (effectTime % 1 == 0)
 	{
 		// エフェクトを再生
 		playingEffectHandle = PlayEffekseer3DEffect(effectHandle);
@@ -50,7 +52,7 @@ void LargeExplosion::Update(Meteorite* meteorite)
 	SetPosPlayingEffekseer3DEffect(playingEffectHandle, effectPos_X, effectPos_Y, 0);
 
 	// 時間を経過
-	time++;
+	effectTime++;
 }
 
 void LargeExplosion::Draw()

@@ -14,11 +14,6 @@ ObjectBase::~ObjectBase()
     //ˆ—‚È‚µ
 }
 
-//void ObjectBase::Draw()
-//{
-//    //ˆ—‚È‚µ
-//}
-
 //ƒQƒbƒ^[ŠÖ”ŒQ
 const VECTOR& ObjectBase::GetPosition() const
 {

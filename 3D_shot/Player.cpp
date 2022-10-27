@@ -150,10 +150,10 @@ void Player::Draw()
 		return;
 	}
 
-	// Ｚバッファを有効にする
-	SetUseZBuffer3D(TRUE);
+	//// Ｚバッファを有効にする
+	//SetUseZBuffer3D(TRUE);
 
-	// Ｚバッファへの書き込みを有効にする
-	SetWriteZBuffer3D(TRUE);
-	DrawSphere3D(position, 39.0f, 32, GetColor(255, 255, 255), GetColor(255, 255, 255), TRUE);
+	//// Ｚバッファへの書き込みを有効にする
+	//SetWriteZBuffer3D(TRUE);
+	//DrawSphere3D(position, 39.0f, 32, GetColor(255, 255, 255), GetColor(255, 255, 255), TRUE);
 }

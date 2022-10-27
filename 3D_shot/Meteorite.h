@@ -21,6 +21,7 @@ public:
 	void Move(float deltaTime, Player* player);
 	void Draw();
 	
+
 	
 	Math3d::Sphere GetCollisionSphere() { return collisionSphere; } //“–‚½‚è”»’è‹…‚ð•Ô‚·
 

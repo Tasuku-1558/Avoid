@@ -6,10 +6,10 @@
 //--------------------------------------------------
 const bool IS_WINDOW_MODE = true;					//ウィンドウモードにするか
 
-const int  SCREEN_WIDTH = 1920;						//ウィンドウの幅
-const int  SCREEN_HEIGHT = 1080;					//ウィンドウの高さ
+const int  SCREEN_WIDTH   = 1920;					//ウィンドウの幅
+const int  SCREEN_HEIGHT  = 1080;					//ウィンドウの高さ
 
-const VECTOR ZERO_VECTOR = { 0.0f, 0.0f, 0.0f };	//ゼロベクトル
+const VECTOR ZERO_VECTOR  = { 0.0f, 0.0f, 0.0f };	//ゼロベクトル
 
 //後で消す
 // ラインを描く範囲
@@ -22,7 +22,7 @@ const VECTOR ZERO_VECTOR = { 0.0f, 0.0f, 0.0f };	//ゼロベクトル
 
 // インスタンスをdeleteしてNULLを入れる
 template <typename T>
-inline void SafeDelete(T * &p)   // ポインタの参照渡し
+inline void SafeDelete(T * &p)
 {
     // NULLチェックは不要
     delete (p);

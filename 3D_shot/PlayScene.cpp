@@ -66,7 +66,11 @@ void PlayScene::Initialize()
 	//プレイヤー初期化
 	player->Initialize();
 
+	//エフェクトの初期化
 	largeexplosion->Initialize();
+
+	//ヒットチェッカーの初期化
+	hitchecker->Initialize();
 }
 
 void PlayScene::Finalize()
@@ -110,21 +114,21 @@ void PlayScene::Activate()
 		
 	}
 	
-	//Meteorite* me = new Meteorite;
-	//
-	////隕石活性化
-	//me->Activate();
-	//MeteoriteManager::Entry(me);
+	//for (int i = 0; i < Meteorite::METEORITE_ARRAY_NUMBER; i++)
+	//{
+	//	Meteorite* me = new Meteorite;
+
+	//	//隕石活性化
+	//	me->Activate();
+	//	MeteoriteManager::Entry(me);
+	//}
+	
 
 	//プレイヤー活性化
 	player->Activate();
 
 	//ゲーム起動時の時間を取得
 	startTime = GetNowCount();
-
-	hitchecker->Initialize();
-
-	
 }
 
 
@@ -138,28 +142,24 @@ void PlayScene::Update(float deltaTime)
 
 	meteoritePopFlag = true;
 	
-	float count = 0.0f;
-	count += deltaTime;
 	for (int i = 0; i < Meteorite::METEORITE_ARRAY_NUMBER; i++)
 	{
 		if (meteorite[i] != nullptr)
 		{
 			//隕石出現フラグがtrueの時
-			if (/*meteoritePopFlag*/count<10.0f)
+			if (meteoritePopFlag)
 			{
-				//meteoritePopFlag = false;
+				meteoritePopFlag = false;
 				
 				
 				//隕石制御
 				meteorite[i]->Update(deltaTime, player);
 				
-
-				//プレイヤーと隕石の当たり判定
-				hitchecker->PlayerAndMeteorite(player, meteorite,/* meteoriteManager, */largeexplosion);
-
 				//MeteoriteManager::Update(deltaTime, player);
 
-				count = 0.0f;
+				//プレイヤーと隕石の当たり判定
+				hitchecker->PlayerAndMeteorite(player, meteorite, meteoriteManager, largeexplosion);
+
 			}
 		}
 	}
@@ -204,6 +204,9 @@ void PlayScene::Draw()
 	//ゲーム画面背景描画
 	DrawBillboard3D(VGet(0.0f, 300.0f, 1200.0f), 0.5f, 0.5f, 4000.0f, 0.0f, gameBackground, TRUE);
 	
+	//ヒットチェッカーの描画
+	hitchecker->Draw();
+
 	//プレイヤー描画
 	player->Draw();
 

@@ -12,11 +12,14 @@ public:
 	 HitChecker();
 	~HitChecker();
 	void Initialize();
-	void PlayerAndMeteorite(Player* player, Meteorite* meteorite[], /*MeteoriteManager* meteoriteManager, */LargeExplosion* largeexplosion);		//当たりチェック
+	void PlayerAndMeteorite(Player* player, Meteorite* meteorite[], MeteoriteManager* meteoriteManager, LargeExplosion* largeexplosion);		//当たりチェック
+	void Draw();
 
 	double GetDirection() { return direction; }	//デバック用
 
 	int GetScore() { return score; }
+
+	bool GetHit() { return hit; }
 
 private:
 	HitChecker(const HitChecker&);			//コピーコンストラクタ
@@ -24,7 +27,11 @@ private:
 	double direction;
 
 	int score;
+	bool hit;
+	int excellentGraph;
+	bool excellentF;
 
+	float count=0.0f;
 
 	//静的定数
 	static const float RADIUS_GOOD;			//goodの範囲

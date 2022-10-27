@@ -1,7 +1,7 @@
 #include "MeteoriteManager.h"
-#include "Player.h"
-#include "Meteorite.h"
-
+//#include "Player.h"
+//#include "Meteorite.h"
+#include "HitChecker.h"
 
 //MeteoriteManager実体へのポインタ定義
 MeteoriteManager* MeteoriteManager::instance = nullptr;
@@ -98,12 +98,13 @@ void MeteoriteManager::Update(float deltaTime, Player* player)
 
 	for (int i = 0; i < instance->objects.size(); ++i)
 	{
-		/*if (!instance->objects[i])
+		/*if (!instance->objects[i]->GetHit())
 		{
 			deadObjects.emplace_back(instance->objects[i]);
 		}*/
 	}
 	
+	//死んだオブジェクトをdelete
 	for (auto deadObj : deadObjects)
 	{
 		delete deadObj;

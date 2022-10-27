@@ -10,9 +10,6 @@ enum class State
 {
 	Nomal,
 	Miss,
-	Excellent,
-	Great,
-	Good
 };
 
 //PlayerBaseクラスを継承
@@ -34,8 +31,9 @@ public:
 	enum class State state;
 private:
 	Player(const Player&);			//コピーコンストラクタ
+
 	bool noDrawFrame;				//描画しないフレームか
 	int damegeCount;
-	
+
 	Math3d::Sphere collisionSphere;	//当たり判定球 
 };

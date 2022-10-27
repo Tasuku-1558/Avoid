@@ -2,7 +2,6 @@
 
 class SceneBase;
 
-
 class SceneManager final
 {
 public:
