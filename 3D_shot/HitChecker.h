@@ -6,13 +6,16 @@ class Meteorite;
 class Player;
 class LargeExplosion;
 
+using namespace std;
+
 class HitChecker final
 {
 public:
 	 HitChecker();
 	~HitChecker();
 	void Initialize();
-	void PlayerAndMeteorite(Player* player, Meteorite* meteorite[], MeteoriteManager* meteoriteManager, LargeExplosion* largeexplosion);		//当たりチェック
+	void PlayerAndMeteorite(Player* player, Meteorite* meteorite[]/*vector<Meteorite*> meteorite*/, MeteoriteManager* meteoriteManager, LargeExplosion* largeexplosion);		//当たりチェック
+	void ExcellentImage();
 	void Draw();
 
 	double GetDirection() { return direction; }	//デバック用
@@ -31,7 +34,7 @@ private:
 	int excellentGraph;
 	bool excellentF;
 
-	float count=0.0f;
+	float scale;
 
 	//静的定数
 	static const float RADIUS_GOOD;			//goodの範囲

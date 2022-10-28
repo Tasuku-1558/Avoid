@@ -4,6 +4,7 @@
 #include "HitChecker.h"
 #include "LargeExplosion.h"
 
+using namespace std;
 
 const float HitChecker::RADIUS_GOOD		 = 700.0f;	//goodの範囲
 const float HitChecker::RADIUS_GREAT	 = 500.0f;	//greatの範囲
@@ -25,6 +26,7 @@ HitChecker::HitChecker()
 	, hit(false)
 	, excellentGraph(0)
 	, excellentF(false)
+	, scale(0.0f)
 {
 	//処理なし
 }
@@ -39,10 +41,10 @@ void HitChecker::Initialize()
 	score = FIRST_SCORE;
 	direction = FIRST_DIRECTION;
 
-	excellentGraph = LoadGraph("data/Image/ExcellentEffect.png");
+	excellentGraph = LoadGraph("data/Image/ExcellentEffect2.png");
 }
 
-void HitChecker::PlayerAndMeteorite(Player* player, Meteorite* meteorite[], MeteoriteManager* meteoriteManager, LargeExplosion* largeexplosion)
+void HitChecker::PlayerAndMeteorite(Player* player, Meteorite* meteorite[]/*vector<Meteorite*> meteorite*/, MeteoriteManager* meteoriteManager, LargeExplosion* largeexplosion)
 {
 	for (int i = 0; i < Meteorite::METEORITE_ARRAY_NUMBER/*meteoriteManager->GetSize()*/; ++i)
 	{
@@ -72,8 +74,7 @@ void HitChecker::PlayerAndMeteorite(Player* player, Meteorite* meteorite[], Mete
 
 					player->state = State::Miss;
 					
-					//当たったか確認用
-					//後で消す
+					//デバック用
 					printfDx("miss! ");
 
 				}
@@ -88,8 +89,7 @@ void HitChecker::PlayerAndMeteorite(Player* player, Meteorite* meteorite[], Mete
 
 					
 
-					//当たったか確認用
-					//後で消す
+					//デバック用
 					printfDx("excellent！ ");
 
 				}
@@ -100,8 +100,7 @@ void HitChecker::PlayerAndMeteorite(Player* player, Meteorite* meteorite[], Mete
 					
 					score += SCORE_GREAT;
 
-					//当たったか確認用
-					//後で消す
+					//デバック用
 					printfDx("great！ ");
 				}
 
@@ -111,8 +110,7 @@ void HitChecker::PlayerAndMeteorite(Player* player, Meteorite* meteorite[], Mete
 					
 					score += SCORE_GOOD;
 
-					//当たったか確認用
-					//後で消す
+					//デバック用
 					printfDx("good！ ");
 				}
 
@@ -128,17 +126,22 @@ void HitChecker::PlayerAndMeteorite(Player* player, Meteorite* meteorite[], Mete
 	}
 }
 
-void HitChecker::Draw()
+void HitChecker::ExcellentImage()
 {
 	if (excellentF)
 	{
-		DrawGraph(800, 50, excellentGraph, TRUE);
-		count += 1.0f;
+		DrawRotaGraph(800, 500, scale, 0, excellentGraph, TRUE);
+		scale += 0.05f;
 
-		if (count < 10.0f)
+		if (scale > 1.0f)
 		{
 			excellentF = false;
-			count = 0.0f;
+			scale = 0.0f;
 		}
 	}
+}
+
+void HitChecker::Draw()
+{
+	ExcellentImage();
 }

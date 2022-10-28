@@ -22,11 +22,11 @@ public:
 	void Draw() override;
 	
 	int GetScore() { return score; }
-
+	
 private:
 	Camera* camera;
 	Player* player;
-	Meteorite* meteorite[20] /*= { nullptr }*/;
+	Meteorite* meteorite[20] = { nullptr };
 	MeteoriteManager* meteoriteManager;
 	HitChecker* hitchecker;
 	LargeExplosion* largeexplosion;

@@ -11,7 +11,7 @@ LargeExplosion::LargeExplosion()
 	, effectTime(0)
 	, playingEffectHandle(-1)
 {
-	//処理なし
+	effect = Effect::Nomal;
 }
 
 LargeExplosion::~LargeExplosion()
@@ -22,8 +22,8 @@ LargeExplosion::~LargeExplosion()
 void LargeExplosion::Initialize()
 {
 	effectHandle = LoadEffekseerEffect("data/effect/LargeExplosion.efkefc", 30.0f);
-	//grBackgroundHandle = LoadGraph(("data/texture/Background.png"));
-	//grFrontHandle = LoadGraph(("data/texture/Front.png"));
+	/*grBackgroundHandle = LoadGraph(("data/texture/Background.png"));
+	grFrontHandle = LoadGraph(("data/texture/Front.png"));*/
 }
 
 void LargeExplosion::Finalize()
@@ -55,12 +55,27 @@ void LargeExplosion::Update(Meteorite* meteorite)
 	effectTime++;
 }
 
+void LargeExplosion::Estate()
+{
+	switch (effect)
+	{
+	case Effect::Excellent:
+		break;
+	case Effect::Great:
+		break;
+	case Effect::Good:
+		break;
+	default:
+		break;
+	}
+}
+
 void LargeExplosion::Draw()
 {
-	//DrawGraph(0, 0, grBackgroundHandle, TRUE);
+	//DrawGraph(0, 100, grBackgroundHandle, TRUE);
 
 	//// エフェクトの上にも画像を描画できる。
-	//DrawGraph(0, 0, grFrontHandle, TRUE);
+	//DrawGraph(0, 100, grFrontHandle, TRUE);
 
 	// 再生中のエフェクトを更新
 	UpdateEffekseer3D();

@@ -69,8 +69,7 @@ void PlayScene::Initialize()
 	//エフェクトの初期化
 	largeexplosion->Initialize();
 
-	//ヒットチェッカーの初期化
-	hitchecker->Initialize();
+	
 }
 
 void PlayScene::Finalize()
@@ -129,6 +128,9 @@ void PlayScene::Activate()
 
 	//ゲーム起動時の時間を取得
 	startTime = GetNowCount();
+
+	//ヒットチェッカーの初期化
+	hitchecker->Initialize();
 }
 
 

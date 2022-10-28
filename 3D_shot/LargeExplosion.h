@@ -4,6 +4,15 @@
 
 class Meteorite;
 
+//Effect‚Ìó‘Ô
+enum class Effect
+{
+	Nomal,
+	Excellent,
+	Great,
+	Good,
+};
+
 class LargeExplosion final : public EffectBase
 {
 public:
@@ -14,6 +23,7 @@ public:
 	void Finalize()override;
 	void Activate()override;
 	void Update(Meteorite* meteorite);			//XV
+	void Estate();
 	void Draw() override;						//•`‰æ
 
 
@@ -21,6 +31,8 @@ private:
 	int effectHandle;
 	/*int grBackgroundHandle;
 	int grFrontHandle;*/
+
+	enum class Effect effect;
 	
 	int effectTime;
 	float effectPos_X;
