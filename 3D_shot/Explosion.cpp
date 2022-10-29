@@ -1,10 +1,10 @@
-#include "LargeExplosion.h"
+#include "Explosion.h"
 #include "DxLib.h"
 #include "EffekseerForDXLib.h"
 #include "Meteorite.h"
 
 
-LargeExplosion::LargeExplosion()
+Explosion::Explosion()
 	: effectHandle(0)
 	, effectPos_X(0.0f)
 	, effectPos_Y(0.0f)
@@ -14,29 +14,29 @@ LargeExplosion::LargeExplosion()
 	effect = Effect::Nomal;
 }
 
-LargeExplosion::~LargeExplosion()
+Explosion::~Explosion()
 {
 	//処理なし
 }
 
-void LargeExplosion::Initialize()
+void Explosion::Initialize()
 {
 	effectHandle = LoadEffekseerEffect("data/effect/LargeExplosion.efkefc", 30.0f);
 	/*grBackgroundHandle = LoadGraph(("data/texture/Background.png"));
 	grFrontHandle = LoadGraph(("data/texture/Front.png"));*/
 }
 
-void LargeExplosion::Finalize()
+void Explosion::Finalize()
 {
 	// エフェクトリソースを削除
 	DeleteEffekseerEffect(effectHandle);
 }
 
-void LargeExplosion::Activate()
+void Explosion::Activate()
 {
 }
 
-void LargeExplosion::Update(Meteorite* meteorite)
+void Explosion::Update(Meteorite* meteorite)
 {
 	effectPos_X = meteorite->GetPosition().x;
 	effectPos_Y = meteorite->GetPosition().y;
@@ -55,7 +55,7 @@ void LargeExplosion::Update(Meteorite* meteorite)
 	effectTime++;
 }
 
-void LargeExplosion::Estate()
+void Explosion::Estate()
 {
 	switch (effect)
 	{
@@ -70,7 +70,7 @@ void LargeExplosion::Estate()
 	}
 }
 
-void LargeExplosion::Draw()
+void Explosion::Draw()
 {
 	//DrawGraph(0, 100, grBackgroundHandle, TRUE);
 

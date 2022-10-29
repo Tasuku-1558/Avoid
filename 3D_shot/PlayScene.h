@@ -7,7 +7,8 @@ class Player;
 class Meteorite;
 class MeteoriteManager;
 class HitChecker;
-class LargeExplosion;
+class Explosion;
+class Evaluation;
 
 class PlayScene final : public SceneBase
 {
@@ -18,7 +19,7 @@ public:
 	void Initialize() override;
 	void Finalize()override;
 	void Activate()override;
-	void Update(float deltaTime) override;
+	void Update(float deltaTime)override;
 	void Draw() override;
 	
 	int GetScore() { return score; }
@@ -29,7 +30,8 @@ private:
 	Meteorite* meteorite[20] = { nullptr };
 	MeteoriteManager* meteoriteManager;
 	HitChecker* hitchecker;
-	LargeExplosion* largeexplosion;
+	Explosion* explosion;
+	Evaluation* evaluation;
 	
 	int  startTime;				//ãNìÆéûä‘
 	int  nowTime;				//åªç›ÇÃéûä‘

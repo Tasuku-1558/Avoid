@@ -15,7 +15,7 @@ Camera::~Camera()
 	//処理なし
 }
 
-void Camera::Update()
+void Camera::Initialize()
 {
 	//奥行0.1～1000までをカメラの描画範囲とする
 	//カメラの手前と奥の距離を設定する

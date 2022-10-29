@@ -6,7 +6,8 @@
 #include "Meteorite.h"
 #include "MeteoriteManager.h"
 #include "HitChecker.h"
-#include "LargeExplosion.h"
+#include "Evaluation.h"
+#include "Explosion.h"
 #include "SceneManager.h"
 
 
@@ -17,7 +18,8 @@ PlayScene::PlayScene(SceneManager* const sceneManager)
 		, camera(nullptr)
 		, hitchecker(nullptr)
 		, player(nullptr)
-		, largeexplosion(nullptr)
+		, explosion(nullptr)
+		, evaluation(nullptr)
 		, meteorite()
 		, meteoritePopFlag(false)
 		, startTime(0)
@@ -46,7 +48,9 @@ void PlayScene::Initialize()
 
 	hitchecker = new HitChecker();
 
-	largeexplosion = new LargeExplosion();
+	explosion = new Explosion();
+
+	evaluation = new Evaluation();
 
 	for (int i = 0; i < Meteorite::METEORITE_ARRAY_NUMBER; i++)
 	{
@@ -67,9 +71,13 @@ void PlayScene::Initialize()
 	player->Initialize();
 
 	//エフェクトの初期化
-	largeexplosion->Initialize();
+	explosion->Initialize();
 
-	
+	//カメラの初期化
+	camera->Initialize();
+
+	//評価UIの初期化
+	evaluation->Initialize();
 }
 
 void PlayScene::Finalize()
@@ -98,7 +106,10 @@ void PlayScene::Finalize()
 	//ヒットチェッカーを解放
 	SafeDelete(hitchecker);
 	
-	SafeDelete(largeexplosion);
+	SafeDelete(explosion);
+
+	//評価UIの解放
+	SafeDelete(evaluation);
 }
 
 void PlayScene::Activate()
@@ -128,17 +139,11 @@ void PlayScene::Activate()
 
 	//ゲーム起動時の時間を取得
 	startTime = GetNowCount();
-
-	//ヒットチェッカーの初期化
-	hitchecker->Initialize();
 }
 
 
 void PlayScene::Update(float deltaTime)
 {
-	//カメラの制御
-	camera->Update();
-
 	//プレイヤーの制御
 	player->Update(deltaTime);
 
@@ -160,13 +165,13 @@ void PlayScene::Update(float deltaTime)
 				//MeteoriteManager::Update(deltaTime, player);
 
 				//プレイヤーと隕石の当たり判定
-				hitchecker->PlayerAndMeteorite(player, meteorite, meteoriteManager, largeexplosion);
+				hitchecker->PlayerAndMeteorite(player, meteorite, meteoriteManager, explosion,evaluation);
 
 			}
 		}
 	}
 	
-	
+	//evaluation->Update(excellentGraph);
 
 	//デバック用
 	x = player->GetPosition().x;
@@ -195,7 +200,6 @@ void PlayScene::Update(float deltaTime)
 	//制限時間が0になったら
 	if (countDown == 0)
 	{
-		clsDx();	//デバック用
 		parent->SetNextScene(SceneManager::RESULT);
 		return;
 	}
@@ -205,14 +209,14 @@ void PlayScene::Draw()
 {
 	//ゲーム画面背景描画
 	DrawBillboard3D(VGet(0.0f, 300.0f, 1200.0f), 0.5f, 0.5f, 4000.0f, 0.0f, gameBackground, TRUE);
-	
-	//ヒットチェッカーの描画
-	hitchecker->Draw();
 
 	//プレイヤー描画
 	player->Draw();
 
-	largeexplosion->Draw();
+	explosion->Draw();
+
+	//評価UIの描画
+	evaluation->Draw();
 
 	for (int i = 0; i < Meteorite::METEORITE_ARRAY_NUMBER; i++)
 	{

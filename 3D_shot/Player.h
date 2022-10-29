@@ -33,7 +33,7 @@ private:
 	Player(const Player&);			//コピーコンストラクタ
 
 	bool noDrawFrame;				//描画しないフレームか
-	int damegeCount;
+	int  damegeCount;
 
 	Math3d::Sphere collisionSphere;	//当たり判定球 
 };

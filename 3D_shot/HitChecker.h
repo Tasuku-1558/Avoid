@@ -1,10 +1,11 @@
 #pragma once
-#include "ObjectBase.h"
+//#include "ObjectBase.h"
 
 class MeteoriteManager;
 class Meteorite;
 class Player;
-class LargeExplosion;
+class Explosion;
+class Evaluation;
 
 using namespace std;
 
@@ -13,11 +14,9 @@ class HitChecker final
 public:
 	 HitChecker();
 	~HitChecker();
-	void Initialize();
-	void PlayerAndMeteorite(Player* player, Meteorite* meteorite[]/*vector<Meteorite*> meteorite*/, MeteoriteManager* meteoriteManager, LargeExplosion* largeexplosion);		//当たりチェック
-	void ExcellentImage();
-	void Draw();
-
+	
+	void PlayerAndMeteorite(Player* player, Meteorite* meteorite[]/*vector<Meteorite*> meteorite*/, MeteoriteManager* meteoriteManager, Explosion* explosion, Evaluation* evaluation);		//当たりチェック
+	
 	double GetDirection() { return direction; }	//デバック用
 
 	int GetScore() { return score; }
@@ -27,14 +26,11 @@ public:
 private:
 	HitChecker(const HitChecker&);			//コピーコンストラクタ
 
-	double direction;
+	double direction;						//プレイヤーと隕石の距離
 
-	int score;
-	bool hit;
-	int excellentGraph;
-	bool excellentF;
-
-	float scale;
+	int score;								//獲得スコア
+	bool hit;								//隕石と衝突したか
+	
 
 	//静的定数
 	static const float RADIUS_GOOD;			//goodの範囲

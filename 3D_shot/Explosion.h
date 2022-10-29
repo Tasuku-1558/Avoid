@@ -7,17 +7,17 @@ class Meteorite;
 //Effect‚Ìó‘Ô
 enum class Effect
 {
-	Nomal,
+	Nomal = 0,
 	Excellent,
 	Great,
 	Good,
 };
 
-class LargeExplosion final : public EffectBase
+class Explosion final : public EffectBase
 {
 public:
-	 LargeExplosion();
-	~LargeExplosion()override;
+	 Explosion();
+	~Explosion()override;
 
 	void Initialize() override;					//‰Šú‰»
 	void Finalize()override;

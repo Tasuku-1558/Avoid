@@ -153,7 +153,8 @@
   <ItemGroup>
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Collision.cpp" />
-    <ClCompile Include="LargeExplosion.cpp" />
+    <ClCompile Include="Evaluation.cpp" />
+    <ClCompile Include="Explosion.cpp" />
     <ClCompile Include="MeteoriteBase.cpp" />
     <ClCompile Include="MeteoriteManager.cpp" />
     <ClCompile Include="ModelManager.cpp" />
@@ -174,7 +175,8 @@
     <ClInclude Include="Collision.h" />
     <ClInclude Include="Common.h" />
     <ClInclude Include="EffectBase.h" />
-    <ClInclude Include="LargeExplosion.h" />
+    <ClInclude Include="Evaluation.h" />
+    <ClInclude Include="Explosion.h" />
     <ClInclude Include="MeteoriteBase.h" />
     <ClInclude Include="MeteoriteManager.h" />
     <ClInclude Include="ModelManager.h" />

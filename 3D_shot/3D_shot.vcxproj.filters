@@ -23,6 +23,9 @@
     <Filter Include="ソースファイル\Effect">
       <UniqueIdentifier>{bef52072-5951-4788-9349-0c7a8d0d42b0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソースファイル\UI">
+      <UniqueIdentifier>{5593caca-20fe-4044-8759-794cea8e4ddd}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Player.cpp">
@@ -73,8 +76,11 @@
     <ClCompile Include="MeteoriteManager.cpp">
       <Filter>ソースファイル\System</Filter>
     </ClCompile>
-    <ClCompile Include="LargeExplosion.cpp">
+    <ClCompile Include="Explosion.cpp">
       <Filter>ソースファイル\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="Evaluation.cpp">
+      <Filter>ソースファイル\UI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -132,11 +138,14 @@
     <ClInclude Include="MeteoriteManager.h">
       <Filter>ソースファイル\System</Filter>
     </ClInclude>
-    <ClInclude Include="LargeExplosion.h">
+    <ClInclude Include="Explosion.h">
       <Filter>ソースファイル\Effect</Filter>
     </ClInclude>
     <ClInclude Include="EffectBase.h">
       <Filter>ソースファイル\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="Evaluation.h">
+      <Filter>ソースファイル\UI</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

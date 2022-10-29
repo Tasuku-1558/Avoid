@@ -1,8 +1,9 @@
+#include "HitChecker.h"
 #include "Player.h"
 #include "MeteoriteManager.h"
 #include "Meteorite.h"
-#include "HitChecker.h"
-#include "LargeExplosion.h"
+#include "Explosion.h"
+#include "Evaluation.h"
 
 using namespace std;
 
@@ -24,9 +25,6 @@ HitChecker::HitChecker()
 	: score(0)
 	, direction(0.0f)
 	, hit(false)
-	, excellentGraph(0)
-	, excellentF(false)
-	, scale(0.0f)
 {
 	//処理なし
 }
@@ -36,112 +34,71 @@ HitChecker::~HitChecker()
 	//処理なし
 }
 
-void HitChecker::Initialize()
-{
-	score = FIRST_SCORE;
-	direction = FIRST_DIRECTION;
-
-	excellentGraph = LoadGraph("data/Image/ExcellentEffect2.png");
-}
-
-void HitChecker::PlayerAndMeteorite(Player* player, Meteorite* meteorite[]/*vector<Meteorite*> meteorite*/, MeteoriteManager* meteoriteManager, LargeExplosion* largeexplosion)
+void HitChecker::PlayerAndMeteorite(Player* player, Meteorite* meteorite[]/*vector<Meteorite*> meteorite*/, MeteoriteManager* meteoriteManager, Explosion* explosion,Evaluation* evaluation)
 {
 	for (int i = 0; i < Meteorite::METEORITE_ARRAY_NUMBER/*meteoriteManager->GetSize()*/; ++i)
 	{
-		if (meteorite[i] != nullptr)
+		if (meteorite[i] != nullptr && meteorite[i]->GetPosition().z <= 10)
 		{
-			if (meteorite[i]->GetPosition().z <= 10)
+			
+			//当たったかどうか
+			hit = true;
+			
+			
+			//隕石の当たり判定球を取得
+			Math3d::Sphere sphereMeteorite = meteorite[i]->GetCollisionSphere();
+
+			double posX = player->GetPosition().x - meteorite[i]->GetPosition().x;
+			double posY = player->GetPosition().y - meteorite[i]->GetPosition().y;
+			
+			//プレイヤーと隕石の２点間の距離を計算
+			direction = sqrt(pow(posX, 2) + pow(posY, 2));
+			
+
+			//隕石と衝突したら
+			if (direction < RADIUS_MISS + sphereMeteorite.radius)
 			{
-				//当たったかどうか
-				hit = true;
+				score -= SCORE_MISS;
+
+				//player->state = State::Miss;
+
+				evaluation->ui = UI::Miss;
 				
-				
-				//隕石の当たり判定球を取得
-				Math3d::Sphere sphereMeteorite = meteorite[i]->GetCollisionSphere();
+			}
 
-				double posX = player->GetPosition().x - meteorite[i]->GetPosition().x;
-				double posY = player->GetPosition().y - meteorite[i]->GetPosition().y;
-				
-				//プレイヤーと隕石の２点間の距離を計算
-				direction = sqrt(pow(posX, 2) + pow(posY, 2));
-				
+			//隕石とギリギリの範囲
+			else if (direction < RADIUS_EXCELLENT + sphereMeteorite.radius)
+			{
+				score += SCORE_EXCELLENT;
 
-				//隕石と衝突したら
-				if (direction < RADIUS_MISS + sphereMeteorite.radius)
-				{
-					excellentF = true;
-					score -= SCORE_MISS;
+				evaluation->ui = UI::Excellent;
 
-					player->state = State::Miss;
-					
-					//デバック用
-					printfDx("miss! ");
+				explosion->Update(meteorite[i]);
+			}
+			
+			//隕石と中くらいの範囲
+			else if (direction < RADIUS_GREAT + sphereMeteorite.radius)
+			{
+				score += SCORE_GREAT;
 
-				}
+				evaluation->ui = UI::Great;
+			}
 
-				//隕石とギリギリの範囲
-				else if (direction < RADIUS_EXCELLENT + sphereMeteorite.radius)
-				{
-					
-					score += SCORE_EXCELLENT;
+			//隕石と一番離れている
+			else if (direction < RADIUS_GOOD + sphereMeteorite.radius)
+			{
+				score += SCORE_GOOD;
 
-					largeexplosion->Update(meteorite[i]);
+				evaluation->ui = UI::Good;
+			}
 
-					
-
-					//デバック用
-					printfDx("excellent！ ");
-
-				}
-
-				//隕石と中くらいの範囲
-				else if (direction < RADIUS_GREAT + sphereMeteorite.radius)
-				{
-					
-					score += SCORE_GREAT;
-
-					//デバック用
-					printfDx("great！ ");
-				}
-
-				//隕石と一番離れている
-				else if (direction < RADIUS_GOOD + sphereMeteorite.radius)
-				{
-					
-					score += SCORE_GOOD;
-
-					//デバック用
-					printfDx("good！ ");
-				}
-
-				//隕石と接触もしくは避けたら
-				if (hit)
-				{
-					//隕石を消す
-					meteorite[i] = nullptr;
-					delete meteorite[i];
-				}
+			//隕石と接触もしくは避けたら
+			if (hit)
+			{
+				//隕石を消す
+				meteorite[i] = nullptr;
+				delete meteorite[i];
 			}
 		}
 	}
-}
-
-void HitChecker::ExcellentImage()
-{
-	if (excellentF)
-	{
-		DrawRotaGraph(800, 500, scale, 0, excellentGraph, TRUE);
-		scale += 0.05f;
-
-		if (scale > 1.0f)
-		{
-			excellentF = false;
-			scale = 0.0f;
-		}
-	}
-}
-
-void HitChecker::Draw()
-{
-	ExcellentImage();
 }

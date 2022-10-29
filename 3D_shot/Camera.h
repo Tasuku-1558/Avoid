@@ -8,7 +8,7 @@ public:
 	 Camera();		//コンストラクタ
 	~Camera();		//デストラクタ
 
-	void Update();
+	void Initialize();
 
 private:
 	//静的定数
