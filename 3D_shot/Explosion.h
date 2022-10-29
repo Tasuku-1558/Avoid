@@ -22,17 +22,18 @@ public:
 	void Initialize() override;					//‰Šú‰»
 	void Finalize()override;
 	void Activate()override;
+
 	void Update(Meteorite* meteorite);			//XV
-	void Estate();
+	void Estate(Meteorite* meteorite);
 	void Draw() override;						//•`‰æ
 
-
+	enum class Effect effect;
 private:
-	int effectHandle;
+	int bi;
+	int ai;
 	/*int grBackgroundHandle;
 	int grFrontHandle;*/
 
-	enum class Effect effect;
 	
 	int effectTime;
 	float effectPos_X;

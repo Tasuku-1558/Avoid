@@ -5,8 +5,8 @@
 
 
 Explosion::Explosion()
-	: effectHandle(0)
-	, effectPos_X(0.0f)
+	: /*effectHandle(0)*/
+	  effectPos_X(0.0f)
 	, effectPos_Y(0.0f)
 	, effectTime(0)
 	, playingEffectHandle(-1)
@@ -21,7 +21,8 @@ Explosion::~Explosion()
 
 void Explosion::Initialize()
 {
-	effectHandle = LoadEffekseerEffect("data/effect/LargeExplosion.efkefc", 30.0f);
+	bi = LoadEffekseerEffect("data/effect/Explosion.efkefc", 30.0f);
+	ai = LoadEffekseerEffect("data/effect/Explosion.efkefc", 10.0f);
 	/*grBackgroundHandle = LoadGraph(("data/texture/Background.png"));
 	grFrontHandle = LoadGraph(("data/texture/Front.png"));*/
 }
@@ -29,7 +30,7 @@ void Explosion::Initialize()
 void Explosion::Finalize()
 {
 	// エフェクトリソースを削除
-	DeleteEffekseerEffect(effectHandle);
+	DeleteEffekseerEffect(bi);
 }
 
 void Explosion::Activate()
@@ -45,7 +46,7 @@ void Explosion::Update(Meteorite* meteorite)
 	if (effectTime % 1 == 0)
 	{
 		// エフェクトを再生
-		playingEffectHandle = PlayEffekseer3DEffect(effectHandle);
+		playingEffectHandle = PlayEffekseer3DEffect(bi);
 	}
 
 	// 再生中のエフェクトを移動
@@ -55,19 +56,23 @@ void Explosion::Update(Meteorite* meteorite)
 	effectTime++;
 }
 
-void Explosion::Estate()
+void Explosion::Estate(Meteorite* meteorite)
 {
-	switch (effect)
+	effectPos_X = meteorite->GetPosition().x;
+	effectPos_Y = meteorite->GetPosition().y;
+
+	// 定期的にエフェクトを再生
+	if (effectTime % 1 == 0)
 	{
-	case Effect::Excellent:
-		break;
-	case Effect::Great:
-		break;
-	case Effect::Good:
-		break;
-	default:
-		break;
+		// エフェクトを再生
+		playingEffectHandle = PlayEffekseer3DEffect(ai);
 	}
+
+	// 再生中のエフェクトを移動
+	SetPosPlayingEffekseer3DEffect(playingEffectHandle, effectPos_X, effectPos_Y, 0);
+
+	// 時間を経過
+	effectTime++;
 }
 
 void Explosion::Draw()

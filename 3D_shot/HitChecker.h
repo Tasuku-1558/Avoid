@@ -1,5 +1,4 @@
 #pragma once
-//#include "ObjectBase.h"
 
 class MeteoriteManager;
 class Meteorite;
@@ -15,6 +14,8 @@ public:
 	 HitChecker();
 	~HitChecker();
 	
+	void Initialize();
+
 	void PlayerAndMeteorite(Player* player, Meteorite* meteorite[]/*vector<Meteorite*> meteorite*/, MeteoriteManager* meteoriteManager, Explosion* explosion, Evaluation* evaluation);		//当たりチェック
 	
 	double GetDirection() { return direction; }	//デバック用
@@ -31,7 +32,7 @@ private:
 	int score;								//獲得スコア
 	bool hit;								//隕石と衝突したか
 	
-
+	
 	//静的定数
 	static const float RADIUS_GOOD;			//goodの範囲
 	static const float RADIUS_GREAT;		//greatの範囲

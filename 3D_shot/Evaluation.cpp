@@ -1,6 +1,7 @@
 #include "Evaluation.h"
 #include "DxLib.h"
 
+
 Evaluation::Evaluation()
 	: excellentGraph(0)
 	, greatGraph(0)
@@ -32,6 +33,7 @@ void Evaluation::Finalize()
 	DeleteGraph(excellentGraph);
 	DeleteGraph(greatGraph);
 	DeleteGraph(goodGraph);
+	DeleteGraph(missGraph);
 }
 
 void Evaluation::Update(int evaluationGraph)
@@ -42,8 +44,8 @@ void Evaluation::Update(int evaluationGraph)
 
 	if (scale > 1.0f)
 	{
-		count += 1.0f;
 		scale = 1.0f;
+		count += 1.0f;
 
 		if (count > 30.0f)
 		{
@@ -54,7 +56,7 @@ void Evaluation::Update(int evaluationGraph)
 	}
 }
 
-void Evaluation::EvaluationUpdate()
+void Evaluation::EvaluationState()
 {
 	switch (ui)
 	{
@@ -72,9 +74,6 @@ void Evaluation::EvaluationUpdate()
 		
 	case UI::Miss:
 		Update(missGraph);
-		break;
-
-	default:
 		break;
 	}
 }
@@ -97,9 +96,6 @@ void Evaluation::Draw()
 
 	case UI::Miss:
 		Update(missGraph);
-		break;
-
-	default:
 		break;
 	}
 }

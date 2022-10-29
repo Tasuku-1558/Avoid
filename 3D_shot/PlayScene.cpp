@@ -64,19 +64,19 @@ void PlayScene::Initialize()
 		}
 	}
 	
-	//隕石マネージャーを初期化
+	//隕石マネージャー初期化
 	//MeteoriteManager::Initialize();
 
 	//プレイヤー初期化
 	player->Initialize();
 
-	//エフェクトの初期化
+	//エフェクト初期化
 	explosion->Initialize();
 
-	//カメラの初期化
+	//カメラ初期化
 	camera->Initialize();
 
-	//評価UIの初期化
+	//評価UI初期化
 	evaluation->Initialize();
 }
 
@@ -101,6 +101,7 @@ void PlayScene::Finalize()
 		}
 	}
 
+	//隕石マネージャーを解放
 	//MeteoriteManager::Finalize();
 	
 	//ヒットチェッカーを解放
@@ -139,6 +140,8 @@ void PlayScene::Activate()
 
 	//ゲーム起動時の時間を取得
 	startTime = GetNowCount();
+
+	hitchecker->Initialize();
 }
 
 
@@ -162,16 +165,16 @@ void PlayScene::Update(float deltaTime)
 				//隕石制御
 				meteorite[i]->Update(deltaTime, player);
 				
+				////隕石マネージャー制御
 				//MeteoriteManager::Update(deltaTime, player);
 
 				//プレイヤーと隕石の当たり判定
-				hitchecker->PlayerAndMeteorite(player, meteorite, meteoriteManager, explosion,evaluation);
+				hitchecker->PlayerAndMeteorite(player, meteorite, meteoriteManager, explosion, evaluation);
 
 			}
 		}
 	}
 	
-	//evaluation->Update(excellentGraph);
 
 	//デバック用
 	x = player->GetPosition().x;
@@ -224,9 +227,11 @@ void PlayScene::Draw()
 		{
 			//隕石描画
 			meteorite[i]->Draw();
+			
 		
 		}
 	}
+	//隕石マネージャー描画
 	//MeteoriteManager::Draw();
 	
 	SetFontSize(60);			//文字のフォントサイズ変更

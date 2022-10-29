@@ -12,7 +12,7 @@ public:
 
 	virtual void Initialize() = 0;
 	virtual void Activate() = 0;
-	//virtual void Update(float dltaTime) = 0;				//ƒˆ‰¼‘zŠÖ”
+	//virtual void Update(float dltaTime) = 0;				
 	virtual void Draw() = 0;
 
 	const VECTOR& GetPosition() const; 	//position‚Ìgetter

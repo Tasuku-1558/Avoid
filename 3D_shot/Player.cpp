@@ -6,10 +6,8 @@ using namespace Math3d;
 
 //コンストラクタ
 Player::Player() : PlayerBase(ObjectTag::Player)
-	, noDrawFrame(false)
-	, damegeCount(0)
 {
-	state = State::Nomal;
+	//処理なし
 }
 
 //デストラクタ
@@ -48,26 +46,11 @@ void Player::Update(float deltaTime)
 {
 	Move(deltaTime);
 
-	Pstate(deltaTime);
-
 	// mPosition , mDir よりキャラクターの位置・回転をセット
 	MV1SetPosition(modelHandle, position);
 
 	// 当たり判定の移動
 	collisionSphere.HitTestMove(position);
-}
-
-void Player::Pstate(float deltaTime)
-{
-	switch (state)
-	{
-	case State::Miss:
-		Damege(deltaTime);
-		break;
-
-	default:
-		break;
-	}
 }
 
 //移動処理
@@ -122,20 +105,6 @@ void Player::Move(float deltaTime)
 	}
 }
 
-//隕石との衝突処理
-void Player::Damege(float deltaTime)
-{
-	noDrawFrame = !noDrawFrame;
-	damegeCount += deltaTime;
-
-	//通常状態へ
-	if (damegeCount < 1.0)
-	{
-		damegeCount = 0.0f;
-		noDrawFrame = false;
-	}
-}
-
 //描画処理
 void Player::Draw()
 {
@@ -144,16 +113,4 @@ void Player::Draw()
 	// 当たり判定デバッグ描画（後で消す）
 	DrawSphere3D(collisionSphere.worldCenter, collisionSphere.radius,
 		8, GetColor(0, 255, 0), 0, FALSE);
-
-	if (noDrawFrame)
-	{
-		return;
-	}
-
-	//// Ｚバッファを有効にする
-	//SetUseZBuffer3D(TRUE);
-
-	//// Ｚバッファへの書き込みを有効にする
-	//SetWriteZBuffer3D(TRUE);
-	//DrawSphere3D(position, 39.0f, 32, GetColor(255, 255, 255), GetColor(255, 255, 255), TRUE);
 }

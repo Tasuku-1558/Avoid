@@ -20,8 +20,8 @@ public:
 	void Initialize();
 	void Finalize();
 
-	void Update(int excellentGraph);
-	void EvaluationUpdate();
+	void Update(int evaluationGraph);
+	void EvaluationState();
 	void Draw();
 
 	enum class UI ui;
