@@ -1,5 +1,5 @@
 //-----------------------------------------------------------------------------
-// @brief  メイン処理
+// メイン処理
 //-----------------------------------------------------------------------------
 #include "DxLib.h"
 #include "EffekseerForDXLib.h"
@@ -12,7 +12,7 @@
 using std::string;
 
 //-----------------------------------------------------------------------------
-// @brief  メイン関数
+// メイン関数
 //-----------------------------------------------------------------------------
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
@@ -39,10 +39,10 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	Effekseer_SetGraphicsDeviceLostCallbackFunctions();
 
-	// Ｚバッファを有効にする
+	// Zバッファを有効にする
 	SetUseZBuffer3D(TRUE);
 
-	// Ｚバッファへの書き込みを有効にする
+	// Zバッファへの書き込みを有効にする
 	SetWriteZBuffer3D(TRUE);
 
 	// 時間計測
@@ -72,36 +72,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 		sceneManager->Draw();
 
-		//位置関係がわかるように
-		//後で消す
-		{
-			int i;
-			VECTOR Pos1;
-			VECTOR Pos2;
-
-			SetUseZBufferFlag(TRUE);
-
-			Pos1 = VGet(-LINE_AREA_SIZE / 2.0f, 0.0f, -LINE_AREA_SIZE / 2.0f);
-			Pos2 = VGet(-LINE_AREA_SIZE / 2.0f, 0.0f, LINE_AREA_SIZE / 2.0f);
-			for (i = 0; i <= LINE_NUM; i++)
-			{
-				DrawLine3D(Pos1, Pos2, GetColor(255, 255, 255));
-				Pos1.x += LINE_AREA_SIZE / LINE_NUM;
-				Pos2.x += LINE_AREA_SIZE / LINE_NUM;
-			}
-
-			Pos1 = VGet(-LINE_AREA_SIZE / 2.0f, 0.0f, -LINE_AREA_SIZE / 2.0f);
-			Pos2 = VGet(LINE_AREA_SIZE / 2.0f, 0.0f, -LINE_AREA_SIZE / 2.0f);
-			for (i = 0; i < LINE_NUM; i++)
-			{
-				DrawLine3D(Pos1, Pos2, GetColor(255, 255, 255));
-				Pos1.z += LINE_AREA_SIZE / LINE_NUM;
-				Pos2.z += LINE_AREA_SIZE / LINE_NUM;
-			}
-
-			SetUseZBufferFlag(FALSE);
-		}
-
 		// 裏画面の内容を表画面に反映させる
 		ScreenFlip();
 
@@ -116,9 +86,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	SafeDelete(sceneManager);	// シーンマネージャーの解放
 
-	Effkseer_End();			// Effekseerの終了処理
+	Effkseer_End();				// Effekseerの終了処理
 	
-	DxLib_End();			// ＤＸライブラリ使用の終了処理
+	DxLib_End();				// DXライブラリ使用の終了処理
 
-	return 0;				// ソフトの終了 
+	return 0;					// ソフトの終了 
 }

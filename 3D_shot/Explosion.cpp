@@ -5,13 +5,15 @@
 
 
 Explosion::Explosion()
-	: /*effectHandle(0)*/
-	  effectPos_X(0.0f)
+	: effectHandle(0)
+	, effectPos_X(0.0f)
 	, effectPos_Y(0.0f)
+	, effectPos_Z(0.0f)
 	, effectTime(0)
 	, playingEffectHandle(-1)
+	, explosionSE(0)
 {
-	effect = Effect::Nomal;
+	//処理なし
 }
 
 Explosion::~Explosion()
@@ -21,16 +23,17 @@ Explosion::~Explosion()
 
 void Explosion::Initialize()
 {
-	bi = LoadEffekseerEffect("data/effect/Explosion.efkefc", 30.0f);
-	ai = LoadEffekseerEffect("data/effect/Explosion.efkefc", 10.0f);
-	/*grBackgroundHandle = LoadGraph(("data/texture/Background.png"));
-	grFrontHandle = LoadGraph(("data/texture/Front.png"));*/
+	effectHandle = LoadEffekseerEffect("data/effect/Explosion.efkefc", 30.0f);
+	explosionSE = LoadSoundMem("data/sound/ExplosionSE.mp3");
 }
 
 void Explosion::Finalize()
 {
 	// エフェクトリソースを削除
-	DeleteEffekseerEffect(bi);
+	DeleteEffekseerEffect(effectHandle);
+
+	// サウンドリソースを削除
+	InitSoundMem();
 }
 
 void Explosion::Activate()
@@ -41,35 +44,20 @@ void Explosion::Update(Meteorite* meteorite)
 {
 	effectPos_X = meteorite->GetPosition().x;
 	effectPos_Y = meteorite->GetPosition().y;
+	effectPos_Z = meteorite->GetPosition().z;
 
 	// 定期的にエフェクトを再生
 	if (effectTime % 1 == 0)
 	{
 		// エフェクトを再生
-		playingEffectHandle = PlayEffekseer3DEffect(bi);
+		playingEffectHandle = PlayEffekseer3DEffect(effectHandle);
+
+		// 爆発SEを再生
+		PlaySoundMem(explosionSE, DX_PLAYTYPE_BACK);
 	}
 
 	// 再生中のエフェクトを移動
-	SetPosPlayingEffekseer3DEffect(playingEffectHandle, effectPos_X, effectPos_Y, 0);
-
-	// 時間を経過
-	effectTime++;
-}
-
-void Explosion::Estate(Meteorite* meteorite)
-{
-	effectPos_X = meteorite->GetPosition().x;
-	effectPos_Y = meteorite->GetPosition().y;
-
-	// 定期的にエフェクトを再生
-	if (effectTime % 1 == 0)
-	{
-		// エフェクトを再生
-		playingEffectHandle = PlayEffekseer3DEffect(ai);
-	}
-
-	// 再生中のエフェクトを移動
-	SetPosPlayingEffekseer3DEffect(playingEffectHandle, effectPos_X, effectPos_Y, 0);
+	SetPosPlayingEffekseer3DEffect(playingEffectHandle, effectPos_X, effectPos_Y, effectPos_Z);
 
 	// 時間を経過
 	effectTime++;
@@ -77,11 +65,6 @@ void Explosion::Estate(Meteorite* meteorite)
 
 void Explosion::Draw()
 {
-	//DrawGraph(0, 100, grBackgroundHandle, TRUE);
-
-	//// エフェクトの上にも画像を描画できる。
-	//DrawGraph(0, 100, grFrontHandle, TRUE);
-
 	// 再生中のエフェクトを更新
 	UpdateEffekseer3D();
 

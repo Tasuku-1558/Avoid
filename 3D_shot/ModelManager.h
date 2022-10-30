@@ -9,7 +9,7 @@ class ModelManager final
 public:
 
 	//モデルの種類
-	enum ModelKind
+	enum ModelType
 	{
 		PLAYER,
 		METEORITE,
@@ -18,11 +18,12 @@ public:
 
 	static ModelManager& GetInstance();					  // アドレスを返す
 
-	const int& GetModelHandle(ModelKind modelKind) const; // モデルハンドルの参照を返す
+	const int& GetModelHandle(ModelType modelType) const; // モデルハンドルの参照を返す
 
 private:
 	 ModelManager();							//コンストラクタ
 	~ModelManager();							//デストラクタ
+
 	 ModelManager(const ModelManager&);			//コピーコンストラクタ
 
 	void LoadAllModel();						//全てのモデルの読み込み
@@ -34,6 +35,6 @@ private:
 	static const string PLAYER_PATH;			//playerモデルファイルのパス
 	static const string METEORITE_PATH;			//meteoriteモデルファイルのパス
 
-	int ModelHandle[MODEL_AMOUNT];				//モデルハンドル
+	int modelHandle[MODEL_AMOUNT];				//モデルハンドル
 
 };

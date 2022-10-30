@@ -1,19 +1,15 @@
-#include "Player.h"
 #include "Meteorite.h"
+#include "Player.h"
 #include "ModelManager.h"
 #include "Common.h"
 #include <math.h>
 
 using namespace Math3d;
 
-const int Meteorite::RANGE = 2;			//ランダム値の範囲
-
-
 Meteorite::Meteorite() : MeteoriteBase(ObjectTag::Meteorite)
-	, random(0)
 {
 	modelHandle = MV1DuplicateModel(ModelManager::GetInstance().GetModelHandle(ModelManager::METEORITE));
-	MV1SetScale(modelHandle, VGet(SIZE, SIZE, SIZE));
+	MV1SetScale(modelHandle, SIZE);
 
 	//読み込み失敗でエラー
 	if (modelHandle < 0)
@@ -37,7 +33,7 @@ void Meteorite::Initialize()
 void Meteorite::Activate()
 {
 	position = VGet(GetRand(RANDOM_RANGE_X_OR_Y), GetRand(RANDOM_RANGE_X_OR_Y), Z_POSITION);
-	dir = VGet(0.0f, 0.0f, -1.0f);
+	dir = DIR;
 	random = rand() % RANGE;
 
 	// ランダムな回転角速度をセット
@@ -46,8 +42,8 @@ void Meteorite::Activate()
 
 	// 当たり判定球を設定
 	collisionSphere.localCenter = ZERO_VECTOR;
-	collisionSphere.radius = RADIUS;
 	collisionSphere.worldCenter = position;
+	collisionSphere.radius		= RADIUS;
 }
 
 //更新処理
@@ -65,7 +61,7 @@ void Meteorite::Update(float deltaTime, Player* player)
 //移動処理
 void Meteorite::Move(float deltaTime, Player* player)
 {
-
+	//プレイヤーに向かって跳ぶ
 	if (popFlag && random == 0)
 	{
 		dir = player->GetPosition() - position;
@@ -74,11 +70,13 @@ void Meteorite::Move(float deltaTime, Player* player)
 		{
 			dir = VNorm(dir);
 		}
+
 		popFlag = false;
 	}
+	//真っすぐ跳ぶ
 	else if(random == 1)
 	{
-		dir = VGet(0.0f, 0.0f, -1.0f);
+		dir = DIR;
 	}
 	
 	position += dir * deltaTime * SPEED;

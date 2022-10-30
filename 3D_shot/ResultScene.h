@@ -19,9 +19,7 @@ public:
 private:
 	HitChecker* hitchecker;
 
-	int resultImage;			//リザルト画像
-	int resultBackgroundX;		//リザルト背景X座標
-	int resultBackgroundY;		//リザルト背景Y座標
+	int resultBackGround;		//リザルト背景
 
 	int targetScore;
 	int score;

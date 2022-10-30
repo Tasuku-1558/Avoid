@@ -8,9 +8,7 @@
 ResultScene::ResultScene(SceneManager* const sceneManager)
 	: SceneBase(sceneManager)
 	, hitchecker(nullptr)
-	, resultImage(0)
-	, resultBackgroundX(0)
-	, resultBackgroundY(0)
+	, resultBackGround(0)
 	, score(0)
 	, targetScore(0)
 {
@@ -24,21 +22,27 @@ ResultScene::~ResultScene()
 
 void ResultScene::Initialize()
 {
+	//リザルト背景
+	resultBackGround = LoadGraph("data/image/GameBackground.png");
+
 	hitchecker = new HitChecker();
 }
 
 void ResultScene::Finalize()
 {
+	//リザルト背景を解放
+	DeleteGraph(resultBackGround);
 }
 
 void ResultScene::Activate()
 {
+	score = 0;
 }
 
 void ResultScene::Update(float deltaTime)
 {
 	//HitCheckerのスコアを取得
-	targetScore = hitchecker->GetScore();
+	targetScore = 10000;
 
 	//スコアを目標スコアに足し引きする処理
 	if (targetScore != score)
@@ -46,10 +50,6 @@ void ResultScene::Update(float deltaTime)
 		if (targetScore > score)
 		{
 			score += 100;
-		}
-		else
-		{
-			score -= 100;
 		}
 	}
 
@@ -59,7 +59,7 @@ void ResultScene::Update(float deltaTime)
 		parent->SetNextScene(SceneManager::TITLE);
 		return;
 	}
-	else if (CheckHitKey(KEY_INPUT_B))
+	else if (CheckHitKey(KEY_INPUT_RETURN))
 	{
 		parent->SetNextScene(SceneManager::PLAY);
 		return;
@@ -68,8 +68,11 @@ void ResultScene::Update(float deltaTime)
 
 void ResultScene::Draw()
 {
+	//リザルト背景描画
+	DrawBillboard3D(VGet(0.0f, 300.0f, 1200.0f), 0.5f, 0.5f, 4000.0f, 0.0f, resultBackGround, TRUE);
+
 	//獲得スコア表示
 	DrawFormatString(750, 400, GetColor(255, 255, 0), "獲得SCORE : %d", score);
 
-	DrawFormatString(250, 800, GetColor(255, 255, 255), "BackキーでTitleに戻る or Bキーでもう一度プレイする");
+	DrawFormatString(150, 800, GetColor(255, 255, 255), "BackキーでTitleに戻る or Returnキーでもう一度プレイする");
 }

@@ -21,13 +21,12 @@ public:
 	void Activate()override;
 	void Update(float deltaTime)override;
 	void Draw() override;
-	
-	int GetScore() { return score; }
+
 	
 private:
 	Camera* camera;
 	Player* player;
-	Meteorite* meteorite[20] = { nullptr };
+	Meteorite* meteorite[54] = { nullptr };
 	MeteoriteManager* meteoriteManager;
 	HitChecker* hitchecker;
 	Explosion* explosion;
@@ -37,10 +36,10 @@ private:
 	int  nowTime;				//現在の時間
 	int  countDown;				//制限時間
 	bool meteoritePopFlag;		//隕石の出現フラグ
-	int  gameBackground;		//ゲーム画面背景
+	int  gameBackGround;		//ゲーム画面背景
 	int  targetScore;			//目標スコア
 	int  score;					//獲得スコア
-
+	
 	//デバック用
 	int x;
 	int y;

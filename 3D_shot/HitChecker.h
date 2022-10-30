@@ -46,5 +46,4 @@ private:
 
 	static const int   FIRST_SCORE;			//スコアの初期値
 	static const int   FIRST_DIRECTION;		//距離の初期値
-
 };

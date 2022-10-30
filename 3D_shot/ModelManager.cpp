@@ -8,7 +8,7 @@ const string ModelManager::METEORITE_PATH	 = "meteorite.mv1"; //meteoriteƒ‚ƒfƒ‹ƒ
 
 
 ModelManager::ModelManager()
-	: ModelHandle()
+	: modelHandle()
 {
 	LoadAllModel();
 }
@@ -28,15 +28,15 @@ void ModelManager::LoadAllModel()
 {
 	//ƒ‚ƒfƒ‹ƒtƒ@ƒCƒ‹‚Ö‚ÌƒpƒX
 	string FailePath = MODEL_FOLDER_PATH + PLAYER_PATH;
-	ModelHandle[PLAYER] = MV1LoadModel(FailePath.c_str());
+	modelHandle[PLAYER] = MV1LoadModel(FailePath.c_str());
 
 	FailePath = MODEL_FOLDER_PATH + METEORITE_PATH;
-	ModelHandle[METEORITE] = MV1LoadModel(FailePath.c_str());
+	modelHandle[METEORITE] = MV1LoadModel(FailePath.c_str());
 
 	//“Ç‚İ‚İ¸”s‚È‚çƒGƒ‰[
 	for (int i = 0; i < MODEL_AMOUNT; ++i)
 	{
-		if (ModelHandle[i] < 0)
+		if (modelHandle[i] < 0)
 		{
 			printfDx("ƒ‚ƒfƒ‹ƒf[ƒ^“Ç‚İ‚İ¸”s\n", i);
 		}
@@ -47,21 +47,21 @@ void ModelManager::DeleteAllModel()
 {
 	for (int i = 0; i < MODEL_AMOUNT; ++i)
 	{
-		if (ModelHandle[i] != NULL)
+		if (modelHandle[i] != NULL)
 		{
-			MV1DeleteModel(ModelHandle[i]);
-			ModelHandle[i] = NULL;
+			MV1DeleteModel(modelHandle[i]);
+			modelHandle[i] = NULL;
 		}
 	}
 }
 
-const int& ModelManager::GetModelHandle(ModelKind modelKind) const
+const int& ModelManager::GetModelHandle(ModelType modelType) const
 {
-	if (modelKind == MODEL_AMOUNT)
+	if (modelType == MODEL_AMOUNT)
 	{
 		printfDx("•s³‚È’l‚ğQÆ‚µ‚Ä‚¢‚Ü‚·");
-		return ModelHandle[0];
+		return modelHandle[0];
 	}
 
-	return ModelHandle[modelKind];
+	return modelHandle[modelType];
 }

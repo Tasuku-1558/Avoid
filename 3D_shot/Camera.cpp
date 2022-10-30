@@ -17,10 +17,9 @@ Camera::~Camera()
 
 void Camera::Initialize()
 {
-	//奥行0.1～1000までをカメラの描画範囲とする
 	//カメラの手前と奥の距離を設定する
 	SetCameraNearFar(NEAR_DISTANCE, FAR_DISTANCE);
 
-	//カメラ(0,10,-20)の視点から(0,10,0)のターゲットを見る角度にカメラを設置
+	//カメラの視点とターゲットを見る角度にカメラを設置
 	SetCameraPositionAndTarget_UpVecY(INITIAL_POSITION, UP_VECTOR);
 }

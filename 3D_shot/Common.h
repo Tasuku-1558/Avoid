@@ -1,6 +1,7 @@
 #pragma once
 
 #include "DxLib.h"
+
 //--------------------------------------------------
 // 共通の定数などの宣言
 //--------------------------------------------------
@@ -11,20 +12,12 @@ const int  SCREEN_HEIGHT  = 1080;					//ウィンドウの高さ
 
 const VECTOR ZERO_VECTOR  = { 0.0f, 0.0f, 0.0f };	//ゼロベクトル
 
-//後で消す
-// ラインを描く範囲
-#define LINE_AREA_SIZE		10000.0f
-
-// ラインの数
-#define LINE_NUM			50
-
 
 
 // インスタンスをdeleteしてNULLを入れる
 template <typename T>
 inline void SafeDelete(T * &p)
 {
-    // NULLチェックは不要
     delete (p);
     (p) = nullptr;
 }

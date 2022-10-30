@@ -23,7 +23,7 @@ TitleScene::~TitleScene()
 
 void TitleScene::Initialize()
 {
-	titleImage = LoadGraph("data/Image/TitleBackground.png");
+	titleImage = LoadGraph("data/image/TitleBackground.png");
 }
 
 void TitleScene::Finalize()

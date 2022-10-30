@@ -1,6 +1,4 @@
 #include "MeteoriteManager.h"
-//#include "Player.h"
-//#include "Meteorite.h"
 #include "HitChecker.h"
 
 //MeteoriteManager実体へのポインタ定義

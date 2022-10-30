@@ -7,8 +7,8 @@
 
 using namespace std;
 
-const float HitChecker::RADIUS_GOOD		 = 500.0f;	//good‚Ì”ÍˆÍ
-const float HitChecker::RADIUS_GREAT	 = 300.0f;	//great‚Ì”ÍˆÍ
+const float HitChecker::RADIUS_GOOD		 = 1000.0f;	//good‚Ì”ÍˆÍ
+const float HitChecker::RADIUS_GREAT	 = 250.0f;	//great‚Ì”ÍˆÍ
 const float HitChecker::RADIUS_EXCELLENT = 40.0f;	//excellent‚Ì”ÍˆÍ
 const float HitChecker::RADIUS_MISS		 = 4.0f;	//miss‚Ì”ÍˆÍ
 
@@ -50,7 +50,6 @@ void HitChecker::PlayerAndMeteorite(Player* player, Meteorite* meteorite[]/*vect
 			//“–‚½‚Á‚½‚©‚Ç‚¤‚©
 			hit = true;
 			
-			
 			//è¦Î‚Ì“–‚½‚è”»’è‹…‚ğæ“¾
 			Math3d::Sphere sphereMeteorite = meteorite[i]->GetCollisionSphere();
 
@@ -73,18 +72,17 @@ void HitChecker::PlayerAndMeteorite(Player* player, Meteorite* meteorite[]/*vect
 			else if (direction < RADIUS_EXCELLENT + sphereMeteorite.radius)
 			{
 				score += SCORE_EXCELLENT;
-
+				
 				evaluation->ui = UI::Excellent;
 
 				explosion->Update(meteorite[i]);
-				explosion->effect = Effect::Excellent;
 			}
 			
 			//è¦Î‚Æ’†‚­‚ç‚¢‚Ì”ÍˆÍ
 			else if (direction < RADIUS_GREAT + sphereMeteorite.radius)
 			{
 				score += SCORE_GREAT;
-				explosion->Estate(meteorite[i]);
+				
 				evaluation->ui = UI::Great;
 			}
 
@@ -92,7 +90,7 @@ void HitChecker::PlayerAndMeteorite(Player* player, Meteorite* meteorite[]/*vect
 			else if (direction < RADIUS_GOOD + sphereMeteorite.radius)
 			{
 				score += SCORE_GOOD;
-
+				
 				evaluation->ui = UI::Good;
 			}
 

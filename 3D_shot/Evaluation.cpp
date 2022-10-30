@@ -8,9 +8,8 @@ Evaluation::Evaluation()
 	, goodGraph(0)
 	, missGraph(0)
 	, scale(0.0f)
-	, count(0.0f)
+	, waitTime(0.0f)
 	, rotation(0)
-	, imageHandle(0)
 {
 	ui = UI::Nomal;
 }
@@ -22,10 +21,10 @@ Evaluation::~Evaluation()
 
 void Evaluation::Initialize()
 {
-	excellentGraph = LoadGraph("data/Image/ExcellentEffect.png");
-	greatGraph	   = LoadGraph("data/Image/GreatEffect.png");
-	goodGraph	   = LoadGraph("data/Image/GoodEffect.png");
-	missGraph	   = LoadGraph("data/Image/MissEffect.png");
+	excellentGraph = LoadGraph("data/image/ExcellentEffect.png");
+	greatGraph	   = LoadGraph("data/image/GreatEffect.png");
+	goodGraph	   = LoadGraph("data/image/GoodEffect.png");
+	missGraph	   = LoadGraph("data/image/MissEffect.png");
 }
 
 void Evaluation::Finalize()
@@ -45,18 +44,18 @@ void Evaluation::Update(int evaluationGraph)
 	if (scale > 1.0f)
 	{
 		scale = 1.0f;
-		count += 1.0f;
+		waitTime += 1.0f;
 
-		if (count > 30.0f)
+		if (waitTime > 30.0f)
 		{
 			ui = UI::Nomal;
 			scale = 0.0f;
-			count = 0.0f;
+			waitTime = 0.0f;
 		}
 	}
 }
 
-void Evaluation::EvaluationState()
+void Evaluation::EvaluationUi()
 {
 	switch (ui)
 	{

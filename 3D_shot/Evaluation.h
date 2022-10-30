@@ -11,6 +11,7 @@ enum class UI
 	Miss,
 };
 
+//•]‰¿UIƒNƒ‰ƒX
 class Evaluation final
 {
 public:
@@ -21,20 +22,21 @@ public:
 	void Finalize();
 
 	void Update(int evaluationGraph);
-	void EvaluationState();
+	void EvaluationUi();
 	void Draw();
 
 	enum class UI ui;
 
 private:
 
+	//Še•]‰¿•¶Žš‚ÌŠi”[—p
 	int excellentGraph;
 	int greatGraph;
 	int goodGraph;
 	int missGraph;
-	float count;
-	float scale;							//•]‰¿•¶Žš‚Ì‘å‚«‚³
-	int imageHandle;
 
-	const int rotation;						//•]‰¿•¶Žš‚Ì‰ñ“]Šp“x
+	float waitTime;							//•]‰¿•¶Žš‚Ì•\Ž¦ŽžŠÔ
+	float scale;							//•]‰¿•¶Žš‚Ì‘å‚«‚³
+
+	const int rotation;						//•]‰¿•¶Žš‚ÌŠp“x
 };
