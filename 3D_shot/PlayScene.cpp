@@ -12,10 +12,10 @@
 
 
 //デバック用
-#define LINE_AREA_SIZE		10000.0f	// ラインを描く範囲
-#define LINE_NUM			50			// ラインの数
+//#define LINE_AREA_SIZE		10000.0f	// ラインを描く範囲
+//#define LINE_NUM			50			// ラインの数
 
-const int PlayScene::GAMETIME = 5;		//ゲーム時間
+const int PlayScene::GAMETIME = 60;		//ゲーム時間
 
 PlayScene::PlayScene(SceneManager* const sceneManager)
 		: SceneBase(sceneManager)
@@ -33,7 +33,6 @@ PlayScene::PlayScene(SceneManager* const sceneManager)
 		, score(0)
 		, targetScore(0)
 {
-	//処理なし
 }
 
 PlayScene::~PlayScene()
@@ -174,9 +173,9 @@ void PlayScene::Update(float deltaTime)
 	
 
 	//デバック用
-	x = player->GetPosition().x;
+	/*x = player->GetPosition().x;
 	y = player->GetPosition().y;
-	Direction = hitchecker->GetDirection();
+	Direction = hitchecker->GetDirection();*/
 
 	//HitCheckerのスコアを取得
 	targetScore = hitchecker->GetScore();
@@ -205,6 +204,7 @@ void PlayScene::Update(float deltaTime)
 	}
 }
 
+
 void PlayScene::Draw()
 {
 	//ゲーム背景描画
@@ -230,9 +230,9 @@ void PlayScene::Draw()
 	//隕石マネージャー描画
 	//MeteoriteManager::Draw();
 	
-
+	
 	//デバック用
-	{
+	/*{
 		int i;
 		VECTOR Pos1;
 		VECTOR Pos2;
@@ -258,20 +258,20 @@ void PlayScene::Draw()
 		}
 
 		SetUseZBufferFlag(FALSE);
-	}
+	}*/
 
 
-	SetFontSize(60);			//文字のフォントサイズ変更
+	SetFontSize(80);			//文字のフォントサイズ変更
 	ChangeFont("ＭＳ 明朝");	//種類をMS明朝に変更
 
 	//制限時間表示
-	DrawFormatString(800, 100, GetColor(255, 0, 0), "TIME : %d", countDown);
+	DrawFormatString(500, 100, GetColor(255, 0, 0), "TIME : %d", countDown);
 
 	//獲得スコア表示
-	DrawFormatString(800, 150, GetColor(255, 255, 0), "SCORE : %d", score);
+	DrawFormatString(1000, 100, GetColor(255, 255, 0), "SCORE : %d", score);
 
-	//デバック用
-	DrawFormatString(500, 300, GetColor(255, 0, 0), "x : %d", x);
-	DrawFormatString(500, 350, GetColor(255, 0, 0), "y : %d", y);
-	DrawFormatString(500, 400, GetColor(255, 0, 0), "Direction : %f", Direction);
+	////デバック用
+	//DrawFormatString(500, 300, GetColor(255, 0, 0), "x : %d", x);
+	//DrawFormatString(500, 350, GetColor(255, 0, 0), "y : %d", y);
+	//DrawFormatString(500, 400, GetColor(255, 0, 0), "Direction : %f", Direction);
 }

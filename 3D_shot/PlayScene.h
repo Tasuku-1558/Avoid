@@ -10,6 +10,7 @@ class HitChecker;
 class Explosion;
 class Evaluation;
 
+
 class PlayScene final : public SceneBase
 {
 public:
@@ -22,7 +23,6 @@ public:
 	void Update(float deltaTime)override;
 	void Draw() override;
 
-	
 private:
 	Camera* camera;
 	Player* player;

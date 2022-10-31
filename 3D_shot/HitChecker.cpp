@@ -4,6 +4,7 @@
 #include "Meteorite.h"
 #include "Explosion.h"
 #include "Evaluation.h"
+#include "Score.h"
 
 using namespace std;
 
@@ -18,7 +19,6 @@ const int	HitChecker::SCORE_EXCELLENT  = 600;		//excellentのスコア
 const int	HitChecker::SCORE_MISS		 = 300;		//missのスコア
 
 const int	HitChecker::FIRST_SCORE		 = 0;		//スコアの初期値
-const int	HitChecker::FIRST_DIRECTION  = 0;		//距離の初期値
 
 
 HitChecker::HitChecker()
@@ -37,7 +37,6 @@ HitChecker::~HitChecker()
 void HitChecker::Initialize()
 {
 	score = FIRST_SCORE;
-	direction = FIRST_DIRECTION;
 }
 
 void HitChecker::PlayerAndMeteorite(Player* player, Meteorite* meteorite[]/*vector<Meteorite*> meteorite*/, MeteoriteManager* meteoriteManager, Explosion* explosion,Evaluation* evaluation)
@@ -46,7 +45,6 @@ void HitChecker::PlayerAndMeteorite(Player* player, Meteorite* meteorite[]/*vect
 	{
 		if (meteorite[i] != nullptr && meteorite[i]->GetPosition().z <= 10)
 		{
-			
 			//当たったかどうか
 			hit = true;
 			
@@ -64,15 +62,16 @@ void HitChecker::PlayerAndMeteorite(Player* player, Meteorite* meteorite[]/*vect
 			if (direction < RADIUS_MISS + sphereMeteorite.radius)
 			{
 				score -= SCORE_MISS;
-
+				Score::GetInstance().SetScore(score);
 				evaluation->ui = UI::Miss;
+				
 			}
 
 			//隕石とギリギリの範囲
 			else if (direction < RADIUS_EXCELLENT + sphereMeteorite.radius)
 			{
 				score += SCORE_EXCELLENT;
-				
+				Score::GetInstance().SetScore(score);
 				evaluation->ui = UI::Excellent;
 
 				explosion->Update(meteorite[i]);
@@ -82,7 +81,7 @@ void HitChecker::PlayerAndMeteorite(Player* player, Meteorite* meteorite[]/*vect
 			else if (direction < RADIUS_GREAT + sphereMeteorite.radius)
 			{
 				score += SCORE_GREAT;
-				
+				Score::GetInstance().SetScore(score);
 				evaluation->ui = UI::Great;
 			}
 
@@ -90,7 +89,7 @@ void HitChecker::PlayerAndMeteorite(Player* player, Meteorite* meteorite[]/*vect
 			else if (direction < RADIUS_GOOD + sphereMeteorite.radius)
 			{
 				score += SCORE_GOOD;
-				
+				Score::GetInstance().SetScore(score);
 				evaluation->ui = UI::Good;
 			}
 

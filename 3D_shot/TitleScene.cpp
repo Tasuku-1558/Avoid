@@ -2,8 +2,8 @@
 #include "DxLib.h"
 #include "SceneManager.h"
 
-const int TitleScene::TITLE_NAME_X = 600;
-const int TitleScene::TITLE_NAME_Y = 500;
+const int TitleScene::TITLE_NAME_X = 400;
+const int TitleScene::TITLE_NAME_Y = 150;
 
 
 TitleScene::TitleScene(SceneManager* const sceneManager)
@@ -11,7 +11,7 @@ TitleScene::TitleScene(SceneManager* const sceneManager)
 	, titleImage(0)
 	, titleBackgroundX(0)
 	, titleBackgroundY(0)
-	, titleName{ "Just in Avoid" }
+	, titleName(0)
 {
 	//処理なし
 }
@@ -24,6 +24,7 @@ TitleScene::~TitleScene()
 void TitleScene::Initialize()
 {
 	titleImage = LoadGraph("data/image/TitleBackground.png");
+	titleName = LoadGraph("data/image/TitleImage.png");
 }
 
 void TitleScene::Finalize()
@@ -60,6 +61,10 @@ void TitleScene::Blink()
 	Alpha += Inc;
 
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, Alpha);
+
+	ChangeFont("ＭＳ 明朝");	//種類をMS明朝に変更
+	SetFontSize(110);			//文字のフォントサイズ変更
+
 	DrawFormatString(200, 700, GetColor(255, 0, 0), "Push Space Key To GameStart!");
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, Alpha);
 }
@@ -68,10 +73,7 @@ void TitleScene::Draw()
 {
 	DrawGraph(titleBackgroundX, titleBackgroundY, titleImage, TRUE);
 
-	ChangeFont("ＭＳ 明朝");	//種類をMS明朝に変更
-	SetFontSize(110);			//文字のフォントサイズ変更
-
-	DrawString(TITLE_NAME_X, TITLE_NAME_Y, titleName, GetColor(170, 200, 200));
+	DrawGraph(TITLE_NAME_X, TITLE_NAME_Y, titleName, TRUE);
 
 	Blink();
 }

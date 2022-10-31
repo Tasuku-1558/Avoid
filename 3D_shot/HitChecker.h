@@ -5,6 +5,7 @@ class Meteorite;
 class Player;
 class Explosion;
 class Evaluation;
+class Score;
 
 using namespace std;
 
@@ -32,7 +33,6 @@ private:
 	int score;								//獲得スコア
 	bool hit;								//隕石と衝突したか
 	
-	
 	//静的定数
 	static const float RADIUS_GOOD;			//goodの範囲
 	static const float RADIUS_GREAT;		//greatの範囲
@@ -45,5 +45,4 @@ private:
 	static const int   SCORE_MISS;			//missのスコア
 
 	static const int   FIRST_SCORE;			//スコアの初期値
-	static const int   FIRST_DIRECTION;		//距離の初期値
 };

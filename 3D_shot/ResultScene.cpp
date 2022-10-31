@@ -1,15 +1,14 @@
 #include "ResultScene.h"
 #include "DxLib.h"
 #include "Common.h"
-#include "HitChecker.h"
+#include "Score.h"
 #include "SceneManager.h"
 
 
 ResultScene::ResultScene(SceneManager* const sceneManager)
 	: SceneBase(sceneManager)
-	, hitchecker(nullptr)
 	, resultBackGround(0)
-	, score(0)
+	, scoreR(0)
 	, targetScore(0)
 {
 	//処理なし
@@ -24,8 +23,6 @@ void ResultScene::Initialize()
 {
 	//リザルト背景
 	resultBackGround = LoadGraph("data/image/GameBackground.png");
-
-	hitchecker = new HitChecker();
 }
 
 void ResultScene::Finalize()
@@ -36,20 +33,25 @@ void ResultScene::Finalize()
 
 void ResultScene::Activate()
 {
-	score = 0;
+	scoreR = 0;
+}
+
+void ResultScene::SetScore()
+{
+	//スコアを取得
+	targetScore = Score::GetInstance().GetScore();
 }
 
 void ResultScene::Update(float deltaTime)
 {
-	//HitCheckerのスコアを取得
-	targetScore = 10000;
+	SetScore();
 
 	//スコアを目標スコアに足し引きする処理
-	if (targetScore != score)
+	if (targetScore != scoreR)
 	{
-		if (targetScore > score)
+		if (targetScore > scoreR)
 		{
-			score += 100;
+			scoreR += 100;
 		}
 	}
 
@@ -72,7 +74,7 @@ void ResultScene::Draw()
 	DrawBillboard3D(VGet(0.0f, 300.0f, 1200.0f), 0.5f, 0.5f, 4000.0f, 0.0f, resultBackGround, TRUE);
 
 	//獲得スコア表示
-	DrawFormatString(750, 400, GetColor(255, 255, 0), "獲得SCORE : %d", score);
+	DrawFormatString(750, 400, GetColor(255, 255, 0), "獲得SCORE : %d", scoreR);
 
 	DrawFormatString(150, 800, GetColor(255, 255, 255), "BackキーでTitleに戻る or Returnキーでもう一度プレイする");
 }

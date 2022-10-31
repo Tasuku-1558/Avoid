@@ -50,7 +50,7 @@ void Meteorite::Activate()
 void Meteorite::Update(float deltaTime, Player* player)
 {
 	Move(deltaTime, player);
-
+	
 	MV1SetPosition(modelHandle, position);
 	MV1SetRotationXYZ(modelHandle, rotateAngle);
 
@@ -89,5 +89,5 @@ void Meteorite::Draw()
 	MV1DrawModel(modelHandle);
 
 	// 当たり判定デバッグ描画（後で消す）
-	DrawSphere3D(collisionSphere.worldCenter, collisionSphere.radius, 8, GetColor(0, 255, 255), 0, FALSE);
+	//DrawSphere3D(collisionSphere.worldCenter, collisionSphere.radius, 8, GetColor(0, 255, 255), 0, FALSE);
 }

@@ -11,7 +11,7 @@ public:
 	void Initialize()override;					//初期化
 	void Finalize()override;
 	void Activate()override;
-	void Update(float deltaTime)override;				//更新
+	void Update(float deltaTime)override;		//更新
 
 	void Blink();								//文字を明滅
 
@@ -25,7 +25,7 @@ private:
 	int titleBackgroundX;	//タイトル背景X座標
 	int titleBackgroundY;	//タイトル背景Y座標
 
-	const char titleName[14];
+	int titleName;
 
 	//静的定数
 	static const int TITLE_NAME_X;

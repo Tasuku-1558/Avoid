@@ -104,5 +104,5 @@ void Player::Draw()
 	MV1DrawModel(modelHandle);
 
 	// 当たり判定デバッグ用描画
-	DrawSphere3D(collisionSphere.worldCenter, collisionSphere.radius, 8, GetColor(0, 255, 0), 0, FALSE);
+	//DrawSphere3D(collisionSphere.worldCenter, collisionSphere.radius, 8, GetColor(0, 255, 0), 0, FALSE);
 }

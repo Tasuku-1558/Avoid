@@ -82,6 +82,9 @@
     <ClCompile Include="Evaluation.cpp">
       <Filter>ソースファイル\UI</Filter>
     </ClCompile>
+    <ClCompile Include="Score.cpp">
+      <Filter>ソースファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="TitleScene.h">
@@ -146,6 +149,9 @@
     </ClInclude>
     <ClInclude Include="Evaluation.h">
       <Filter>ソースファイル\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Score.h">
+      <Filter>ソースファイル</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
