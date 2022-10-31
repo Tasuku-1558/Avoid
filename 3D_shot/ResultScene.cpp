@@ -8,8 +8,10 @@
 ResultScene::ResultScene(SceneManager* const sceneManager)
 	: SceneBase(sceneManager)
 	, resultBackGround(0)
-	, scoreR(0)
-	, targetScore(0)
+	, totalScore(0)
+	, tScore(0)
+	, missScore(0)
+	, mScore(0)
 {
 	//処理なし
 }
@@ -33,13 +35,14 @@ void ResultScene::Finalize()
 
 void ResultScene::Activate()
 {
-	scoreR = 0;
+	totalScore = 0;
 }
 
 void ResultScene::SetScore()
 {
 	//スコアを取得
-	targetScore = Score::GetInstance().GetScore();
+	totalScore = Score::GetInstance().GetScore();
+	missScore = Score::GetInstance().GetMissScore();
 }
 
 void ResultScene::Update(float deltaTime)
@@ -47,14 +50,21 @@ void ResultScene::Update(float deltaTime)
 	SetScore();
 
 	//スコアを目標スコアに足し引きする処理
-	if (targetScore != scoreR)
+	if (totalScore != tScore)
 	{
-		if (targetScore > scoreR)
+		if (totalScore > tScore)
 		{
-			scoreR += 100;
+			tScore += 100;
 		}
 	}
-
+	
+	else if (missScore != mScore)
+	{
+		if (missScore < mScore)
+		{
+			mScore -= 100;
+		}
+	}
 	//次のシーンへ
 	if (CheckHitKey(KEY_INPUT_BACK))
 	{
@@ -73,8 +83,12 @@ void ResultScene::Draw()
 	//リザルト背景描画
 	DrawBillboard3D(VGet(0.0f, 300.0f, 1200.0f), 0.5f, 0.5f, 4000.0f, 0.0f, resultBackGround, TRUE);
 
+	SetFontSize(60);			//文字のフォントサイズ変更
+
 	//獲得スコア表示
-	DrawFormatString(750, 400, GetColor(255, 255, 0), "獲得SCORE : %d", scoreR);
+	DrawFormatString(750, 300, GetColor(255, 255, 0), "TOTAL_SCORE : %d", tScore);
+	DrawFormatString(750, 400, GetColor(255, 255, 0), " MISS_SCORE : %d", mScore);
+
 
 	DrawFormatString(150, 800, GetColor(255, 255, 255), "BackキーでTitleに戻る or Returnキーでもう一度プレイする");
 }

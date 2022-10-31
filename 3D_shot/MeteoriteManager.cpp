@@ -1,4 +1,6 @@
 #include "MeteoriteManager.h"
+#include "Meteorite.h"
+#include "Player.h"
 #include "HitChecker.h"
 
 //MeteoriteManager実体へのポインタ定義
@@ -94,21 +96,21 @@ void MeteoriteManager::Update(float deltaTime, Player* player)
 
 	std::vector<Meteorite*> deadObjects;
 
-	for (int i = 0; i < instance->objects.size(); ++i)
+	/*for (int i = 0; i < instance->objects.size(); ++i)
 	{
-		/*if (!instance->objects[i]->GetHit())
+		if (!instance->objects[i]->GetHit())
 		{
 			deadObjects.emplace_back(instance->objects[i]);
-		}*/
-	}
+		}
+	}*/
 	
 	//死んだオブジェクトをdelete
-	for (auto deadObj : deadObjects)
+	/*for (auto deadObj : deadObjects)
 	{
 		delete deadObj;
 	}
 
-	deadObjects.clear();
+	deadObjects.clear();*/
 }
 
 void MeteoriteManager::Draw()
@@ -117,9 +119,4 @@ void MeteoriteManager::Draw()
 	{
 		instance->objects[i]->Draw();
 	}
-}
-
-int MeteoriteManager::GetSize()
-{
-	return instance->pendingObjects.size();
 }

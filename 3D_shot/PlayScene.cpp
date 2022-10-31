@@ -7,23 +7,24 @@
 #include "MeteoriteManager.h"
 #include "HitChecker.h"
 #include "Evaluation.h"
+#include "EarnScore.h"
 #include "Explosion.h"
 #include "SceneManager.h"
 
 
-//デバック用
-//#define LINE_AREA_SIZE		10000.0f	// ラインを描く範囲
-//#define LINE_NUM			50			// ラインの数
-
-const int PlayScene::GAMETIME = 60;		//ゲーム時間
+const int PlayScene::GAMETIME = 30;		//ゲーム時間
 
 PlayScene::PlayScene(SceneManager* const sceneManager)
 		: SceneBase(sceneManager)
+		, state()
 		, camera(nullptr)
 		, hitchecker(nullptr)
 		, player(nullptr)
 		, explosion(nullptr)
 		, evaluation(nullptr)
+		, earnscore(nullptr)
+		, pUpdate(nullptr)
+		, meteoriteManager(nullptr)
 		, meteorite()
 		, meteoritePopFlag(false)
 		, startTime(0)
@@ -33,6 +34,7 @@ PlayScene::PlayScene(SceneManager* const sceneManager)
 		, score(0)
 		, targetScore(0)
 {
+	//処理なし
 }
 
 PlayScene::~PlayScene()
@@ -40,35 +42,35 @@ PlayScene::~PlayScene()
 	//処理なし
 }
 
+//初期化処理
 void PlayScene::Initialize()
 {
 	//ゲーム背景
 	gameBackGround = LoadGraph("data/image/GameBackground.png");
 
+	//カメラクラス
 	camera = new Camera();
-
-	player = new Player();
-
-	hitchecker = new HitChecker();
-
-	explosion = new Explosion();
-
-	evaluation = new Evaluation();
-
-	//隕石マネージャー初期化
-	//MeteoriteManager::Initialize();
-
-	//プレイヤー初期化
-	player->Initialize();
-
-	//爆発エフェクト初期化
-	explosion->Initialize();
-
-	//カメラ初期化
 	camera->Initialize();
 
-	//評価UI初期化
+	//プレイヤークラス
+	player = new Player();
+	player->Initialize();
+
+	//当たり判定クラス
+	hitchecker = new HitChecker();
+
+	//爆発エフェクトクラス
+	explosion = new Explosion();
+	explosion->Initialize();
+
+	//評価UIクラス
+	evaluation = new Evaluation();
 	evaluation->Initialize();
+
+	//スコアクラス
+	earnscore = new EarnScore();
+	
+	//MeteoriteManager::Initialize();
 }
 
 void PlayScene::Finalize()
@@ -104,10 +106,15 @@ void PlayScene::Finalize()
 	//評価UIを解放
 	SafeDelete(evaluation);
 	evaluation->Finalize();
+
+	SafeDelete(earnscore);
 }
 
 void PlayScene::Activate()
 {
+	state = START;
+	pUpdate = &PlayScene::UpdateStart;
+
 	for (int i = 0; i < Meteorite::METEORITE_ARRAY_NUMBER; i++)
 	{
 		//隕石生成
@@ -123,34 +130,36 @@ void PlayScene::Activate()
 		}
 	}
 	
-	//for (int i = 0; i < Meteorite::METEORITE_ARRAY_NUMBER; i++)
-	//{
-	//	Meteorite* me = new Meteorite;
-
-	//	//隕石活性化
-	//	me->Activate();
-	//	MeteoriteManager::Entry(me);
-	//}
 	
+	//Meteorite* me = new Meteorite;
+
+	////隕石活性化
+	//me->Activate();
+	//MeteoriteManager::Entry(me);
+
+	earnscore->Activate();
 
 	//プレイヤー活性化
 	player->Activate();
 
 	//ゲーム起動時の時間を取得
 	startTime = GetNowCount();
-
-	hitchecker->Initialize();
 }
 
 
 void PlayScene::Update(float deltaTime)
 {
+	if (pUpdate != nullptr)
+	{
+		(this->*pUpdate)();		//状態ごとに更新
+	}
+
 	//プレイヤーの制御
 	player->Update(deltaTime);
 
 	meteoritePopFlag = true;
-	
-	for (int i = 0; i < Meteorite::METEORITE_ARRAY_NUMBER; i++)
+
+	for (/*auto ptr:meteorite*/int i = 0; i < Meteorite::METEORITE_ARRAY_NUMBER; i++)
 	{
 		if (meteorite[i] != nullptr)
 		{
@@ -158,27 +167,31 @@ void PlayScene::Update(float deltaTime)
 			if (meteoritePopFlag)
 			{
 				meteoritePopFlag = false;
-				
+
 				//隕石制御
 				meteorite[i]->Update(deltaTime, player);
-				
-				////隕石マネージャー制御
+
+
+				//隕石マネージャー制御
 				//MeteoriteManager::Update(deltaTime, player);
 
 				//プレイヤーと隕石の当たり判定
-				hitchecker->PlayerAndMeteorite(player, meteorite, meteoriteManager, explosion, evaluation);
+				hitchecker->PlayerAndMeteorite(player, /*ptr*/meteorite, meteoriteManager, explosion, evaluation, earnscore);
 			}
 		}
 	}
-	
+}
 
-	//デバック用
-	/*x = player->GetPosition().x;
-	y = player->GetPosition().y;
-	Direction = hitchecker->GetDirection();*/
+void PlayScene::UpdateStart()
+{
+	state = GAME;
+	pUpdate = &PlayScene::UpdateGame;
+}
 
+void PlayScene::UpdateGame()
+{
 	//HitCheckerのスコアを取得
-	targetScore = hitchecker->GetScore();
+	targetScore = earnscore->GetScore();
 
 	//スコアを目標スコアに足し引きする処理
 	if (targetScore != score)
@@ -192,7 +205,7 @@ void PlayScene::Update(float deltaTime)
 			score -= 100;
 		}
 	}
-	
+
 	nowTime = GetNowCount();
 	countDown = GAMETIME - (nowTime - startTime) / 1000;
 
@@ -203,7 +216,6 @@ void PlayScene::Update(float deltaTime)
 		return;
 	}
 }
-
 
 void PlayScene::Draw()
 {
@@ -227,38 +239,9 @@ void PlayScene::Draw()
 			meteorite[i]->Draw();
 		}
 	}
+
 	//隕石マネージャー描画
 	//MeteoriteManager::Draw();
-	
-	
-	//デバック用
-	/*{
-		int i;
-		VECTOR Pos1;
-		VECTOR Pos2;
-
-		SetUseZBufferFlag(TRUE);
-
-		Pos1 = VGet(-LINE_AREA_SIZE / 2.0f, 0.0f, -LINE_AREA_SIZE / 2.0f);
-		Pos2 = VGet(-LINE_AREA_SIZE / 2.0f, 0.0f, LINE_AREA_SIZE / 2.0f);
-		for (i = 0; i <= LINE_NUM; i++)
-		{
-			DrawLine3D(Pos1, Pos2, GetColor(255, 255, 255));
-			Pos1.x += LINE_AREA_SIZE / LINE_NUM;
-			Pos2.x += LINE_AREA_SIZE / LINE_NUM;
-		}
-
-		Pos1 = VGet(-LINE_AREA_SIZE / 2.0f, 0.0f, -LINE_AREA_SIZE / 2.0f);
-		Pos2 = VGet(LINE_AREA_SIZE / 2.0f, 0.0f, -LINE_AREA_SIZE / 2.0f);
-		for (i = 0; i < LINE_NUM; i++)
-		{
-			DrawLine3D(Pos1, Pos2, GetColor(255, 255, 255));
-			Pos1.z += LINE_AREA_SIZE / LINE_NUM;
-			Pos2.z += LINE_AREA_SIZE / LINE_NUM;
-		}
-
-		SetUseZBufferFlag(FALSE);
-	}*/
 
 
 	SetFontSize(80);			//文字のフォントサイズ変更
@@ -269,9 +252,4 @@ void PlayScene::Draw()
 
 	//獲得スコア表示
 	DrawFormatString(1000, 100, GetColor(255, 255, 0), "SCORE : %d", score);
-
-	////デバック用
-	//DrawFormatString(500, 300, GetColor(255, 0, 0), "x : %d", x);
-	//DrawFormatString(500, 350, GetColor(255, 0, 0), "y : %d", y);
-	//DrawFormatString(500, 400, GetColor(255, 0, 0), "Direction : %f", Direction);
 }

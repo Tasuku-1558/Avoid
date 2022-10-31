@@ -4,7 +4,7 @@
 #include "Meteorite.h"
 #include "Explosion.h"
 #include "Evaluation.h"
-#include "Score.h"
+#include "EarnScore.h"
 
 using namespace std;
 
@@ -13,17 +13,9 @@ const float HitChecker::RADIUS_GREAT	 = 250.0f;	//greatの範囲
 const float HitChecker::RADIUS_EXCELLENT = 40.0f;	//excellentの範囲
 const float HitChecker::RADIUS_MISS		 = 4.0f;	//missの範囲
 
-const int	HitChecker::SCORE_GOOD		 = 100;		//goodのスコア
-const int	HitChecker::SCORE_GREAT		 = 200;		//greatのスコア
-const int	HitChecker::SCORE_EXCELLENT  = 600;		//excellentのスコア
-const int	HitChecker::SCORE_MISS		 = 300;		//missのスコア
-
-const int	HitChecker::FIRST_SCORE		 = 0;		//スコアの初期値
-
 
 HitChecker::HitChecker()
-	: score(0)
-	, direction(0.0f)
+	: direction(0.0f)
 	, hit(false)
 {
 	//処理なし
@@ -34,12 +26,7 @@ HitChecker::~HitChecker()
 	//処理なし
 }
 
-void HitChecker::Initialize()
-{
-	score = FIRST_SCORE;
-}
-
-void HitChecker::PlayerAndMeteorite(Player* player, Meteorite* meteorite[]/*vector<Meteorite*> meteorite*/, MeteoriteManager* meteoriteManager, Explosion* explosion,Evaluation* evaluation)
+void HitChecker::PlayerAndMeteorite(Player* player, Meteorite* meteorite[]/*Meteorite* meteorite*/, MeteoriteManager* meteoriteManager, Explosion* explosion, Evaluation* evaluation, EarnScore* earnscore)
 {
 	for (int i = 0; i < Meteorite::METEORITE_ARRAY_NUMBER;/*meteoriteManager->GetSize();*/ ++i)
 	{
@@ -61,17 +48,18 @@ void HitChecker::PlayerAndMeteorite(Player* player, Meteorite* meteorite[]/*vect
 			//隕石と衝突したら
 			if (direction < RADIUS_MISS + sphereMeteorite.radius)
 			{
-				score -= SCORE_MISS;
-				Score::GetInstance().SetScore(score);
-				evaluation->ui = UI::Miss;
 				
+				earnscore->UpdateMiss();
+				
+				evaluation->ui = UI::Miss;
 			}
 
 			//隕石とギリギリの範囲
 			else if (direction < RADIUS_EXCELLENT + sphereMeteorite.radius)
 			{
-				score += SCORE_EXCELLENT;
-				Score::GetInstance().SetScore(score);
+				
+				earnscore->UpdateExcellent();
+				
 				evaluation->ui = UI::Excellent;
 
 				explosion->Update(meteorite[i]);
@@ -80,16 +68,18 @@ void HitChecker::PlayerAndMeteorite(Player* player, Meteorite* meteorite[]/*vect
 			//隕石と中くらいの範囲
 			else if (direction < RADIUS_GREAT + sphereMeteorite.radius)
 			{
-				score += SCORE_GREAT;
-				Score::GetInstance().SetScore(score);
+				
+				earnscore->UpdateGreat();
+				
 				evaluation->ui = UI::Great;
 			}
 
 			//隕石と一番離れている
 			else if (direction < RADIUS_GOOD + sphereMeteorite.radius)
 			{
-				score += SCORE_GOOD;
-				Score::GetInstance().SetScore(score);
+				
+				earnscore->UpdateGood();
+				
 				evaluation->ui = UI::Good;
 			}
 

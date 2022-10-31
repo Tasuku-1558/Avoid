@@ -18,7 +18,9 @@ public:
 
 	static void Update(float deltaTime, Player* player);	//XV
 	static void Draw();										//•`‰æ
-	int GetSize();
+
+	int GetSize() { return instance->pendingObjects.size(); }
+
 private:
 	 MeteoriteManager();
 	~MeteoriteManager();

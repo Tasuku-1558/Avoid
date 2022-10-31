@@ -4,6 +4,7 @@
 
 using namespace std;
 
+//ƒVƒ“ƒOƒ‹ƒgƒ“
 class ModelManager final
 {
 public:

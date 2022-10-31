@@ -1,6 +1,18 @@
 #include "Score.h"
 
 
+Score::Score()
+	: score(0)
+	, missScore(0)
+{
+	//ˆ—‚È‚µ
+}
+
+Score::~Score()
+{
+	//ˆ—‚È‚µ
+}
+
 Score& Score::GetInstance()
 {
 	static Score score;
@@ -12,11 +24,7 @@ void Score::SetScore(int scoreT)
 	score = scoreT;
 }
 
-Score::Score()
-	: score(0)
+void Score::SetMissScore(int scoreM)
 {
-}
-
-Score::~Score()
-{
+	missScore = scoreM;
 }

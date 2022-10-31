@@ -8,20 +8,22 @@ class ResultScene final : public SceneBase
 {
 public:
 	 ResultScene(SceneManager* const sceneManager);
-	~ResultScene()override;
+	~ResultScene();
 
-	void Initialize() override;					//‰Šú‰»
-	void Finalize()override;
-	void Activate()override;
+	void Initialize();					//‰Šú‰»
+	void Finalize();
+	void Activate();
 	void SetScore();
-	void Update(float deltaTime)override;		//XV
-	void Draw() override;						//•`‰æ
+	void Update(float deltaTime);		//XV
+	void Draw();						//•`‰æ
 
 private:
 	
 	int resultBackGround;		//ƒŠƒUƒ‹ƒg”wŒi
 
-	int targetScore;
-	int scoreR;
+	int totalScore;
+	int tScore;
 
+	int missScore;
+	int mScore;
 };
