@@ -11,7 +11,13 @@
 
 using std::string;
 
-
+void FeverGauge(int hp, int hpMax)
+{
+	int color = GetColor(255, 255, 0);
+	DrawBox(1800, 300, 200, 200, color, TRUE);
+	DrawBox(100, 160, 800, 130, color, FALSE);			//枠を描画
+	DrawBox(100, 160, 100 + 500 * hp / hpMax, 130, color, TRUE);	//HPゲージを描画
+}
 //-----------------------------------------------------------------------------
 // メイン関数
 //-----------------------------------------------------------------------------
@@ -49,7 +55,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	// 時間計測
 	int nowTime = GetNowCount();
 	int prevTime = nowTime;
-
+	int hp = 0, hpMax = 180;
 	ModelManager::GetInstance();	//モデル管理クラスの生成
 
 	SceneManager* sceneManager = new SceneManager();
@@ -66,13 +72,20 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		// DXライブラリのカメラとEffekseerのカメラを同期
 		Effekseer_Sync3DSetting();
 
+		hp += 1;
+		if (hp >= hpMax)
+		{
+			hp = 0;
+		}
+
 		sceneManager->Update(deltaTime);
 
 		// 画面を初期化する
 		ClearDrawScreen();
 
 		sceneManager->Draw();
-
+		FeverGauge(hp, hpMax);
+		
 		// 裏画面の内容を表画面に反映させる
 		ScreenFlip();
 

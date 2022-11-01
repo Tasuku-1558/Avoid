@@ -17,10 +17,17 @@ public:
 	void UpdateGood();
 
 	int GetScore() { return score; }
+	int GetExcellent() { return excellentCount; }
+	int GetGreat() { return greatCount; }
+	int GetGood() { return goodCount; }
+	int GetMiss() { return missCount; }
 
 private:
 	int score;								//獲得スコア
-	int missScore;
+	int excellentCount;
+	int greatCount;
+	int goodCount;
+	int missCount;
 	
 
 	//静的定数

@@ -33,6 +33,9 @@ public:
 	};
 
 private:
+
+	PlayScene(const PlayScene&);		//コピーコンストラクタ
+
 	Camera* camera;
 	Player* player;
 	Meteorite* meteorite[54] = { nullptr };
@@ -48,6 +51,7 @@ private:
 	void(PlayScene::* pUpdate)();	//Update関数ポインタ
 
 	State state;				//ゲーム状態
+	int  frame;					//フレーム数
 	int  startTime;				//起動時間
 	int  nowTime;				//現在の時間
 	int  countDown;				//制限時間

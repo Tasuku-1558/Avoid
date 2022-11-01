@@ -9,9 +9,15 @@ ResultScene::ResultScene(SceneManager* const sceneManager)
 	: SceneBase(sceneManager)
 	, resultBackGround(0)
 	, totalScore(0)
-	, tScore(0)
-	, missScore(0)
-	, mScore(0)
+	, score(0)
+	, excellentCount(0)
+	, scoreE(0)
+	, greatCount(0)
+	, scoreG(0)
+	, goodCount(0)
+	, scoreD(0)
+	, missCount(0)
+	, scoreM(0)
 {
 	//処理なし
 }
@@ -36,35 +42,75 @@ void ResultScene::Finalize()
 void ResultScene::Activate()
 {
 	totalScore = 0;
+	excellentCount = 0;
+	greatCount = 0;
+	goodCount = 0;
+	missCount = 0;
+
+	score = 0;
+	scoreE = 0;
+	scoreG = 0;
+	scoreD = 0;
+	scoreM = 0;
 }
 
-void ResultScene::SetScore()
+//スコアを取得
+void ResultScene::AcquisitionScore()
 {
-	//スコアを取得
 	totalScore = Score::GetInstance().GetScore();
-	missScore = Score::GetInstance().GetMissScore();
+	excellentCount = Score::GetInstance().GetExcellentCount();
+	greatCount = Score::GetInstance().GetGreatCount();
+	goodCount = Score::GetInstance().GetGoodCount();
+	missCount = Score::GetInstance().GetMissCount();
+}
+
+//スコア計算
+void ResultScene::ScoreCalculation()
+{
+	//スコアを目標スコアに足し引きする処理
+	if (totalScore != score)
+	{
+		if (totalScore > score)
+		{
+			score += 100;
+		}
+	}
+	if (excellentCount != scoreE)
+	{
+		if (excellentCount > scoreE)
+		{
+			scoreE += 1;
+		}
+	}
+	if (greatCount != scoreG)
+	{
+		if (greatCount > scoreG)
+		{
+			scoreG += 1;
+		}
+	}
+	if (goodCount != scoreD)
+	{
+		if (goodCount > scoreD)
+		{
+			scoreD += 1;
+		}
+	}
+	if (missCount != scoreM)
+	{
+		if (missCount > scoreM)
+		{
+			scoreM += 1;
+		}
+	}
 }
 
 void ResultScene::Update(float deltaTime)
 {
-	SetScore();
-
-	//スコアを目標スコアに足し引きする処理
-	if (totalScore != tScore)
-	{
-		if (totalScore > tScore)
-		{
-			tScore += 100;
-		}
-	}
+	AcquisitionScore();
 	
-	else if (missScore != mScore)
-	{
-		if (missScore < mScore)
-		{
-			mScore -= 100;
-		}
-	}
+	ScoreCalculation();
+
 	//次のシーンへ
 	if (CheckHitKey(KEY_INPUT_BACK))
 	{
@@ -86,9 +132,10 @@ void ResultScene::Draw()
 	SetFontSize(60);			//文字のフォントサイズ変更
 
 	//獲得スコア表示
-	DrawFormatString(750, 300, GetColor(255, 255, 0), "TOTAL_SCORE : %d", tScore);
-	DrawFormatString(750, 400, GetColor(255, 255, 0), " MISS_SCORE : %d", mScore);
-
-
+	DrawFormatString(750, 300, GetColor(255,   0,	0),	"TOTAL_SCORE : %d", score);
+	DrawFormatString(750, 400, GetColor(255, 255,	0),	"Excellent  × %d", scoreE);
+	DrawFormatString(750, 500, GetColor(255, 105, 180), "Great      × %d", scoreG);
+	DrawFormatString(750, 600, GetColor(175, 238, 238), "Good       × %d", scoreD);
+	DrawFormatString(750, 700, GetColor(169, 169, 169),	"MISS       × %d", scoreM);
 	DrawFormatString(150, 800, GetColor(255, 255, 255), "BackキーでTitleに戻る or Returnキーでもう一度プレイする");
 }

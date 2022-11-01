@@ -17,6 +17,7 @@ const int PlayScene::GAMETIME = 30;		//ÉQÅ[ÉÄéûä‘
 PlayScene::PlayScene(SceneManager* const sceneManager)
 		: SceneBase(sceneManager)
 		, state()
+		, frame(0)
 		, camera(nullptr)
 		, hitchecker(nullptr)
 		, player(nullptr)
@@ -113,6 +114,7 @@ void PlayScene::Finalize()
 void PlayScene::Activate()
 {
 	state = START;
+	frame = 0;
 	pUpdate = &PlayScene::UpdateStart;
 
 	for (int i = 0; i < Meteorite::METEORITE_ARRAY_NUMBER; i++)
@@ -180,12 +182,19 @@ void PlayScene::Update(float deltaTime)
 			}
 		}
 	}
+
+	++frame;
 }
 
 void PlayScene::UpdateStart()
 {
-	state = GAME;
-	pUpdate = &PlayScene::UpdateGame;
+	/*if (frame > 60)
+	{*/
+		frame = 0;
+		state = GAME;
+		pUpdate = &PlayScene::UpdateGame;
+	/*}*/
+	
 }
 
 void PlayScene::UpdateGame()

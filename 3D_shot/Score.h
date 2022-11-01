@@ -8,11 +8,21 @@ public:
 	static Score& GetInstance();		// アドレスを返す
 
 	//トータルスコア
-	void SetScore(int scoreT);
+	void SetScore(int totalScore);
 	int  GetScore() { return score; }
 
-	void SetMissScore(int scoreM);
-	int  GetMissScore() { return missScore; }
+	//各スコアの数
+	void SetExcellentCount(int totalExcellent);
+	int  GetExcellentCount() { return excellent; }
+
+	void SetGreatCount(int totalGreat);
+	int  GetGreatCount() { return great; }
+
+	void SetGoodCount(int totalGood);
+	int  GetGoodCount() { return good; }
+
+	void SetMissCount(int totalMiss);
+	int  GetMissCount() { return miss; }
 
 private:
 
@@ -21,5 +31,8 @@ private:
 	~Score();
 
 	int score;
-	int missScore;
+	int excellent;
+	int great;
+	int good;
+	int miss;
 };
