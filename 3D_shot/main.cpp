@@ -14,9 +14,9 @@ using std::string;
 void FeverGauge(int hp, int hpMax)
 {
 	int color = GetColor(255, 255, 0);
-	DrawBox(1800, 300, 200, 200, color, TRUE);
-	DrawBox(100, 160, 800, 130, color, FALSE);			//˜g‚ð•`‰æ
-	DrawBox(100, 160, 100 + 500 * hp / hpMax, 130, color, TRUE);	//HPƒQ[ƒW‚ð•`‰æ
+	
+	DrawBox(1200,100, 900, 300, color, FALSE);			//˜g‚ð•`‰æ
+	DrawBox(800, 500, 100 + 500 * hp / hpMax, 130, color, TRUE);	//HPƒQ[ƒW‚ð•`‰æ
 }
 //-----------------------------------------------------------------------------
 // ƒƒCƒ“ŠÖ”
@@ -72,19 +72,23 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		// DXƒ‰ƒCƒuƒ‰ƒŠ‚ÌƒJƒƒ‰‚ÆEffekseer‚ÌƒJƒƒ‰‚ð“¯Šú
 		Effekseer_Sync3DSetting();
 
-		hp += 1;
-		if (hp >= hpMax)
+		if (CheckHitKey(KEY_INPUT_V))
 		{
-			hp = 0;
-		}
+			hp += 1;
 
+			if (hp >= hpMax)
+			{
+				hp = 0;
+			}
+		}
+		
 		sceneManager->Update(deltaTime);
 
 		// ‰æ–Ê‚ð‰Šú‰»‚·‚é
 		ClearDrawScreen();
 
 		sceneManager->Draw();
-		FeverGauge(hp, hpMax);
+		//FeverGauge(hp, hpMax);
 		
 		// — ‰æ–Ê‚Ì“à—e‚ð•\‰æ–Ê‚É”½‰f‚³‚¹‚é
 		ScreenFlip();

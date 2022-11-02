@@ -2,6 +2,7 @@
 
 #include "SceneBase.h"
 
+class BackGround;
 
 class ResultScene final : public SceneBase
 {
@@ -19,7 +20,7 @@ public:
 
 private:
 
-	int resultBackGround;		//ƒŠƒUƒ‹ƒg”wŒi
+	BackGround* background;
 
 	int totalScore;
 	int score;

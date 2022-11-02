@@ -4,6 +4,7 @@
 #include <vector>
 
 class Camera;
+class BackGround;
 class Player;
 class Meteorite;
 class MeteoriteManager;
@@ -37,6 +38,7 @@ private:
 	PlayScene(const PlayScene&);		//コピーコンストラクタ
 
 	Camera* camera;
+	BackGround* background;
 	Player* player;
 	Meteorite* meteorite[54] = { nullptr };
 	//std::vector<Meteorite*> meteorite;
@@ -56,7 +58,6 @@ private:
 	int  nowTime;				//現在の時間
 	int  countDown;				//制限時間
 	bool meteoritePopFlag;		//隕石の出現フラグ
-	int  gameBackGround;		//ゲーム画面背景
 	int  targetScore;			//目標スコア
 	int  score;					//獲得スコア
 	

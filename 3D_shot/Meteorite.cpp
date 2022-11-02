@@ -6,7 +6,7 @@
 
 using namespace Math3d;
 
-Meteorite::Meteorite() : MeteoriteBase(ObjectTag::Meteorite)
+Meteorite::Meteorite() : MeteoriteBase()
 {
 	modelHandle = MV1DuplicateModel(ModelManager::GetInstance().GetModelHandle(ModelManager::METEORITE));
 	MV1SetScale(modelHandle, SIZE);
@@ -20,13 +20,24 @@ Meteorite::Meteorite() : MeteoriteBase(ObjectTag::Meteorite)
 
 Meteorite::~Meteorite()
 {
-	//ˆ—‚È‚µ
+	//I—¹ˆ—‚ªŒÄ‚Î‚ê‚Ä‚È‚¯‚ê‚Î
+	if (modelHandle != NULL)
+	{
+		Finalize();
+	}
 }
 
 //‰Šú‰»ˆ—
 void Meteorite::Initialize()
 {
 	//ˆ—‚È‚µ
+}
+
+//I—¹ˆ—
+void Meteorite::Finalize()
+{
+	MV1DeleteModel(modelHandle);
+	modelHandle = NULL;
 }
 
 //Šˆ«‰»ˆ—

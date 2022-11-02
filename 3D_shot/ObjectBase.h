@@ -1,7 +1,6 @@
 #pragma once
 
 #include "DxLib.h"
-#include "ObjectTag.h"
 
 
 class ObjectBase

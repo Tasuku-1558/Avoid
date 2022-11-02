@@ -9,14 +9,13 @@
 class MeteoriteBase : public ObjectBase
 {
 public:
-			 MeteoriteBase(ObjectTag tag);
+			 MeteoriteBase();
 	virtual ~MeteoriteBase();
 
 	static const int METEORITE_ARRAY_NUMBER;	//隕石の配列数
 
 protected:
 	
-	ObjectTag Tag;								//オブジェクト種類
 	VECTOR rotateSpeed;							//回転速度 x,y,z
 	VECTOR rotateAngle;							//回転角 x,y,z
 	bool   popFlag;								//隕石出現フラグ

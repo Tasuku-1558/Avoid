@@ -1,24 +1,26 @@
 #include "PlayScene.h"
 #include "DxLib.h"
+#include "SceneManager.h"
 #include "Common.h"
-#include "Camera.h"
 #include "Player.h"
 #include "Meteorite.h"
 #include "MeteoriteManager.h"
+#include "Camera.h"
+#include "BackGround.h"
 #include "HitChecker.h"
 #include "Evaluation.h"
 #include "EarnScore.h"
 #include "Explosion.h"
-#include "SceneManager.h"
 
 
-const int PlayScene::GAMETIME = 30;		//ゲーム時間
+const int PlayScene::GAMETIME = 5;		//ゲーム時間
 
 PlayScene::PlayScene(SceneManager* const sceneManager)
 		: SceneBase(sceneManager)
 		, state()
 		, frame(0)
 		, camera(nullptr)
+		, background(nullptr)
 		, hitchecker(nullptr)
 		, player(nullptr)
 		, explosion(nullptr)
@@ -31,7 +33,6 @@ PlayScene::PlayScene(SceneManager* const sceneManager)
 		, startTime(0)
 		, nowTime(0)
 		, countDown(0)
-		, gameBackGround(0)
 		, score(0)
 		, targetScore(0)
 {
@@ -46,9 +47,6 @@ PlayScene::~PlayScene()
 //初期化処理
 void PlayScene::Initialize()
 {
-	//ゲーム背景
-	gameBackGround = LoadGraph("data/image/GameBackground.png");
-
 	//カメラクラス
 	camera = new Camera();
 	camera->Initialize();
@@ -56,6 +54,10 @@ void PlayScene::Initialize()
 	//プレイヤークラス
 	player = new Player();
 	player->Initialize();
+
+	//背景クラス
+	background = new BackGround();
+	background->Initialize();
 
 	//当たり判定クラス
 	hitchecker = new HitChecker();
@@ -76,38 +78,42 @@ void PlayScene::Initialize()
 
 void PlayScene::Finalize()
 {
-	//ゲーム背景を解放
-	DeleteGraph(gameBackGround);
-
-	//カメラを解放
+	//カメラクラスを解放
 	SafeDelete(camera);
 
-	//プレイヤーを解放
+	//プレイヤークラスを解放
 	SafeDelete(player);
+	player->Finalize();
 
 	for (int i = 0; i < Meteorite::METEORITE_ARRAY_NUMBER; i++)
 	{
 		if (meteorite[i] != nullptr)
 		{
-			//隕石を解放
+			//隕石クラスを解放
 			SafeDelete(meteorite[i]);
+			meteorite[i]->Finalize();
 		}
 	}
 	
 	//隕石マネージャーを解放
 	//MeteoriteManager::Finalize();
 	
-	//ヒットチェッカーを解放
+	//背景クラス
+	SafeDelete(background);
+	background->Finalize();
+
+	//ヒットチェッカークラスを解放
 	SafeDelete(hitchecker);
 	
-	//爆発エフェクトを解放
+	//爆発エフェクトクラスを解放
 	SafeDelete(explosion);
 	explosion->Finalize();
 
-	//評価UIを解放
+	//評価UIクラスを解放
 	SafeDelete(evaluation);
 	evaluation->Finalize();
 
+	//スコアクラスを解放
 	SafeDelete(earnscore);
 }
 
@@ -138,6 +144,8 @@ void PlayScene::Activate()
 	////隕石活性化
 	//me->Activate();
 	//MeteoriteManager::Entry(me);
+
+	background->Activate();
 
 	earnscore->Activate();
 
@@ -228,11 +236,11 @@ void PlayScene::UpdateGame()
 
 void PlayScene::Draw()
 {
-	//ゲーム背景描画
-	DrawBillboard3D(VGet(0.0f, 300.0f, 1200.0f), 0.5f, 0.5f, 4000.0f, 0.0f, gameBackGround, TRUE);
-
 	//プレイヤー描画
 	player->Draw();
+
+	//背景描画
+	background->Draw();
 
 	//爆発エフェクト描画
 	explosion->Draw();

@@ -12,9 +12,8 @@ const int    MeteoriteBase::METEORITE_ARRAY_NUMBER = 54;						//è¦Î‚Ì”z—ñ”
 const int	 MeteoriteBase::RANGE				   = 2;							//ƒ‰ƒ“ƒ_ƒ€’l‚Ì”ÍˆÍ
 
 
-MeteoriteBase::MeteoriteBase(ObjectTag tag)
-	: Tag(tag)
-	, rotateSpeed()
+MeteoriteBase::MeteoriteBase()
+	: rotateSpeed()
 	, rotateAngle()
 	, popFlag(true)
 	, random(0)

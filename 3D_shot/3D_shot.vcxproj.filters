@@ -88,6 +88,12 @@
     <ClCompile Include="EarnScore.cpp">
       <Filter>ソースファイル\UI</Filter>
     </ClCompile>
+    <ClCompile Include="BackGround.cpp">
+      <Filter>ソースファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="UiManager.cpp">
+      <Filter>ソースファイル\System</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="TitleScene.h">
@@ -135,9 +141,6 @@
     <ClInclude Include="ObjectBase.h">
       <Filter>ソースファイル\ObjectBase</Filter>
     </ClInclude>
-    <ClInclude Include="ObjectTag.h">
-      <Filter>ソースファイル\ObjectBase</Filter>
-    </ClInclude>
     <ClInclude Include="Collision.h">
       <Filter>ソースファイル</Filter>
     </ClInclude>
@@ -158,6 +161,12 @@
     </ClInclude>
     <ClInclude Include="EarnScore.h">
       <Filter>ソースファイル\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="BackGround.h">
+      <Filter>ソースファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="UiManager.h">
+      <Filter>ソースファイル\System</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -10,9 +10,8 @@ const VECTOR PlayerBase::DOWN	  = VGet(0, -1, 0);				//‰º•ûŒü
 const VECTOR PlayerBase::LEFT	  = VGet(-1, 0, 0);				//¶•ûŒü
 const VECTOR PlayerBase::RIGHT    = VGet(1,  0, 0);				//‰E•ûŒü
 
-PlayerBase::PlayerBase(ObjectTag tag)
-	: Tag(tag)
-	, inputDirection()
+PlayerBase::PlayerBase()
+	: inputDirection()
 	, inputFlag(false)
 {
 	//ˆ—‚È‚µ

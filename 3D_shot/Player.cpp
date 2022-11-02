@@ -5,7 +5,7 @@
 using namespace Math3d;
 
 //コンストラクタ
-Player::Player() : PlayerBase(ObjectTag::Player)
+Player::Player() : PlayerBase()
 {
 	//処理なし
 }
@@ -13,7 +13,11 @@ Player::Player() : PlayerBase(ObjectTag::Player)
 //デストラクタ
 Player::~Player()
 {
-	//処理なし
+	//終了処理が呼ばれてなければ
+	if (modelHandle != NULL)
+	{
+		Finalize();
+	}
 }
 
 //初期化処理
@@ -27,6 +31,13 @@ void Player::Initialize()
 	{
 		printfDx("モデルデータ読み込みに失敗 [PLAYER]\n");
 	}
+}
+
+//終了処理
+void Player::Finalize()
+{
+	MV1DeleteModel(modelHandle);
+	modelHandle = NULL;
 }
 
 //活性化処理

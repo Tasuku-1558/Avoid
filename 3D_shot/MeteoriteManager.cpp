@@ -94,23 +94,23 @@ void MeteoriteManager::Update(float deltaTime, Player* player)
 
 	instance->pendingObjects.clear();
 
-	std::vector<Meteorite*> deadObjects;
+	std::vector<Meteorite*> deadMeteorite;
 
 	/*for (int i = 0; i < instance->objects.size(); ++i)
 	{
 		if (!instance->objects[i]->GetHit())
 		{
-			deadObjects.emplace_back(instance->objects[i]);
+			deadMeteorite.emplace_back(instance->objects[i]);
 		}
 	}*/
 	
 	//死んだオブジェクトをdelete
-	/*for (auto deadObj : deadObjects)
+	/*for (auto deadObj : deadMeteorite)
 	{
 		delete deadObj;
 	}
 
-	deadObjects.clear();*/
+	deadMeteorite.clear();*/
 }
 
 void MeteoriteManager::Draw()

@@ -1,11 +1,14 @@
 #pragma once
 
 #include "DxLib.h"
+#include "PlayerBase.h"
 #include "Math3D.h"
 #include "Collision.h"
-#include "PlayerBase.h"
 
 
+using namespace Math3d;
+
+//プレイヤークラス
 //PlayerBaseクラスを継承
 class Player final : public PlayerBase
 {
@@ -14,15 +17,16 @@ public:
 	~Player();    //デストラクタ
 
 	void Initialize();
+	void Finalize();
 	void Activate();
 	void Update(float deltaTime);
 	void Move(float deltaTime);
-	void Draw() override;
+	void Draw();
 
-	Math3d::Sphere GetCollsionSphere() { return collisionSphere; }
+	Sphere GetCollsionSphere() { return collisionSphere; }
 
 private:
 	Player(const Player&);			//コピーコンストラクタ
 
-	Math3d::Sphere collisionSphere;	//当たり判定球 
+	Sphere collisionSphere;			//当たり判定球 
 };

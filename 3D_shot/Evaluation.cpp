@@ -57,7 +57,7 @@ void Evaluation::Update(int evaluationGraph)
 
 void Evaluation::EvaluationUi()
 {
-	switch (ui)
+	/*switch (ui)
 	{
 	case UI::Excellent:
 		Update(excellentGraph);
@@ -74,7 +74,7 @@ void Evaluation::EvaluationUi()
 	case UI::Miss:
 		Update(missGraph);
 		break;
-	}
+	}*/
 }
 
 void Evaluation::Draw()

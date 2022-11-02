@@ -5,18 +5,15 @@
 //Playerの親クラス
 //ObjectBaseを継承
 
-
 class PlayerBase : public ObjectBase
 {
 public:
-			 PlayerBase(ObjectTag tag);
+			 PlayerBase();
 	virtual ~PlayerBase();
 
-
 protected:
-	ObjectTag Tag;					//オブジェクト種類
 	VECTOR inputDirection;			//入力された方向
-	bool inputFlag;					//キー入力フラグ
+	bool   inputFlag;				//キー入力フラグ
 
 
 	//静的定数

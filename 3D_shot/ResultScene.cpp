@@ -1,13 +1,14 @@
 #include "ResultScene.h"
 #include "DxLib.h"
 #include "Common.h"
+#include "BackGround.h"
 #include "Score.h"
 #include "SceneManager.h"
 
 
 ResultScene::ResultScene(SceneManager* const sceneManager)
 	: SceneBase(sceneManager)
-	, resultBackGround(0)
+	, background(nullptr)
 	, totalScore(0)
 	, score(0)
 	, excellentCount(0)
@@ -29,14 +30,16 @@ ResultScene::~ResultScene()
 
 void ResultScene::Initialize()
 {
-	//リザルト背景
-	resultBackGround = LoadGraph("data/image/GameBackground.png");
+	//背景クラス
+	background = new BackGround();
+	background->Initialize();
 }
 
 void ResultScene::Finalize()
 {
-	//リザルト背景を解放
-	DeleteGraph(resultBackGround);
+	//背景クラス
+	SafeDelete(background);
+	background->Finalize();
 }
 
 void ResultScene::Activate()
@@ -52,6 +55,8 @@ void ResultScene::Activate()
 	scoreG = 0;
 	scoreD = 0;
 	scoreM = 0;
+
+	background->Activate();
 }
 
 //スコアを取得
@@ -126,8 +131,8 @@ void ResultScene::Update(float deltaTime)
 
 void ResultScene::Draw()
 {
-	//リザルト背景描画
-	DrawBillboard3D(VGet(0.0f, 300.0f, 1200.0f), 0.5f, 0.5f, 4000.0f, 0.0f, resultBackGround, TRUE);
+	//背景描画
+	background->Draw();
 
 	SetFontSize(60);			//文字のフォントサイズ変更
 

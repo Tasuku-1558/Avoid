@@ -151,6 +151,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="BackGround.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Collision.cpp" />
     <ClCompile Include="EarnScore.cpp" />
@@ -171,8 +172,10 @@
     <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="Score.cpp" />
     <ClCompile Include="TitleScene.cpp" />
+    <ClCompile Include="UiManager.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BackGround.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Collision.h" />
     <ClInclude Include="Common.h" />
@@ -187,7 +190,6 @@
     <ClInclude Include="HitChecker.h" />
     <ClInclude Include="Math3D.h" />
     <ClInclude Include="Meteorite.h" />
-    <ClInclude Include="ObjectTag.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="PlayerBase.h" />
     <ClInclude Include="PlayScene.h" />
@@ -196,6 +198,7 @@
     <ClInclude Include="SceneManager.h" />
     <ClInclude Include="Score.h" />
     <ClInclude Include="TitleScene.h" />
+    <ClInclude Include="UiManager.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
