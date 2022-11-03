@@ -8,12 +8,13 @@
 #include "Camera.h"
 #include "BackGround.h"
 #include "HitChecker.h"
+#include "UiManager.h"
 #include "Evaluation.h"
 #include "EarnScore.h"
 #include "Explosion.h"
+#include "Score.h"
 
-
-const int PlayScene::GAMETIME = 5;		//ゲーム時間
+const int PlayScene::GAMETIME = 60;		//ゲーム時間
 
 PlayScene::PlayScene(SceneManager* const sceneManager)
 		: SceneBase(sceneManager)
@@ -21,7 +22,8 @@ PlayScene::PlayScene(SceneManager* const sceneManager)
 		, frame(0)
 		, camera(nullptr)
 		, background(nullptr)
-		, hitchecker(nullptr)
+		, hitChecker(nullptr)
+		, uiManager(nullptr)
 		, player(nullptr)
 		, explosion(nullptr)
 		, evaluation(nullptr)
@@ -35,6 +37,7 @@ PlayScene::PlayScene(SceneManager* const sceneManager)
 		, countDown(0)
 		, score(0)
 		, targetScore(0)
+		, feverGauge(0.0f)
 {
 	//処理なし
 }
@@ -60,7 +63,11 @@ void PlayScene::Initialize()
 	background->Initialize();
 
 	//当たり判定クラス
-	hitchecker = new HitChecker();
+	hitChecker = new HitChecker();
+
+	//UI画像管理クラス
+	uiManager = new UiManager();
+	uiManager->Initialize();
 
 	//爆発エフェクトクラス
 	explosion = new Explosion();
@@ -72,52 +79,46 @@ void PlayScene::Initialize()
 
 	//スコアクラス
 	earnscore = new EarnScore();
-	
-	//MeteoriteManager::Initialize();
 }
 
 void PlayScene::Finalize()
 {
-	//カメラクラスを解放
 	SafeDelete(camera);
 
-	//プレイヤークラスを解放
 	SafeDelete(player);
 	player->Finalize();
 
-	//for (int i = 0; i < Meteorite::METEORITE_ARRAY_NUMBER; i++)
-	//{
-	//	if (meteorite[i] != nullptr)
-	//	{
-	//		//隕石クラスを解放
-	//		SafeDelete(meteorite[i]);
-	//		meteorite[i]->Finalize();
-	//	}
-	//}
-	
-	for (auto ptr : meteorite)
+	for (int i = 0; i < Meteorite::METEORITE_ARRAY_NUMBER; i++)
 	{
-		//隕石マネージャーを解放
-		MeteoriteManager::Finalize();
+		if (meteorite[i] != nullptr)
+		{
+			//隕石クラスを解放
+			SafeDelete(meteorite[i]);
+			meteorite[i]->Finalize();
+		}
 	}
 	
+	//for (auto ptr : meteorite)
+	//{
+	//	//隕石マネージャーを解放
+	//	MeteoriteManager::Finalize();
+	//}
 	
-	//背景クラス
+	
 	SafeDelete(background);
 	background->Finalize();
 
-	//ヒットチェッカークラスを解放
-	SafeDelete(hitchecker);
+	SafeDelete(hitChecker);
+
+	SafeDelete(uiManager);
+	uiManager->Finalize();
 	
-	//爆発エフェクトクラスを解放
 	SafeDelete(explosion);
 	explosion->Finalize();
 
-	//評価UIクラスを解放
 	SafeDelete(evaluation);
 	evaluation->Finalize();
 
-	//スコアクラスを解放
 	SafeDelete(earnscore);
 }
 
@@ -125,98 +126,103 @@ void PlayScene::Activate()
 {
 	state = START;
 	frame = 0;
+	feverGauge = 0.0f;
 	pUpdate = &PlayScene::UpdateStart;
 
-	//for (int i = 0; i < Meteorite::METEORITE_ARRAY_NUMBER; i++)
-	//{
-	//	//隕石生成
-	//	meteorite[i] = new Meteorite();
-
-	//	if (meteorite[i] != nullptr)
-	//	{
-	//		//隕石初期化
-	//		meteorite[i]->Initialize();
-
-	//		//隕石活性化
-	//		meteorite[i]->Activate();
-	//	}
-	//}
-
-	for (auto ptr : meteorite)
+	for (int i = 0; i < Meteorite::METEORITE_ARRAY_NUMBER; i++)
 	{
-		Meteorite* me = new Meteorite;
+		//隕石生成
+		meteorite[i] = new Meteorite();
 
-		//隕石活性化
-		me->Activate();
-		MeteoriteManager::Entry(me);
+		if (meteorite[i] != nullptr)
+		{
+			//隕石初期化
+			meteorite[i]->Initialize();
+
+			//隕石活性化
+			meteorite[i]->Activate();
+		}
 	}
-	
-	
 
+	//for (auto ptr : meteorite)
+	//{
+	//	Meteorite* me = new Meteorite;
+
+	//	//隕石活性化
+	//	me->Activate();
+	//	MeteoriteManager::Entry(me);
+	//}
+	
 	background->Activate();
 
 	earnscore->Activate();
 
 	//プレイヤー活性化
 	player->Activate();
-
-	//ゲーム起動時の時間を取得
-	startTime = GetNowCount();
 }
-
 
 void PlayScene::Update(float deltaTime)
 {
 	if (pUpdate != nullptr)
 	{
-		(this->*pUpdate)();		//状態ごとに更新
-	}
-
-	//プレイヤーの制御
-	player->Update(deltaTime);
-
-	meteoritePopFlag = true;
-
-	for (auto ptr:meteorite/*int*/ /*i = 0; i < Meteorite::METEORITE_ARRAY_NUMBER; i++*/)
-	{
-		/*if (meteorite[i] != nullptr)
-		{*/
-			//隕石出現フラグがtrueの時
-			if (meteoritePopFlag)
-			{
-				meteoritePopFlag = false;
-
-				//隕石制御
-				//meteorite[i]->Update(deltaTime, player);
-
-
-				//隕石マネージャー制御
-				MeteoriteManager::Update(deltaTime, player);
-
-				//プレイヤーと隕石の当たり判定
-				hitchecker->PlayerAndMeteorite(player, ptr/*meteorite*/, meteoriteManager, explosion, evaluation, earnscore);
-			}
-		/*}*/
+		(this->*pUpdate)(deltaTime);		//状態ごとに更新
 	}
 
 	++frame;
 }
 
-void PlayScene::UpdateStart()
+void PlayScene::UpdateStart(float deltaTime)
 {
 	/*if (frame > 60)
 	{*/
 		frame = 0;
 		state = GAME;
 		pUpdate = &PlayScene::UpdateGame;
+		
+		//ゲーム起動時の時間を取得
+		startTime = GetNowCount();
 	/*}*/
 	
 }
 
-void PlayScene::UpdateGame()
+void PlayScene::UpdateGame(float deltaTime)
 {
+	//プレイヤーの制御
+	player->Update(deltaTime);
+
+	meteoritePopFlag = true;
+
+	for (/*auto ptr:meteorite*/int i = 0; i < Meteorite::METEORITE_ARRAY_NUMBER; i++)
+	{
+		if (meteorite[i] != nullptr)
+		{
+			//隕石出現フラグがtrueの時
+			if (meteoritePopFlag)
+			{
+				meteoritePopFlag = false;
+
+				//隕石制御
+				meteorite[i]->Update(deltaTime, player);
+
+
+				//隕石マネージャー制御
+				//MeteoriteManager::Update(deltaTime, player);
+
+				//プレイヤーと隕石の当たり判定
+				hitChecker->PlayerAndMeteorite(player, /*ptr*/meteorite, meteoriteManager, explosion, evaluation, earnscore);
+			}
+		}
+	}
+
+	feverGauge = Score::GetInstance().GetScore() / static_cast<float>(50);
+	if (feverGauge > 70.0f)
+	{
+		feverGauge = 0.0f;
+	}
+	
+
 	//HitCheckerのスコアを取得
-	targetScore = earnscore->GetScore();
+	targetScore = Score::GetInstance().GetScore();
 
 	//スコアを目標スコアに足し引きする処理
 	if (targetScore != score)
@@ -256,20 +262,22 @@ void PlayScene::Draw()
 	//評価UIの描画
 	evaluation->Draw();
 
-	//for (int i = 0; i < Meteorite::METEORITE_ARRAY_NUMBER; i++)
-	//{
-	//	if (meteorite[i] != nullptr)
-	//	{
-	//		//隕石描画
-	//		meteorite[i]->Draw();
-	//	}
-	//}
+	uiManager->Draw(state, frame, feverGauge);
 
-	for (auto ptr : meteorite)
+	for (int i = 0; i < Meteorite::METEORITE_ARRAY_NUMBER; i++)
 	{
-		//隕石マネージャー描画
-		MeteoriteManager::Draw();
+		if (meteorite[i] != nullptr)
+		{
+			//隕石描画
+			meteorite[i]->Draw();
+		}
 	}
+
+	//for (auto ptr : meteorite)
+	//{
+	//	//隕石マネージャー描画
+	//	MeteoriteManager::Draw();
+	//}
 	
 
 

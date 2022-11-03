@@ -26,20 +26,20 @@ HitChecker::~HitChecker()
 	//処理なし
 }
 
-void HitChecker::PlayerAndMeteorite(Player* player, /*Meteorite* meteorite[]*/Meteorite* meteorite, MeteoriteManager* meteoriteManager, Explosion* explosion, Evaluation* evaluation, EarnScore* earnscore)
+void HitChecker::PlayerAndMeteorite(Player* player, Meteorite* meteorite[]/*Meteorite* meteorite*/, MeteoriteManager* meteoriteManager, Explosion* explosion, Evaluation* evaluation, EarnScore* earnscore)
 {
-	for (int i = 0; i < /*Meteorite::METEORITE_ARRAY_NUMBER;*/meteoriteManager->GetSize(); ++i)
+	for (int i = 0; i < Meteorite::METEORITE_ARRAY_NUMBER; ++i)
 	{
-		if (meteorite/*[i] */!= nullptr && meteorite/*[i]*/->GetPosition().z <= 10)
+		if (meteorite[i] != nullptr && meteorite[i]->GetPosition().z <= 10)
 		{
 			//当たったかどうか
 			hit = true;
 			
 			//隕石の当たり判定球を取得
-			Math3d::Sphere sphereMeteorite = meteorite/*[i]*/->GetCollisionSphere();
+			Math3d::Sphere sphereMeteorite = meteorite[i]->GetCollisionSphere();
 
-			double posX = player->GetPosition().x - meteorite/*[i]*/->GetPosition().x;
-			double posY = player->GetPosition().y - meteorite/*[i]*/->GetPosition().y;
+			double posX = player->GetPosition().x - meteorite[i]->GetPosition().x;
+			double posY = player->GetPosition().y - meteorite[i]->GetPosition().y;
 			
 			//プレイヤーと隕石の２点間の距離を計算
 			direction = sqrt(pow(posX, 2) + pow(posY, 2));
@@ -62,7 +62,7 @@ void HitChecker::PlayerAndMeteorite(Player* player, /*Meteorite* meteorite[]*/Me
 				
 				evaluation->ui = UI::Excellent;
 
-				explosion->Update(meteorite/*[i]*/);
+				explosion->Update(meteorite[i]);
 			}
 			
 			//隕石と中くらいの範囲
@@ -87,8 +87,8 @@ void HitChecker::PlayerAndMeteorite(Player* player, /*Meteorite* meteorite[]*/Me
 			if (hit)
 			{
 				//隕石を消す
-				meteorite/*[i]*/ = nullptr;
-				delete meteorite/*[i]*/;
+				meteorite[i] = nullptr;
+				delete meteorite[i];
 			}
 		}
 	}

@@ -44,7 +44,7 @@ void ResultScene::Finalize()
 
 void ResultScene::Activate()
 {
-	totalScore = 0;
+	/*totalScore = 0;
 	excellentCount = 0;
 	greatCount = 0;
 	goodCount = 0;
@@ -54,7 +54,7 @@ void ResultScene::Activate()
 	scoreE = 0;
 	scoreG = 0;
 	scoreD = 0;
-	scoreM = 0;
+	scoreM = 0;*/
 
 	background->Activate();
 }

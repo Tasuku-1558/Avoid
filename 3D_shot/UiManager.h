@@ -14,28 +14,32 @@ public:
 	void Initialize();
 	void Finalize();
 
-	void EvaluationUi(int evaluationGraph);
-	void Draw(PlayScene::State state, int frame);
+	
+	void Draw(PlayScene::State state, int frame , float feverGauge);
 
 private:
 	UiManager(const UiManager&);		//コピーコンストラクタ
 
 	void StartGameDraw();
+	void FeverGaugeDraw(float feverGauge);
 
-	static const std::string FOLLDER_PATH;			//画像格納フォルダ
+	//静的定数
+	static const std::string FOLDER_PATH;			//画像格納フォルダ
 	static const std::string UI_GRAPHIC_PATH;		//UI画像
-	static const std::string FILENAME_EXTENSION;	// 拡張子
+	static const std::string FILENAME_EXTENSION;	//画像拡張子
 
 	//画像の種類
 	enum Graphic
 	{
-		NOMAL = 0,
-		START,
-		GAME,
+		EXCELLENT,
+		GREAT,
+		GOOD,
+		MISS,
+		FEVER_GAUGE,
 		GRAPHIC_AMOUNT
 	};
 
 	//画像ハンドル
 	int uiHandle[GRAPHIC_AMOUNT];
-
+	
 };

@@ -82,9 +82,6 @@
     <ClCompile Include="Evaluation.cpp">
       <Filter>ソースファイル\UI</Filter>
     </ClCompile>
-    <ClCompile Include="Score.cpp">
-      <Filter>ソースファイル</Filter>
-    </ClCompile>
     <ClCompile Include="EarnScore.cpp">
       <Filter>ソースファイル\UI</Filter>
     </ClCompile>
@@ -92,6 +89,9 @@
       <Filter>ソースファイル</Filter>
     </ClCompile>
     <ClCompile Include="UiManager.cpp">
+      <Filter>ソースファイル\System</Filter>
+    </ClCompile>
+    <ClCompile Include="Score.cpp">
       <Filter>ソースファイル\System</Filter>
     </ClCompile>
   </ItemGroup>
@@ -156,9 +156,6 @@
     <ClInclude Include="Evaluation.h">
       <Filter>ソースファイル\UI</Filter>
     </ClInclude>
-    <ClInclude Include="Score.h">
-      <Filter>ソースファイル</Filter>
-    </ClInclude>
     <ClInclude Include="EarnScore.h">
       <Filter>ソースファイル\UI</Filter>
     </ClInclude>
@@ -166,6 +163,9 @@
       <Filter>ソースファイル</Filter>
     </ClInclude>
     <ClInclude Include="UiManager.h">
+      <Filter>ソースファイル\System</Filter>
+    </ClInclude>
+    <ClInclude Include="Score.h">
       <Filter>ソースファイル\System</Filter>
     </ClInclude>
   </ItemGroup>

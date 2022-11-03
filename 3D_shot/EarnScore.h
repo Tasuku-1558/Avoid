@@ -16,11 +16,11 @@ public:
 	void UpdateGreat();
 	void UpdateGood();
 
-	int GetScore() { return score; }
-	int GetExcellent() { return excellentCount; }
+	//int GetScore() { return score; }
+	/*int GetExcellent() { return excellentCount; }
 	int GetGreat() { return greatCount; }
 	int GetGood() { return goodCount; }
-	int GetMiss() { return missCount; }
+	int GetMiss() { return missCount; }*/
 
 private:
 	int score;								//älìæÉXÉRÉA

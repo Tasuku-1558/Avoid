@@ -9,6 +9,7 @@ class Player;
 class Meteorite;
 class MeteoriteManager;
 class HitChecker;
+class UiManager;
 class Explosion;
 class Evaluation;
 class EarnScore;
@@ -40,17 +41,18 @@ private:
 	Camera* camera;
 	BackGround* background;
 	Player* player;
-	//Meteorite* meteorite[54] = { nullptr };
-	std::vector<Meteorite*> meteorite;
+	Meteorite* meteorite[54] = { nullptr };
+	//std::vector<Meteorite*> meteorite;
 	MeteoriteManager* meteoriteManager;
-	HitChecker* hitchecker;
+	HitChecker* hitChecker;
+	UiManager* uiManager;
 	Explosion* explosion;
 	Evaluation* evaluation;
 	EarnScore* earnscore;
 	
-	void UpdateStart();
-	void UpdateGame();
-	void(PlayScene::* pUpdate)();	//Update関数ポインタ
+	void UpdateStart(float deltaTime);
+	void UpdateGame(float deltaTime);
+	void(PlayScene::* pUpdate)(float deltaTime);	//Update関数ポインタ
 
 	State state;				//ゲーム状態
 	int  frame;					//フレーム数
@@ -60,6 +62,7 @@ private:
 	bool meteoritePopFlag;		//隕石の出現フラグ
 	int  targetScore;			//目標スコア
 	int  score;					//獲得スコア
+	float feverGauge;
 	
 	
 	//静的定数

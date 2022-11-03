@@ -17,12 +17,10 @@ public:
 	 HitChecker();
 	~HitChecker();
 
-	void PlayerAndMeteorite(Player* player, /*Meteorite* meteorite[]*/Meteorite* meteorite, MeteoriteManager* meteoriteManager, Explosion* explosion, Evaluation* evaluation, EarnScore* earnscore);		//当たりチェック
+	void PlayerAndMeteorite(Player* player, Meteorite* meteorite[]/*Meteorite* meteorite*/, MeteoriteManager* meteoriteManager, Explosion* explosion, Evaluation* evaluation, EarnScore* earnscore);		//当たりチェック
 	
 	double GetDirection() { return direction; }	//デバック用
-
-	bool GetHit() { return hit; }
-
+	
 private:
 	HitChecker(const HitChecker&);			//コピーコンストラクタ
 
@@ -30,7 +28,7 @@ private:
 
 	bool hit;								//隕石と衝突したか
 	
-
+	
 	//静的定数
 	static const float RADIUS_GOOD;			//goodの範囲
 	static const float RADIUS_GREAT;		//greatの範囲
