@@ -85,18 +85,22 @@ void PlayScene::Finalize()
 	SafeDelete(player);
 	player->Finalize();
 
-	for (int i = 0; i < Meteorite::METEORITE_ARRAY_NUMBER; i++)
+	//for (int i = 0; i < Meteorite::METEORITE_ARRAY_NUMBER; i++)
+	//{
+	//	if (meteorite[i] != nullptr)
+	//	{
+	//		//隕石クラスを解放
+	//		SafeDelete(meteorite[i]);
+	//		meteorite[i]->Finalize();
+	//	}
+	//}
+	
+	for (auto ptr : meteorite)
 	{
-		if (meteorite[i] != nullptr)
-		{
-			//隕石クラスを解放
-			SafeDelete(meteorite[i]);
-			meteorite[i]->Finalize();
-		}
+		//隕石マネージャーを解放
+		MeteoriteManager::Finalize();
 	}
 	
-	//隕石マネージャーを解放
-	//MeteoriteManager::Finalize();
 	
 	//背景クラス
 	SafeDelete(background);
@@ -123,27 +127,31 @@ void PlayScene::Activate()
 	frame = 0;
 	pUpdate = &PlayScene::UpdateStart;
 
-	for (int i = 0; i < Meteorite::METEORITE_ARRAY_NUMBER; i++)
+	//for (int i = 0; i < Meteorite::METEORITE_ARRAY_NUMBER; i++)
+	//{
+	//	//隕石生成
+	//	meteorite[i] = new Meteorite();
+
+	//	if (meteorite[i] != nullptr)
+	//	{
+	//		//隕石初期化
+	//		meteorite[i]->Initialize();
+
+	//		//隕石活性化
+	//		meteorite[i]->Activate();
+	//	}
+	//}
+
+	for (auto ptr : meteorite)
 	{
-		//隕石生成
-		meteorite[i] = new Meteorite();
+		Meteorite* me = new Meteorite;
 
-		if (meteorite[i] != nullptr)
-		{
-			//隕石初期化
-			meteorite[i]->Initialize();
-
-			//隕石活性化
-			meteorite[i]->Activate();
-		}
+		//隕石活性化
+		me->Activate();
+		MeteoriteManager::Entry(me);
 	}
 	
 	
-	//Meteorite* me = new Meteorite;
-
-	////隕石活性化
-	//me->Activate();
-	//MeteoriteManager::Entry(me);
 
 	background->Activate();
 
@@ -169,26 +177,26 @@ void PlayScene::Update(float deltaTime)
 
 	meteoritePopFlag = true;
 
-	for (/*auto ptr:meteorite*/int i = 0; i < Meteorite::METEORITE_ARRAY_NUMBER; i++)
+	for (auto ptr:meteorite/*int*/ /*i = 0; i < Meteorite::METEORITE_ARRAY_NUMBER; i++*/)
 	{
-		if (meteorite[i] != nullptr)
-		{
+		/*if (meteorite[i] != nullptr)
+		{*/
 			//隕石出現フラグがtrueの時
 			if (meteoritePopFlag)
 			{
 				meteoritePopFlag = false;
 
 				//隕石制御
-				meteorite[i]->Update(deltaTime, player);
+				//meteorite[i]->Update(deltaTime, player);
 
 
 				//隕石マネージャー制御
-				//MeteoriteManager::Update(deltaTime, player);
+				MeteoriteManager::Update(deltaTime, player);
 
 				//プレイヤーと隕石の当たり判定
-				hitchecker->PlayerAndMeteorite(player, /*ptr*/meteorite, meteoriteManager, explosion, evaluation, earnscore);
+				hitchecker->PlayerAndMeteorite(player, ptr/*meteorite*/, meteoriteManager, explosion, evaluation, earnscore);
 			}
-		}
+		/*}*/
 	}
 
 	++frame;
@@ -248,17 +256,21 @@ void PlayScene::Draw()
 	//評価UIの描画
 	evaluation->Draw();
 
-	for (int i = 0; i < Meteorite::METEORITE_ARRAY_NUMBER; i++)
-	{
-		if (meteorite[i] != nullptr)
-		{
-			//隕石描画
-			meteorite[i]->Draw();
-		}
-	}
+	//for (int i = 0; i < Meteorite::METEORITE_ARRAY_NUMBER; i++)
+	//{
+	//	if (meteorite[i] != nullptr)
+	//	{
+	//		//隕石描画
+	//		meteorite[i]->Draw();
+	//	}
+	//}
 
-	//隕石マネージャー描画
-	//MeteoriteManager::Draw();
+	for (auto ptr : meteorite)
+	{
+		//隕石マネージャー描画
+		MeteoriteManager::Draw();
+	}
+	
 
 
 	SetFontSize(80);			//文字のフォントサイズ変更

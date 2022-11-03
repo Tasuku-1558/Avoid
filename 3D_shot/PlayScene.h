@@ -40,8 +40,8 @@ private:
 	Camera* camera;
 	BackGround* background;
 	Player* player;
-	Meteorite* meteorite[54] = { nullptr };
-	//std::vector<Meteorite*> meteorite;
+	//Meteorite* meteorite[54] = { nullptr };
+	std::vector<Meteorite*> meteorite;
 	MeteoriteManager* meteoriteManager;
 	HitChecker* hitchecker;
 	Explosion* explosion;

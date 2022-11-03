@@ -17,7 +17,7 @@ public:
 	 HitChecker();
 	~HitChecker();
 
-	void PlayerAndMeteorite(Player* player, Meteorite* meteorite[]/*Meteorite* meteorite*/, MeteoriteManager* meteoriteManager, Explosion* explosion, Evaluation* evaluation, EarnScore* earnscore);		//当たりチェック
+	void PlayerAndMeteorite(Player* player, /*Meteorite* meteorite[]*/Meteorite* meteorite, MeteoriteManager* meteoriteManager, Explosion* explosion, Evaluation* evaluation, EarnScore* earnscore);		//当たりチェック
 	
 	double GetDirection() { return direction; }	//デバック用
 
