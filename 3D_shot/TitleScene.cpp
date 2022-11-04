@@ -62,7 +62,6 @@ void TitleScene::Blink()
 
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, Alpha);
 
-	ChangeFont("ＭＳ 明朝");	//種類をMS明朝に変更
 	SetFontSize(110);			//文字のフォントサイズ変更
 
 	DrawFormatString(200, 700, GetColor(255, 0, 0), "Push Space Key To GameStart!");

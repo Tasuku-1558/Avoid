@@ -289,7 +289,6 @@ void PlayScene::Draw()
 	//}
 
 	SetFontSize(80);			//文字のフォントサイズ変更
-	ChangeFont("ＭＳ 明朝");	//種類をMS明朝に変更
 
 	//制限時間表示
 	DrawFormatString(500, 100, GetColor(255, 0, 0), "TIME : %d", countDown);
