@@ -7,6 +7,8 @@ public:
 
 	static Score& GetInstance();		// アドレスを返す
 
+	void Activate();
+
 	//トータルスコア
 	void SetScore(int totalScore);
 	int  GetScore() { return score; }

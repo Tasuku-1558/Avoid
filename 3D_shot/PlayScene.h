@@ -32,6 +32,7 @@ public:
 	{
 		START,	//開始前
 		GAME,	//ゲーム中
+		FEVER,
 	};
 
 private:
@@ -52,6 +53,7 @@ private:
 	
 	void UpdateStart(float deltaTime);
 	void UpdateGame(float deltaTime);
+	void UpdateFever(float deltaTime);
 	void(PlayScene::* pUpdate)(float deltaTime);	//Update関数ポインタ
 
 	State state;				//ゲーム状態
@@ -62,8 +64,8 @@ private:
 	bool meteoritePopFlag;		//隕石の出現フラグ
 	int  targetScore;			//目標スコア
 	int  score;					//獲得スコア
-	float feverGauge;
-	
+	float feverGauge;			//フィーバー用ゲージ
+	int a;
 	
 	//静的定数
 	static const int GAMETIME;	//ゲーム時間

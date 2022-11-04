@@ -22,6 +22,15 @@ Score& Score::GetInstance()
 	return score;
 }
 
+void Score::Activate()
+{
+	score = 0;
+	excellent = 0;
+	great = 0;
+	good = 0;
+	miss = 0;
+}
+
 void Score::SetScore(int totalScore)
 {
 	score = totalScore;

@@ -14,7 +14,7 @@
 #include "Explosion.h"
 #include "Score.h"
 
-const int PlayScene::GAMETIME = 60;		//ゲーム時間
+const int PlayScene::GAMETIME = 30;		//ゲーム時間
 
 PlayScene::PlayScene(SceneManager* const sceneManager)
 		: SceneBase(sceneManager)
@@ -38,6 +38,7 @@ PlayScene::PlayScene(SceneManager* const sceneManager)
 		, score(0)
 		, targetScore(0)
 		, feverGauge(0.0f)
+		, a(0.0f)
 {
 	//処理なし
 }
@@ -77,7 +78,7 @@ void PlayScene::Initialize()
 	evaluation = new Evaluation();
 	evaluation->Initialize();
 
-	//スコアクラス
+	//スコア獲得クラス
 	earnscore = new EarnScore();
 }
 
@@ -126,7 +127,7 @@ void PlayScene::Activate()
 {
 	state = START;
 	frame = 0;
-	feverGauge = 0.0f;
+	
 	pUpdate = &PlayScene::UpdateStart;
 
 	for (int i = 0; i < Meteorite::METEORITE_ARRAY_NUMBER; i++)
@@ -155,8 +156,6 @@ void PlayScene::Activate()
 	
 	background->Activate();
 
-	earnscore->Activate();
-
 	//プレイヤー活性化
 	player->Activate();
 }
@@ -176,8 +175,14 @@ void PlayScene::UpdateStart(float deltaTime)
 	/*if (frame > 60)
 	{*/
 		frame = 0;
+		feverGauge = 0.0f;
 		state = GAME;
+
+		earnscore->Activate();
+		Score::GetInstance().Activate();
+
 		pUpdate = &PlayScene::UpdateGame;
+		
 		
 		//ゲーム起動時の時間を取得
 		startTime = GetNowCount();
@@ -220,8 +225,7 @@ void PlayScene::UpdateGame(float deltaTime)
 		feverGauge = 0.0f;
 	}
 	
-
-	//HitCheckerのスコアを取得
+	//earnscoreのスコアを取得
 	targetScore = Score::GetInstance().GetScore();
 
 	//スコアを目標スコアに足し引きする処理
@@ -248,6 +252,10 @@ void PlayScene::UpdateGame(float deltaTime)
 	}
 }
 
+void PlayScene::UpdateFever(float deltaTime)
+{
+}
+
 void PlayScene::Draw()
 {
 	//プレイヤー描画
@@ -262,6 +270,7 @@ void PlayScene::Draw()
 	//評価UIの描画
 	evaluation->Draw();
 
+	//UI管理クラスの描画
 	uiManager->Draw(state, frame, feverGauge);
 
 	for (int i = 0; i < Meteorite::METEORITE_ARRAY_NUMBER; i++)
@@ -278,8 +287,6 @@ void PlayScene::Draw()
 	//	//隕石マネージャー描画
 	//	MeteoriteManager::Draw();
 	//}
-	
-
 
 	SetFontSize(80);			//文字のフォントサイズ変更
 	ChangeFont("ＭＳ 明朝");	//種類をMS明朝に変更

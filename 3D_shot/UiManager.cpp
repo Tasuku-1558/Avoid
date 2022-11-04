@@ -73,7 +73,9 @@ void UiManager::FeverGaugeDraw(float feverGauge)
 	DrawLine3D(VGet(-650.0f, -100.0f,0.0f), VGet(-100.0f, -100.0f, 5000.0f), GetColor(255, 0, 0));
 	DrawLine3D(VGet(200.0f, 100.0f, 0.0f), VGet(250.0f, 100.0f, -700.0f), GetColor(255, 0, 0));
 
+	//フィーバーゲージ最大値
 	float feverMaxGauge = 100.0f;
 	
+	//フィーバーゲージ表示
 	DrawBox(980, 50, 980 + 850 * (feverGauge / feverMaxGauge), 110, GetColor(186, 85, 211), TRUE);
 }
