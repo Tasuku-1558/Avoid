@@ -1,8 +1,5 @@
 #pragma once
 
-#include <vector>
-
-class MeteoriteManager;
 class Meteorite;
 class Player;
 class Explosion;
@@ -17,7 +14,7 @@ public:
 	 HitChecker();
 	~HitChecker();
 
-	void PlayerAndMeteorite(Player* player, Meteorite* meteorite[]/*Meteorite* meteorite*/, MeteoriteManager* meteoriteManager, Explosion* explosion, Evaluation* evaluation, EarnScore* earnscore);		//当たりチェック
+	void PlayerAndMeteorite(Player* player, Meteorite* meteorite[], Explosion* explosion, Evaluation* evaluation, EarnScore* earnscore);		//当たりチェック
 	
 	double GetDirection() { return direction; }	//デバック用
 	
@@ -27,7 +24,7 @@ private:
 	double direction;						//プレイヤーと隕石の距離
 
 	bool hit;								//隕石と衝突したか
-	
+	int count;
 	
 	//静的定数
 	static const float RADIUS_GOOD;			//goodの範囲

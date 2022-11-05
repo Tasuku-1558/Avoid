@@ -1,10 +1,11 @@
 #include "HitChecker.h"
 #include "Player.h"
-#include "MeteoriteManager.h"
 #include "Meteorite.h"
 #include "Explosion.h"
 #include "Evaluation.h"
 #include "EarnScore.h"
+#include <math.h>
+
 
 using namespace std;
 
@@ -17,6 +18,7 @@ const float HitChecker::RADIUS_MISS		 = 4.0f;	//missの範囲
 HitChecker::HitChecker()
 	: direction(0.0f)
 	, hit(false)
+	, count(0.0f)
 {
 	//処理なし
 }
@@ -26,11 +28,11 @@ HitChecker::~HitChecker()
 	//処理なし
 }
 
-void HitChecker::PlayerAndMeteorite(Player* player, Meteorite* meteorite[]/*Meteorite* meteorite*/, MeteoriteManager* meteoriteManager, Explosion* explosion, Evaluation* evaluation, EarnScore* earnscore)
+void HitChecker::PlayerAndMeteorite(Player* player, Meteorite* meteorite[], Explosion* explosion, Evaluation* evaluation, EarnScore* earnscore)
 {
 	for (int i = 0; i < Meteorite::METEORITE_ARRAY_NUMBER; ++i)
 	{
-		if (meteorite[i] != nullptr && meteorite[i]->GetPosition().z <= 0)
+		if (meteorite[i] != nullptr && meteorite[i]->GetPosition().z <= -10)
 		{
 			//当たったかどうか
 			hit = true;
@@ -44,11 +46,9 @@ void HitChecker::PlayerAndMeteorite(Player* player, Meteorite* meteorite[]/*Mete
 			//プレイヤーと隕石の２点間の距離を計算
 			direction = sqrt(pow(posX, 2) + pow(posY, 2));
 			
-
 			//隕石と衝突したら
 			if (direction < RADIUS_MISS + sphereMeteorite.radius)
 			{
-				
 				earnscore->UpdateMiss();
 				
 				evaluation->ui = UI::Miss;
@@ -63,6 +63,7 @@ void HitChecker::PlayerAndMeteorite(Player* player, Meteorite* meteorite[]/*Mete
 				evaluation->ui = UI::Excellent;
 				
 				explosion->Update(meteorite[i]);
+				
 			}
 			
 			//隕石と中くらいの範囲
@@ -86,11 +87,10 @@ void HitChecker::PlayerAndMeteorite(Player* player, Meteorite* meteorite[]/*Mete
 			//隕石と接触もしくは避けたら
 			if (hit)
 			{
+				
 				//隕石を消す
 				meteorite[i] = nullptr;
 				delete meteorite[i];
-
-				
 			}
 		}
 	}

@@ -186,7 +186,7 @@ void PlayScene::UpdateStart(float deltaTime)
 		frame = 0;
 		feverGauge = 0.0f;
 		state = GAME;
-
+		
 		earnscore->Activate();
 		Score::GetInstance().Activate();
 
@@ -225,7 +225,7 @@ void PlayScene::UpdateGame(float deltaTime)
 				//meteoriteManager->PlayerAndMeteorite(player, ptr, explosion, evaluation, earnscore);
 
 				//ƒvƒŒƒCƒ„[‚Æè¦Î‚Ì“–‚½‚è”»’è
-				hitChecker->PlayerAndMeteorite(player, /*ptr*/meteorite, meteoriteManager, explosion, evaluation, earnscore);
+				hitChecker->PlayerAndMeteorite(player, meteorite, explosion, evaluation, earnscore);
 			}
 		}
 	}
