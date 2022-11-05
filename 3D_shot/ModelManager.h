@@ -14,6 +14,7 @@ public:
 	{
 		PLAYER,
 		METEORITE,
+		FIELD,
 		MODEL_AMOUNT	//モデルの個数
 	};
 
@@ -35,6 +36,7 @@ private:
 	static const string MODEL_FOLDER_PATH;		//modelフォルダまでのパス
 	static const string PLAYER_PATH;			//playerモデルファイルのパス
 	static const string METEORITE_PATH;			//meteoriteモデルファイルのパス
+	static const string FIELD_PATH;				//fieldモデルファイルのパス
 
 	int modelHandle[MODEL_AMOUNT];				//モデルハンドル
 

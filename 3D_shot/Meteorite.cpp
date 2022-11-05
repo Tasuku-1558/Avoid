@@ -7,15 +7,9 @@
 using namespace Math3d;
 
 Meteorite::Meteorite() : MeteoriteBase()
+	, shadowImage(0)
 {
-	modelHandle = MV1DuplicateModel(ModelManager::GetInstance().GetModelHandle(ModelManager::METEORITE));
-	MV1SetScale(modelHandle, SIZE);
-
-	//読み込み失敗でエラー
-	if (modelHandle < 0)
-	{
-		printfDx("モデルデータ読み込みに失敗 [METEORITE]\n");
-	}
+	//処理なし
 }
 
 Meteorite::~Meteorite()
@@ -30,7 +24,16 @@ Meteorite::~Meteorite()
 //初期化処理
 void Meteorite::Initialize()
 {
-	//処理なし
+	modelHandle = MV1DuplicateModel(ModelManager::GetInstance().GetModelHandle(ModelManager::METEORITE));
+	MV1SetScale(modelHandle, SIZE);
+
+	//読み込み失敗でエラー
+	if (modelHandle < 0)
+	{
+		printfDx("モデルデータ読み込みに失敗 [METEORITE]\n");
+	}
+
+	shadowImage = LoadGraph("data/image/shadow.png");
 }
 
 //終了処理
@@ -38,6 +41,9 @@ void Meteorite::Finalize()
 {
 	MV1DeleteModel(modelHandle);
 	modelHandle = NULL;
+
+	MV1DeleteModel(shadowImage);
+	shadowImage = NULL;
 }
 
 //活性化処理
@@ -98,7 +104,6 @@ void Meteorite::Move(float deltaTime, Player* player)
 void Meteorite::Draw()
 {
 	MV1DrawModel(modelHandle);
-
-	// 当たり判定デバッグ描画（後で消す）
-	//DrawSphere3D(collisionSphere.worldCenter, collisionSphere.radius, 8, GetColor(0, 255, 255), 0, FALSE);
+	
+	DrawBillboard3D(VGet(position.x, 2.0f, position.z), 0.5f, 0.5f, 250.0f, 0.0f, shadowImage, TRUE);
 }

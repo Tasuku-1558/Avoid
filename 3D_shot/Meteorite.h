@@ -30,6 +30,8 @@ public:
 private:
 	Meteorite(const Meteorite&);				//コピーコンストラクタ
 
+	int shadowImage;
+
 	Sphere collisionSphere;				//当たり判定球
 
 };

@@ -7,6 +7,7 @@
 #include "MeteoriteManager.h"
 #include "Camera.h"
 #include "BackGround.h"
+#include "Field.h"
 #include "HitChecker.h"
 #include "UiManager.h"
 #include "Evaluation.h"
@@ -22,6 +23,7 @@ PlayScene::PlayScene(SceneManager* const sceneManager)
 		, frame(0)
 		, camera(nullptr)
 		, background(nullptr)
+		, field(nullptr)
 		, hitChecker(nullptr)
 		, uiManager(nullptr)
 		, player(nullptr)
@@ -38,7 +40,6 @@ PlayScene::PlayScene(SceneManager* const sceneManager)
 		, score(0)
 		, targetScore(0)
 		, feverGauge(0.0f)
-		, a(0.0f)
 {
 	//処理なし
 }
@@ -62,6 +63,9 @@ void PlayScene::Initialize()
 	//背景クラス
 	background = new BackGround();
 	background->Initialize();
+
+	field = new Field();
+	field->Initialize();
 
 	//当たり判定クラス
 	hitChecker = new HitChecker();
@@ -109,6 +113,9 @@ void PlayScene::Finalize()
 	SafeDelete(background);
 	background->Finalize();
 
+	SafeDelete(field);
+	field->Finalize();
+
 	SafeDelete(hitChecker);
 
 	SafeDelete(uiManager);
@@ -155,6 +162,8 @@ void PlayScene::Activate()
 	//}
 	
 	background->Activate();
+
+	field->Activate();
 
 	//プレイヤー活性化
 	player->Activate();
@@ -213,6 +222,8 @@ void PlayScene::UpdateGame(float deltaTime)
 				//隕石マネージャー制御
 				//MeteoriteManager::Update(deltaTime, player);
 
+				//meteoriteManager->PlayerAndMeteorite(player, ptr, explosion, evaluation, earnscore);
+
 				//プレイヤーと隕石の当たり判定
 				hitChecker->PlayerAndMeteorite(player, /*ptr*/meteorite, meteoriteManager, explosion, evaluation, earnscore);
 			}
@@ -223,6 +234,7 @@ void PlayScene::UpdateGame(float deltaTime)
 	if (feverGauge > 70.0f)
 	{
 		feverGauge = 0.0f;
+		pUpdate = &PlayScene::UpdateFever;
 	}
 	
 	//earnscoreのスコアを取得
@@ -254,12 +266,15 @@ void PlayScene::UpdateGame(float deltaTime)
 
 void PlayScene::UpdateFever(float deltaTime)
 {
+	UpdateGame(deltaTime);
 }
 
 void PlayScene::Draw()
 {
 	//プレイヤー描画
 	player->Draw();
+
+	field->Draw();
 
 	//背景描画
 	background->Draw();

@@ -30,7 +30,7 @@ void HitChecker::PlayerAndMeteorite(Player* player, Meteorite* meteorite[]/*Mete
 {
 	for (int i = 0; i < Meteorite::METEORITE_ARRAY_NUMBER; ++i)
 	{
-		if (meteorite[i] != nullptr && meteorite[i]->GetPosition().z <= 10)
+		if (meteorite[i] != nullptr && meteorite[i]->GetPosition().z <= 0)
 		{
 			//ìñÇΩÇ¡ÇΩÇ©Ç«Ç§Ç©
 			hit = true;
@@ -61,7 +61,7 @@ void HitChecker::PlayerAndMeteorite(Player* player, Meteorite* meteorite[]/*Mete
 				earnscore->UpdateExcellent();
 				
 				evaluation->ui = UI::Excellent;
-
+				
 				explosion->Update(meteorite[i]);
 			}
 			
@@ -89,6 +89,8 @@ void HitChecker::PlayerAndMeteorite(Player* player, Meteorite* meteorite[]/*Mete
 				//Ë¶êŒÇè¡Ç∑
 				meteorite[i] = nullptr;
 				delete meteorite[i];
+
+				
 			}
 		}
 	}

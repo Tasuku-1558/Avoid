@@ -5,6 +5,7 @@
 
 class Camera;
 class BackGround;
+class Field;
 class Player;
 class Meteorite;
 class MeteoriteManager;
@@ -41,6 +42,7 @@ private:
 
 	Camera* camera;
 	BackGround* background;
+	Field* field;
 	Player* player;
 	Meteorite* meteorite[54] = { nullptr };
 	//std::vector<Meteorite*> meteorite;
@@ -65,7 +67,6 @@ private:
 	int  targetScore;			//目標スコア
 	int  score;					//獲得スコア
 	float feverGauge;			//フィーバー用ゲージ
-	int a;
 	
 	//静的定数
 	static const int GAMETIME;	//ゲーム時間

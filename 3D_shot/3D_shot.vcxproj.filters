@@ -94,6 +94,9 @@
     <ClCompile Include="Score.cpp">
       <Filter>ソースファイル\System</Filter>
     </ClCompile>
+    <ClCompile Include="Field.cpp">
+      <Filter>ソースファイル\ObjectBase</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="TitleScene.h">
@@ -167,6 +170,9 @@
     </ClInclude>
     <ClInclude Include="Score.h">
       <Filter>ソースファイル\System</Filter>
+    </ClInclude>
+    <ClInclude Include="Field.h">
+      <Filter>ソースファイル\ObjectBase</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

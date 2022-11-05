@@ -5,6 +5,7 @@
 const string ModelManager::MODEL_FOLDER_PATH = "Data/model/";	//modelフォルダまでのパス
 const string ModelManager::PLAYER_PATH		 = "player.mv1";	//playerモデルファイルのパス
 const string ModelManager::METEORITE_PATH	 = "meteorite.mv1"; //meteoriteモデルファイルのパス
+const string ModelManager::FIELD_PATH		 = "field.mv1";		//fieldモデルファイルのパス
 
 
 ModelManager::ModelManager()
@@ -32,6 +33,9 @@ void ModelManager::LoadAllModel()
 
 	FailePath = MODEL_FOLDER_PATH + METEORITE_PATH;
 	modelHandle[METEORITE] = MV1LoadModel(FailePath.c_str());
+
+	FailePath = MODEL_FOLDER_PATH + FIELD_PATH;
+	modelHandle[FIELD] = MV1LoadModel(FailePath.c_str());
 
 	//読み込み失敗ならエラー
 	for (int i = 0; i < MODEL_AMOUNT; ++i)

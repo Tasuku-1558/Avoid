@@ -1,7 +1,6 @@
 //#include "MeteoriteManager.h"
 //#include "Meteorite.h"
 //#include "Player.h"
-////#include "HitChecker.h"
 //#include "Explosion.h"
 //#include "Evaluation.h"
 //#include "EarnScore.h"
@@ -34,25 +33,30 @@
 ////	}
 ////}
 //
-//void MeteoriteManager::Finalize()
+//void MeteoriteManager::Finalize(MeteoriteManager* p)
 //{
-//	ReleaseAllObj();
-//	if (instance)
+//	/*ReleaseAllObj();
+//	int i=0;
+//	for (auto itr : p->instance)
 //	{
-//		delete instance;
-//		instance = nullptr;
-//	}
+//		if (p->instance)
+//		{
+//			delete instance;
+//			instance = nullptr;
+//		}
+//	}*/
+//	
 //}
 //
-//void MeteoriteManager::Entry(Meteorite* newObj)
+//void MeteoriteManager::Entry(Meteorite* newMeteorite)
 //{
-//	instance->pendingObjects.emplace_back(newObj);
+//	instance->pendingObjects.emplace_back(newMeteorite);
 //}
 //
-//void MeteoriteManager::Release(Meteorite* releaseObj)
+//void MeteoriteManager::Release(Meteorite* releaseMeteorite)
 //{
 //	//pendingObjects内から検索
-//	auto iter = std::find(instance->pendingObjects.begin(), instance->pendingObjects.end(), releaseObj);
+//	auto iter = std::find(instance->pendingObjects.begin(), instance->pendingObjects.end(), releaseMeteorite);
 //
 //	if (iter != instance->pendingObjects.end())
 //	{
@@ -64,7 +68,7 @@
 //	}
 //
 //	//objects内から検索
-//	iter = std::find(instance->objects.begin(), instance->objects.end(), releaseObj);
+//	iter = std::find(instance->objects.begin(), instance->objects.end(), releaseMeteorite);
 //
 //	if (iter != instance->objects.end())
 //	{
@@ -122,20 +126,20 @@
 //	deadMeteorite.clear();*/
 //}
 //
-//void MeteoriteManager::PlayerAndMeteorite(Player* player, /*Meteorite* meteorite[]*/Meteorite* meteorite, Explosion* explosion, Evaluation* evaluation, EarnScore* earnscore)
+//void MeteoriteManager::PlayerAndMeteorite(Player* player, Meteorite* meteorite, Explosion* explosion, Evaluation* evaluation, EarnScore* earnscore)
 //{
-//	for (int i = 0; i < /*Meteorite::METEORITE_ARRAY_NUMBER;*/instance->objects.size(); ++i)
-//	{
-//		if (meteorite/*[i] */ != nullptr && meteorite/*[i]*/->GetPosition().z <= 10)
-//		{
+//	//for (int i = 0; i < instance->objects.size(); ++i)
+//	//{
+//	//	if (meteorite/*[i] */ != nullptr && meteorite/*[i]*/->GetPosition().z <= 10)
+//	//	{
 //			//当たったかどうか
 //			hit = true;
 //
 //			//隕石の当たり判定球を取得
-//			Math3d::Sphere sphereMeteorite = meteorite/*[i]*/->GetCollisionSphere();
+//			Math3d::Sphere sphereMeteorite = meteorite->GetCollisionSphere();
 //
-//			double posX = player->GetPosition().x - meteorite/*[i]*/->GetPosition().x;
-//			double posY = player->GetPosition().y - meteorite/*[i]*/->GetPosition().y;
+//			double posX = player->GetPosition().x - meteorite->GetPosition().x;
+//			double posY = player->GetPosition().y - meteorite->GetPosition().y;
 //
 //			//プレイヤーと隕石の２点間の距離を計算
 //			direction = sqrt(pow(posX, 2) + pow(posY, 2));
@@ -158,7 +162,7 @@
 //
 //				evaluation->ui = UI::Excellent;
 //
-//				explosion->Update(meteorite/*[i]*/);
+//				explosion->Update(meteorite);
 //			}
 //
 //			//隕石と中くらいの範囲
@@ -183,11 +187,11 @@
 //			if (hit)
 //			{
 //				//隕石を消す
-//				meteorite/*[i]*/ = nullptr;
-//				delete meteorite/*[i]*/;
+//				meteorite = nullptr;
+//				delete meteorite;
 //			}
-//		}
-//	}
+//	/*	}
+//	}*/
 //}
 //
 //void MeteoriteManager::Draw()
