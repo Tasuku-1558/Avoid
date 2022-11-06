@@ -2,7 +2,7 @@
 #include "Score.h"
 
 const int	EarnScore::SCORE_GOOD	   = 100;		//goodのスコア
-const int	EarnScore::SCORE_GREAT	   = 200;		//greatのスコア
+const int	EarnScore::SCORE_GREAT	   = 300;		//greatのスコア
 const int	EarnScore::SCORE_EXCELLENT = 600;		//excellentのスコア
 const int	EarnScore::SCORE_MISS	   = 300;		//missのスコア
 const int	EarnScore::FIRST_SCORE	   = 0;			//スコアの初期値

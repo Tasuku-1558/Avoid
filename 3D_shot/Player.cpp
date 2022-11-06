@@ -70,32 +70,55 @@ void Player::Move(float deltaTime)
 
 	inputFlag = false;
 	
-	//上キーを押したら
+	//上下
 	if (CheckHitKey(KEY_INPUT_UP))
 	{
-		inputDirection += UP;
-		inputFlag = true;
+		if (position.y < 350)
+		{
+			inputDirection.y += 1.0f;
+			inputFlag = true;
+		}
+		else
+		{
+			inputDirection.y = 0.0f;
+		}
 	}
-
-	//下キーを押したら
-	else if (CheckHitKey(KEY_INPUT_DOWN))
+	if (CheckHitKey(KEY_INPUT_DOWN))
 	{
-		inputDirection += DOWN;
-		inputFlag = true;
+		if (position.y > 50)
+		{
+			inputDirection.y -= 1.0f;
+			inputFlag = true;
+		}
+		else
+		{
+			inputDirection.y = 0.0f;
+		}
 	}
-
-	//右キーを押したら
-	else if (CheckHitKey(KEY_INPUT_RIGHT))
+	//左右
+	if (CheckHitKey(KEY_INPUT_RIGHT))
 	{
-		inputDirection += RIGHT;
-		inputFlag = true;
+		if (position.x < 480)
+		{
+			inputDirection.x += 1.0f;
+			inputFlag = true;
+		}
+		else
+		{
+			inputDirection.x = 0.0f;
+		}
 	}
-
-	//左キーを押したら
-	else if (CheckHitKey(KEY_INPUT_LEFT))
+	if (CheckHitKey(KEY_INPUT_LEFT))
 	{
-		inputDirection += LEFT;
-		inputFlag = true;
+		if (position.x > -500)
+		{
+			inputDirection.x -= 1.0f;
+			inputFlag = true;
+		}
+		else
+		{
+			inputDirection.x = 0.0f;
+		}
 	}
 	
 	//十字キーの入力があったら

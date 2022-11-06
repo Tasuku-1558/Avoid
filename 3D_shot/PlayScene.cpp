@@ -15,7 +15,7 @@
 #include "Explosion.h"
 #include "Score.h"
 
-const int PlayScene::GAMETIME = 30;		//ゲーム時間
+const int PlayScene::GAMETIME = 5;		//ゲーム時間
 
 PlayScene::PlayScene(SceneManager* const sceneManager)
 		: SceneBase(sceneManager)
@@ -31,7 +31,6 @@ PlayScene::PlayScene(SceneManager* const sceneManager)
 		, evaluation(nullptr)
 		, earnscore(nullptr)
 		, pUpdate(nullptr)
-		, meteoriteManager(nullptr)
 		, meteorite()
 		, meteoritePopFlag(false)
 		, startTime(0)
@@ -222,7 +221,7 @@ void PlayScene::UpdateGame(float deltaTime)
 				//隕石マネージャー制御
 				//MeteoriteManager::Update(deltaTime, player);
 
-				//meteoriteManager->PlayerAndMeteorite(player, ptr, explosion, evaluation, earnscore);
+				//MeteoriteManager::PlayerAndMeteorite(player, ptr, explosion, evaluation, earnscore);
 
 				//プレイヤーと隕石の当たり判定
 				hitChecker->PlayerAndMeteorite(player, meteorite, explosion, evaluation, earnscore);
@@ -240,7 +239,7 @@ void PlayScene::UpdateGame(float deltaTime)
 	//earnscoreのスコアを取得
 	targetScore = Score::GetInstance().GetScore();
 
-	//スコアを目標スコアに足し引きする処理
+	//スコアを目標スコアに足し引き
 	if (targetScore != score)
 	{
 		if (targetScore > score)
@@ -256,7 +255,7 @@ void PlayScene::UpdateGame(float deltaTime)
 	nowTime = GetNowCount();
 	countDown = GAMETIME - (nowTime - startTime) / 1000;
 
-	//制限時間が0になったら
+	//TIMEが0になったら
 	if (countDown == 0)
 	{
 		parent->SetNextScene(SceneManager::RESULT);

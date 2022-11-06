@@ -10,6 +10,7 @@ Meteorite::Meteorite() : MeteoriteBase()
 	, shadowImage(0)
 {
 	//ˆ—‚È‚µ
+	Initialize();
 }
 
 Meteorite::~Meteorite()

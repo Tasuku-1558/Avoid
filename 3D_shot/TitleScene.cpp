@@ -2,16 +2,15 @@
 #include "DxLib.h"
 #include "SceneManager.h"
 
-const int TitleScene::TITLE_NAME_X = 400;
-const int TitleScene::TITLE_NAME_Y = 150;
-
+const int TitleScene::TITLE_NAME_X = 700;
+const int TitleScene::TITLE_NAME_Y = 500;
 
 TitleScene::TitleScene(SceneManager* const sceneManager)
 	: SceneBase(sceneManager)
 	, titleImage(0)
 	, titleBackgroundX(0)
 	, titleBackgroundY(0)
-	, titleName(0)
+	, titleName{ "Just in Avoid" }
 {
 	//処理なし
 }
@@ -24,7 +23,6 @@ TitleScene::~TitleScene()
 void TitleScene::Initialize()
 {
 	titleImage = LoadGraph("data/image/TitleBackground.png");
-	titleName = LoadGraph("data/image/TitleImage.png");
 }
 
 void TitleScene::Finalize()
@@ -50,7 +48,7 @@ void TitleScene::Blink()
 {
 	// 明滅ルーチン
 	static int Alpha = 0;
-	static int Inc = 5;
+	static int Inc = 3;
 
 	if (Alpha > 255 && Inc > 0)
 		Inc *= -1;
@@ -62,9 +60,7 @@ void TitleScene::Blink()
 
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, Alpha);
 
-	SetFontSize(110);			//文字のフォントサイズ変更
-
-	DrawFormatString(200, 700, GetColor(255, 0, 0), "Push Space Key To GameStart!");
+	DrawFormatString(350, 700, GetColor(70, 130, 180), "Push Space Key To GameStart!");
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, Alpha);
 }
 
@@ -72,7 +68,9 @@ void TitleScene::Draw()
 {
 	DrawGraph(titleBackgroundX, titleBackgroundY, titleImage, TRUE);
 
-	DrawGraph(TITLE_NAME_X, TITLE_NAME_Y, titleName, TRUE);
+	SetFontSize(110);
+
+	DrawString(TITLE_NAME_X, TITLE_NAME_Y, titleName, GetColor(172, 196, 222));
 
 	Blink();
 }

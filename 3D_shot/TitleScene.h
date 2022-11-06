@@ -25,7 +25,7 @@ private:
 	int titleBackgroundX;	//タイトル背景X座標
 	int titleBackgroundY;	//タイトル背景Y座標
 
-	int titleName;
+	char titleName[14];
 
 	//静的定数
 	static const int TITLE_NAME_X;

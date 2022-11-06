@@ -4,6 +4,7 @@
 #include "Explosion.h"
 #include "Evaluation.h"
 #include "EarnScore.h"
+#include "TimeSlow.h"
 #include <math.h>
 
 
@@ -19,6 +20,7 @@ HitChecker::HitChecker()
 	: direction(0.0f)
 	, hit(false)
 	, count(0.0f)
+	, a(false)
 {
 	//ˆ—‚È‚µ
 }
@@ -32,7 +34,7 @@ void HitChecker::PlayerAndMeteorite(Player* player, Meteorite* meteorite[], Expl
 {
 	for (int i = 0; i < Meteorite::METEORITE_ARRAY_NUMBER; ++i)
 	{
-		if (meteorite[i] != nullptr && meteorite[i]->GetPosition().z <= -10)
+		if (meteorite[i] != nullptr && meteorite[i]->GetPosition().z <= 10)
 		{
 			//“–‚½‚Á‚½‚©‚Ç‚¤‚©
 			hit = true;
@@ -63,6 +65,9 @@ void HitChecker::PlayerAndMeteorite(Player* player, Meteorite* meteorite[], Expl
 				evaluation->ui = UI::Excellent;
 				
 				explosion->Update(meteorite[i]);
+
+				float a=TimeSlow::GetInstance().GetTimeSlow();
+				a -= 30;
 				
 			}
 			
@@ -87,7 +92,6 @@ void HitChecker::PlayerAndMeteorite(Player* player, Meteorite* meteorite[], Expl
 			//è¦Î‚ÆÚG‚à‚µ‚­‚Í”ğ‚¯‚½‚ç
 			if (hit)
 			{
-				
 				//è¦Î‚ğÁ‚·
 				meteorite[i] = nullptr;
 				delete meteorite[i];

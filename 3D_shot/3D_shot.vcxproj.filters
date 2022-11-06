@@ -97,6 +97,9 @@
     <ClCompile Include="Field.cpp">
       <Filter>ソースファイル\ObjectBase</Filter>
     </ClCompile>
+    <ClCompile Include="TimeSlow.cpp">
+      <Filter>ソースファイル\System</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="TitleScene.h">
@@ -173,6 +176,9 @@
     </ClInclude>
     <ClInclude Include="Field.h">
       <Filter>ソースファイル\ObjectBase</Filter>
+    </ClInclude>
+    <ClInclude Include="TimeSlow.h">
+      <Filter>ソースファイル\System</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

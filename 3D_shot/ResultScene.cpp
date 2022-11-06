@@ -111,19 +111,19 @@ void ResultScene::DisplayScore()
 	count += 1.0f;
 	if (count > 10.0f)
 	{
-		DrawFormatString(650, 300, GetColor(255, 0, 0), "TOTAL_SCORE : %d", totalScore);
+		DrawFormatString(650, 300, GetColor(255, 69, 0), "TOTAL_SCORE :  %d", totalScore);
 		if (count > 30.0f)
 		{
-			DrawFormatString(650, 400, GetColor(255, 255, 0), "Excellent  × %d", excellentCount);
+			DrawFormatString(650, 400, GetColor(255, 255, 0), "Excellent        × %d", excellentCount);
 			if (count > 50.0f)
 			{
-				DrawFormatString(650, 500, GetColor(255, 105, 180), "Great      × %d", greatCount);
+				DrawFormatString(650, 500, GetColor(255, 105, 180), "Great              × %d", greatCount);
 				if (count > 70.0f)
 				{
-					DrawFormatString(650, 600, GetColor(175, 238, 238), "Good       × %d", goodCount);
+					DrawFormatString(650, 600, GetColor(175, 238, 238), "Good               × %d", goodCount);
 					if (count > 90.0f)
 					{
-						DrawFormatString(650, 700, GetColor(169, 169, 169), "MISS       × %d", missCount);
+						DrawFormatString(650, 700, GetColor(169, 169, 169), "MISS               × %d", missCount);
 						count = 90.0f;
 					}
 				}
@@ -132,15 +132,35 @@ void ResultScene::DisplayScore()
 	}
 }
 
+void ResultScene::Blink()
+{
+	// 明滅ルーチン
+	static int Alpha = 0;
+	static int Inc = 3;
+
+	if (Alpha > 255 && Inc > 0)
+		Inc *= -1;
+
+	if (Alpha < 0 && Inc < 0)
+		Inc *= -1;
+
+	Alpha += Inc;
+
+	SetDrawBlendMode(DX_BLENDMODE_ALPHA, Alpha);
+
+	DrawFormatString(400, 850, GetColor(255, 255, 255), "Back_Key : Title  or  Return_Key : Game");
+	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, Alpha);
+}
+
 void ResultScene::Draw()
 {
 	//背景描画
 	background->Draw();
 
-	SetFontSize(60);			//文字のフォントサイズ変更
+	SetFontSize(70);			//文字のフォントサイズ変更
 
 	//獲得スコア表示
 	DisplayScore();
 
-	DrawFormatString(400, 850, GetColor(255, 255, 255), "Back_Key : Title or Return_Key : Game");
+	Blink();
 }

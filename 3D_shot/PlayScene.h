@@ -8,7 +8,6 @@ class BackGround;
 class Field;
 class Player;
 class Meteorite;
-class MeteoriteManager;
 class HitChecker;
 class UiManager;
 class Explosion;
@@ -46,7 +45,6 @@ private:
 	Player* player;
 	Meteorite* meteorite[54] = { nullptr };
 	//std::vector<Meteorite*> meteorite;
-	MeteoriteManager* meteoriteManager;
 	HitChecker* hitChecker;
 	UiManager* uiManager;
 	Explosion* explosion;

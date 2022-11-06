@@ -6,6 +6,7 @@
 #include "Common.h"
 #include "SceneManager.h"
 #include "ModelManager.h"
+#include "TimeSlow.h"
 
 #pragma warning(disable:4996)
 
@@ -45,6 +46,13 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	// Zバッファへの書き込みを有効にする
 	SetWriteZBuffer3D(TRUE);
 
+	LPCSTR font_path = "data/font/Oranienbaum.ttf";
+
+	if (AddFontResourceEx(font_path, FR_PRIVATE, NULL) > 0) {}
+	else { MessageBox(NULL, "フォント読込失敗", "", MB_OK); }
+
+	ChangeFont("Oranienbaum", DX_CHARSET_DEFAULT);
+
 	// 時間計測
 	int nowTime;
 	int prevTime = nowTime = GetNowCount();
@@ -61,10 +69,12 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		// フレーム時間を算出
 		nowTime = GetNowCount();
 		float deltaTime = (nowTime - prevTime) / 1000.0f;
-
+		 
 		// DXライブラリのカメラとEffekseerのカメラを同期
 		Effekseer_Sync3DSetting();
 		
+		TimeSlow::GetInstance().SetTimeSlow(deltaTime);
+
 		sceneManager->Update(deltaTime);
 
 		// 画面を初期化する

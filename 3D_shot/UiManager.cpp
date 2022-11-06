@@ -33,10 +33,10 @@ void UiManager::Initialize()
 		fullPath = path + std::to_string(i) + FILENAME_EXTENSION;
 		uiHandle[i] = LoadGraph(fullPath.c_str());
 
-		if (uiHandle[i] < 0)
+		/*if (uiHandle[i] < 0)
 		{
 			printfDx("‰æ‘œ“Ç‚Ýž‚Ý‚ÉŽ¸”s[%d]\n", i);
-		}
+		}*/
 	}
 }
 

@@ -23,7 +23,7 @@ Explosion::~Explosion()
 
 void Explosion::Initialize()
 {
-	effectHandle = LoadEffekseerEffect("data/effect/Explosion.efkefc", 30.0f);
+	effectHandle = LoadEffekseerEffect("data/effect/Explosion.efkefc", 15.0f);
 	explosionSE = LoadSoundMem("data/sound/ExplosionSE.mp3");
 }
 

@@ -11,11 +11,13 @@
 //const float MeteoriteManager::RADIUS_EXCELLENT   = 40.0f;	//excellent‚Ì”ÍˆÍ
 //const float MeteoriteManager::RADIUS_MISS		 = 4.0f;	//miss‚Ì”ÍˆÍ
 //
+//double MeteoriteManager::direction = 0.0f;
+//bool MeteoriteManager::hit = false;
+//
+//MeteoriteManager* MeteoriteManager::instance = nullptr;
 //
 //MeteoriteManager::MeteoriteManager()
 //	: objects()
-//	, direction(0.0f)
-//	, hit(false)
 //{
 //	//ˆ—‚È‚µ
 //}
@@ -33,10 +35,10 @@
 ////	}
 ////}
 //
-//void MeteoriteManager::Finalize(MeteoriteManager* p)
+//void MeteoriteManager::Finalize(/*MeteoriteManager* p*/)
 //{
-//	/*ReleaseAllObj();
-//	int i=0;
+//	ReleaseAllObj();
+//	/*int i=0;
 //	for (auto itr : p->instance)
 //	{
 //		if (p->instance)
@@ -45,6 +47,12 @@
 //			instance = nullptr;
 //		}
 //	}*/
+//
+//	if (instance)
+//	{
+//		delete instance;
+//		instance = nullptr;
+//	}
 //	
 //}
 //
@@ -93,6 +101,7 @@
 //	}
 //}
 //
+//
 //void MeteoriteManager::Update(float deltaTime, Player* player)
 //{
 //	for (int i = 0; i < instance->objects.size(); ++i)
@@ -103,6 +112,13 @@
 //	for (auto pending : instance->pendingObjects)
 //	{
 //		instance->objects.emplace_back(pending);
+//	}
+//	
+//	
+//	if (instance->objects.size()<53)
+//	{
+//		Meteorite* newMeteorite = new Meteorite;
+//		Entry(newMeteorite);
 //	}
 //
 //	instance->pendingObjects.clear();
@@ -200,4 +216,6 @@
 //	{
 //		i->Draw();
 //	}
+//
+//	DrawFormatString(100, 200, GetColor(255, 255, 0), "SCORE : %d", instance->objects.size());
 //}
