@@ -15,7 +15,7 @@
 #include "Explosion.h"
 #include "Score.h"
 
-const int PlayScene::GAMETIME = 5;		//ƒQ[ƒ€ŽžŠÔ
+const int PlayScene::GAMETIME = 30;		//ƒQ[ƒ€ŽžŠÔ
 
 PlayScene::PlayScene(SceneManager* const sceneManager)
 		: SceneBase(sceneManager)
@@ -39,6 +39,7 @@ PlayScene::PlayScene(SceneManager* const sceneManager)
 		, score(0)
 		, targetScore(0)
 		, feverGauge(0.0f)
+		, count(0)
 {
 	//ˆ—‚È‚µ
 }
@@ -213,7 +214,7 @@ void PlayScene::UpdateGame(float deltaTime)
 			if (meteoritePopFlag)
 			{
 				meteoritePopFlag = false;
-
+				
 				//è¦Î§Œä
 				meteorite[i]->Update(deltaTime, player);
 

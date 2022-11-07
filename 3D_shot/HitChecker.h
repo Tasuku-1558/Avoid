@@ -25,7 +25,8 @@ private:
 
 	bool hit;								//è¦Î‚ÆÕ“Ë‚µ‚½‚©
 	int count;
-	bool a;
+
+	float slow;
 	//Ã“I’è”
 	static const float RADIUS_GOOD;			//good‚Ì”ÍˆÍ
 	static const float RADIUS_GREAT;		//great‚Ì”ÍˆÍ

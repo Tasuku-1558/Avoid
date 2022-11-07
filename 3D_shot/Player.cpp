@@ -83,7 +83,7 @@ void Player::Move(float deltaTime)
 			inputDirection.y = 0.0f;
 		}
 	}
-	if (CheckHitKey(KEY_INPUT_DOWN))
+	else if (CheckHitKey(KEY_INPUT_DOWN))
 	{
 		if (position.y > 50)
 		{
@@ -96,7 +96,7 @@ void Player::Move(float deltaTime)
 		}
 	}
 	//ç∂âE
-	if (CheckHitKey(KEY_INPUT_RIGHT))
+	else if (CheckHitKey(KEY_INPUT_RIGHT))
 	{
 		if (position.x < 480)
 		{
@@ -108,7 +108,7 @@ void Player::Move(float deltaTime)
 			inputDirection.x = 0.0f;
 		}
 	}
-	if (CheckHitKey(KEY_INPUT_LEFT))
+	else if (CheckHitKey(KEY_INPUT_LEFT))
 	{
 		if (position.x > -500)
 		{

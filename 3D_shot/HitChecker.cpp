@@ -1,10 +1,10 @@
 #include "HitChecker.h"
+#include "TimeSlow.h"
 #include "Player.h"
 #include "Meteorite.h"
 #include "Explosion.h"
 #include "Evaluation.h"
 #include "EarnScore.h"
-#include "TimeSlow.h"
 #include <math.h>
 
 
@@ -20,7 +20,7 @@ HitChecker::HitChecker()
 	: direction(0.0f)
 	, hit(false)
 	, count(0.0f)
-	, a(false)
+	, slow(0.0f)
 {
 	//èàóùÇ»Çµ
 }
@@ -66,9 +66,6 @@ void HitChecker::PlayerAndMeteorite(Player* player, Meteorite* meteorite[], Expl
 				
 				explosion->Update(meteorite[i]);
 
-				float a=TimeSlow::GetInstance().GetTimeSlow();
-				a -= 30;
-				
 			}
 			
 			//Ë¶êŒÇ∆íÜÇ≠ÇÁÇ¢ÇÃîÕàÕ
@@ -95,6 +92,10 @@ void HitChecker::PlayerAndMeteorite(Player* player, Meteorite* meteorite[], Expl
 				//Ë¶êŒÇè¡Ç∑
 				meteorite[i] = nullptr;
 				delete meteorite[i];
+
+
+				slow = TimeSlow::GetInstance().GetTimeSlow();
+				slow -= 100;
 			}
 		}
 	}
