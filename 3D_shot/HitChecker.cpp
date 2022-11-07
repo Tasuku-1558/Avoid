@@ -54,6 +54,8 @@ void HitChecker::PlayerAndMeteorite(Player* player, Meteorite* meteorite[], Expl
 				earnscore->UpdateMiss();
 				
 				evaluation->ui = UI::Miss;
+
+				player->state = State::Damage;
 			}
 
 			//è¦Î‚ÆƒMƒŠƒMƒŠ‚Ì”ÍˆÍ

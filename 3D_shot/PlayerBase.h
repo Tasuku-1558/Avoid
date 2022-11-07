@@ -21,9 +21,5 @@ protected:
 	static const float RADIUS;		//半径の範囲
 	static const VECTOR POSITION;	//モデルの位置
 	static const VECTOR SIZE;		//モデル倍率
-	static const VECTOR UP;			//上方向
-	static const VECTOR DOWN;		//下方向
-	static const VECTOR LEFT;		//左方向
-	static const VECTOR RIGHT;		//右方向
 
 };

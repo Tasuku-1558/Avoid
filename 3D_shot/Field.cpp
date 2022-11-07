@@ -16,7 +16,7 @@ Field::Field()
 Field::~Field()
 {
 	//I—¹ˆ—‚ªŒÄ‚Î‚ê‚Ä‚È‚¯‚ê‚Î
-	if (modelHandle != NULL)
+	if (modelHandle != NULL || line != NULL)
 	{
 		Finalize();
 	}

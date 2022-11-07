@@ -13,6 +13,7 @@ public:
 	enum ModelType
 	{
 		PLAYER,
+		PLAYER_LING,
 		METEORITE,
 		FIELD,
 		MODEL_AMOUNT	//モデルの個数
@@ -35,6 +36,7 @@ private:
 	//静的定数
 	static const string MODEL_FOLDER_PATH;		//modelフォルダまでのパス
 	static const string PLAYER_PATH;			//playerモデルファイルのパス
+	static const string LING_PATH;				//lingモデルファイルのパス
 	static const string METEORITE_PATH;			//meteoriteモデルファイルのパス
 	static const string FIELD_PATH;				//fieldモデルファイルのパス
 

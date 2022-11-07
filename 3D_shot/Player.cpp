@@ -4,17 +4,25 @@
 
 using namespace Math3d;
 
+const VECTOR Player::LING_ROTATE = VGet(0.0f, 1.0f, 0.0f);
+const VECTOR Player::LING_ROTATE_SPEED = VGet(0.0f, 5.0f, 0.0f);
+const VECTOR Player::LING_SIZE = VGet(-0.5f, -0.5f, -0.5f);
+
 //コンストラクタ
 Player::Player() : PlayerBase()
+	, lingModel(0)
+	, rotate()
+	, rotate_Speed()
+	, count(0)
 {
-	//処理なし
+	state = State::Nomal;
 }
 
 //デストラクタ
 Player::~Player()
 {
 	//終了処理が呼ばれてなければ
-	if (modelHandle != NULL)
+	if (modelHandle != NULL || lingModel != NULL)
 	{
 		Finalize();
 	}
@@ -31,6 +39,14 @@ void Player::Initialize()
 	{
 		printfDx("モデルデータ読み込みに失敗 [PLAYER]\n");
 	}
+
+	lingModel = MV1DuplicateModel(ModelManager::GetInstance().GetModelHandle(ModelManager::PLAYER_LING));
+	MV1SetScale(lingModel, LING_SIZE);
+
+	if (lingModel < 0)
+	{
+		printfDx("モデルデータ読み込みに失敗 [PLAYER_LING]\n");
+	}
 }
 
 //終了処理
@@ -38,6 +54,9 @@ void Player::Finalize()
 {
 	MV1DeleteModel(modelHandle);
 	modelHandle = NULL;
+
+	MV1DeleteModel(lingModel);
+	lingModel = NULL;
 }
 
 //活性化処理
@@ -49,6 +68,9 @@ void Player::Activate()
 	collisionSphere.localCenter = ZERO_VECTOR;
 	collisionSphere.worldCenter = position;
 	collisionSphere.radius		= RADIUS;
+
+	rotate = LING_ROTATE;
+	rotate_Speed = LING_ROTATE_SPEED;
 }
 
 //更新処理
@@ -61,6 +83,10 @@ void Player::Update(float deltaTime)
 
 	// 当たり判定の移動
 	collisionSphere.HitTestMove(position);
+
+	MV1SetPosition(lingModel, position);
+	MV1SetRotationXYZ(lingModel, rotate);
+	
 }
 
 //移動処理
@@ -69,6 +95,8 @@ void Player::Move(float deltaTime)
 	inputDirection = ZERO_VECTOR;
 
 	inputFlag = false;
+
+	rotate += rotate_Speed;
 	
 	//上下
 	if (CheckHitKey(KEY_INPUT_UP))
@@ -98,7 +126,7 @@ void Player::Move(float deltaTime)
 	//左右
 	else if (CheckHitKey(KEY_INPUT_RIGHT))
 	{
-		if (position.x < 480)
+		if (position.x < 410)
 		{
 			inputDirection.x += 1.0f;
 			inputFlag = true;
@@ -110,7 +138,7 @@ void Player::Move(float deltaTime)
 	}
 	else if (CheckHitKey(KEY_INPUT_LEFT))
 	{
-		if (position.x > -500)
+		if (position.x > -410)
 		{
 			inputDirection.x -= 1.0f;
 			inputFlag = true;
@@ -129,7 +157,26 @@ void Player::Move(float deltaTime)
 
 		//十字キーの移動方向に移動
 		position += inputDirection * SPEED * deltaTime;
+
 	}
+}
+
+void Player::pUpdate()
+{
+	switch (state)
+	{
+	case State::Nomal:
+		break;
+
+	case State::Damage:
+		Damage();
+		break;
+	}
+}
+
+void Player::Damage()
+{
+	
 }
 
 //描画処理
@@ -137,6 +184,10 @@ void Player::Draw()
 {
 	MV1DrawModel(modelHandle);
 
+	MV1DrawModel(lingModel);
+
+	pUpdate();
+	
 	// 当たり判定デバッグ用描画
 	//DrawSphere3D(collisionSphere.worldCenter, collisionSphere.radius, 8, GetColor(0, 255, 0), 0, FALSE);
 }
