@@ -44,7 +44,8 @@ private:
 	VECTOR rotate;
 	VECTOR rotate_Speed;
 
-	int count;
+	float count;
+
 	static const VECTOR LING_SIZE;
 	static const VECTOR LING_ROTATE;
 	static const VECTOR LING_ROTATE_SPEED;

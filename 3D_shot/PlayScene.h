@@ -66,7 +66,7 @@ private:
 	int  score;					//獲得スコア
 	float feverGauge;			//フィーバー用ゲージ
 	
-	int count;
+	float count;
 
 	//静的定数
 	static const int GAMETIME;	//ゲーム時間

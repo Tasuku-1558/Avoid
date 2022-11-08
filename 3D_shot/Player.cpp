@@ -13,7 +13,7 @@ Player::Player() : PlayerBase()
 	, lingModel(0)
 	, rotate()
 	, rotate_Speed()
-	, count(0)
+	, count(0.0f)
 {
 	state = State::Nomal;
 }

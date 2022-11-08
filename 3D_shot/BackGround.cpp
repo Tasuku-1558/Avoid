@@ -22,7 +22,8 @@ BackGround::~BackGround()
 
 void BackGround::Initialize()
 {
-	backGroundHandle = LoadGraph("data/image/GameBackground.png");
+	//backGroundHandle = LoadGraph("data/image/GameBackground.png");
+	backGroundHandle = LoadGraph("data/Moon.mp4");
 }
 
 void BackGround::Finalize()
@@ -33,10 +34,23 @@ void BackGround::Finalize()
 
 void BackGround::Activate()
 {
-	position = INITIAL_POSITION;
+	//position = INITIAL_POSITION;
+	
+	SeekMovieToGraph(backGroundHandle, 0);
+
+
+	// ÉÄÅ[ÉrÅ[Ççƒê∂èÛë‘Ç…
+	PlayMovieToGraph(backGroundHandle);
+
 }
 
 void BackGround::Draw()
 {
-	DrawBillboard3D(position, 0.5f, 0.5f, SIZE, 0.0f, backGroundHandle, TRUE);
+	//DrawBillboard3D(position, 0.5f, 0.5f, SIZE, 0.0f, backGroundHandle, TRUE);
+
+	if (GetMovieStateToGraph(backGroundHandle == 0))
+	{
+		DrawGraph(0, 0, backGroundHandle, FALSE);
+		
+	}
 }

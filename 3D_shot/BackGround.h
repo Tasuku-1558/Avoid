@@ -17,11 +17,13 @@ public:
 
 private:
 
+    VECTOR position;
+    int backGroundHandle;
+
     //Ã“I’è”
     static const float SIZE;                //ƒ‚ƒfƒ‹”{—¦
     static const VECTOR INITIAL_POSITION;   //‰ŠúˆÊ’u
 
-    VECTOR position;
-    int backGroundHandle;
+    
 };
 

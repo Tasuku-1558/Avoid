@@ -39,7 +39,7 @@ PlayScene::PlayScene(SceneManager* const sceneManager)
 		, score(0)
 		, targetScore(0)
 		, feverGauge(0.0f)
-		, count(0)
+		, count(0.0f)
 {
 	//ˆ—‚È‚µ
 }
@@ -181,7 +181,7 @@ void PlayScene::Update(float deltaTime)
 
 void PlayScene::UpdateStart(float deltaTime)
 {
-	/*if (frame > 60)
+	/*if (frame > 120)
 	{*/
 		frame = 0;
 		feverGauge = 0.0f;
@@ -271,13 +271,13 @@ void PlayScene::UpdateFever(float deltaTime)
 
 void PlayScene::Draw()
 {
+	//”wŒi•`‰æ
+	background->Draw();
+
 	//ƒvƒŒƒCƒ„[•`‰æ
 	player->Draw();
 
 	field->Draw();
-
-	//”wŒi•`‰æ
-	background->Draw();
 
 	//”š”­ƒGƒtƒFƒNƒg•`‰æ
 	explosion->Draw();
