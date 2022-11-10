@@ -21,9 +21,8 @@ private:
     int backGroundHandle;
 
     //静的定数
-    static const float SIZE;                //モデル倍率
-    static const VECTOR INITIAL_POSITION;   //初期位置
+    //static const float SIZE;                //モデル倍率
+    //static const VECTOR INITIAL_POSITION;   //初期位置
 
-    
 };
 

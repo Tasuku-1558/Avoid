@@ -1,8 +1,8 @@
 #include "BackGround.h"
 
 
-const float  BackGround::SIZE			  = 4000.0f;					//モデル倍率
-const VECTOR BackGround::INITIAL_POSITION = { 0.0f, 300.0f, 1200.0f };	//初期位置
+//const float  BackGround::SIZE			  = 4000.0f;					//モデル倍率
+//const VECTOR BackGround::INITIAL_POSITION = { 0.0f, 300.0f, 1200.0f };	//初期位置
 
 
 BackGround::BackGround()
@@ -35,20 +35,19 @@ void BackGround::Finalize()
 void BackGround::Activate()
 {
 	//position = INITIAL_POSITION;
-	
 	SeekMovieToGraph(backGroundHandle, 0);
 
 
-	// ムービーを再生状態に
+	//ムービーを再生状態に
 	PlayMovieToGraph(backGroundHandle);
-
+	
 }
 
 void BackGround::Draw()
 {
 	//DrawBillboard3D(position, 0.5f, 0.5f, SIZE, 0.0f, backGroundHandle, TRUE);
 
-	if (GetMovieStateToGraph(backGroundHandle == 0))
+	if (GetMovieStateToGraph(backGroundHandle) == 1)
 	{
 		DrawGraph(0, 0, backGroundHandle, FALSE);
 		

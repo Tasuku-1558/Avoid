@@ -13,7 +13,8 @@ Player::Player() : PlayerBase()
 	, lingModel(0)
 	, rotate()
 	, rotate_Speed()
-	, count(0.0f)
+	, damageCount(0)
+	, noDrawFrame(false)
 {
 	state = State::Nomal;
 }
@@ -71,6 +72,8 @@ void Player::Activate()
 
 	rotate = LING_ROTATE;
 	rotate_Speed = LING_ROTATE_SPEED;
+
+	noDrawFrame = false;
 }
 
 //更新処理
@@ -157,7 +160,6 @@ void Player::Move(float deltaTime)
 
 		//十字キーの移動方向に移動
 		position += inputDirection * SPEED * deltaTime;
-
 	}
 }
 
@@ -174,20 +176,31 @@ void Player::pUpdate()
 	}
 }
 
+//被弾時処理
 void Player::Damage()
 {
-	
+	noDrawFrame = !noDrawFrame;			//2回に1回描画しない
+	damageCount += 1;
+
+	if (damageCount > 30)
+	{
+		state = State::Nomal;
+		noDrawFrame = false;
+		damageCount = 0;
+	}
 }
 
 //描画処理
 void Player::Draw()
 {
-	MV1DrawModel(modelHandle);
-
-	MV1DrawModel(lingModel);
-
 	pUpdate();
+
+	if (noDrawFrame == true)
+	{
+		return;
+	}
+
+	MV1DrawModel(modelHandle);
 	
-	// 当たり判定デバッグ用描画
-	//DrawSphere3D(collisionSphere.worldCenter, collisionSphere.radius, 8, GetColor(0, 255, 0), 0, FALSE);
+	MV1DrawModel(lingModel);
 }

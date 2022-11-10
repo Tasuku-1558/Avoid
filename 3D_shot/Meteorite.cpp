@@ -9,7 +9,6 @@ using namespace Math3d;
 Meteorite::Meteorite() : MeteoriteBase()
 	, shadowImage(0)
 {
-	//ˆ—‚È‚µ
 	Initialize();
 }
 
@@ -69,9 +68,6 @@ void Meteorite::Update(float deltaTime, Player* player)
 {
 	Move(deltaTime, player);
 	
-	MV1SetPosition(modelHandle, position);
-	MV1SetRotationXYZ(modelHandle, rotateAngle);
-
 	// “–‚½‚è”»’è‚ÌˆÚ“®
 	collisionSphere.HitTestMove(position);
 }
@@ -104,6 +100,9 @@ void Meteorite::Move(float deltaTime, Player* player)
 //•`‰æˆ—
 void Meteorite::Draw()
 {
+	MV1SetPosition(modelHandle, position);
+	MV1SetRotationXYZ(modelHandle, rotateAngle);
+
 	MV1DrawModel(modelHandle);
 	
 	DrawBillboard3D(VGet(position.x, 2.0f, position.z), 0.5f, 0.5f, 250.0f, 0.0f, shadowImage, TRUE);

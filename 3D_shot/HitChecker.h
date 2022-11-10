@@ -27,6 +27,8 @@ private:
 	int count;
 
 	float slow;
+	
+
 	//Ã“I’è”
 	static const float RADIUS_GOOD;			//good‚Ì”ÍˆÍ
 	static const float RADIUS_GREAT;		//great‚Ì”ÍˆÍ

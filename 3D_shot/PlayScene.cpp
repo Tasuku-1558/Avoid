@@ -189,7 +189,7 @@ void PlayScene::UpdateStart(float deltaTime)
 		
 		earnscore->Activate();
 		Score::GetInstance().Activate();
-
+		
 		pUpdate = &PlayScene::UpdateGame;
 		
 		

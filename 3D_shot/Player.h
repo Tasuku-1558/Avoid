@@ -44,7 +44,8 @@ private:
 	VECTOR rotate;
 	VECTOR rotate_Speed;
 
-	float count;
+	int damageCount;
+	bool noDrawFrame;
 
 	static const VECTOR LING_SIZE;
 	static const VECTOR LING_ROTATE;

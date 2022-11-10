@@ -91,13 +91,13 @@ void HitChecker::PlayerAndMeteorite(Player* player, Meteorite* meteorite[], Expl
 			//è¦Î‚ÆÚG‚à‚µ‚­‚Í”ğ‚¯‚½‚ç
 			if (hit)
 			{
+				slow = TimeSlow::GetInstance().GetTimeSlow();
+				slow *= 0.5f;
+
+
 				//è¦Î‚ğÁ‚·
 				meteorite[i] = nullptr;
 				delete meteorite[i];
-
-
-				slow = TimeSlow::GetInstance().GetTimeSlow();
-				slow -= 100;
 			}
 		}
 	}
