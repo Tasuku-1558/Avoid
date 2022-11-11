@@ -8,8 +8,8 @@ public:
 
 	static TimeSlow& GetInstance();	//アドレスを返す
 
-	void  SetTimeSlow(float time);
-	float GetTimeSlow() { return slow; }
+	void  SetTimeSlow(bool time);
+	bool GetTimeSlow() { return slow; }
 
 private:
 
@@ -17,5 +17,6 @@ private:
 	 TimeSlow(const TimeSlow&);		//コピーコンストラクタ
 	~TimeSlow();
 
-	float slow;
+	bool slow;
+	
 };

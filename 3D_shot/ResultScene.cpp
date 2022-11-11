@@ -111,19 +111,21 @@ void ResultScene::DisplayScore()
 	count += 1.0f;
 	if (count > 10.0f)
 	{
-		DrawFormatString(650, 300, GetColor(255, 69, 0), "TOTAL_SCORE :  %d", totalScore);
+		SetFontSize(70);
+		DrawFormatString(650, 300, GetColor(255, 69, 0), "SCORE        :  %d", totalScore);
+
 		if (count > 30.0f)
 		{
-			DrawFormatString(650, 400, GetColor(255, 255, 0), "Excellent        × %d", excellentCount);
+			DrawFormatString(650, 400, GetColor(255, 255, 0), "Excellent   ×  %d", excellentCount);
 			if (count > 50.0f)
 			{
-				DrawFormatString(650, 500, GetColor(255, 105, 180), "Great              × %d", greatCount);
+				DrawFormatString(650, 500, GetColor(255, 105, 180), "Great         ×  %d", greatCount);
 				if (count > 70.0f)
 				{
-					DrawFormatString(650, 600, GetColor(175, 238, 238), "Good               × %d", goodCount);
+					DrawFormatString(650, 600, GetColor(175, 238, 238), "Good          ×  %d", goodCount);
 					if (count > 90.0f)
 					{
-						DrawFormatString(650, 700, GetColor(169, 169, 169), "MISS               × %d", missCount);
+						DrawFormatString(650, 700, GetColor(169, 169, 169), "Miss          ×   %d", missCount);
 						count = 90.0f;
 					}
 				}
@@ -135,29 +137,27 @@ void ResultScene::DisplayScore()
 void ResultScene::Blink()
 {
 	// 明滅ルーチン
-	static int Alpha = 0;
-	static int Inc = 3;
+	static int alpha = 0;
+	static int inc = 3;
 
-	if (Alpha > 255 && Inc > 0)
-		Inc *= -1;
+	if (alpha > 255 && inc > 0)
+		inc *= -1;
 
-	if (Alpha < 0 && Inc < 0)
-		Inc *= -1;
+	if (alpha < 0 && inc < 0)
+		inc *= -1;
 
-	Alpha += Inc;
+	alpha += inc;
 
-	SetDrawBlendMode(DX_BLENDMODE_ALPHA, Alpha);
+	SetDrawBlendMode(DX_BLENDMODE_ALPHA, alpha);
 
-	DrawFormatString(400, 850, GetColor(255, 255, 255), "Back_Key : Title  or  Return_Key : Game");
-	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, Alpha);
+	DrawFormatString(1100, 850, GetColor(255, 255, 255), "Back Key    : Return to title\nReturn Key : Retry");
+	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, alpha);
 }
 
 void ResultScene::Draw()
 {
 	//背景描画
 	background->Draw();
-
-	SetFontSize(70);			//文字のフォントサイズ変更
 
 	//獲得スコア表示
 	DisplayScore();

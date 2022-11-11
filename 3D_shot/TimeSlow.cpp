@@ -2,7 +2,7 @@
 
 
 TimeSlow::TimeSlow()
-	: slow(0.0f)
+	: slow(false)
 {
 	//èàóùÇ»Çµ
 }
@@ -18,7 +18,7 @@ TimeSlow& TimeSlow::GetInstance()
 	return timeSlow;
 }
 
-void TimeSlow::SetTimeSlow(float time)
+void TimeSlow::SetTimeSlow(bool time)
 {
 	slow = time;
 }

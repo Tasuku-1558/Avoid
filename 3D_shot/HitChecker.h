@@ -24,10 +24,8 @@ private:
 	double direction;						//プレイヤーと隕石の距離
 
 	bool hit;								//隕石と衝突したか
+	bool slow;
 	int count;
-
-	float slow;
-	
 
 	//静的定数
 	static const float RADIUS_GOOD;			//goodの範囲

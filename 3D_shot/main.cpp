@@ -8,7 +8,7 @@
 #include "ModelManager.h"
 #include "TimeSlow.h"
 
-#pragma warning(disable:4996)
+//#pragma warning(disable:4996)
 
 using std::string;
 
@@ -56,6 +56,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	// 時間計測
 	int nowTime;
 	int prevTime = nowTime = GetNowCount();
+
+	int count = 0;
 	
 	ModelManager::GetInstance();	//モデル管理クラスの生成
 
@@ -67,13 +69,28 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	while (ProcessMessage() == 0 && CheckHitKey(KEY_INPUT_ESCAPE) == 0)
 	{
 		// フレーム時間を算出
+		float deltaTime = 0.0f;
 		nowTime = GetNowCount();
-		float deltaTime = (nowTime - prevTime) / 1000.0f;
-		 
+		
+		bool slow = TimeSlow::GetInstance().GetTimeSlow();
+		if (slow)
+		{
+			deltaTime = (nowTime - prevTime) / 3000.0f;
+			count += 1;
+			if (count > 50)
+			{
+				deltaTime = (nowTime - prevTime) / 1000.0f;
+				count = 0;
+			}
+		}
+		else
+		{
+			deltaTime = (nowTime - prevTime) / 1000.0f;
+		}
+		prevTime = nowTime;
+
 		// DXライブラリのカメラとEffekseerのカメラを同期
 		Effekseer_Sync3DSetting();
-		
-		TimeSlow::GetInstance().SetTimeSlow(deltaTime);
 
 		sceneManager->Update(deltaTime);
 
@@ -85,13 +102,11 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		// 裏画面の内容を表画面に反映させる
 		ScreenFlip();
 
-		//次のシーンがENDなら
+		// 次のシーンがENDなら
 		if (sceneManager->GetNextScene() == SceneManager::END)
 		{
 			break;
 		}
-		
-		prevTime = nowTime;
 	}
 
 	SafeDelete(sceneManager);	// シーンマネージャーの解放

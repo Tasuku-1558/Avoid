@@ -2,15 +2,14 @@
 #include "DxLib.h"
 #include "SceneManager.h"
 
-const int TitleScene::TITLE_NAME_X = 700;
-const int TitleScene::TITLE_NAME_Y = 500;
 
 TitleScene::TitleScene(SceneManager* const sceneManager)
 	: SceneBase(sceneManager)
 	, titleImage(0)
 	, titleBackgroundX(0)
 	, titleBackgroundY(0)
-	, titleName{ "Just in Avoid" }
+	, titleName(0)
+	, titleUi(0)
 {
 	//ˆ—‚È‚µ
 }
@@ -23,6 +22,8 @@ TitleScene::~TitleScene()
 void TitleScene::Initialize()
 {
 	titleImage = LoadGraph("data/image/TitleBackground.png");
+	titleName = LoadGraph("data/image/TitleName.png");
+	titleUi = LoadGraph("data/image/TitleUI.png");
 }
 
 void TitleScene::Finalize()
@@ -47,30 +48,28 @@ void TitleScene::Update(float deltaTime)
 void TitleScene::Blink()
 {
 	// –¾–Åƒ‹[ƒ`ƒ“
-	static int Alpha = 0;
-	static int Inc = 3;
+	static int alpha = 0;
+	static int inc = 3;
 
-	if (Alpha > 255 && Inc > 0)
-		Inc *= -1;
+	if (alpha > 255 && inc > 0)
+		inc *= -1;
 
-	if (Alpha < 0 && Inc < 0)
-		Inc *= -1;
+	if (alpha < 0 && inc < 0)
+		inc *= -1;
 
-	Alpha += Inc;
-
-	SetDrawBlendMode(DX_BLENDMODE_ALPHA, Alpha);
-
-	DrawFormatString(350, 700, GetColor(70, 130, 180), "Push Space Key To GameStart!");
-	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, Alpha);
+	alpha += inc;
+	
+	SetDrawBlendMode(DX_BLENDMODE_ALPHA, alpha);
+	
+	DrawGraph(500, 700, titleUi, TRUE);
+	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, alpha);
 }
 
 void TitleScene::Draw()
 {
 	DrawGraph(titleBackgroundX, titleBackgroundY, titleImage, TRUE);
 
-	SetFontSize(110);
-
-	DrawString(TITLE_NAME_X, TITLE_NAME_Y, titleName, GetColor(172, 196, 222));
-
+	DrawGraph(350, 450, titleName, TRUE);
+	
 	Blink();
 }

@@ -99,7 +99,7 @@ void Player::Move(float deltaTime)
 
 	inputFlag = false;
 
-	rotate += rotate_Speed;
+	rotate += rotate_Speed * deltaTime;
 	
 	//è„â∫
 	if (CheckHitKey(KEY_INPUT_UP))

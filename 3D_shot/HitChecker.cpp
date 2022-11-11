@@ -20,7 +20,7 @@ HitChecker::HitChecker()
 	: direction(0.0f)
 	, hit(false)
 	, count(0.0f)
-	, slow(0.0f)
+	, slow(false)
 {
 	//ˆ—‚È‚µ
 }
@@ -38,21 +38,21 @@ void HitChecker::PlayerAndMeteorite(Player* player, Meteorite* meteorite[], Expl
 		{
 			//“–‚½‚Á‚½‚©‚Ç‚¤‚©
 			hit = true;
-			
+
 			//è¦Î‚Ì“–‚½‚è”»’è‹…‚ğæ“¾
 			Math3d::Sphere sphereMeteorite = meteorite[i]->GetCollisionSphere();
 
 			double posX = player->GetPosition().x - meteorite[i]->GetPosition().x;
 			double posY = player->GetPosition().y - meteorite[i]->GetPosition().y;
-			
+
 			//ƒvƒŒƒCƒ„[‚Æè¦Î‚Ì‚Q“_ŠÔ‚Ì‹——£‚ğŒvZ
 			direction = sqrt(pow(posX, 2) + pow(posY, 2));
-			
+
 			//è¦Î‚ÆÕ“Ë‚µ‚½‚ç
 			if (direction < RADIUS_MISS + sphereMeteorite.radius)
 			{
 				earnscore->UpdateMiss();
-				
+
 				evaluation->ui = UI::Miss;
 
 				player->state = State::Damage;
@@ -61,40 +61,39 @@ void HitChecker::PlayerAndMeteorite(Player* player, Meteorite* meteorite[], Expl
 			//è¦Î‚ÆƒMƒŠƒMƒŠ‚Ì”ÍˆÍ
 			else if (direction < RADIUS_EXCELLENT + sphereMeteorite.radius)
 			{
-				
+
 				earnscore->UpdateExcellent();
-				
+
 				evaluation->ui = UI::Excellent;
-				
+
 				explosion->Update(meteorite[i]);
 
+				slow = true;
+				TimeSlow::GetInstance().SetTimeSlow(slow);
+
 			}
-			
+
 			//è¦Î‚Æ’†‚­‚ç‚¢‚Ì”ÍˆÍ
 			else if (direction < RADIUS_GREAT + sphereMeteorite.radius)
 			{
-				
+
 				earnscore->UpdateGreat();
-				
+
 				evaluation->ui = UI::Great;
 			}
 
 			//è¦Î‚Æˆê”Ô—£‚ê‚Ä‚¢‚é
 			else if (direction < RADIUS_GOOD + sphereMeteorite.radius)
 			{
-				
+
 				earnscore->UpdateGood();
-				
+
 				evaluation->ui = UI::Good;
 			}
 
 			//è¦Î‚ÆÚG‚à‚µ‚­‚Í”ğ‚¯‚½‚ç
 			if (hit)
 			{
-				slow = TimeSlow::GetInstance().GetTimeSlow();
-				slow *= 0.5f;
-
-
 				//è¦Î‚ğÁ‚·
 				meteorite[i] = nullptr;
 				delete meteorite[i];

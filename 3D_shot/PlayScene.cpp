@@ -267,6 +267,7 @@ void PlayScene::UpdateGame(float deltaTime)
 void PlayScene::UpdateFever(float deltaTime)
 {
 	UpdateGame(deltaTime);
+
 }
 
 void PlayScene::Draw()
