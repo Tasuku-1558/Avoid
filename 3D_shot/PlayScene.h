@@ -44,7 +44,7 @@ private:
 	BackGround* background;
 	Field* field;
 	Player* player;
-	Meteorite* meteorite[54] = { nullptr };
+	Meteorite* meteorite[32] = { nullptr };
 	//std::vector<Meteorite*> meteorite;
 	HitChecker* hitChecker;
 	UiManager* uiManager;
@@ -67,7 +67,7 @@ private:
 	int  score;					//獲得スコア
 	int  font;					//UIフォント
 	float feverGauge;			//フィーバー用ゲージ
-	
+	bool slow;
 	float count;
 
 

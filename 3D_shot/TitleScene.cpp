@@ -70,7 +70,7 @@ void TitleScene::Blink()
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, alpha);
 	
 	DrawGraph(500, 700, titleUi, TRUE);
-	playScene->uiManager->DrawTitle();
+	//playScene->uiManager->DrawTitle();
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, alpha);
 }
 

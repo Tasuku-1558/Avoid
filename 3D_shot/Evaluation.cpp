@@ -34,6 +34,11 @@ void Evaluation::Finalize()
 	DeleteGraph(missGraph);
 }
 
+void Evaluation::Activate()
+{
+	ui = UI::Nomal;
+}
+
 void Evaluation::Update(int evaluationGraph)
 {
 	DrawRotaGraph(500, 500, scale, 0, evaluationGraph, TRUE);

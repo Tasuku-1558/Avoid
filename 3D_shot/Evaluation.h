@@ -20,7 +20,7 @@ public:
 
 	void Initialize();
 	void Finalize();
-
+	void Activate();
 	void Update(int evaluationGraph);
 	void Draw();
 

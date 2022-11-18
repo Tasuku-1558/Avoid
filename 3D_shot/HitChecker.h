@@ -31,6 +31,7 @@ private:
 	bool miss;
 	bool great;
 	bool good;
+	bool a;
 
 	//Ã“I’è”
 	static const float RADIUS_GOOD;			//good‚Ì”ÍˆÍ

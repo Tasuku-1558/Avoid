@@ -15,8 +15,9 @@
 #include "EarnScore.h"
 #include "Explosion.h"
 #include "Score.h"
+#include "TimeSlow.h"
 
-const int PlayScene::GAMETIME = 3;		//ゲーム時間
+const int PlayScene::GAMETIME = 5;		//ゲーム時間
 
 PlayScene::PlayScene(SceneManager* const sceneManager)
 		: SceneBase(sceneManager)
@@ -40,6 +41,7 @@ PlayScene::PlayScene(SceneManager* const sceneManager)
 		, score(0)
 		, font(0)
 		, targetScore(0)
+		, slow(false)
 		, feverGauge(0.0f)
 		, count(0.0f)
 {
@@ -170,6 +172,8 @@ void PlayScene::Activate()
 
 	field->Activate();
 
+	evaluation->Activate();
+
 	//プレイヤー活性化
 	player->Activate();
 }
@@ -195,6 +199,9 @@ void PlayScene::UpdateStart(float deltaTime)
 		
 		earnscore->Activate();
 		Score::GetInstance().Activate();
+		
+
+		TimeSlow::GetInstance().SetTimeSlow(slow);
 		
 		pUpdate = &PlayScene::UpdateGame;
 
