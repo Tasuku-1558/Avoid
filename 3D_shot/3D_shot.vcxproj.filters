@@ -82,9 +82,6 @@
     <ClCompile Include="Evaluation.cpp">
       <Filter>ソースファイル\UI</Filter>
     </ClCompile>
-    <ClCompile Include="EarnScore.cpp">
-      <Filter>ソースファイル\UI</Filter>
-    </ClCompile>
     <ClCompile Include="BackGround.cpp">
       <Filter>ソースファイル</Filter>
     </ClCompile>
@@ -98,6 +95,9 @@
       <Filter>ソースファイル\ObjectBase</Filter>
     </ClCompile>
     <ClCompile Include="TimeSlow.cpp">
+      <Filter>ソースファイル\System</Filter>
+    </ClCompile>
+    <ClCompile Include="EarnScore.cpp">
       <Filter>ソースファイル\System</Filter>
     </ClCompile>
   </ItemGroup>
@@ -162,9 +162,6 @@
     <ClInclude Include="Evaluation.h">
       <Filter>ソースファイル\UI</Filter>
     </ClInclude>
-    <ClInclude Include="EarnScore.h">
-      <Filter>ソースファイル\UI</Filter>
-    </ClInclude>
     <ClInclude Include="BackGround.h">
       <Filter>ソースファイル</Filter>
     </ClInclude>
@@ -178,6 +175,9 @@
       <Filter>ソースファイル\ObjectBase</Filter>
     </ClInclude>
     <ClInclude Include="TimeSlow.h">
+      <Filter>ソースファイル\System</Filter>
+    </ClInclude>
+    <ClInclude Include="EarnScore.h">
       <Filter>ソースファイル\System</Filter>
     </ClInclude>
   </ItemGroup>

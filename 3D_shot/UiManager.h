@@ -14,14 +14,18 @@ public:
 	void Initialize();
 	void Finalize();
 
-	
 	void Draw(PlayScene::State state, int frame , float feverGauge);
+
+	void DrawTitle();
+	void DrawResult();
 
 private:
 	UiManager(const UiManager&);		//コピーコンストラクタ
 
 	void StartGameDraw();
 	void FeverGaugeDraw(float feverGauge);
+	void DrawTitleName();
+	void DrawTitleGraphic();
 
 	//静的定数
 	static const std::string FOLDER_PATH;			//画像格納フォルダ
@@ -31,11 +35,11 @@ private:
 	//画像の種類
 	enum Graphic
 	{
-		EXCELLENT,
-		GREAT,
-		GOOD,
-		MISS,
-		FEVER_GAUGE,
+		TITLE_GRAPHIC,
+		TITLE_NAME,
+		TITLE_DESCRIPTION,
+
+		RESULT,
 		GRAPHIC_AMOUNT
 	};
 

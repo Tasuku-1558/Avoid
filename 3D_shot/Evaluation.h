@@ -22,12 +22,13 @@ public:
 	void Finalize();
 
 	void Update(int evaluationGraph);
-	void EvaluationUi();
 	void Draw();
 
 	enum class UI ui;
 
 private:
+
+	void EvaluationUi();
 
 	//Še•]‰¿•¶Žš‚ÌŠi”[—p
 	int excellentGraph;
@@ -37,6 +38,4 @@ private:
 
 	float waitTime;							//•]‰¿•¶Žš‚Ì•\Ž¦ŽžŠÔ
 	float scale;							//•]‰¿•¶Žš‚Ì‘å‚«‚³
-
-	const int rotation;						//•]‰¿•¶Žš‚ÌŠp“x
 };

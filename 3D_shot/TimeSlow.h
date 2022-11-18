@@ -9,7 +9,7 @@ public:
 	static TimeSlow& GetInstance();	//ƒAƒhƒŒƒX‚ð•Ô‚·
 
 	void  SetTimeSlow(bool time);
-	bool GetTimeSlow() { return slow; }
+	bool  GetTimeSlow() { return slow; }
 
 private:
 

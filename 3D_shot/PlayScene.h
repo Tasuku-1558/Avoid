@@ -17,6 +17,7 @@ class EarnScore;
 
 class PlayScene final : public SceneBase
 {
+	friend class TitleScene;
 public:
 	 PlayScene(SceneManager* const sceneManager);
 	~PlayScene();
@@ -51,8 +52,8 @@ private:
 	Evaluation* evaluation;
 	EarnScore* earnscore;
 	
-	void UpdateStart(float deltaTime);
-	void UpdateGame(float deltaTime);
+	void UpdateStart(float deltaTime);				//開始前
+	void UpdateGame(float deltaTime);				//ゲーム中
 	void UpdateFever(float deltaTime);
 	void(PlayScene::* pUpdate)(float deltaTime);	//Update関数ポインタ
 
@@ -64,9 +65,11 @@ private:
 	bool meteoritePopFlag;		//隕石の出現フラグ
 	int  targetScore;			//目標スコア
 	int  score;					//獲得スコア
+	int  font;					//UIフォント
 	float feverGauge;			//フィーバー用ゲージ
 	
 	float count;
+
 
 	//静的定数
 	static const int GAMETIME;	//ゲーム時間

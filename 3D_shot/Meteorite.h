@@ -22,7 +22,6 @@ public:
 	void Finalize();
 	void Activate();
 	void Update(float deltaTime, Player* player);
-	void Move(float deltaTime, Player* player);
 	void Draw();
 	
 	Sphere GetCollisionSphere() { return collisionSphere; } //当たり判定球を返す
@@ -30,7 +29,9 @@ public:
 private:
 	Meteorite(const Meteorite&);				//コピーコンストラクタ
 
-	int shadowImage;
+	void Move(float deltaTime, Player* player);		//移動処理
+
+	int shadowImage;					//隕石影
 
 	Sphere collisionSphere;				//当たり判定球
 

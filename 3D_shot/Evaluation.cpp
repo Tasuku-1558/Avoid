@@ -9,7 +9,6 @@ Evaluation::Evaluation()
 	, missGraph(0)
 	, scale(0.0f)
 	, waitTime(0.0f)
-	, rotation(0)
 {
 	ui = UI::Nomal;
 }
@@ -37,7 +36,7 @@ void Evaluation::Finalize()
 
 void Evaluation::Update(int evaluationGraph)
 {
-	DrawRotaGraph(500, 500, scale, rotation, evaluationGraph, TRUE);
+	DrawRotaGraph(500, 500, scale, 0, evaluationGraph, TRUE);
 
 	scale += 0.9f;
 

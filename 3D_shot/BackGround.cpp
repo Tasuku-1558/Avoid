@@ -17,7 +17,7 @@ BackGround::~BackGround()
 
 void BackGround::Initialize()
 {
-	backGroundHandle = LoadGraph("data/Moon.mp4");
+	backGroundHandle = LoadGraph("data/Moon2.mp4");
 }
 
 void BackGround::Finalize()

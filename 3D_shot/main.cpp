@@ -8,8 +8,6 @@
 #include "ModelManager.h"
 #include "TimeSlow.h"
 
-//#pragma warning(disable:4996)
-
 using std::string;
 
 //-----------------------------------------------------------------------------
@@ -46,18 +44,15 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	// Zバッファへの書き込みを有効にする
 	SetWriteZBuffer3D(TRUE);
 
-	LPCSTR font_path = "data/font/Oranienbaum.ttf";
+	// フォント変更
+	LPCSTR fontPath = "data/font/Oranienbaum.ttf";
 
-	if (AddFontResourceEx(font_path, FR_PRIVATE, NULL) > 0) {}
+	if (AddFontResourceEx(fontPath, FR_PRIVATE, NULL) > 0) {}
 	else { MessageBox(NULL, "フォント読込失敗", "", MB_OK); }
-
-	ChangeFont("Oranienbaum", DX_CHARSET_DEFAULT);
 
 	// 時間計測
 	int nowTime;
 	int prevTime = nowTime = GetNowCount();
-
-	int count = 0;
 	
 	ModelManager::GetInstance();	//モデル管理クラスの生成
 
@@ -72,16 +67,11 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		float deltaTime = 0.0f;
 		nowTime = GetNowCount();
 		
+		//true：動きを遅くする false：通常状態
 		bool slow = TimeSlow::GetInstance().GetTimeSlow();
 		if (slow)
 		{
-			deltaTime = (nowTime - prevTime) / 3000.0f;
-			count += 1;
-			if (count > 50)
-			{
-				deltaTime = (nowTime - prevTime) / 1000.0f;
-				count = 0;
-			}
+			deltaTime = (nowTime - prevTime) / 5000.0f;
 		}
 		else
 		{
@@ -107,6 +97,13 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		{
 			break;
 		}
+	}
+
+	//フォントのアンロード
+	if (RemoveFontResourceEx(fontPath, FR_PRIVATE, NULL)) {}
+	else 
+	{
+		MessageBox(NULL, "remove failure", "", MB_OK);
 	}
 
 	SafeDelete(sceneManager);	// シーンマネージャーの解放

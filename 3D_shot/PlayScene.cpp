@@ -1,5 +1,6 @@
 #include "PlayScene.h"
 #include "DxLib.h"
+
 #include "SceneManager.h"
 #include "Common.h"
 #include "Player.h"
@@ -15,7 +16,7 @@
 #include "Explosion.h"
 #include "Score.h"
 
-const int PlayScene::GAMETIME = 30;		//ゲーム時間
+const int PlayScene::GAMETIME = 3;		//ゲーム時間
 
 PlayScene::PlayScene(SceneManager* const sceneManager)
 		: SceneBase(sceneManager)
@@ -25,7 +26,7 @@ PlayScene::PlayScene(SceneManager* const sceneManager)
 		, background(nullptr)
 		, field(nullptr)
 		, hitChecker(nullptr)
-		, uiManager(nullptr)
+		, uiManager()
 		, player(nullptr)
 		, explosion(nullptr)
 		, evaluation(nullptr)
@@ -37,6 +38,7 @@ PlayScene::PlayScene(SceneManager* const sceneManager)
 		, nowTime(0)
 		, countDown(0)
 		, score(0)
+		, font(0)
 		, targetScore(0)
 		, feverGauge(0.0f)
 		, count(0.0f)
@@ -134,7 +136,8 @@ void PlayScene::Activate()
 {
 	state = START;
 	frame = 0;
-	
+
+	font = CreateFontToHandle("Oranienbaum", 80, 1);
 	pUpdate = &PlayScene::UpdateStart;
 
 	for (int i = 0; i < Meteorite::METEORITE_ARRAY_NUMBER; i++)
@@ -159,6 +162,8 @@ void PlayScene::Activate()
 	//	//隕石活性化
 	//	me->Activate();
 	//	MeteoriteManager::Entry(me);
+
+	//	
 	//}
 	
 	background->Activate();
@@ -185,13 +190,22 @@ void PlayScene::UpdateStart(float deltaTime)
 	{*/
 		frame = 0;
 		feverGauge = 0.0f;
+		score = 0;
 		state = GAME;
 		
 		earnscore->Activate();
 		Score::GetInstance().Activate();
 		
 		pUpdate = &PlayScene::UpdateGame;
-		
+
+		for (int i = 0; i < Meteorite::METEORITE_ARRAY_NUMBER; i++)
+		{
+			if (meteorite[i] != nullptr)
+			{
+				//隕石活性化
+				meteorite[i]->Activate();
+			}
+		}
 		
 		//ゲーム起動時の時間を取得
 		startTime = GetNowCount();
@@ -278,6 +292,7 @@ void PlayScene::Draw()
 	//プレイヤー描画
 	player->Draw();
 
+	//フィールド描画
 	field->Draw();
 
 	//爆発エフェクト描画
@@ -304,11 +319,9 @@ void PlayScene::Draw()
 	//	MeteoriteManager::Draw();
 	//}
 
-	SetFontSize(80);			//文字のフォントサイズ変更
-
 	//制限時間表示
-	DrawFormatString(500, 100, GetColor(255, 0, 0), "TIME : %d", countDown);
+	DrawFormatStringToHandle(500, 100, GetColor(255, 0, 0), font, "TIME : %d", countDown);
 
 	//獲得スコア表示
-	DrawFormatString(1000, 100, GetColor(255, 255, 0), "SCORE : %d", score);
+	DrawFormatStringToHandle(1000, 100, GetColor(255, 255, 0), font, "SCORE : %d", score);
 }

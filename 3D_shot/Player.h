@@ -26,9 +26,6 @@ public:
 	void Finalize();
 	void Activate();
 	void Update(float deltaTime);
-	void Move(float deltaTime);
-	void pUpdate();
-	void Damage();
 	void Draw();
 
 	Sphere GetCollsionSphere() { return collisionSphere; }
@@ -37,6 +34,10 @@ public:
 
 private:
 	Player(const Player&);			//コピーコンストラクタ
+
+	void Move(float deltaTime);		//移動処理
+	void pUpdate();					//状態変化
+	void OnHitMeteorite();			//隕石に当たった
 
 	Sphere collisionSphere;			//当たり判定球 
 
@@ -47,8 +48,8 @@ private:
 	int damageCount;
 	bool noDrawFrame;
 
-	static const VECTOR LING_SIZE;
-	static const VECTOR LING_ROTATE;
-	static const VECTOR LING_ROTATE_SPEED;
+	static const VECTOR LING_SIZE;				//リング倍率
+	static const VECTOR LING_ROTATE;			//リング回転角度
+	static const VECTOR LING_ROTATE_SPEED;		//リング回転スピード
 	
 };

@@ -1,7 +1,9 @@
 #include "TitleScene.h"
 #include "DxLib.h"
-#include "SceneManager.h"
 
+#include "SceneManager.h"
+#include "UiManager.h"
+#include "PlayScene.h"
 
 TitleScene::TitleScene(SceneManager* const sceneManager)
 	: SceneBase(sceneManager)
@@ -10,6 +12,7 @@ TitleScene::TitleScene(SceneManager* const sceneManager)
 	, titleBackgroundY(0)
 	, titleName(0)
 	, titleUi(0)
+	, playScene(nullptr)
 {
 	//ˆ—‚È‚µ
 }
@@ -19,11 +22,16 @@ TitleScene::~TitleScene()
 	//ˆ—‚È‚µ
 }
 
+void TitleScene::Receive(PlayScene* inPlayScene)
+{
+	playScene = inPlayScene;
+}
+
 void TitleScene::Initialize()
 {
-	titleImage = LoadGraph("data/image/TitleBackground.png");
-	titleName = LoadGraph("data/image/TitleName.png");
-	titleUi = LoadGraph("data/image/TitleUI.png");
+	titleImage = LoadGraph("data/image/ui0.png");
+	titleName = LoadGraph("data/image/ui1.png");
+	titleUi = LoadGraph("data/image/ui2.png");
 }
 
 void TitleScene::Finalize()
@@ -62,6 +70,7 @@ void TitleScene::Blink()
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, alpha);
 	
 	DrawGraph(500, 700, titleUi, TRUE);
+	playScene->uiManager->DrawTitle();
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, alpha);
 }
 

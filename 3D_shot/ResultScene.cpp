@@ -1,5 +1,6 @@
 #include "ResultScene.h"
 #include "DxLib.h"
+
 #include "Common.h"
 #include "BackGround.h"
 #include "Score.h"
@@ -17,7 +18,10 @@ ResultScene::ResultScene(SceneManager* const sceneManager)
 	, greatCount(0)
 	, goodCount(0)
 	, missCount(0)
-	, count(0.0f)
+	, displayCount(0.0f)
+	, resultUi(0)
+	, scoreFont(0)
+	, font(0)
 {
 	//èàóùÇ»Çµ
 }
@@ -32,6 +36,8 @@ void ResultScene::Initialize()
 	//îwåiÉNÉâÉX
 	background = new BackGround();
 	background->Initialize();
+
+	resultUi = LoadGraph("data/image/ResultUi.png");
 }
 
 void ResultScene::Finalize()
@@ -39,13 +45,18 @@ void ResultScene::Finalize()
 	//îwåiÉNÉâÉX
 	SafeDelete(background);
 	background->Finalize();
+
+	DeleteFontToHandle(scoreFont);
 }
 
 void ResultScene::Activate()
 {
 	state = START;
 	frame = 0;
-
+	
+	scoreFont = CreateFontToHandle("Oranienbaum", 130, 1);
+	font = CreateFontToHandle("Oranienbaum", 80, 1);
+	
 	pUpdate = &ResultScene::UpdateStart;
 
 	background->Activate();
@@ -74,7 +85,7 @@ void ResultScene::Update(float deltaTime)
 void ResultScene::UpdateStart()
 {
 	frame = 0;
-	count = 0.0f;
+	displayCount = 0.0f;
 	state = GAME;
 
 	pUpdate = &ResultScene::UpdateGame;
@@ -108,25 +119,25 @@ void ResultScene::UpdateResult()
 //älìæÉXÉRÉAï\é¶
 void ResultScene::DisplayScore()
 {
-	count += 1.0f;
-	if (count > 10.0f)
-	{
-		SetFontSize(70);
-		DrawFormatString(650, 300, GetColor(255, 69, 0), "SCORE        :  %d", totalScore);
+	displayCount += 1.0f;
 
-		if (count > 30.0f)
+	if (displayCount > 10.0f)
+	{
+		DrawFormatStringToHandle(650, 250, GetColor(255, 69, 0), scoreFont, "SCORE : %d",  totalScore);
+
+		if (displayCount > 30.0f)
 		{
-			DrawFormatString(650, 400, GetColor(255, 255, 0), "Excellent   Å~  %d", excellentCount);
-			if (count > 50.0f)
+			DrawFormatStringToHandle(650, 400, GetColor(255, 255, 0), font, "Excellent   Å~  %d", excellentCount);
+			if (displayCount > 50.0f)
 			{
-				DrawFormatString(650, 500, GetColor(255, 105, 180), "Great         Å~  %d", greatCount);
-				if (count > 70.0f)
+				DrawFormatStringToHandle(650, 500, GetColor(255, 105, 180), font, "Great         Å~  %d", greatCount);
+				if (displayCount > 70.0f)
 				{
-					DrawFormatString(650, 600, GetColor(175, 238, 238), "Good          Å~  %d", goodCount);
-					if (count > 90.0f)
+					DrawFormatStringToHandle(650, 600, GetColor(175, 238, 238), font, "Good          Å~  %d", goodCount);
+					if (displayCount > 90.0f)
 					{
-						DrawFormatString(650, 700, GetColor(169, 169, 169), "Miss          Å~   %d", missCount);
-						count = 90.0f;
+						DrawFormatStringToHandle(650, 700, GetColor(169, 169, 169), font, "Miss          Å~  %d", missCount);
+						displayCount = 90.0f;
 					}
 				}
 			}
@@ -150,7 +161,7 @@ void ResultScene::Blink()
 
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, alpha);
 
-	DrawFormatString(1100, 850, GetColor(255, 255, 255), "Back Key    : Return to title\nReturn Key : Retry");
+	DrawGraph(1150, 850, resultUi, TRUE);
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, alpha);
 }
 

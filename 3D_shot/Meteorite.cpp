@@ -9,7 +9,7 @@ using namespace Math3d;
 Meteorite::Meteorite() : MeteoriteBase()
 	, shadowImage(0)
 {
-	Initialize();
+	
 }
 
 Meteorite::~Meteorite()
@@ -105,5 +105,6 @@ void Meteorite::Draw()
 
 	MV1DrawModel(modelHandle);
 	
+	//Ë¶êŒÇÃâeï`âÊ
 	DrawBillboard3D(VGet(position.x, 2.0f, position.z), 0.5f, 0.5f, 250.0f, 0.0f, shadowImage, TRUE);
 }

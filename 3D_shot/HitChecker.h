@@ -16,16 +16,21 @@ public:
 
 	void PlayerAndMeteorite(Player* player, Meteorite* meteorite[], Explosion* explosion, Evaluation* evaluation, EarnScore* earnscore);		//当たりチェック
 	
-	double GetDirection() { return direction; }	//デバック用
-	
 private:
 	HitChecker(const HitChecker&);			//コピーコンストラクタ
 
-	double direction;						//プレイヤーと隕石の距離
+	void MissDecision(Evaluation* evaluation, Player* player);	//miss判定
+	void ExcellentDecision(Evaluation* evaluation);				//excellent判定
+	void GreatDecision(Evaluation* evaluation);					//great判定
+	void GoodDecision(Evaluation* evaluation);					//good判定
+	
 
+	double direction;						//プレイヤーと隕石の距離
 	bool hit;								//隕石と衝突したか
 	bool slow;
-	int count;
+	bool miss;
+	bool great;
+	bool good;
 
 	//静的定数
 	static const float RADIUS_GOOD;			//goodの範囲

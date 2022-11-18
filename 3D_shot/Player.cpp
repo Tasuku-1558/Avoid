@@ -171,13 +171,13 @@ void Player::pUpdate()
 		break;
 
 	case State::Damage:
-		Damage();
+		OnHitMeteorite();
 		break;
 	}
 }
 
-//”í’eˆ—
-void Player::Damage()
+//è¦Î‚É“–‚½‚Á‚½
+void Player::OnHitMeteorite()
 {
 	noDrawFrame = !noDrawFrame;			//2‰ñ‚É1‰ñ•`‰æ‚µ‚È‚¢
 	damageCount += 1;

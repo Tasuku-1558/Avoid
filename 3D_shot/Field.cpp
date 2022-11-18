@@ -33,7 +33,7 @@ void Field::Initialize()
 		printfDx("モデルデータ読み込みに失敗 [FIELD]\n");
 	}
 
-	line = LoadGraph("data/image/line.png");
+	line = LoadGraph("data/image/line2.png");
 }
 
 void Field::Finalize()
