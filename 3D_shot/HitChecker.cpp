@@ -9,10 +9,12 @@
 
 using namespace std;
 
-const float HitChecker::RADIUS_GOOD		 = 1000.0f;	//goodの範囲
-const float HitChecker::RADIUS_GREAT	 = 250.0f;	//greatの範囲
-const float HitChecker::RADIUS_EXCELLENT = 40.0f;	//excellentの範囲
-const float HitChecker::RADIUS_MISS		 = 4.0f;	//missの範囲
+const float HitChecker::RADIUS_GOOD			= 1000.0f;	//goodの範囲
+const float HitChecker::RADIUS_GREAT		= 250.0f;	//greatの範囲
+const float HitChecker::RADIUS_EXCELLENT	= 40.0f;	//excellentの範囲
+const float HitChecker::RADIUS_MISS			= 4.0f;		//missの範囲
+const int   HitChecker::SCORE_DECISION_LINE = 150;		//スコア判定ライン
+const int   HitChecker::DECISION_END_LINE	= -140;		//判定終了ライン
 
 
 HitChecker::HitChecker()
@@ -38,7 +40,7 @@ void HitChecker::MissDecision(Evaluation* evaluation, Player* player)
 	evaluation->ui = UI::Miss;
 
 	player->state = State::Damage;
-	a = false;
+	
 	miss = true;
 }
 
@@ -49,7 +51,7 @@ void HitChecker::ExcellentDecision(Evaluation* evaluation)
 
 	slow = true;
 	TimeSlow::GetInstance().SetTimeSlow(slow);
-	a = false;
+	
 }
 
 //great判定
@@ -59,7 +61,7 @@ void HitChecker::GreatDecision(Evaluation* evaluation)
 
 	great = true;
 	TimeSlow::GetInstance().SetTimeSlow(great);
-	a = false;
+	
 }
 
 //good判定
@@ -68,7 +70,7 @@ void HitChecker::GoodDecision(Evaluation* evaluation)
 	evaluation->ui = UI::Good;
 
 	good = true;
-	a = false;
+	
 }
 
 //プレイヤーと隕石の当たり判定
@@ -76,9 +78,9 @@ void HitChecker::PlayerAndMeteorite(Player* player, Meteorite* meteorite[], Expl
 {
 	for (int i = 0; i < Meteorite::METEORITE_ARRAY_NUMBER; ++i)
 	{
-		if (meteorite[i] != nullptr && meteorite[i]->GetPosition().z <= 150)
+		if (meteorite[i] != nullptr && meteorite[i]->GetPosition().z <= SCORE_DECISION_LINE)
 		{
-			a = true;
+
 			//隕石の当たり判定球を取得
 			Math3d::Sphere sphereMeteorite = meteorite[i]->GetCollisionSphere();
 
@@ -89,35 +91,32 @@ void HitChecker::PlayerAndMeteorite(Player* player, Meteorite* meteorite[], Expl
 			//プレイヤーと隕石の２点間の距離を計算
 			direction = sqrt(pow(posX, 2) + pow(posY, 2));
 			
-			if (a)
+
+			//隕石と衝突したら
+			if (direction < RADIUS_MISS + sphereMeteorite.radius)
 			{
-
-				a = false;
-				//隕石と衝突したら
-				if (direction < RADIUS_MISS + sphereMeteorite.radius)
-				{
-					MissDecision(evaluation, player);
-				}
-
-				//隕石とギリギリの範囲
-				else if (direction < RADIUS_EXCELLENT + sphereMeteorite.radius)
-				{
-					ExcellentDecision(evaluation);
-				}
-
-				//隕石と中くらいの範囲
-				else if (direction < RADIUS_GREAT + sphereMeteorite.radius)
-				{
-					GreatDecision(evaluation);
-				}
-
-				//隕石と一番離れている
-				else if (direction < RADIUS_GOOD + sphereMeteorite.radius)
-				{
-					GoodDecision(evaluation);
-				}
+				MissDecision(evaluation, player);
 			}
-			if (meteorite[i]->GetPosition().z <= -140)
+
+			//隕石とギリギリの範囲
+			else if (direction < RADIUS_EXCELLENT + sphereMeteorite.radius)
+			{
+				ExcellentDecision(evaluation);
+			}
+
+			//隕石と中くらいの範囲
+			else if (direction < RADIUS_GREAT + sphereMeteorite.radius)
+			{
+				GreatDecision(evaluation);
+			}
+
+			//隕石と一番離れている
+			else if (direction < RADIUS_GOOD + sphereMeteorite.radius)
+			{
+				GoodDecision(evaluation);
+			}
+			
+			if (meteorite[i]->GetPosition().z <= DECISION_END_LINE)
 			{
 				if (slow)
 				{

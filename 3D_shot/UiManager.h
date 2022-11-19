@@ -14,7 +14,7 @@ public:
 	void Initialize();
 	void Finalize();
 
-	void Draw(PlayScene::State state, int frame , float feverGauge);
+	void Draw(PlayScene::State state, int frame);
 
 	void DrawTitle();
 	void DrawResult();
@@ -23,7 +23,7 @@ private:
 	UiManager(const UiManager&);		//コピーコンストラクタ
 
 	void StartGameDraw();
-	void FeverGaugeDraw(float feverGauge);
+	void FrameDraw();
 	void DrawTitleName();
 	void DrawTitleGraphic();
 
@@ -38,6 +38,7 @@ private:
 		TITLE_GRAPHIC,
 		TITLE_NAME,
 		TITLE_DESCRIPTION,
+		FRAME,
 
 		RESULT,
 		GRAPHIC_AMOUNT

@@ -17,7 +17,7 @@
 #include "Score.h"
 #include "TimeSlow.h"
 
-const int PlayScene::GAMETIME = 5;		//ゲーム時間
+const int PlayScene::GAMETIME = 30;		//ゲーム時間
 
 PlayScene::PlayScene(SceneManager* const sceneManager)
 		: SceneBase(sceneManager)
@@ -251,12 +251,12 @@ void PlayScene::UpdateGame(float deltaTime)
 		}
 	}
 
-	feverGauge = Score::GetInstance().GetScore() / static_cast<float>(50);
+	/*feverGauge = Score::GetInstance().GetScore() / static_cast<float>(50);
 	if (feverGauge > 70.0f)
 	{
 		feverGauge = 0.0f;
 		pUpdate = &PlayScene::UpdateFever;
-	}
+	}*/
 	
 	//earnscoreのスコアを取得
 	targetScore = Score::GetInstance().GetScore();
@@ -309,7 +309,7 @@ void PlayScene::Draw()
 	evaluation->Draw();
 
 	//UI管理クラスの描画
-	uiManager->Draw(state, frame, feverGauge);
+	uiManager->Draw(state, frame);
 
 	for (int i = 0; i < Meteorite::METEORITE_ARRAY_NUMBER; i++)
 	{

@@ -49,7 +49,7 @@ void UiManager::Finalize()
 	}
 }
 
-void UiManager::Draw(PlayScene::State state, int frame , float feverGauge)
+void UiManager::Draw(PlayScene::State state, int frame)
 {
 	switch (state)
 	{
@@ -58,7 +58,7 @@ void UiManager::Draw(PlayScene::State state, int frame , float feverGauge)
 		break;
 
 	case PlayScene::GAME:
-		FeverGaugeDraw(feverGauge);
+		FrameDraw();
 		break;
 	}
 }
@@ -79,13 +79,15 @@ void UiManager::StartGameDraw()
 	
 }
 
-void UiManager::FeverGaugeDraw(float feverGauge)
+void UiManager::FrameDraw()
 {
 	//フィーバーゲージ最大値
-	float feverMaxGauge = 100.0f;
+	//float feverMaxGauge = 100.0f;
 	
 	//フィーバーゲージ表示
-	DrawBox(980, 50, 980 + 850 * (feverGauge / feverMaxGauge), 110, GetColor(186, 85, 211), TRUE);
+	//DrawBox(980, 50, 980 + 850 * (feverGauge / feverMaxGauge), 110, GetColor(186, 85, 211), TRUE);
+
+	DrawGraph(0, -150, uiHandle[FRAME], TRUE);
 }
 
 void UiManager::DrawTitleName()
