@@ -78,9 +78,9 @@ void HitChecker::PlayerAndMeteorite(Player* player, Meteorite* meteorite[], Expl
 {
 	for (int i = 0; i < Meteorite::METEORITE_ARRAY_NUMBER; ++i)
 	{
+		//隕石が存在していて且つ判定ラインに入ったら判定を開始する
 		if (meteorite[i] != nullptr && meteorite[i]->GetPosition().z <= SCORE_DECISION_LINE)
 		{
-
 			//隕石の当たり判定球を取得
 			Math3d::Sphere sphereMeteorite = meteorite[i]->GetCollisionSphere();
 
@@ -91,39 +91,44 @@ void HitChecker::PlayerAndMeteorite(Player* player, Meteorite* meteorite[], Expl
 			//プレイヤーと隕石の２点間の距離を計算
 			direction = sqrt(pow(posX, 2) + pow(posY, 2));
 			
-
-			//隕石と衝突したら
-			if (direction < RADIUS_MISS + sphereMeteorite.radius)
+			if (!a)
 			{
-				MissDecision(evaluation, player);
+				//隕石と衝突したら
+				if (direction < RADIUS_MISS + sphereMeteorite.radius)
+				{
+					MissDecision(evaluation, player);
+				}
+
+				//隕石とギリギリの範囲
+				else if (direction < RADIUS_EXCELLENT + sphereMeteorite.radius)
+				{
+					ExcellentDecision(evaluation);
+				}
+
+				//隕石と中くらいの範囲
+				else if (direction < RADIUS_GREAT + sphereMeteorite.radius)
+				{
+					GreatDecision(evaluation);
+				}
+
+				//隕石と一番離れている
+				else if (direction < RADIUS_GOOD + sphereMeteorite.radius)
+				{
+					GoodDecision(evaluation);
+				}
 			}
 
-			//隕石とギリギリの範囲
-			else if (direction < RADIUS_EXCELLENT + sphereMeteorite.radius)
-			{
-				ExcellentDecision(evaluation);
-			}
+			a = true;							// 判定した
 
-			//隕石と中くらいの範囲
-			else if (direction < RADIUS_GREAT + sphereMeteorite.radius)
-			{
-				GreatDecision(evaluation);
-			}
-
-			//隕石と一番離れている
-			else if (direction < RADIUS_GOOD + sphereMeteorite.radius)
-			{
-				GoodDecision(evaluation);
-			}
-			
+			//隕石が判定最終ラインに突入しているなら判定を終了する
 			if (meteorite[i]->GetPosition().z <= DECISION_END_LINE)
 			{
+
 				if (slow)
 				{
-					
 					slow = false;
 					TimeSlow::GetInstance().SetTimeSlow(slow);
-					
+
 					earnscore->UpdateExcellent();
 					explosion->Update(meteorite[i]);
 					
@@ -132,7 +137,6 @@ void HitChecker::PlayerAndMeteorite(Player* player, Meteorite* meteorite[], Expl
 
 				if (miss)
 				{
-					
 					earnscore->UpdateMiss();
 					miss = false;
 					hit = true;
@@ -140,18 +144,16 @@ void HitChecker::PlayerAndMeteorite(Player* player, Meteorite* meteorite[], Expl
 
 				if (great)
 				{
-					
 					great = false;
 					TimeSlow::GetInstance().SetTimeSlow(great);
 
 					earnscore->UpdateGreat();
-					
+
 					hit = true;
 				}
 
 				if (good)
 				{
-				
 					earnscore->UpdateGood();
 					good = false;
 					hit = true;
@@ -164,6 +166,8 @@ void HitChecker::PlayerAndMeteorite(Player* player, Meteorite* meteorite[], Expl
 					meteorite[i] = nullptr;
 					delete meteorite[i];
 				}
+
+				a = false;
 			}
 		}
 	}

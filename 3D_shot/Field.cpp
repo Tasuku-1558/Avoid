@@ -59,5 +59,5 @@ void Field::Draw()
 {
 	MV1DrawModel(modelHandle);
 
-	DrawBillboard3D(VGet(0.0f, 120.0f, 150.0f), 0.5f, 0.5f, 1100.0f, 0.0f, line, TRUE);
+	DrawBillboard3D(VGet(0.0f, 120.0f, 230.0f), 0.5f, 0.5f, 1100.0f, 0.0f, line, TRUE);
 }
