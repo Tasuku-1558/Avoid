@@ -17,7 +17,7 @@
 #include "Score.h"
 #include "TimeSlow.h"
 
-const int PlayScene::GAMETIME = 30;		//ÉQÅ[ÉÄéûä‘
+const int PlayScene::GAMETIME = 12;		//ÉQÅ[ÉÄéûä‘
 
 PlayScene::PlayScene(SceneManager* const sceneManager)
 		: SceneBase(sceneManager)
@@ -40,6 +40,7 @@ PlayScene::PlayScene(SceneManager* const sceneManager)
 		, countDown(0)
 		, score(0)
 		, font(0)
+		, smallFont(0)
 		, targetScore(0)
 		, slow(false)
 		, feverGauge(0.0f)
@@ -140,6 +141,7 @@ void PlayScene::Activate()
 	frame = 0;
 
 	font = CreateFontToHandle("Oranienbaum", 80, 1);
+	smallFont = CreateFontToHandle("Oranienbaum", 40, 1);
 	pUpdate = &PlayScene::UpdateStart;
 
 	for (int i = 0; i < Meteorite::METEORITE_ARRAY_NUMBER; i++)
@@ -193,7 +195,6 @@ void PlayScene::UpdateStart(float deltaTime)
 	/*if (frame > 120)
 	{*/
 		frame = 0;
-		feverGauge = 0.0f;
 		score = 0;
 		state = GAME;
 		
@@ -291,6 +292,26 @@ void PlayScene::UpdateFever(float deltaTime)
 
 }
 
+void PlayScene::DisplayScore()
+{
+	/*if (earnscore->aa())
+	{*/
+		int a = 100;
+		
+		DrawFormatStringToHandle(1000, a, GetColor(255, 255, 0), font, "SCORE : %d", score);
+	/*}*/
+}
+
+void PlayScene::DisplayTime()
+{
+	
+	DrawFormatStringToHandle(500, 100, GetColor(255, 0, 0), font, "TIME : %d", countDown);
+	if (countDown < 10)
+	{
+		
+	}
+}
+
 void PlayScene::Draw()
 {
 	//îwåiï`âÊ
@@ -327,8 +348,8 @@ void PlayScene::Draw()
 	//}
 
 	//êßå¿éûä‘ï\é¶
-	DrawFormatStringToHandle(500, 100, GetColor(255, 0, 0), font, "TIME : %d", countDown);
+	DisplayTime();
 
 	//älìæÉXÉRÉAï\é¶
-	DrawFormatStringToHandle(1000, 100, GetColor(255, 255, 0), font, "SCORE : %d", score);
+	DisplayScore();
 }

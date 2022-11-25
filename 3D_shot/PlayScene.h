@@ -55,6 +55,8 @@ private:
 	void UpdateStart(float deltaTime);				//開始前
 	void UpdateGame(float deltaTime);				//ゲーム中
 	void UpdateFever(float deltaTime);
+	void DisplayScore();
+	void DisplayTime();
 	void(PlayScene::* pUpdate)(float deltaTime);	//Update関数ポインタ
 
 	State state;				//ゲーム状態
@@ -66,6 +68,7 @@ private:
 	int  targetScore;			//目標スコア
 	int  score;					//獲得スコア
 	int  font;					//UIフォント
+	int  smallFont;
 	float feverGauge;			//フィーバー用ゲージ
 	bool slow;
 	float count;
