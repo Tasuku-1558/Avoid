@@ -47,6 +47,7 @@ void ResultScene::Finalize()
 	background->Finalize();
 
 	DeleteFontToHandle(scoreFont);
+	DeleteFontToHandle(font);
 }
 
 void ResultScene::Activate()

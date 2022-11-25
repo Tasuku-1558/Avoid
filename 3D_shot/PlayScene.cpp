@@ -133,6 +133,10 @@ void PlayScene::Finalize()
 	evaluation->Finalize();
 
 	SafeDelete(earnscore);
+
+	//作成したフォントデータの削除
+	DeleteFontToHandle(font);
+	DeleteFontToHandle(smallFont);
 }
 
 void PlayScene::Activate()
@@ -294,22 +298,18 @@ void PlayScene::UpdateFever(float deltaTime)
 
 void PlayScene::DisplayScore()
 {
-	/*if (earnscore->aa())
-	{*/
-		int a = 100;
-		
-		DrawFormatStringToHandle(1000, a, GetColor(255, 255, 0), font, "SCORE : %d", score);
-	/*}*/
+	
+	int a = 100;
+	DrawFormatStringToHandle(1000, a, GetColor(255, 255, 0), font, "SCORE : %d", score);
+	
+	
 }
 
 void PlayScene::DisplayTime()
 {
 	
 	DrawFormatStringToHandle(500, 100, GetColor(255, 0, 0), font, "TIME : %d", countDown);
-	if (countDown < 10)
-	{
-		
-	}
+	
 }
 
 void PlayScene::Draw()
