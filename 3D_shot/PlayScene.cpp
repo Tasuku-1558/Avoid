@@ -17,7 +17,7 @@
 #include "Score.h"
 #include "TimeSlow.h"
 
-const int PlayScene::GAMETIME = 12;		//ÉQÅ[ÉÄéûä‘
+const int PlayScene::GAMETIME = 30;		//ÉQÅ[ÉÄéûä‘
 
 PlayScene::PlayScene(SceneManager* const sceneManager)
 		: SceneBase(sceneManager)
@@ -300,8 +300,9 @@ void PlayScene::DisplayScore()
 {
 	
 	int a = 100;
-	DrawFormatStringToHandle(1000, a, GetColor(255, 255, 0), font, "SCORE : %d", score);
 	
+	DrawFormatStringToHandle(1000, a, GetColor(255, 255, 0), font, "SCORE : %d", score);
+
 	
 }
 

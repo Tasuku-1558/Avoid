@@ -81,13 +81,8 @@ void UiManager::StartGameDraw()
 
 void UiManager::FrameDraw()
 {
-	//フィーバーゲージ最大値
-	//float feverMaxGauge = 100.0f;
-	
-	//フィーバーゲージ表示
-	//DrawBox(980, 50, 980 + 850 * (feverGauge / feverMaxGauge), 110, GetColor(186, 85, 211), TRUE);
-
 	DrawGraph(0, -150, uiHandle[FRAME], TRUE);
+	//DrawGraph(0, 0, uiHandle[SLOW], TRUE);
 }
 
 void UiManager::DrawTitleName()
