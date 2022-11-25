@@ -298,12 +298,12 @@ void PlayScene::UpdateFever(float deltaTime)
 
 void PlayScene::DisplayScore()
 {
-	
-	int a = 100;
-	
-	DrawFormatStringToHandle(1000, a, GetColor(255, 255, 0), font, "SCORE : %d", score);
-
-	
+	if (earnscore->aa())
+	{
+		static float exanim = 0.0f;
+		exanim += 0.05f;
+		DrawFormatStringToHandle(1000, 100* sinf(exanim), GetColor(255, 255, 0), font, "SCORE : %d", score);
+	}
 }
 
 void PlayScene::DisplayTime()
