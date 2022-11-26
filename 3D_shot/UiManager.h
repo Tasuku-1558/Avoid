@@ -2,7 +2,6 @@
 
 #include "DxLib.h"
 #include "PlayScene.h"
-
 #include <string>		//文字列型クラス
 
 class UiManager final
@@ -16,16 +15,13 @@ public:
 
 	void Draw(PlayScene::State state, int frame);
 
-	void DrawTitle();
-	void DrawResult();
 
 private:
 	UiManager(const UiManager&);		//コピーコンストラクタ
-
+	
 	void StartGameDraw();
 	void FrameDraw();
-	void DrawTitleName();
-	void DrawTitleGraphic();
+	void SlowScreenDraw();
 
 	//静的定数
 	static const std::string FOLDER_PATH;			//画像格納フォルダ
@@ -35,13 +31,8 @@ private:
 	//画像の種類
 	enum Graphic
 	{
-		TITLE_GRAPHIC,
-		TITLE_NAME,
-		TITLE_DESCRIPTION,
 		FRAME,
-		SLOW,
 
-		RESULT,
 		GRAPHIC_AMOUNT
 	};
 

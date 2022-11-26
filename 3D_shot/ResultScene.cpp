@@ -22,6 +22,8 @@ ResultScene::ResultScene(SceneManager* const sceneManager)
 	, resultUi(0)
 	, scoreFont(0)
 	, font(0)
+	, feverGauge(0.0f)
+	, count(0)
 {
 	//ˆ—‚È‚µ
 }
@@ -87,6 +89,7 @@ void ResultScene::UpdateStart()
 {
 	frame = 0;
 	displayCount = 0.0f;
+	feverGauge = 0.0f;
 	state = GAME;
 
 	pUpdate = &ResultScene::UpdateGame;
@@ -166,6 +169,19 @@ void ResultScene::Blink()
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, alpha);
 }
 
+void ResultScene::ScoreGauge()
+{
+	float feverMaxGauge = 100.0f;
+	count += 1;
+	if (count > 20)
+	{
+		feverGauge = totalScore / static_cast<float>(50);
+		count = 0;
+	}
+	
+	DrawBox(200, 20, 310 + 850 * (feverGauge / feverMaxGauge), 110, GetColor(186, 85, 211), FALSE);
+}
+
 void ResultScene::Draw()
 {
 	//”wŒi•`‰æ
@@ -175,4 +191,6 @@ void ResultScene::Draw()
 	DisplayScore();
 
 	Blink();
+
+	ScoreGauge();
 }

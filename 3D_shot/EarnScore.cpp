@@ -14,7 +14,6 @@ EarnScore::EarnScore()
 	, greatCount(0)
 	, goodCount(0)
 	, missCount(0)
-	, a(false)
 {
 	//èàóùÇ»Çµ
 }
@@ -31,7 +30,6 @@ void EarnScore::Activate()
 	greatCount = FIRST_SCORE;
 	goodCount = FIRST_SCORE;
 	missCount = FIRST_SCORE;
-	a = false;
 }
 
 void EarnScore::Finalize()
@@ -45,8 +43,6 @@ void EarnScore::UpdateMiss()
 
 	missCount++;
 	Score::GetInstance().SetMissCount(missCount);
-
-	a = true;
 }
 
 void EarnScore::UpdateExcellent()
@@ -56,8 +52,6 @@ void EarnScore::UpdateExcellent()
 
 	excellentCount++;
 	Score::GetInstance().SetExcellentCount(excellentCount);
-
-	a = true;
 }
 
 void EarnScore::UpdateGreat()
@@ -67,8 +61,6 @@ void EarnScore::UpdateGreat()
 
 	greatCount++;
 	Score::GetInstance().SetGreatCount(greatCount);
-
-	a = true;
 }
 
 void EarnScore::UpdateGood()
@@ -78,6 +70,4 @@ void EarnScore::UpdateGood()
 
 	goodCount++;
 	Score::GetInstance().SetGoodCount(goodCount);
-
-	a = true;
 }

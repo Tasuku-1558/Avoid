@@ -20,11 +20,11 @@ const int   HitChecker::DECISION_END_LINE	= -140;		//判定終了ライン
 HitChecker::HitChecker()
 	: direction(0.0f)
 	, hit(false)
-	, slow(false)
+	, excellent(false)
 	, miss(false)
 	, great(false)
 	, good(false)
-	, a(false)
+	, decisionFlag(false)
 {
 	//処理なし
 }
@@ -49,9 +49,8 @@ void HitChecker::ExcellentDecision(Evaluation* evaluation)
 {
 	evaluation->ui = UI::Excellent;
 
-	slow = true;
-	TimeSlow::GetInstance().SetTimeSlow(slow);
-	
+	excellent = true;
+	TimeSlow::GetInstance().SetTimeSlow(excellent);
 }
 
 //great判定
@@ -61,7 +60,6 @@ void HitChecker::GreatDecision(Evaluation* evaluation)
 
 	great = true;
 	TimeSlow::GetInstance().SetTimeSlow(great);
-	
 }
 
 //good判定
@@ -91,8 +89,10 @@ void HitChecker::PlayerAndMeteorite(Player* player, Meteorite* meteorite[], Expl
 			//プレイヤーと隕石の２点間の距離を計算
 			direction = sqrt(pow(posX, 2) + pow(posY, 2));
 			
-			if (!a)
+			//判定してないなら
+			if (!decisionFlag)
 			{
+				
 				//隕石と衝突したら
 				if (direction < RADIUS_MISS + sphereMeteorite.radius)
 				{
@@ -118,16 +118,16 @@ void HitChecker::PlayerAndMeteorite(Player* player, Meteorite* meteorite[], Expl
 				}
 			}
 
-			a = true;							// 判定した
+			decisionFlag = true;							// 判定した
 
 			//隕石が判定最終ラインに突入しているなら判定を終了する
 			if (meteorite[i]->GetPosition().z <= DECISION_END_LINE)
 			{
-
-				if (slow)
+				if (excellent)
 				{
-					slow = false;
-					TimeSlow::GetInstance().SetTimeSlow(slow);
+					excellent = false;
+					TimeSlow::GetInstance().SetTimeSlow(excellent);
+					
 
 					earnscore->UpdateExcellent();
 					explosion->Update(meteorite[i]);
@@ -146,7 +146,7 @@ void HitChecker::PlayerAndMeteorite(Player* player, Meteorite* meteorite[], Expl
 				{
 					great = false;
 					TimeSlow::GetInstance().SetTimeSlow(great);
-
+					
 					earnscore->UpdateGreat();
 
 					hit = true;
@@ -167,7 +167,7 @@ void HitChecker::PlayerAndMeteorite(Player* player, Meteorite* meteorite[], Expl
 					delete meteorite[i];
 				}
 
-				a = false;
+				decisionFlag = false;
 			}
 		}
 	}

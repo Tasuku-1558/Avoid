@@ -29,6 +29,7 @@ public:
 private:
 
 	void EvaluationUi();
+	void SlowUi();
 
 	//Še•]‰¿•¶Žš‚ÌŠi”[—p
 	int excellentGraph;
@@ -36,6 +37,7 @@ private:
 	int goodGraph;
 	int missGraph;
 
+	int slowGraph;
 	float waitTime;							//•]‰¿•¶Žš‚Ì•\Ž¦ŽžŠÔ
 	float scale;							//•]‰¿•¶Žš‚Ì‘å‚«‚³
 };

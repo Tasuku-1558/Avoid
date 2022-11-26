@@ -15,7 +15,7 @@ public:
 	~HitChecker();
 
 	void PlayerAndMeteorite(Player* player, Meteorite* meteorite[], Explosion* explosion, Evaluation* evaluation, EarnScore* earnscore);		//当たりチェック
-	
+
 private:
 	HitChecker(const HitChecker&);			//コピーコンストラクタ
 
@@ -27,11 +27,11 @@ private:
 
 	double direction;						//プレイヤーと隕石の距離
 	bool hit;								//隕石と衝突したか
-	bool slow;								//動きを遅くするかどうか
-	bool miss;
-	bool great;
-	bool good;
-	bool a;
+	bool excellent;							//excellentだったら
+	bool miss;								//missだったら
+	bool great;								//greatだったら
+	bool good;								//goodだったら
+	bool decisionFlag;						//判定したか
 
 	//静的定数
 	static const float RADIUS_GOOD;			//goodの範囲

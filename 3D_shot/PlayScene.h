@@ -5,6 +5,7 @@
 
 class Camera;
 class BackGround;
+class SlowScreen;
 class Field;
 class Player;
 class Meteorite;
@@ -17,7 +18,6 @@ class EarnScore;
 
 class PlayScene final : public SceneBase
 {
-	friend class TitleScene;
 public:
 	 PlayScene(SceneManager* const sceneManager);
 	~PlayScene();
@@ -33,7 +33,6 @@ public:
 	{
 		START,	//開始前
 		GAME,	//ゲーム中
-		FEVER,
 	};
 
 private:
@@ -54,7 +53,6 @@ private:
 	
 	void UpdateStart(float deltaTime);				//開始前
 	void UpdateGame(float deltaTime);				//ゲーム中
-	void UpdateFever(float deltaTime);
 	void DisplayScore();
 	void DisplayTime();
 	void(PlayScene::* pUpdate)(float deltaTime);	//Update関数ポインタ
@@ -68,10 +66,7 @@ private:
 	int  targetScore;			//目標スコア
 	int  score;					//獲得スコア
 	int  font;					//UIフォント
-	int  smallFont;
-	float feverGauge;			//フィーバー用ゲージ
 	bool slow;
-	float count;
 
 
 	//静的定数

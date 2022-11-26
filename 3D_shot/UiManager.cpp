@@ -63,17 +63,6 @@ void UiManager::Draw(PlayScene::State state, int frame)
 	}
 }
 
-//ƒ^ƒCƒgƒ‹•`‰æˆ—
-void UiManager::DrawTitle()
-{
-	DrawTitleName();
-	DrawTitleGraphic();
-}
-
-void UiManager::DrawResult()
-{
-}
-
 void UiManager::StartGameDraw()
 {
 	
@@ -82,14 +71,4 @@ void UiManager::StartGameDraw()
 void UiManager::FrameDraw()
 {
 	DrawGraph(0, -150, uiHandle[FRAME], TRUE);
-	//DrawGraph(0, 0, uiHandle[SLOW], TRUE);
-}
-
-void UiManager::DrawTitleName()
-{
-}
-
-void UiManager::DrawTitleGraphic()
-{
-	DrawGraph(0, 0, uiHandle[TITLE_GRAPHIC], TRUE);
 }

@@ -17,7 +17,7 @@
 #include "Score.h"
 #include "TimeSlow.h"
 
-const int PlayScene::GAMETIME = 30;		//ゲーム時間
+const int PlayScene::GAMETIME = 3;		//ゲーム時間
 
 PlayScene::PlayScene(SceneManager* const sceneManager)
 		: SceneBase(sceneManager)
@@ -40,11 +40,8 @@ PlayScene::PlayScene(SceneManager* const sceneManager)
 		, countDown(0)
 		, score(0)
 		, font(0)
-		, smallFont(0)
 		, targetScore(0)
 		, slow(false)
-		, feverGauge(0.0f)
-		, count(0.0f)
 {
 	//処理なし
 }
@@ -136,7 +133,6 @@ void PlayScene::Finalize()
 
 	//作成したフォントデータの削除
 	DeleteFontToHandle(font);
-	DeleteFontToHandle(smallFont);
 }
 
 void PlayScene::Activate()
@@ -145,7 +141,7 @@ void PlayScene::Activate()
 	frame = 0;
 
 	font = CreateFontToHandle("Oranienbaum", 80, 1);
-	smallFont = CreateFontToHandle("Oranienbaum", 40, 1);
+	
 	pUpdate = &PlayScene::UpdateStart;
 
 	for (int i = 0; i < Meteorite::METEORITE_ARRAY_NUMBER; i++)
@@ -255,13 +251,6 @@ void PlayScene::UpdateGame(float deltaTime)
 			}
 		}
 	}
-
-	/*feverGauge = Score::GetInstance().GetScore() / static_cast<float>(50);
-	if (feverGauge > 70.0f)
-	{
-		feverGauge = 0.0f;
-		pUpdate = &PlayScene::UpdateFever;
-	}*/
 	
 	//earnscoreのスコアを取得
 	targetScore = Score::GetInstance().GetScore();
@@ -290,27 +279,16 @@ void PlayScene::UpdateGame(float deltaTime)
 	}
 }
 
-void PlayScene::UpdateFever(float deltaTime)
-{
-	UpdateGame(deltaTime);
-
-}
-
 void PlayScene::DisplayScore()
 {
-	if (earnscore->aa())
-	{
-		static float exanim = 0.0f;
-		exanim += 0.05f;
-		DrawFormatStringToHandle(1000, 100* sinf(exanim), GetColor(255, 255, 0), font, "SCORE : %d", score);
-	}
+	static float exanim = 0.0f;
+	exanim += 0.5f;
+
+	DrawFormatStringToHandle(1000,  100 - 50.0f * sinf(exanim), GetColor(255, 255, 0), font, "SCORE : %d", score);
 }
 
 void PlayScene::DisplayTime()
 {
-	
-	DrawFormatStringToHandle(500, 100, GetColor(255, 0, 0), font, "TIME : %d", countDown);
-	
 }
 
 void PlayScene::Draw()
@@ -349,8 +327,8 @@ void PlayScene::Draw()
 	//}
 
 	//制限時間表示
-	DisplayTime();
+	DrawFormatStringToHandle(500, 100, GetColor(255, 0, 0), font, "TIME : %d", countDown);
 
 	//獲得スコア表示
-	DisplayScore();
+	DrawFormatStringToHandle(1000, 100, GetColor(255, 255, 0), font, "SCORE : %d", score);
 }

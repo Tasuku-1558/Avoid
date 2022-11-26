@@ -2,15 +2,11 @@
 
 #include "SceneBase.h"
 
-class PlayScene;
-
 class TitleScene final : public SceneBase
 {
 public:
 	 TitleScene(SceneManager* const sceneManager);
 	~TitleScene();
-
-	void Receive(PlayScene* playScene);
 
 	void Initialize();					//初期化
 	void Finalize();
@@ -21,8 +17,6 @@ public:
 private:
 
 	TitleScene(const TitleScene&);				//コピーコンストラクタ
-
-	PlayScene* playScene;
 
 	void Blink();						//文字を明滅
 
