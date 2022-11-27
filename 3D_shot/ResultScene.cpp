@@ -22,8 +22,12 @@ ResultScene::ResultScene(SceneManager* const sceneManager)
 	, resultUi(0)
 	, scoreFont(0)
 	, font(0)
-	, feverGauge(0.0f)
-	, count(0)
+	, scoreGauge(0.0f)
+	, scoreGaugeFrame(0)
+	, scoreB(0)
+	, scoreA(0)
+	, scoreS(0)
+	, a(false)
 {
 	//処理なし
 }
@@ -40,6 +44,10 @@ void ResultScene::Initialize()
 	background->Initialize();
 
 	resultUi = LoadGraph("data/image/ResultUi.png");
+	scoreGaugeFrame = LoadGraph("data/image/ScoreGauge.png");
+	scoreB = LoadGraph("data/image/ScoreB.png");
+	scoreA = LoadGraph("data/image/ScoreA.png");
+	scoreS = LoadGraph("data/image/ScoreS.png");
 }
 
 void ResultScene::Finalize()
@@ -50,6 +58,12 @@ void ResultScene::Finalize()
 
 	DeleteFontToHandle(scoreFont);
 	DeleteFontToHandle(font);
+
+	DeleteGraph(resultUi);
+	DeleteGraph(scoreGaugeFrame);
+	DeleteGraph(scoreB);
+	DeleteGraph(scoreA);
+	DeleteGraph(scoreS);
 }
 
 void ResultScene::Activate()
@@ -89,7 +103,7 @@ void ResultScene::UpdateStart()
 {
 	frame = 0;
 	displayCount = 0.0f;
-	feverGauge = 0.0f;
+	scoreGauge = 0.0f;
 	state = GAME;
 
 	pUpdate = &ResultScene::UpdateGame;
@@ -169,17 +183,48 @@ void ResultScene::Blink()
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, alpha);
 }
 
+//スコアゲージ表示
 void ResultScene::ScoreGauge()
 {
-	float feverMaxGauge = 100.0f;
-	count += 1;
-	if (count > 20)
+	float scoreMaxGauge = 100.0f;
+	//a = true;
+	DrawBox(500, 200, 500 + 200 * (scoreGauge / scoreMaxGauge), 117, GetColor(186, 85, 211), TRUE);
+	DrawGraph(218, -270, scoreGaugeFrame, TRUE);
+
+	scoreGauge += 1;
+
+	if (scoreGauge >= scoreMaxGauge)
 	{
-		feverGauge = totalScore / static_cast<float>(50);
-		count = 0;
+		//B判定
+		if (totalScore <= 0 || totalScore >= 500)
+		{
+			scoreGauge = 180.0f;
+			/*scoreGauge = totalScore / static_cast<float>(100);
+			a = false;*/
+			
+			DrawRotaGraph(1450, 150, 1.0f, 0.5, scoreB, TRUE);
+		}
+
+		//A判定
+		if (totalScore >= 4000)
+		{
+			scoreGauge = 265.0f;
+			/*scoreGauge = totalScore / static_cast<float>(100);
+			a = false;*/
+
+			DrawRotaGraph(1450, 150, 1.0f, 0.5, scoreA, TRUE);
+		}
+
+		//S判定
+		if (totalScore >= 10000)
+		{
+			scoreGauge = 350.0f;
+			/*scoreGauge = totalScore / static_cast<float>(100);
+			a = false;*/
+
+			DrawRotaGraph(1450, 150, 1.0f, 0.5, scoreS, TRUE);
+		}
 	}
-	
-	DrawBox(200, 20, 310 + 850 * (feverGauge / feverMaxGauge), 110, GetColor(186, 85, 211), FALSE);
 }
 
 void ResultScene::Draw()
@@ -192,5 +237,6 @@ void ResultScene::Draw()
 
 	Blink();
 
+	//スコアゲージ表示
 	ScoreGauge();
 }

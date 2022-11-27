@@ -5,9 +5,7 @@
 
 TitleScene::TitleScene(SceneManager* const sceneManager)
 	: SceneBase(sceneManager)
-	, titleImage(0)
-	, titleBackgroundX(0)
-	, titleBackgroundY(0)
+	, backGroundHandle(0)
 	, titleName(0)
 	, titleUi(0)
 {
@@ -16,22 +14,29 @@ TitleScene::TitleScene(SceneManager* const sceneManager)
 
 TitleScene::~TitleScene()
 {
-	//èàóùÇ»Çµ
+	if (backGroundHandle != NULL)
+	{
+		Finalize();
+	}
 }
 
 void TitleScene::Initialize()
 {
-	titleImage = LoadGraph("data/image/titleImage.png");
+	backGroundHandle = LoadGraph("data/video/PlayVideo.mp4");
 	titleName = LoadGraph("data/image/titleName.png");
 	titleUi = LoadGraph("data/image/titleUi.png");
 }
 
 void TitleScene::Finalize()
 {
+	DeleteGraph(backGroundHandle);
+	backGroundHandle = NULL;
 }
 
 void TitleScene::Activate()
 {
+	//ÉÄÅ[ÉrÅ[Ççƒê∂èÛë‘Ç…
+	PlayMovieToGraph(backGroundHandle);
 }
 
 void TitleScene::Update(float deltaTime)
@@ -68,7 +73,14 @@ void TitleScene::Blink()
 
 void TitleScene::Draw()
 {
-	DrawGraph(titleBackgroundX, titleBackgroundY, titleImage, TRUE);
+	DrawGraph(0, 0, backGroundHandle, FALSE);
+
+	if (GetMovieStateToGraph(backGroundHandle) == 0)
+	{
+		SeekMovieToGraph(backGroundHandle, 5000);
+
+		PlayMovieToGraph(backGroundHandle);
+	}
 
 	DrawGraph(350, 450, titleName, TRUE);
 	

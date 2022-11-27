@@ -43,7 +43,7 @@ private:
 	BackGround* background;
 	Field* field;
 	Player* player;
-	Meteorite* meteorite[32] = { nullptr };
+	Meteorite* meteorite[34] = { nullptr };
 	//std::vector<Meteorite*> meteorite;
 	HitChecker* hitChecker;
 	UiManager* uiManager;

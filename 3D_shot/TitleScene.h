@@ -16,13 +16,11 @@ public:
 	
 private:
 
-	TitleScene(const TitleScene&);				//コピーコンストラクタ
+	TitleScene(const TitleScene&);		//コピーコンストラクタ
 
 	void Blink();						//文字を明滅
 
-	int titleImage;			//タイトル画像
-	int titleBackgroundX;	//タイトル背景X座標
-	int titleBackgroundY;	//タイトル背景Y座標
+	int backGroundHandle;
 
 	int titleName;
 	int titleUi;

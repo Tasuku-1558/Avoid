@@ -33,7 +33,7 @@ private:
 	void AcquisitionScore();			//スコア取得
 	void DisplayScore();				//獲得スコア表示
 	void Blink();						//文字を明滅
-	void ScoreGauge();
+	void ScoreGauge();					//スコアゲージ表示
 	void UpdateStart();					//開始前
 	void UpdateGame();					//ゲーム中
 	void UpdateResult();				//リザルト中
@@ -51,6 +51,10 @@ private:
 	int resultUi;
 	int scoreFont;				//獲得スコアフォント
 	int font;
-	float feverGauge;
-	int count;
+	float scoreGauge;
+	int scoreGaugeFrame;
+	int scoreB;
+	int scoreA;
+	int scoreS;
+	bool a;
 };
