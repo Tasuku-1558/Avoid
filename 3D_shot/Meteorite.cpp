@@ -10,7 +10,6 @@ Meteorite::Meteorite() : MeteoriteBase()
 	, shadowImage(0)
 	, shadowPosition()
 {
-	
 }
 
 Meteorite::~Meteorite()
@@ -53,6 +52,7 @@ void Meteorite::Activate()
 	position = VGet(GetRand(RANDOM_RANGE_X_OR_Y), GetRand(RANDOM_RANGE_X_OR_Y), Z_POSITION);
 	dir = DIR;
 	random = rand() % RANGE;
+	speed = SPEED;
 
 	// ランダムな回転角速度をセット
 	rotateSpeed = VGet(GetRand(RANDOM_ROTATION_SPEED) / 1000.0f, GetRand(RANDOM_ROTATION_SPEED) / 1000.0f, GetRand(RANDOM_ROTATION_SPEED) / 1000.0f);
@@ -94,8 +94,13 @@ void Meteorite::Move(float deltaTime, Player* player)
 		dir = DIR;
 	}
 	
-	position += dir * deltaTime * SPEED;
+	position += dir * deltaTime * speed;
 	rotateAngle += rotateSpeed;
+}
+
+void Meteorite::SpeedUp()
+{
+	speed = 5000.0f;
 }
 
 //描画処理

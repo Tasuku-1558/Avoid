@@ -17,7 +17,7 @@
 #include "Score.h"
 #include "TimeSlow.h"
 
-const int PlayScene::GAMETIME = 30;		//ゲーム時間
+const int PlayScene::GAMETIME = 22;		//ゲーム時間
 
 PlayScene::PlayScene(SceneManager* const sceneManager)
 		: SceneBase(sceneManager)
@@ -42,6 +42,7 @@ PlayScene::PlayScene(SceneManager* const sceneManager)
 		, font(0)
 		, targetScore(0)
 		, slow(false)
+		, count(0)
 {
 	//処理なし
 }
@@ -180,6 +181,27 @@ void PlayScene::Activate()
 	player->Activate();
 }
 
+//ゲーム時間
+void PlayScene::GameCountDown()
+{
+	nowTime = GetNowCount();
+	countDown = GAMETIME - (nowTime - startTime) / 1000;
+
+	//カウントダウンが20秒以下になったらフィーバー状態へ移行
+	if (countDown < 20)
+	{
+		state = FEVER;
+		pUpdate = &PlayScene::UpdateFever;
+	}
+
+	//TIMEが0になったら
+	if (countDown == 0)
+	{
+		parent->SetNextScene(SceneManager::RESULT);
+		return;
+	}
+}
+
 void PlayScene::Update(float deltaTime)
 {
 	if (pUpdate != nullptr)
@@ -218,7 +240,6 @@ void PlayScene::UpdateStart(float deltaTime)
 		//ゲーム起動時の時間を取得
 		startTime = GetNowCount();
 	/*}*/
-	
 }
 
 void PlayScene::UpdateGame(float deltaTime)
@@ -227,7 +248,7 @@ void PlayScene::UpdateGame(float deltaTime)
 	player->Update(deltaTime);
 
 	meteoritePopFlag = true;
-
+	
 	for (/*auto ptr:meteorite*/int i = 0; i < Meteorite::METEORITE_ARRAY_NUMBER; i++)
 	{
 		if (meteorite[i] != nullptr)
@@ -239,8 +260,7 @@ void PlayScene::UpdateGame(float deltaTime)
 				
 				//隕石制御
 				meteorite[i]->Update(deltaTime, player);
-
-
+				
 				//隕石マネージャー制御
 				//MeteoriteManager::Update(deltaTime, player);
 
@@ -268,27 +288,12 @@ void PlayScene::UpdateGame(float deltaTime)
 		}
 	}
 
-	nowTime = GetNowCount();
-	countDown = GAMETIME - (nowTime - startTime) / 1000;
-
-	//TIMEが0になったら
-	if (countDown == 0)
-	{
-		parent->SetNextScene(SceneManager::RESULT);
-		return;
-	}
+	GameCountDown();
 }
 
-void PlayScene::DisplayScore()
+void PlayScene::UpdateFever(float deltaTime)
 {
-	static float exanim = 0.0f;
-	exanim += 0.5f;
-
-	DrawFormatStringToHandle(1000,  100 - 50.0f * sinf(exanim), GetColor(255, 255, 0), font, "SCORE : %d", score);
-}
-
-void PlayScene::DisplayTime()
-{
+	UpdateGame(deltaTime);
 }
 
 void PlayScene::Draw()

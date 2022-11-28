@@ -22,17 +22,20 @@ public:
 	void Finalize();
 	void Activate();
 	void Update(float deltaTime, Player* player);
+	void SpeedUp();
 	void Draw();
 	
 	Sphere GetCollisionSphere() { return collisionSphere; } //当たり判定球を返す
 
+
 private:
 	Meteorite(const Meteorite&);				//コピーコンストラクタ
 
-	void Move(float deltaTime, Player* player);		//移動処理
+	void Move(float deltaTime, Player* player);					//移動処理
+	
 
 	int shadowImage;					//隕石影
-	VECTOR shadowPosition;
+	VECTOR shadowPosition;				//隕石影位置
 	Sphere collisionSphere;				//当たり判定球
 
 };

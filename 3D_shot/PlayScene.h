@@ -28,11 +28,12 @@ public:
 	void Update(float deltaTime);
 	void Draw();
 
-	//状態
+	//ゲーム状態
 	enum State
 	{
 		START,	//開始前
 		GAME,	//ゲーム中
+		FEVER,	//フィーバー中
 	};
 
 private:
@@ -53,9 +54,9 @@ private:
 	
 	void UpdateStart(float deltaTime);				//開始前
 	void UpdateGame(float deltaTime);				//ゲーム中
-	void DisplayScore();
-	void DisplayTime();
+	void UpdateFever(float deltaTime);				//フィーバー中
 	void(PlayScene::* pUpdate)(float deltaTime);	//Update関数ポインタ
+	void GameCountDown();							//ゲーム時間
 
 	State state;				//ゲーム状態
 	int  frame;					//フレーム数
@@ -67,6 +68,7 @@ private:
 	int  score;					//獲得スコア
 	int  font;					//UIフォント
 	bool slow;
+	int count;
 
 
 	//静的定数

@@ -17,6 +17,7 @@ MeteoriteBase::MeteoriteBase()
 	, rotateAngle()
 	, popFlag(true)
 	, random(0)
+	, speed(0.0f)
 {
 	//ˆ—‚È‚µ
 }
