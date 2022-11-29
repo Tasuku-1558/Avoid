@@ -7,7 +7,7 @@ Evaluation::Evaluation()
 	, greatGraph(0)
 	, goodGraph(0)
 	, missGraph(0)
-	, slowGraph(0)
+	, slowScreenGraph(0)
 	, scale(0.0f)
 	, waitTime(0.0f)
 {
@@ -21,11 +21,11 @@ Evaluation::~Evaluation()
 
 void Evaluation::Initialize()
 {
-	excellentGraph = LoadGraph("data/image/ExcellentEffect.png");
-	greatGraph	   = LoadGraph("data/image/GreatEffect.png");
-	goodGraph	   = LoadGraph("data/image/GoodEffect.png");
-	missGraph	   = LoadGraph("data/image/MissEffect.png");
-	slowGraph	   = LoadGraph("data/image/SlowScreen3.png");
+	excellentGraph  = LoadGraph("data/image/ExcellentEffect.png");
+	greatGraph	    = LoadGraph("data/image/GreatEffect.png");
+	goodGraph	    = LoadGraph("data/image/GoodEffect.png");
+	missGraph	    = LoadGraph("data/image/MissEffect.png");
+	slowScreenGraph	= LoadGraph("data/image/SlowScreen.png");
 }
 
 void Evaluation::Finalize()
@@ -34,7 +34,7 @@ void Evaluation::Finalize()
 	DeleteGraph(greatGraph);
 	DeleteGraph(goodGraph);
 	DeleteGraph(missGraph);
-	DeleteGraph(slowGraph);
+	DeleteGraph(slowScreenGraph);
 }
 
 void Evaluation::Activate()
@@ -64,7 +64,7 @@ void Evaluation::Update(int evaluationGraph)
 
 void Evaluation::SlowUi()
 {
-	DrawGraph(0, 0, slowGraph, TRUE);
+	DrawGraph(0, 0, slowScreenGraph, TRUE);
 }
 
 void Evaluation::EvaluationUi()

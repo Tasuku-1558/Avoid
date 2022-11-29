@@ -4,7 +4,7 @@ class Meteorite;
 class Player;
 class Explosion;
 class Evaluation;
-class EarnScore;
+class ScoreEarn;
 
 using namespace std;
 
@@ -14,7 +14,7 @@ public:
 	 HitChecker();
 	~HitChecker();
 
-	void PlayerAndMeteorite(Player* player, Meteorite* meteorite[], Explosion* explosion, Evaluation* evaluation, EarnScore* earnscore);		//当たりチェック
+	void PlayerAndMeteorite(Player* player, Meteorite* meteorite[], Explosion* explosion, Evaluation* evaluation, ScoreEarn* scoreearn);		//当たりチェック
 
 private:
 	HitChecker(const HitChecker&);			//コピーコンストラクタ

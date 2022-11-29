@@ -4,7 +4,7 @@
 #include "Meteorite.h"
 #include "Explosion.h"
 #include "Evaluation.h"
-#include "EarnScore.h"
+#include "ScoreEarn.h"
 #include <math.h>
 
 using namespace std;
@@ -72,7 +72,7 @@ void HitChecker::GoodDecision(Evaluation* evaluation)
 }
 
 //ÉvÉåÉCÉÑÅ[Ç∆Ë¶êŒÇÃìñÇΩÇËîªíË
-void HitChecker::PlayerAndMeteorite(Player* player, Meteorite* meteorite[], Explosion* explosion, Evaluation* evaluation, EarnScore* earnscore)
+void HitChecker::PlayerAndMeteorite(Player* player, Meteorite* meteorite[], Explosion* explosion, Evaluation* evaluation, ScoreEarn* scoreearn)
 {
 	for (int i = 0; i < Meteorite::METEORITE_ARRAY_NUMBER; ++i)
 	{
@@ -129,7 +129,7 @@ void HitChecker::PlayerAndMeteorite(Player* player, Meteorite* meteorite[], Expl
 					TimeSlow::GetInstance().SetTimeSlow(excellent);
 					
 
-					earnscore->UpdateExcellent();
+					scoreearn->UpdateExcellent();
 					explosion->Update(meteorite[i]);
 					
 					hit = true;
@@ -137,7 +137,7 @@ void HitChecker::PlayerAndMeteorite(Player* player, Meteorite* meteorite[], Expl
 
 				if (miss)
 				{
-					earnscore->UpdateMiss();
+					scoreearn->UpdateMiss();
 					miss = false;
 					hit = true;
 				}
@@ -147,14 +147,14 @@ void HitChecker::PlayerAndMeteorite(Player* player, Meteorite* meteorite[], Expl
 					great = false;
 					TimeSlow::GetInstance().SetTimeSlow(great);
 					
-					earnscore->UpdateGreat();
+					scoreearn->UpdateGreat();
 
 					hit = true;
 				}
 
 				if (good)
 				{
-					earnscore->UpdateGood();
+					scoreearn->UpdateGood();
 					good = false;
 					hit = true;
 				}

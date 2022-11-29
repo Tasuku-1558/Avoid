@@ -60,6 +60,10 @@ void UiManager::Draw(PlayScene::State state, int frame)
 	case PlayScene::GAME:
 		FrameDraw();
 		break;
+
+	case PlayScene::FEVER:
+		FrameDraw();
+		break;
 	}
 }
 

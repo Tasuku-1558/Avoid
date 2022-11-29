@@ -12,12 +12,12 @@
 #include "HitChecker.h"
 #include "UiManager.h"
 #include "Evaluation.h"
-#include "EarnScore.h"
+#include "ScoreEarn.h"
 #include "Explosion.h"
 #include "Score.h"
 #include "TimeSlow.h"
 
-const int PlayScene::GAMETIME = 22;		//ゲーム時間
+const int PlayScene::GAMETIME = 30;		//ゲーム時間
 
 PlayScene::PlayScene(SceneManager* const sceneManager)
 		: SceneBase(sceneManager)
@@ -31,7 +31,7 @@ PlayScene::PlayScene(SceneManager* const sceneManager)
 		, player(nullptr)
 		, explosion(nullptr)
 		, evaluation(nullptr)
-		, earnscore(nullptr)
+		, scoreearn(nullptr)
 		, pUpdate(nullptr)
 		, meteorite()
 		, meteoritePopFlag(false)
@@ -86,7 +86,7 @@ void PlayScene::Initialize()
 	evaluation->Initialize();
 
 	//スコア獲得クラス
-	earnscore = new EarnScore();
+	scoreearn = new ScoreEarn();
 }
 
 void PlayScene::Finalize()
@@ -130,7 +130,7 @@ void PlayScene::Finalize()
 	SafeDelete(evaluation);
 	evaluation->Finalize();
 
-	SafeDelete(earnscore);
+	SafeDelete(scoreearn);
 
 	//作成したフォントデータの削除
 	DeleteFontToHandle(font);
@@ -220,7 +220,7 @@ void PlayScene::UpdateStart(float deltaTime)
 		score = 0;
 		state = GAME;
 		
-		earnscore->Activate();
+		scoreearn->Activate();
 		Score::GetInstance().Activate();
 		
 
@@ -267,26 +267,26 @@ void PlayScene::UpdateGame(float deltaTime)
 				//MeteoriteManager::PlayerAndMeteorite(player, ptr, explosion, evaluation, earnscore);
 
 				//プレイヤーと隕石の当たり判定
-				hitChecker->PlayerAndMeteorite(player, meteorite, explosion, evaluation, earnscore);
+				hitChecker->PlayerAndMeteorite(player, meteorite, explosion, evaluation, scoreearn);
 			}
 		}
 	}
 	
-	//earnscoreのスコアを取得
-	targetScore = Score::GetInstance().GetScore();
+	////earnscoreのスコアを取得
+	score = Score::GetInstance().GetScore();
 
-	//スコアを目標スコアに足し引き
-	if (targetScore != score)
-	{
-		if (targetScore > score)
-		{
-			score += 100;
-		}
-		else
-		{
-			score -= 100;
-		}
-	}
+	////スコアを目標スコアに足し引き
+	//if (targetScore != score)
+	//{
+	//	if (targetScore > score)
+	//	{
+	//		score += 100;
+	//	}
+	//	else
+	//	{
+	//		score -= 100;
+	//	}
+	//}
 
 	GameCountDown();
 }

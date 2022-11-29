@@ -154,7 +154,7 @@
     <ClCompile Include="BackGround.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Collision.cpp" />
-    <ClCompile Include="EarnScore.cpp" />
+    <ClCompile Include="ScoreEarn.cpp" />
     <ClCompile Include="Evaluation.cpp" />
     <ClCompile Include="Explosion.cpp" />
     <ClCompile Include="Field.cpp" />
@@ -181,7 +181,7 @@
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Collision.h" />
     <ClInclude Include="Common.h" />
-    <ClInclude Include="EarnScore.h" />
+    <ClInclude Include="ScoreEarn.h" />
     <ClInclude Include="EffectBase.h" />
     <ClInclude Include="Evaluation.h" />
     <ClInclude Include="Explosion.h" />

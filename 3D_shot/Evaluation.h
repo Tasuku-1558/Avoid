@@ -37,7 +37,7 @@ private:
 	int goodGraph;
 	int missGraph;
 
-	int slowGraph;
+	int slowScreenGraph;
 	float waitTime;							//•]‰¿•¶Žš‚Ì•\Ž¦ŽžŠÔ
 	float scale;							//•]‰¿•¶Žš‚Ì‘å‚«‚³
 };

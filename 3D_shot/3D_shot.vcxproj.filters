@@ -97,7 +97,7 @@
     <ClCompile Include="TimeSlow.cpp">
       <Filter>ソースファイル\System</Filter>
     </ClCompile>
-    <ClCompile Include="EarnScore.cpp">
+    <ClCompile Include="ScoreEarn.cpp">
       <Filter>ソースファイル\System</Filter>
     </ClCompile>
   </ItemGroup>
@@ -177,7 +177,7 @@
     <ClInclude Include="TimeSlow.h">
       <Filter>ソースファイル\System</Filter>
     </ClInclude>
-    <ClInclude Include="EarnScore.h">
+    <ClInclude Include="ScoreEarn.h">
       <Filter>ソースファイル\System</Filter>
     </ClInclude>
   </ItemGroup>

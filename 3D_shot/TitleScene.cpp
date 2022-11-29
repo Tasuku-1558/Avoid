@@ -66,7 +66,7 @@ void TitleScene::Blink()
 	
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, alpha);
 	
-	DrawGraph(500, 700, titleUi, TRUE);
+	DrawGraph(400, 700, titleUi, TRUE);
 	
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, alpha);
 }
@@ -82,7 +82,7 @@ void TitleScene::Draw()
 		PlayMovieToGraph(backGroundHandle);
 	}
 
-	DrawGraph(350, 450, titleName, TRUE);
+	DrawGraph(250, 450, titleName, TRUE);
 	
 	Blink();
 }

@@ -13,7 +13,7 @@ class HitChecker;
 class UiManager;
 class Explosion;
 class Evaluation;
-class EarnScore;
+class ScoreEarn;
 
 
 class PlayScene final : public SceneBase
@@ -50,7 +50,7 @@ private:
 	UiManager* uiManager;
 	Explosion* explosion;
 	Evaluation* evaluation;
-	EarnScore* earnscore;
+	ScoreEarn* scoreearn;
 	
 	void UpdateStart(float deltaTime);				//開始前
 	void UpdateGame(float deltaTime);				//ゲーム中

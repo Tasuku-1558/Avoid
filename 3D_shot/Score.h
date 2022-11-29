@@ -11,7 +11,7 @@ public:
 
 	//トータルスコア
 	void SetScore(int totalScore);
-	int  GetScore() { return score; }
+	int  GetScore() { return targetScore; }
 
 	//各スコアの数
 	void SetExcellentCount(int totalExcellent);
@@ -26,15 +26,19 @@ public:
 	void SetMissCount(int totalMiss);
 	int  GetMissCount() { return miss; }
 
+
 private:
 
 	 Score();
 	 Score(const Score&);		//コピーコンストラクタ
 	~Score();
 
+	void Scoring();				//スコアを目標スコアに足し引き
+
 	int score;
 	int excellent;
 	int great;
 	int good;
 	int miss;
+	int targetScore;
 };

@@ -7,6 +7,7 @@ Score::Score()
 	, excellent(0)
 	, great(0)
 	, good(0)
+	, targetScore(0)
 {
 	//処理なし
 }
@@ -34,6 +35,7 @@ void Score::Activate()
 void Score::SetScore(int totalScore)
 {
 	score = totalScore;
+	Scoring();
 }
 
 void Score::SetExcellentCount(int totalExcellent)
@@ -54,4 +56,20 @@ void Score::SetGoodCount(int totalGood)
 void Score::SetMissCount(int totalMiss)
 {
 	miss = totalMiss;
+}
+
+//スコアを目標スコアに足し引き
+void Score::Scoring()
+{
+	if (score != targetScore)
+	{
+		if (score > targetScore)
+		{
+			targetScore += 100;
+		}
+		else
+		{
+			targetScore -= 100;
+		}
+	}
 }
