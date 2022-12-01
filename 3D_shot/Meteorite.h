@@ -33,7 +33,7 @@ private:
 
 	void Move(float deltaTime, Player* player);					//ˆÚ“®ˆ—
 	
-
+	int shadowMapHandle;
 	int shadowImage;					//è¦Î‰e
 	VECTOR shadowPosition;				//è¦Î‰eˆÊ’u
 	Sphere collisionSphere;				//“–‚½‚è”»’è‹…

@@ -8,7 +8,6 @@ const float  MeteoriteBase::Z_POSITION			   = 1600.0f;					//Z座標
 const VECTOR MeteoriteBase::DIR					   = VGet(0.0f, 0.0f, -1.0f);	//方向
 const int    MeteoriteBase::RANDOM_ROTATION_SPEED  = 400;						//ランダムな回転スピード
 const float  MeteoriteBase::RADIUS				   = 65.0f;						//半径の範囲
-const int    MeteoriteBase::METEORITE_ARRAY_NUMBER = 34;						//隕石の配列数
 const int	 MeteoriteBase::RANGE				   = 2;							//ランダム値の範囲
 
 

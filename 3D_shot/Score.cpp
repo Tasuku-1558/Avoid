@@ -30,12 +30,12 @@ void Score::Activate()
 	great = 0;
 	good = 0;
 	miss = 0;
+	targetScore = 0;
 }
 
 void Score::SetScore(int totalScore)
 {
 	score = totalScore;
-	Scoring();
 }
 
 void Score::SetExcellentCount(int totalExcellent)

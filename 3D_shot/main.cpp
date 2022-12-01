@@ -53,6 +53,18 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	// 時間計測
 	int nowTime;
 	int prevTime = nowTime = GetNowCount();
+
+	// シャドウマップハンドルの作成
+	int shadowMapHandle = MakeShadowMap(8192, 8192);
+
+	// ライトの方向を設定
+	SetLightDirection(VGet(0.0f, -0.5f, 0.5f));
+
+	// シャドウマップが想定するライトの方向もセット
+	SetShadowMapLightDirection(shadowMapHandle, VGet(0.0f, -0.5f, 0.5f));
+
+	// シャドウマップに描画する範囲を設定
+	SetShadowMapDrawArea(shadowMapHandle, VGet(-1000.0f, -1.0f, -1000.0f), VGet(1000.0f, 1000.0f, 1000.0f));
 	
 	ModelManager::GetInstance();	//モデル管理クラスの生成
 
@@ -69,6 +81,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		
 		//true：動きを遅くする false：通常状態
 		bool slow = TimeSlow::GetInstance().GetTimeSlow();
+
 		if (slow)
 		{
 			deltaTime = (nowTime - prevTime) / 5000.0f;
@@ -77,6 +90,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		{
 			deltaTime = (nowTime - prevTime) / 1000.0f;
 		}
+
 		prevTime = nowTime;
 
 		// DXライブラリのカメラとEffekseerのカメラを同期
@@ -86,8 +100,23 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 		// 画面を初期化する
 		ClearDrawScreen();
-
 		sceneManager->Draw();
+		//// シャドウマップへの描画の準備
+		//ShadowMap_DrawSetup(shadowMapHandle);
+
+		//sceneManager->Draw();
+
+		//// シャドウマップへの描画を終了
+		//ShadowMap_DrawEnd();
+
+
+		//// 描画に使用するシャドウマップを設定
+		//SetUseShadowMap(0, shadowMapHandle);
+
+		//sceneManager->Draw();
+
+		//// 描画に使用するシャドウマップの設定を解除
+		//SetUseShadowMap(0, -1);
 		
 		// 裏画面の内容を表画面に反映させる
 		ScreenFlip();
@@ -105,6 +134,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	{
 		MessageBox(NULL, "remove failure", "", MB_OK);
 	}
+	
+	DeleteShadowMap(shadowMapHandle);	// シャドウマップの削除
 
 	SafeDelete(sceneManager);	// シーンマネージャーの解放
 

@@ -10,7 +10,7 @@ Explosion::Explosion()
 	, effectPos_Y(0.0f)
 	, effectPos_Z(0.0f)
 	, effectTime(0)
-	, playingEffectHandle(-1)
+	, playingEffectHandle(0)
 	, explosionSE(0)
 {
 	//処理なし
@@ -38,6 +38,8 @@ void Explosion::Finalize()
 
 void Explosion::Activate()
 {
+	// エフェクトを停止する
+	StopEffekseer3DEffect(playingEffectHandle);
 }
 
 void Explosion::Update(Meteorite* meteorite)

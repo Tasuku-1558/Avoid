@@ -2,8 +2,8 @@
 #include "ModelManager.h"
 
 
-const VECTOR Field::SIZE = VGet(5.0f, 1.0f, 4.0f);
-const VECTOR Field::POSITION = VGet(0.0f, -50.0f, 50.0f);
+const VECTOR Field::SIZE = VGet(6.0f, 1.0f, 3.0f);
+const VECTOR Field::POSITION = VGet(0.0f, -50.0f, 1200.0f);
 const VECTOR Field::ROTATE = VGet(0.0f, 90.0f * DX_PI_F / 180.0f, 0.0f);
 
 Field::Field()

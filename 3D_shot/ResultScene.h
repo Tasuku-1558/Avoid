@@ -4,6 +4,7 @@
 
 class BackGround;
 
+//リザルトシーンクラス
 class ResultScene final : public SceneBase
 {
 public:

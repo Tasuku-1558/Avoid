@@ -12,8 +12,6 @@ public:
 			 MeteoriteBase();
 	virtual ~MeteoriteBase();
 
-	static const int METEORITE_ARRAY_NUMBER;	//è¦Î‚Ì”z—ñ”
-
 protected:
 	
 	VECTOR rotateSpeed;							//‰ñ“]‘¬“x x,y,z

@@ -2,6 +2,7 @@
 
 class Score;
 
+//スコア獲得クラス
 class ScoreEarn final
 {
 public:

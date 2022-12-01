@@ -5,6 +5,7 @@
 using namespace std;
 
 //シングルトン
+//モデル管理クラス
 class ModelManager final
 {
 public:

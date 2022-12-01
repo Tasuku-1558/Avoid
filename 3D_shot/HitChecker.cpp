@@ -72,103 +72,93 @@ void HitChecker::GoodDecision(Evaluation* evaluation)
 }
 
 //プレイヤーと隕石の当たり判定
-void HitChecker::PlayerAndMeteorite(Player* player, Meteorite* meteorite[], Explosion* explosion, Evaluation* evaluation, ScoreEarn* scoreearn)
+void HitChecker::PlayerAndMeteorite(Player* player, Meteorite* meteorite, Explosion* explosion, Evaluation* evaluation, ScoreEarn* scoreearn)
 {
-	for (int i = 0; i < Meteorite::METEORITE_ARRAY_NUMBER; ++i)
+	//隕石と衝突していないなら
+	hit = false;
+
+	//隕石が判定ラインに入ったら判定を開始する
+	if (meteorite->GetPosition().z <= SCORE_DECISION_LINE)
 	{
-		//隕石が存在していて且つ判定ラインに入ったら判定を開始する
-		if (meteorite[i] != nullptr && meteorite[i]->GetPosition().z <= SCORE_DECISION_LINE)
+		//隕石の当たり判定球を取得
+		Math3d::Sphere sphereMeteorite = meteorite->GetCollisionSphere();
+
+		//プレイヤーから隕石の座標を引いた値を取得
+		double posX = player->GetPosition().x - meteorite->GetPosition().x;
+		double posY = player->GetPosition().y - meteorite->GetPosition().y;
+
+		//プレイヤーと隕石の２点間の距離を計算
+		direction = sqrt(pow(posX, 2) + pow(posY, 2));
+		
+		//判定してないなら
+		if (!decisionFlag)
 		{
-			//隕石の当たり判定球を取得
-			Math3d::Sphere sphereMeteorite = meteorite[i]->GetCollisionSphere();
-
-			//プレイヤーから隕石の座標を引いた値を取得
-			double posX = player->GetPosition().x - meteorite[i]->GetPosition().x;
-			double posY = player->GetPosition().y - meteorite[i]->GetPosition().y;
-
-			//プレイヤーと隕石の２点間の距離を計算
-			direction = sqrt(pow(posX, 2) + pow(posY, 2));
-			
-			//判定してないなら
-			if (!decisionFlag)
+			//隕石と衝突したら
+			if (direction < RADIUS_MISS + sphereMeteorite.radius)
 			{
+				MissDecision(evaluation, player);
+			}
+
+			//隕石とギリギリの範囲
+			else if (direction < RADIUS_EXCELLENT + sphereMeteorite.radius)
+			{
+				ExcellentDecision(evaluation);
+			}
+
+			//隕石と中くらいの範囲
+			else if (direction < RADIUS_GREAT + sphereMeteorite.radius)
+			{
+				GreatDecision(evaluation);
+			}
+
+			//隕石と一番離れている
+			else if (direction < RADIUS_GOOD + sphereMeteorite.radius)
+			{
+				GoodDecision(evaluation);
+			}
+		}
+
+		decisionFlag = true;				// 判定した
+
+		//隕石が判定最終ラインに突入しているなら判定を終了する
+		if (meteorite->GetPosition().z <= DECISION_END_LINE)
+		{
+			if (excellent)
+			{
+				excellent = false;
+				TimeSlow::GetInstance().SetTimeSlow(excellent);
 				
-				//隕石と衝突したら
-				if (direction < RADIUS_MISS + sphereMeteorite.radius)
-				{
-					MissDecision(evaluation, player);
-				}
-
-				//隕石とギリギリの範囲
-				else if (direction < RADIUS_EXCELLENT + sphereMeteorite.radius)
-				{
-					ExcellentDecision(evaluation);
-				}
-
-				//隕石と中くらいの範囲
-				else if (direction < RADIUS_GREAT + sphereMeteorite.radius)
-				{
-					GreatDecision(evaluation);
-				}
-
-				//隕石と一番離れている
-				else if (direction < RADIUS_GOOD + sphereMeteorite.radius)
-				{
-					GoodDecision(evaluation);
-				}
+				scoreearn->UpdateExcellent();
+				explosion->Update(meteorite);
+				
+				hit = true;
 			}
 
-			decisionFlag = true;							// 判定した
-
-			//隕石が判定最終ラインに突入しているなら判定を終了する
-			if (meteorite[i]->GetPosition().z <= DECISION_END_LINE)
+			if (miss)
 			{
-				if (excellent)
-				{
-					excellent = false;
-					TimeSlow::GetInstance().SetTimeSlow(excellent);
-					
-
-					scoreearn->UpdateExcellent();
-					explosion->Update(meteorite[i]);
-					
-					hit = true;
-				}
-
-				if (miss)
-				{
-					scoreearn->UpdateMiss();
-					miss = false;
-					hit = true;
-				}
-
-				if (great)
-				{
-					great = false;
-					TimeSlow::GetInstance().SetTimeSlow(great);
-					
-					scoreearn->UpdateGreat();
-
-					hit = true;
-				}
-
-				if (good)
-				{
-					scoreearn->UpdateGood();
-					good = false;
-					hit = true;
-				}
-
-				//隕石と接触もしくは避けたら
-				if (hit)
-				{
-					//隕石を消す
-					meteorite[i] = nullptr;
-					delete meteorite[i];
-				}
-
-				decisionFlag = false;
+				scoreearn->UpdateMiss();
+				miss = false;
+				hit = true;
 			}
+
+			if (great)
+			{
+				great = false;
+				TimeSlow::GetInstance().SetTimeSlow(great);
+				
+				scoreearn->UpdateGreat();
+
+				hit = true;
+			}
+
+			if (good)
+			{
+				scoreearn->UpdateGood();
+				good = false;
+				hit = true;
+			}
+
+			decisionFlag = false;
 		}
 	}
 }

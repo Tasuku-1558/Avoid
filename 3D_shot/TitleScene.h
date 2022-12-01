@@ -2,6 +2,7 @@
 
 #include "SceneBase.h"
 
+//タイトルシーンクラス
 class TitleScene final : public SceneBase
 {
 public:

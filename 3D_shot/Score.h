@@ -1,6 +1,7 @@
 #pragma once
 
 //シングルトン
+//スコア分配クラス
 class Score final
 {
 public:
@@ -9,7 +10,7 @@ public:
 
 	void Activate();
 
-	//トータルスコア
+	//スコア合計
 	void SetScore(int totalScore);
 	int  GetScore() { return targetScore; }
 
@@ -26,14 +27,12 @@ public:
 	void SetMissCount(int totalMiss);
 	int  GetMissCount() { return miss; }
 
-
+	void Scoring();				//スコアを目標スコアに足し引き
 private:
 
-	 Score();
+	 Score();					//コンストラクタ
 	 Score(const Score&);		//コピーコンストラクタ
-	~Score();
-
-	void Scoring();				//スコアを目標スコアに足し引き
+	~Score();					//デストラクタ
 
 	int score;
 	int excellent;

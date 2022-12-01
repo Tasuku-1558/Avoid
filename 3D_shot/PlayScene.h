@@ -15,7 +15,7 @@ class Explosion;
 class Evaluation;
 class ScoreEarn;
 
-
+//プレイシーンクラス
 class PlayScene final : public SceneBase
 {
 public:
@@ -44,32 +44,32 @@ private:
 	BackGround* background;
 	Field* field;
 	Player* player;
-	Meteorite* meteorite[34] = { nullptr };
-	//std::vector<Meteorite*> meteorite;
+	std::vector<Meteorite*> meteorite;
 	HitChecker* hitChecker;
 	UiManager* uiManager;
 	Explosion* explosion;
 	Evaluation* evaluation;
 	ScoreEarn* scoreearn;
 	
-	void UpdateStart(float deltaTime);				//開始前
-	void UpdateGame(float deltaTime);				//ゲーム中
-	void UpdateFever(float deltaTime);				//フィーバー中
-	void(PlayScene::* pUpdate)(float deltaTime);	//Update関数ポインタ
-	void GameCountDown();							//ゲーム時間
+	void EntryMeteorite(Meteorite* newMeteorite);		//隕石を登録
+	void DeleteMeteorite(Meteorite* deleteMeteorite);	//隕石を削除
+	void UpdateStart(float deltaTime);					//ゲーム開始前
+	void UpdateGame(float deltaTime);					//ゲーム中
+	void UpdateFever(float deltaTime);					//フィーバー中
+	void(PlayScene::* pUpdate)(float deltaTime);		//Update関数ポインタ
+	void GameCountDown();								//ゲーム時間
+	
 
 	State state;				//ゲーム状態
 	int  frame;					//フレーム数
 	int  startTime;				//起動時間
-	int  nowTime;				//現在の時間
+	int  nowTime;				//現在時間
 	int  countDown;				//制限時間
-	bool meteoritePopFlag;		//隕石の出現フラグ
 	int  targetScore;			//目標スコア
 	int  score;					//獲得スコア
 	int  font;					//UIフォント
-	bool slow;
-	int count;
-
+	bool slow;					//時間をスローにするか
+	float meteoritePopCount;	//隕石出現カウント
 
 	//静的定数
 	static const int GAMETIME;	//ゲーム時間

@@ -14,7 +14,8 @@ public:
 	 HitChecker();
 	~HitChecker();
 
-	void PlayerAndMeteorite(Player* player, Meteorite* meteorite[], Explosion* explosion, Evaluation* evaluation, ScoreEarn* scoreearn);		//当たりチェック
+	void PlayerAndMeteorite(Player* player, Meteorite* meteorite, Explosion* explosion, Evaluation* evaluation, ScoreEarn* scoreearn);		//当たりチェック
+	bool Hit() { return hit; }
 
 private:
 	HitChecker(const HitChecker&);			//コピーコンストラクタ
