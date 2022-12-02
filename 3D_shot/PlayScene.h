@@ -60,7 +60,7 @@ private:
 	void UpdateGame(float deltaTime);					//ゲーム中
 	void UpdateFever(float deltaTime);					//フィーバー中
 	void(PlayScene::* pUpdate)(float deltaTime);		//Update関数ポインタ
-	void GameCountDown();								//ゲーム時間
+	void GameCountDown();								//ゲーム時間計算
 	
 
 	State state;				//ゲーム状態

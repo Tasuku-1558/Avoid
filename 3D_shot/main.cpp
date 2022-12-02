@@ -47,13 +47,13 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	SetWriteZBuffer3D(TRUE);
 
 	// シャドウマップハンドルの作成
-	int shadowMapHandle = MakeShadowMap(1024, 1024);
+	int shadowMapHandle = MakeShadowMap(SHADOWMAP_SIZE_X, SHADOWMAP_SIZE_Y);
 
-	// シャドウマップが想定するライトの方向もセット
-	SetShadowMapLightDirection(shadowMapHandle, VGet(0.0f, -0.5f, 0.5f));
+	// シャドウマップが想定するライトの方向をセット
+	SetShadowMapLightDirection(shadowMapHandle, LIGHT_DIRECTION);
 
 	// シャドウマップに描画する範囲を設定
-	SetShadowMapDrawArea(shadowMapHandle, VGet(-1000.0f, -1.0f, -1000.0f), VGet(1000.0f, 1000.0f, 2500.0f));
+	SetShadowMapDrawArea(shadowMapHandle, SHADOWMAP_MINPOSITION, SHADOUMAP_MAXPOSITION);
 
 	// フォント変更
 	LPCSTR fontPath = "data/font/Oranienbaum.ttf";

@@ -186,7 +186,7 @@ void ResultScene::Blink()
 //スコアゲージ表示
 void ResultScene::ScoreGauge()
 {
-	float scoreMaxGauge = 100.0f;
+	float scoreMaxGauge = 500.0f;
 	//a = true;
 	DrawBox(500, 200, 500 + 200 * (scoreGauge / scoreMaxGauge), 117, GetColor(186, 85, 211), TRUE);
 	DrawGraph(218, -270, scoreGaugeFrame, TRUE);
@@ -199,8 +199,8 @@ void ResultScene::ScoreGauge()
 		if (totalScore <= 0 || totalScore >= 500)
 		{
 			scoreGauge = 180.0f;
-			/*scoreGauge = totalScore / static_cast<float>(100);
-			a = false;*/
+			//scoreGauge = totalScore / static_cast<float>(100);
+			//a = false;
 			
 			DrawRotaGraph(1450, 150, 1.0f, 0.5, scoreB, TRUE);
 		}
@@ -209,8 +209,8 @@ void ResultScene::ScoreGauge()
 		if (totalScore >= 4000)
 		{
 			scoreGauge = 265.0f;
-			/*scoreGauge = totalScore / static_cast<float>(100);
-			a = false;*/
+			//scoreGauge = totalScore / static_cast<float>(100);
+			//a = false;
 
 			DrawRotaGraph(1450, 150, 1.0f, 0.5, scoreA, TRUE);
 		}
@@ -219,8 +219,8 @@ void ResultScene::ScoreGauge()
 		if (totalScore >= 10000)
 		{
 			scoreGauge = 350.0f;
-			/*scoreGauge = totalScore / static_cast<float>(100);
-			a = false;*/
+			//scoreGauge = totalScore / static_cast<float>(100);
+			//a = false;
 
 			DrawRotaGraph(1450, 150, 1.0f, 0.5, scoreS, TRUE);
 		}

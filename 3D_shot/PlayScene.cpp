@@ -17,7 +17,7 @@
 #include "Score.h"
 #include "TimeSlow.h"
 
-const int PlayScene::GAMETIME = 30;		//ゲーム時間
+const int PlayScene::GAMETIME = 10;		//ゲーム時間
 
 PlayScene::PlayScene(SceneManager* const sceneManager)
 		: SceneBase(sceneManager)
@@ -158,11 +158,10 @@ void PlayScene::Activate()
 
 	explosion->Activate();
 	
-	//プレイヤー活性化
 	player->Activate();
 }
 
-//ゲーム時間
+//ゲーム時間計算
 void PlayScene::GameCountDown()
 {
 	nowTime = GetNowCount();
@@ -250,19 +249,19 @@ void PlayScene::UpdateStart(float deltaTime)
 		score = 0;
 		state = GAME;
 		
-		scoreearn->Activate();
-		
 		Score::GetInstance().Activate();
+
+		scoreearn->Activate();
 
 		TimeSlow::GetInstance().SetTimeSlow(slow);
 		
 		pUpdate = &PlayScene::UpdateGame;
 
-		//for (auto ptr : meteorite)
-		//{
-		//	//隕石活性化
-		//	ptr->Activate();
-		//}
+		for (auto ptr : meteorite)
+		{
+			//隕石活性化
+			ptr->Activate();
+		}
 		
 		//ゲーム起動時の時間を取得
 		startTime = GetNowCount();
