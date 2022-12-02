@@ -88,13 +88,13 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Users\takum\Desktop\3D_shot\Effect_h</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\takum\OneDrive\デスクトップ\3D_shot\Effect_h</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\Users\takum\Desktop\3D_shot\Effect_h</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>C:\Users\takum\OneDrive\デスクトップ\3D_shot\Effect_h</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -122,13 +122,13 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Users\takum\Desktop\3D_shot\Effect_h</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\takum\OneDrive\デスクトップ\3D_shot\Effect_h</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\Users\takum\Desktop\3D_shot\Effect_h</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>C:\Users\takum\OneDrive\デスクトップ\3D_shot\Effect_h</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -154,6 +154,7 @@
     <ClCompile Include="BackGround.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Collision.cpp" />
+    <ClCompile Include="Light.cpp" />
     <ClCompile Include="ScoreEarn.cpp" />
     <ClCompile Include="Evaluation.cpp" />
     <ClCompile Include="Explosion.cpp" />
@@ -180,6 +181,7 @@
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Collision.h" />
     <ClInclude Include="Common.h" />
+    <ClInclude Include="Light.h" />
     <ClInclude Include="ScoreEarn.h" />
     <ClInclude Include="EffectBase.h" />
     <ClInclude Include="Evaluation.h" />

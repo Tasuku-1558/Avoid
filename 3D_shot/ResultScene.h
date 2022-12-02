@@ -51,7 +51,7 @@ private:
 	int displayCount;			//スコア表示カウント
 	int resultUi;
 	int scoreFont;				//獲得スコアフォント
-	int font;
+	int evaluationFont;			//各評価フォント
 	float scoreGauge;
 	int scoreGaugeFrame;
 	int scoreB;

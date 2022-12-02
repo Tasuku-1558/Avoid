@@ -1,6 +1,6 @@
 #pragma once
 
-//時間低速クラス
+//時間を低速にするかしないか
 //シングルトン
 class TimeSlow final
 {

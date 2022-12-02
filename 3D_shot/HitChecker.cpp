@@ -9,8 +9,8 @@
 
 using namespace std;
 
-const float HitChecker::RADIUS_GOOD			= 1000.0f;	//goodの範囲
-const float HitChecker::RADIUS_GREAT		= 250.0f;	//greatの範囲
+const float HitChecker::RADIUS_GOOD			= 1500.0f;	//goodの範囲
+const float HitChecker::RADIUS_GREAT		= 150.0f;	//greatの範囲
 const float HitChecker::RADIUS_EXCELLENT	= 40.0f;	//excellentの範囲
 const float HitChecker::RADIUS_MISS			= 4.0f;		//missの範囲
 const int   HitChecker::SCORE_DECISION_LINE = 150;		//スコア判定ライン

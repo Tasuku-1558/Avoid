@@ -97,6 +97,9 @@
     <ClCompile Include="ScoreEarn.cpp">
       <Filter>ソースファイル\System</Filter>
     </ClCompile>
+    <ClCompile Include="Light.cpp">
+      <Filter>ソースファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="TitleScene.h">
@@ -173,6 +176,9 @@
     </ClInclude>
     <ClInclude Include="ScoreEarn.h">
       <Filter>ソースファイル\System</Filter>
+    </ClInclude>
+    <ClInclude Include="Light.h">
+      <Filter>ソースファイル</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

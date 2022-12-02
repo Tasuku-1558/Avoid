@@ -32,7 +32,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		DxLib_End();
 		return -1;
 	}
-	
+
+	SetDrawScreen(DX_SCREEN_BACK);  // 描画先画面を裏画面にセット
+
 	// フルスクリーンウインドウの切り替えでリソースが消えるのを防ぐ
 	SetChangeScreenModeGraphicsSystemResetFlag(FALSE);
 
@@ -44,6 +46,15 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	// Zバッファへの書き込みを有効にする
 	SetWriteZBuffer3D(TRUE);
 
+	// シャドウマップハンドルの作成
+	int shadowMapHandle = MakeShadowMap(1024, 1024);
+
+	// シャドウマップが想定するライトの方向もセット
+	SetShadowMapLightDirection(shadowMapHandle, VGet(0.0f, -0.5f, 0.5f));
+
+	// シャドウマップに描画する範囲を設定
+	SetShadowMapDrawArea(shadowMapHandle, VGet(-1000.0f, -1.0f, -1000.0f), VGet(1000.0f, 1000.0f, 2500.0f));
+
 	// フォント変更
 	LPCSTR fontPath = "data/font/Oranienbaum.ttf";
 
@@ -53,25 +64,13 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	// 時間計測
 	int nowTime;
 	int prevTime = nowTime = GetNowCount();
-
-	// シャドウマップハンドルの作成
-	int shadowMapHandle = MakeShadowMap(8192, 8192);
-
-	// ライトの方向を設定
-	SetLightDirection(VGet(0.0f, -0.5f, 0.5f));
-
-	// シャドウマップが想定するライトの方向もセット
-	SetShadowMapLightDirection(shadowMapHandle, VGet(0.0f, -0.5f, 0.5f));
-
-	// シャドウマップに描画する範囲を設定
-	SetShadowMapDrawArea(shadowMapHandle, VGet(-1000.0f, -1.0f, -1000.0f), VGet(1000.0f, 1000.0f, 1000.0f));
 	
 	ModelManager::GetInstance();	//モデル管理クラスの生成
 
 	SceneManager* sceneManager = new SceneManager();
-
+	
 	sceneManager->Initialize();
-
+	
 	// エスケープキーが押されるかウインドウが閉じられるまでループ
 	while (ProcessMessage() == 0 && CheckHitKey(KEY_INPUT_ESCAPE) == 0)
 	{
@@ -100,23 +99,23 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 		// 画面を初期化する
 		ClearDrawScreen();
+
+		// シャドウマップへの描画の準備
+		ShadowMap_DrawSetup(shadowMapHandle);
+
 		sceneManager->Draw();
-		//// シャドウマップへの描画の準備
-		//ShadowMap_DrawSetup(shadowMapHandle);
 
-		//sceneManager->Draw();
-
-		//// シャドウマップへの描画を終了
-		//ShadowMap_DrawEnd();
+		// シャドウマップへの描画を終了
+		ShadowMap_DrawEnd();
 
 
-		//// 描画に使用するシャドウマップを設定
-		//SetUseShadowMap(0, shadowMapHandle);
+		// 描画に使用するシャドウマップを設定
+		SetUseShadowMap(0, shadowMapHandle);
 
-		//sceneManager->Draw();
+		sceneManager->Draw();
 
-		//// 描画に使用するシャドウマップの設定を解除
-		//SetUseShadowMap(0, -1);
+		// 描画に使用するシャドウマップの設定を解除
+		SetUseShadowMap(0, -1);
 		
 		// 裏画面の内容を表画面に反映させる
 		ScreenFlip();
@@ -130,11 +129,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	//フォントのアンロード
 	if (RemoveFontResourceEx(fontPath, FR_PRIVATE, NULL)) {}
-	else 
-	{
-		MessageBox(NULL, "remove failure", "", MB_OK);
-	}
-	
+	else { MessageBox(NULL, "remove failure", "", MB_OK); }
+
 	DeleteShadowMap(shadowMapHandle);	// シャドウマップの削除
 
 	SafeDelete(sceneManager);	// シーンマネージャーの解放

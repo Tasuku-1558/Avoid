@@ -4,6 +4,7 @@
 #include <vector>
 
 class Camera;
+class Light;
 class BackGround;
 class SlowScreen;
 class Field;
@@ -41,6 +42,7 @@ private:
 	PlayScene(const PlayScene&);		//コピーコンストラクタ
 
 	Camera* camera;
+	Light* light;
 	BackGround* background;
 	Field* field;
 	Player* player;
@@ -53,6 +55,7 @@ private:
 	
 	void EntryMeteorite(Meteorite* newMeteorite);		//隕石を登録
 	void DeleteMeteorite(Meteorite* deleteMeteorite);	//隕石を削除
+	void MeteoritePop(float deltaTime);					//隕石の出現間隔
 	void UpdateStart(float deltaTime);					//ゲーム開始前
 	void UpdateGame(float deltaTime);					//ゲーム中
 	void UpdateFever(float deltaTime);					//フィーバー中

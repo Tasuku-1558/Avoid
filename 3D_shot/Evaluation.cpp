@@ -72,13 +72,13 @@ void Evaluation::EvaluationUi()
 	switch (ui)
 	{
 	case UI::Excellent:
-		Update(excellentGraph);
 		SlowUi();
+		Update(excellentGraph);
 		break;
 
 	case UI::Great:
-		Update(greatGraph);
 		SlowUi();
+		Update(greatGraph);
 		break;
 
 	case UI::Good:

@@ -7,8 +7,6 @@
 using namespace Math3d;
 
 Meteorite::Meteorite() : MeteoriteBase()
-	, shadowImage(0)
-	, shadowPosition()
 	, shadowMapHandle(0)
 {
 	Initialize();
@@ -35,8 +33,6 @@ void Meteorite::Initialize()
 	{
 		printfDx("モデルデータ読み込みに失敗 [METEORITE]\n");
 	}
-	
-	shadowImage = LoadGraph("data/image/shadow.png");
 }
 
 //終了処理
@@ -44,9 +40,6 @@ void Meteorite::Finalize()
 {
 	MV1DeleteModel(modelHandle);
 	modelHandle = NULL;
-
-	MV1DeleteModel(shadowImage);
-	shadowImage = NULL;
 }
 
 //活性化処理
@@ -70,8 +63,6 @@ void Meteorite::Activate()
 //更新処理
 void Meteorite::Update(float deltaTime, Player* player)
 {
-	shadowPosition = VGet(position.x, 2.0f, position.z);
-
 	MV1SetPosition(modelHandle, position);
 	MV1SetRotationXYZ(modelHandle, rotateAngle);
 
@@ -108,14 +99,11 @@ void Meteorite::Move(float deltaTime, Player* player)
 
 void Meteorite::SpeedUp()
 {
-	speed = 3000.0f;
+	speed = 2000.0f;
 }
 
 //描画処理
 void Meteorite::Draw()
 {
 	MV1DrawModel(modelHandle);
-	
-	//隕石の影描画
-	DrawBillboard3D(shadowPosition, 0.5f, 0.5f, 250.0f, 0.0f, shadowImage, TRUE);
 }

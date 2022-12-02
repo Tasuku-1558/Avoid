@@ -18,7 +18,7 @@ protected:
 	VECTOR rotateAngle;							//回転角 x,y,z
 	bool   popFlag;								//隕石出現フラグ
 	int    random;								//隕石のランダム値
-	float speed;
+	float  speed;								//隕石の速度
 
 	//静的定数
 	static const VECTOR SIZE;					//モデル倍率

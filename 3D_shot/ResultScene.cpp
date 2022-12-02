@@ -21,7 +21,7 @@ ResultScene::ResultScene(SceneManager* const sceneManager)
 	, displayCount(0.0f)
 	, resultUi(0)
 	, scoreFont(0)
-	, font(0)
+	, evaluationFont(0)
 	, scoreGauge(0.0f)
 	, scoreGaugeFrame(0)
 	, scoreB(0)
@@ -57,7 +57,7 @@ void ResultScene::Finalize()
 	background->Finalize();
 
 	DeleteFontToHandle(scoreFont);
-	DeleteFontToHandle(font);
+	DeleteFontToHandle(evaluationFont);
 
 	DeleteGraph(resultUi);
 	DeleteGraph(scoreGaugeFrame);
@@ -72,7 +72,7 @@ void ResultScene::Activate()
 	frame = 0;
 	
 	scoreFont = CreateFontToHandle("Oranienbaum", 130, 1);
-	font = CreateFontToHandle("Oranienbaum", 80, 1);
+	evaluationFont = CreateFontToHandle("Oranienbaum", 80, 1);
 	
 	pUpdate = &ResultScene::UpdateStart;
 
@@ -127,7 +127,7 @@ void ResultScene::UpdateResult()
 		parent->SetNextScene(SceneManager::TITLE);
 		return;
 	}
-	else if (CheckHitKey(KEY_INPUT_RETURN))
+	if (CheckHitKey(KEY_INPUT_RETURN))
 	{
 		parent->SetNextScene(SceneManager::PLAY);
 		return;
@@ -145,16 +145,16 @@ void ResultScene::DisplayScore()
 
 		if (displayCount > 30.0f)
 		{
-			DrawFormatStringToHandle(650, 400, GetColor(255, 255, 0), font, "Excellent   Å~  %d", excellentCount);
+			DrawFormatStringToHandle(650, 400, GetColor(255, 255, 0), evaluationFont, "Excellent   Å~  %d", excellentCount);
 			if (displayCount > 50.0f)
 			{
-				DrawFormatStringToHandle(650, 500, GetColor(255, 105, 180), font, "Great         Å~  %d", greatCount);
+				DrawFormatStringToHandle(650, 500, GetColor(255, 105, 180), evaluationFont, "Great         Å~  %d", greatCount);
 				if (displayCount > 70.0f)
 				{
-					DrawFormatStringToHandle(650, 600, GetColor(175, 238, 238), font, "Good          Å~  %d", goodCount);
+					DrawFormatStringToHandle(650, 600, GetColor(175, 238, 238), evaluationFont, "Good          Å~  %d", goodCount);
 					if (displayCount > 90.0f)
 					{
-						DrawFormatStringToHandle(650, 700, GetColor(169, 169, 169), font, "Miss          Å~  %d", missCount);
+						DrawFormatStringToHandle(650, 700, GetColor(169, 169, 169), evaluationFont, "Miss          Å~  %d", missCount);
 						displayCount = 90.0f;
 					}
 				}
