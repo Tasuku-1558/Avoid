@@ -73,6 +73,7 @@ private:
 	int  font;					//UIフォント
 	bool slow;					//時間をスローにするか
 	float meteoritePopCount;	//隕石出現カウント
+	float a;
 
 	//静的定数
 	static const int GAMETIME;	//ゲーム時間

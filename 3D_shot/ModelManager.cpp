@@ -2,7 +2,7 @@
 #include "DxLib.h"
 
 
-const string ModelManager::MODEL_FOLDER_PATH = "Data/model/";	//modelフォルダまでのパス
+const string ModelManager::MODEL_FOLDER_PATH = "data/model/";	//modelフォルダまでのパス
 const string ModelManager::PLAYER_PATH		 = "player.mv1";	//playerモデルファイルのパス
 const string ModelManager::LING_PATH		 = "ling.mv1";		//lingモデルファイルのパス
 const string ModelManager::METEORITE_PATH	 = "meteorite.mv1"; //meteoriteモデルファイルのパス

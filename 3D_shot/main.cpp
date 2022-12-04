@@ -45,7 +45,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	// Zバッファへの書き込みを有効にする
 	SetWriteZBuffer3D(TRUE);
-
+	
 	// シャドウマップハンドルの作成
 	int shadowMapHandle = MakeShadowMap(SHADOWMAP_SIZE_X, SHADOWMAP_SIZE_Y);
 

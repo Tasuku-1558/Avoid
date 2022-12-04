@@ -53,9 +53,10 @@ private:
 	int scoreFont;				//獲得スコアフォント
 	int evaluationFont;			//各評価フォント
 	float scoreGauge;
+	float scoreMaxGauge;
 	int scoreGaugeFrame;
 	int scoreB;
 	int scoreA;
 	int scoreS;
-	bool a;
+	
 };

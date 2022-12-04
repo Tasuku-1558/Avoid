@@ -9,6 +9,7 @@ const string UiManager::FILENAME_EXTENSION = ".png";			//‰æ‘œŠg’£q
 
 UiManager::UiManager()
 	: uiHandle()
+	, count(0)
 {
 	//ˆ—‚È‚µ
 }
@@ -33,10 +34,10 @@ void UiManager::Initialize()
 		fullPath = path + std::to_string(i) + FILENAME_EXTENSION;
 		uiHandle[i] = LoadGraph(fullPath.c_str());
 
-		/*if (uiHandle[i] < 0)
+		if (uiHandle[i] < 0)
 		{
 			printfDx("‰æ‘œ“Ç‚İ‚İ‚É¸”s[%d]\n", i);
-		}*/
+		}
 	}
 }
 
@@ -63,6 +64,7 @@ void UiManager::Draw(PlayScene::State state, int frame)
 
 	case PlayScene::FEVER:
 		FrameDraw();
+		FeverImageDraw();
 		break;
 	}
 }
@@ -75,4 +77,9 @@ void UiManager::StartGameDraw()
 void UiManager::FrameDraw()
 {
 	DrawGraph(0, -150, uiHandle[FRAME], TRUE);
+}
+
+void UiManager::FeverImageDraw()
+{
+	DrawGraph(0, 0, uiHandle[FEVER_IMAGE], TRUE);
 }

@@ -20,8 +20,8 @@ private:
 	UiManager(const UiManager&);		//コピーコンストラクタ
 	
 	void StartGameDraw();
-	void FrameDraw();
-	void SlowScreenDraw();
+	void FrameDraw();					//フレームUIの描画
+	void FeverImageDraw();				//フィーバー状態描画
 
 	//静的定数
 	static const std::string FOLDER_PATH;			//画像格納フォルダ
@@ -32,11 +32,13 @@ private:
 	enum Graphic
 	{
 		FRAME,
-
+		FEVER_IMAGE,
 		GRAPHIC_AMOUNT
 	};
 
 	//画像ハンドル
 	int uiHandle[GRAPHIC_AMOUNT];
+	
+	int count;
 	
 };

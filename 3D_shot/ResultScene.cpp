@@ -23,11 +23,11 @@ ResultScene::ResultScene(SceneManager* const sceneManager)
 	, scoreFont(0)
 	, evaluationFont(0)
 	, scoreGauge(0.0f)
+	, scoreMaxGauge(0.0f)
 	, scoreGaugeFrame(0)
 	, scoreB(0)
 	, scoreA(0)
 	, scoreS(0)
-	, a(false)
 {
 	//処理なし
 }
@@ -186,41 +186,42 @@ void ResultScene::Blink()
 //スコアゲージ表示
 void ResultScene::ScoreGauge()
 {
-	float scoreMaxGauge = 500.0f;
-	//a = true;
-	DrawBox(500, 200, 500 + 200 * (scoreGauge / scoreMaxGauge), 117, GetColor(186, 85, 211), TRUE);
-	DrawGraph(218, -270, scoreGaugeFrame, TRUE);
+	scoreMaxGauge = 100.0f/*totalScore / 10.0f*/;
+	
+	
+	DrawBox(500, 200, 500 + 200 * (scoreGauge / scoreMaxGauge), 117, GetColor(186, 85, 211), TRUE);	//スコアゲージを描画
+	DrawGraph(218, -270, scoreGaugeFrame, TRUE);		//枠を描画
 
-	scoreGauge += 1;
+	scoreGauge += 1.0f;
 
 	if (scoreGauge >= scoreMaxGauge)
 	{
 		//B判定
-		if (totalScore <= 0 || totalScore >= 500)
+		if (totalScore >= 0 || totalScore >= 10000)
 		{
 			scoreGauge = 180.0f;
-			//scoreGauge = totalScore / static_cast<float>(100);
-			//a = false;
+			//scoreGauge = scoreMaxGauge;
+		
 			
 			DrawRotaGraph(1450, 150, 1.0f, 0.5, scoreB, TRUE);
 		}
 
 		//A判定
-		if (totalScore >= 4000)
+		if (totalScore >= 18000)
 		{
 			scoreGauge = 265.0f;
-			//scoreGauge = totalScore / static_cast<float>(100);
-			//a = false;
+			//scoreGauge = scoreMaxGauge;
+		
 
 			DrawRotaGraph(1450, 150, 1.0f, 0.5, scoreA, TRUE);
 		}
 
 		//S判定
-		if (totalScore >= 10000)
+		if (totalScore >= 21000)
 		{
 			scoreGauge = 350.0f;
-			//scoreGauge = totalScore / static_cast<float>(100);
-			//a = false;
+			//scoreGauge = scoreMaxGauge;
+		
 
 			DrawRotaGraph(1450, 150, 1.0f, 0.5, scoreS, TRUE);
 		}

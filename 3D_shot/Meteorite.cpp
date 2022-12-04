@@ -99,7 +99,7 @@ void Meteorite::Move(float deltaTime, Player* player)
 
 void Meteorite::SpeedUp()
 {
-	speed = 2000.0f;
+	//speed = 2000.0f;
 }
 
 //•`‰æˆ—

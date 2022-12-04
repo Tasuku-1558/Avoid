@@ -17,7 +17,7 @@
 #include "Score.h"
 #include "TimeSlow.h"
 
-const int PlayScene::GAMETIME = 10;		//ゲーム時間
+const int PlayScene::GAMETIME = 11;		//ゲーム時間
 
 PlayScene::PlayScene(SceneManager* const sceneManager)
 		: SceneBase(sceneManager)
@@ -42,7 +42,8 @@ PlayScene::PlayScene(SceneManager* const sceneManager)
 		, font(0)
 		, targetScore(0)
 		, slow(false)
-		, meteoritePopCount(150.0f)
+		, meteoritePopCount(0.0f)
+		, a(240.0f)
 {
 	//処理なし
 }
@@ -71,6 +72,7 @@ void PlayScene::Initialize()
 	background = new BackGround();
 	background->Initialize();
 
+	//フィールドクラス
 	field = new Field();
 	field->Initialize();
 
@@ -141,15 +143,6 @@ void PlayScene::Activate()
 	
 	pUpdate = &PlayScene::UpdateStart;
 	
-	for (auto ptr : meteorite)
-	{
-		//隕石初期化
-		ptr->Initialize();
-
-		//隕石活性化
-		ptr->Activate();
-	}
-	
 	background->Activate();
 
 	field->Activate();
@@ -197,35 +190,54 @@ void PlayScene::DeleteMeteorite(Meteorite* deleteMeteorite)
 	}
 }
 
+//隕石の出現間隔
 void PlayScene::MeteoritePop(float deltaTime)
 {
 	meteoritePopCount += deltaTime;
 
-	if (countDown > 11)
+	if (countDown > 65)
 	{
 		if (meteoritePopCount > 1.2f)
+		{
+			Meteorite* newMeteorite = new Meteorite;
+			EntryMeteorite(newMeteorite);
+			meteoritePopCount = 0.0f;
+		}
+	}
+	if (countDown < 64)
+	{
+		if (meteoritePopCount > 1.0f)
 		{
 			Meteorite* newMeteorite = new Meteorite;
 			EntryMeteorite(newMeteorite);
 			meteoritePopCount = 0;
 		}
 	}
-	/*if (countDown < 29)
+	if (countDown < 50)
 	{
-		if (meteoritePopCount > 0.9f)
+		if (meteoritePopCount > 0.8f)
 		{
 			Meteorite* newMeteorite = new Meteorite;
 			EntryMeteorite(newMeteorite);
-			meteoritePopCount = 0;
+			meteoritePopCount = 0.0f;
 		}
-	}*/
-	if (countDown < 10)
+	}
+	if (countDown < 30)
 	{
 		if (meteoritePopCount > 0.5f)
 		{
 			Meteorite* newMeteorite = new Meteorite;
 			EntryMeteorite(newMeteorite);
-			meteoritePopCount = 0;
+			meteoritePopCount = 0.0f;
+		}
+	}
+	if (countDown < 20)
+	{
+		if (meteoritePopCount > 1.0f)
+		{
+			Meteorite* newMeteorite = new Meteorite;
+			EntryMeteorite(newMeteorite);
+			meteoritePopCount = 0.0f;
 		}
 	}
 }
@@ -249,19 +261,19 @@ void PlayScene::UpdateStart(float deltaTime)
 		score = 0;
 		state = GAME;
 		
+		pUpdate = &PlayScene::UpdateGame;
+
 		Score::GetInstance().Activate();
 
 		scoreearn->Activate();
 
 		TimeSlow::GetInstance().SetTimeSlow(slow);
-		
-		pUpdate = &PlayScene::UpdateGame;
 
-		for (auto ptr : meteorite)
-		{
-			//隕石活性化
-			ptr->Activate();
-		}
+		//for (auto ptr : meteorite)
+		//{
+		//	//隕石活性化
+		//	ptr->Activate();
+		//}
 		
 		//ゲーム起動時の時間を取得
 		startTime = GetNowCount();
@@ -282,12 +294,17 @@ void PlayScene::UpdateGame(float deltaTime)
 		//隕石制御
 		ptr->Update(deltaTime, player);
 
-		//制限時間が10秒以下になったらフィーバー状態へ移行
-		if (countDown < 10)
+		//制限時間が11秒以下になったらフィーバー状態へ移行
+		if (countDown < 11)
 		{
 			state = FEVER;
 			ptr->SpeedUp();
+			
 			pUpdate = &PlayScene::UpdateFever;
+		}
+		if (countDown == 0)
+		{
+			DeleteMeteorite(ptr);
 		}
 
 		//プレイヤーと隕石の当たり判定
@@ -298,10 +315,7 @@ void PlayScene::UpdateGame(float deltaTime)
 		{
 			DeleteMeteorite(ptr);
 		}
-		else if (countDown == 0)
-		{
-			DeleteMeteorite(ptr);
-		}
+		
 	}
 
 	//スコアを計算
@@ -317,6 +331,7 @@ void PlayScene::UpdateGame(float deltaTime)
 void PlayScene::UpdateFever(float deltaTime)
 {
 	UpdateGame(deltaTime);
+	/*a -= tan(10.0f);*/
 }
 
 void PlayScene::Draw()
@@ -350,4 +365,6 @@ void PlayScene::Draw()
 
 	//獲得スコア表示
 	DrawFormatStringToHandle(1000, 100, GetColor(255, 255, 0), font, "SCORE : %d", score);
+	
+	//DrawBillboard3D(VGet(320.0f, a, 10.0f), 0.5f, 0.5f, 50.0f, 0.0f, star, TRUE);
 }
