@@ -11,6 +11,7 @@ Meteorite::Meteorite() : MeteoriteBase()
 {
 	Initialize();
 	Activate();
+	meteoriteColor = MeteoriteColor::Nomal;
 }
 
 Meteorite::~Meteorite()
@@ -97,9 +98,38 @@ void Meteorite::Move(float deltaTime, Player* player)
 	rotateAngle += rotateSpeed;
 }
 
+void Meteorite::mUpdate()
+{
+	switch (meteoriteColor)
+	{
+	case MeteoriteColor::Nomal:
+		break;
+
+	case MeteoriteColor::BLUE:
+		break;
+
+	case MeteoriteColor::GREEN:
+		break;
+
+	case MeteoriteColor::RED:
+		RedColor();
+		break;
+	}
+}
+
+void Meteorite::RedColor()
+{
+	MV1SetDifColorScale(modelHandle, GetColorF(5.0f, 0.0f, 0.0f, 1.0f));
+}
+
+void Meteorite::BlueColor()
+{
+	MV1SetDifColorScale(modelHandle, GetColorF(5.0f, 5.0f, 1.0f, 1.0f));
+}
+
 void Meteorite::SpeedUp()
 {
-	//speed = 2000.0f;
+	speed = 2500.0f;
 }
 
 //ï`âÊèàóù

@@ -9,7 +9,6 @@ const string UiManager::FILENAME_EXTENSION = ".png";			//‰æ‘œŠg’£q
 
 UiManager::UiManager()
 	: uiHandle()
-	, count(0)
 {
 	//ˆ—‚È‚µ
 }
@@ -81,5 +80,5 @@ void UiManager::FrameDraw()
 
 void UiManager::FeverImageDraw()
 {
-	DrawGraph(0, 0, uiHandle[FEVER_IMAGE], TRUE);
+	DrawRotaGraph(950, 950, 1.5f, 0, uiHandle[FEVER_IMAGE], TRUE);
 }

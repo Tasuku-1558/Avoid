@@ -17,7 +17,7 @@
 #include "Score.h"
 #include "TimeSlow.h"
 
-const int PlayScene::GAMETIME = 11;		//ゲーム時間
+const int PlayScene::GAMETIME = 21;		//ゲーム時間
 
 PlayScene::PlayScene(SceneManager* const sceneManager)
 		: SceneBase(sceneManager)
@@ -210,7 +210,7 @@ void PlayScene::MeteoritePop(float deltaTime)
 		{
 			Meteorite* newMeteorite = new Meteorite;
 			EntryMeteorite(newMeteorite);
-			meteoritePopCount = 0;
+			meteoritePopCount = 0.0f;
 		}
 	}
 	if (countDown < 50)
@@ -237,6 +237,7 @@ void PlayScene::MeteoritePop(float deltaTime)
 		{
 			Meteorite* newMeteorite = new Meteorite;
 			EntryMeteorite(newMeteorite);
+			
 			meteoritePopCount = 0.0f;
 		}
 	}
@@ -295,11 +296,15 @@ void PlayScene::UpdateGame(float deltaTime)
 		ptr->Update(deltaTime, player);
 
 		//制限時間が11秒以下になったらフィーバー状態へ移行
+		if (countDown < 20)
+		{
+			ptr->BlueColor();
+		}
 		if (countDown < 11)
 		{
 			state = FEVER;
 			ptr->SpeedUp();
-			
+			ptr->RedColor();
 			pUpdate = &PlayScene::UpdateFever;
 		}
 		if (countDown == 0)

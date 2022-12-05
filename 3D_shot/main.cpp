@@ -83,7 +83,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 		if (slow)
 		{
-			deltaTime = (nowTime - prevTime) / 5000.0f;
+			deltaTime = (nowTime - prevTime) / 3000.0f;
 		}
 		else
 		{

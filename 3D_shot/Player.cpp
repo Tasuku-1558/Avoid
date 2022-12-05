@@ -73,7 +73,7 @@ void Player::Activate()
 	rotate = LING_ROTATE;
 	rotate_Speed = LING_ROTATE_SPEED;
 
-	state = State::Nomal;
+	
 
 	noDrawFrame = false;
 }
