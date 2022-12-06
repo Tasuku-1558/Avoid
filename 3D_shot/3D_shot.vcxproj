@@ -172,6 +172,7 @@
     <ClCompile Include="ResultScene.cpp" />
     <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="Score.cpp" />
+    <ClCompile Include="ScreenFadeManager.cpp" />
     <ClCompile Include="TimeSlow.cpp" />
     <ClCompile Include="TitleScene.cpp" />
     <ClCompile Include="UiManager.cpp" />
@@ -200,6 +201,7 @@
     <ClInclude Include="SceneBase.h" />
     <ClInclude Include="SceneManager.h" />
     <ClInclude Include="Score.h" />
+    <ClInclude Include="ScreenFadeManager.h" />
     <ClInclude Include="TimeSlow.h" />
     <ClInclude Include="TitleScene.h" />
     <ClInclude Include="UiManager.h" />

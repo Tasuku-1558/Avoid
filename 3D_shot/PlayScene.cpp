@@ -17,7 +17,7 @@
 #include "Score.h"
 #include "TimeSlow.h"
 
-const int PlayScene::GAMETIME = 21;		//ゲーム時間
+const int PlayScene::GAMETIME = 90;		//ゲーム時間
 
 PlayScene::PlayScene(SceneManager* const sceneManager)
 		: SceneBase(sceneManager)
@@ -43,7 +43,6 @@ PlayScene::PlayScene(SceneManager* const sceneManager)
 		, targetScore(0)
 		, slow(false)
 		, meteoritePopCount(0.0f)
-		, a(240.0f)
 {
 	//処理なし
 }
@@ -195,7 +194,7 @@ void PlayScene::MeteoritePop(float deltaTime)
 {
 	meteoritePopCount += deltaTime;
 
-	if (countDown > 65)
+	if (countDown > 70)
 	{
 		if (meteoritePopCount > 1.2f)
 		{
@@ -204,16 +203,7 @@ void PlayScene::MeteoritePop(float deltaTime)
 			meteoritePopCount = 0.0f;
 		}
 	}
-	if (countDown < 64)
-	{
-		if (meteoritePopCount > 1.0f)
-		{
-			Meteorite* newMeteorite = new Meteorite;
-			EntryMeteorite(newMeteorite);
-			meteoritePopCount = 0.0f;
-		}
-	}
-	if (countDown < 50)
+	if (countDown < 70)
 	{
 		if (meteoritePopCount > 0.8f)
 		{
@@ -222,7 +212,7 @@ void PlayScene::MeteoritePop(float deltaTime)
 			meteoritePopCount = 0.0f;
 		}
 	}
-	if (countDown < 30)
+	if (countDown < 50)
 	{
 		if (meteoritePopCount > 0.5f)
 		{
@@ -296,9 +286,13 @@ void PlayScene::UpdateGame(float deltaTime)
 		ptr->Update(deltaTime, player);
 
 		//制限時間が11秒以下になったらフィーバー状態へ移行
+		if (countDown < 50)
+		{
+			ptr->OrangeCollor();
+		}
 		if (countDown < 20)
 		{
-			ptr->BlueColor();
+			ptr->YellowColor();
 		}
 		if (countDown < 11)
 		{

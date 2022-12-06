@@ -122,9 +122,14 @@ void Meteorite::RedColor()
 	MV1SetDifColorScale(modelHandle, GetColorF(5.0f, 0.0f, 0.0f, 1.0f));
 }
 
-void Meteorite::BlueColor()
+void Meteorite::YellowColor()
 {
-	MV1SetDifColorScale(modelHandle, GetColorF(5.0f, 5.0f, 1.0f, 1.0f));
+	MV1SetDifColorScale(modelHandle, GetColorF(50.0f, 50.0f, 0.0f, 1.0f));
+}
+
+void Meteorite::OrangeCollor()
+{
+	MV1SetDifColorScale(modelHandle, GetColorF(0.0f, 1.0f, 1.0f, 1.0f));
 }
 
 void Meteorite::SpeedUp()

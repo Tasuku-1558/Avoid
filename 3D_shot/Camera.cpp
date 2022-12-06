@@ -17,7 +17,7 @@ Camera::~Camera()
 
 void Camera::Initialize()
 {
-	//カメラの手前と奥の距離を設定する
+	//カメラの手前と奥の距離を設定
 	SetCameraNearFar(NEAR_DISTANCE, FAR_DISTANCE);
 
 	//カメラの視点とターゲットを見る角度にカメラを設置

@@ -33,7 +33,8 @@ public:
 	void Update(float deltaTime, Player* player);
 	void SpeedUp();
 	void RedColor();
-	void BlueColor();
+	void YellowColor();
+	void OrangeCollor();
 	void Draw();
 	
 	Sphere GetCollisionSphere() { return collisionSphere; } //“–‚½‚è”»’è‹…‚ð•Ô‚·
