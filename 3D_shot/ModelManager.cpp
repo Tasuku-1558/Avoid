@@ -22,8 +22,8 @@ ModelManager::~ModelManager()
 
 ModelManager& ModelManager::GetInstance()
 {
-	static ModelManager ModelManager;
-	return ModelManager;
+	static ModelManager modelManager;
+	return modelManager;
 }
 
 void ModelManager::LoadAllModel()

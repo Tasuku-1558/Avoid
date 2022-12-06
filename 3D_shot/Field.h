@@ -19,7 +19,7 @@ private:
 
 	VECTOR rotateAngle;
 
-	int line;
+	int lineHandle;
 
 	static const VECTOR SIZE;			//ƒ‚ƒfƒ‹‚Ì”{—¦
 	static const VECTOR POSITION;		//ƒ‚ƒfƒ‹‚ÌˆÊ’u

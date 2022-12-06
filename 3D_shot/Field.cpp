@@ -2,13 +2,13 @@
 #include "ModelManager.h"
 
 
-const VECTOR Field::SIZE = VGet(6.0f, 1.0f, 3.0f);
-const VECTOR Field::POSITION = VGet(0.0f, -50.0f, 1200.0f);
-const VECTOR Field::ROTATE = VGet(0.0f, 90.0f * DX_PI_F / 180.0f, 0.0f);
+const VECTOR Field::SIZE	 = { 6.0f, 1.0f, 3.0f };						//モデルの倍率
+const VECTOR Field::POSITION = { 0.0f, -50.0f, 1200.0f };					//モデルの位置
+const VECTOR Field::ROTATE	 = { 0.0f, 90.0f * DX_PI_F / 180.0f, 0.0f };	//モデルの回転
 
 Field::Field()
 	: rotateAngle()
-	, line(0)
+	, lineHandle(0)
 {
 	//処理なし
 }
@@ -16,7 +16,7 @@ Field::Field()
 Field::~Field()
 {
 	//終了処理が呼ばれてなければ
-	if (modelHandle != NULL || line != NULL)
+	if (modelHandle != NULL || lineHandle != NULL)
 	{
 		Finalize();
 	}
@@ -33,7 +33,7 @@ void Field::Initialize()
 		printfDx("モデルデータ読み込みに失敗 [FIELD]\n");
 	}
 
-	line = LoadGraph("data/image/line.png");
+	lineHandle = LoadGraph("data/image/line.png");
 }
 
 void Field::Finalize()
@@ -41,8 +41,8 @@ void Field::Finalize()
 	MV1DeleteModel(modelHandle);
 	modelHandle = NULL;
 
-	DeleteGraph(line);
-	line = NULL;
+	DeleteGraph(lineHandle);
+	lineHandle = NULL;
 }
 
 void Field::Activate()
@@ -59,5 +59,5 @@ void Field::Draw()
 {
 	MV1DrawModel(modelHandle);
 
-	DrawBillboard3D(VGet(0.0f, 120.0f, 230.0f), 0.5f, 0.5f, 1100.0f, 0.0f, line, TRUE);
+	DrawBillboard3D(VGet(0.0f, 120.0f, 230.0f), 0.5f, 0.5f, 1100.0f, 0.0f, lineHandle, TRUE);
 }

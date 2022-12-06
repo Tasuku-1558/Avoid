@@ -4,9 +4,9 @@
 
 using namespace Math3d;
 
-const VECTOR Player::LING_ROTATE = VGet(0.0f, 1.0f, 0.0f);
-const VECTOR Player::LING_ROTATE_SPEED = VGet(0.0f, 5.0f, 0.0f);
-const VECTOR Player::LING_SIZE = VGet(-0.5f, -0.5f, -0.5f);
+const VECTOR Player::LING_ROTATE	   = { 0.0f, 1.0f, 0.0f };		//リング倍率
+const VECTOR Player::LING_ROTATE_SPEED = { 0.0f, 5.0f, 0.0f };		//リング回転角度
+const VECTOR Player::LING_SIZE		   = { -0.5f, -0.5f, -0.5f };	//リング回転スピード
 
 //コンストラクタ
 Player::Player() : PlayerBase()
@@ -72,8 +72,6 @@ void Player::Activate()
 
 	rotate = LING_ROTATE;
 	rotate_Speed = LING_ROTATE_SPEED;
-
-	
 
 	noDrawFrame = false;
 }
