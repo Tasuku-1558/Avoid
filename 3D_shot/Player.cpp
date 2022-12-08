@@ -182,7 +182,7 @@ void Player::OnHitMeteorite()
 	noDrawFrame = !noDrawFrame;			//2‰ñ‚É1‰ñ•`‰æ‚µ‚È‚¢
 	damageCount += 1;
 
-	if (damageCount > 30)
+	if (damageCount > 10)
 	{
 		state = State::Nomal;
 		noDrawFrame = false;
