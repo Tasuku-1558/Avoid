@@ -106,24 +106,24 @@ void Player::Move(float deltaTime)
 	{
 		if (position.y < 350)
 		{
-			inputDirection.y += 1.0f;
+			inputDirection += UP;
 			inputFlag = true;
 		}
 		else
 		{
-			inputDirection.y = 0.0f;
+			inputDirection = ZERO_VECTOR;
 		}
 	}
 	else if (CheckHitKey(KEY_INPUT_DOWN))
 	{
 		if (position.y > 50)
 		{
-			inputDirection.y -= 1.0f;
+			inputDirection += DOWN;
 			inputFlag = true;
 		}
 		else
 		{
-			inputDirection.y = 0.0f;
+			inputDirection = ZERO_VECTOR;
 		}
 	}
 	//ç∂âE
@@ -131,24 +131,24 @@ void Player::Move(float deltaTime)
 	{
 		if (position.x < 410)
 		{
-			inputDirection.x += 1.0f;
+			inputDirection += RIGHT;
 			inputFlag = true;
 		}
 		else
 		{
-			inputDirection.x = 0.0f;
+			inputDirection = ZERO_VECTOR;
 		}
 	}
 	else if (CheckHitKey(KEY_INPUT_LEFT))
 	{
 		if (position.x > -410)
 		{
-			inputDirection.x -= 1.0f;
+			inputDirection += LEFT;
 			inputFlag = true;
 		}
 		else
 		{
-			inputDirection.x = 0.0f;
+			inputDirection = ZERO_VECTOR;
 		}
 	}
 	
