@@ -42,21 +42,20 @@ private:
 
 	State state;				//ゲーム状態
 	int  frame;					//フレーム数
-
 	int totalScore;				//獲得スコア
 	int excellentCount;			//excellentの数
 	int greatCount;				//greatの数
 	int goodCount;				//goodの数
 	int missCount;				//missの数
 	int displayCount;			//スコア表示カウント
-	int resultUi;
+	int resultUi;				//
 	int scoreFont;				//獲得スコアフォント
 	int evaluationFont;			//各評価フォント
-	float scoreGauge;
-	float scoreMaxGauge;
-	int scoreGaugeFrame;
-	int scoreB;
-	int scoreA;
-	int scoreS;
+	float scoreGauge;			//スコアゲージ
+	float scoreMaxGauge;		//スコア最大ゲージ
+	int scoreGaugeFrame;		//スコアゲージ枠
+	int scoreB;					//スコアB評価
+	int scoreA;					//スコアA評価
+	int scoreS;					//スコアS評価
 	
 };

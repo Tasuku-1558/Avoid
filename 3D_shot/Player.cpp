@@ -5,8 +5,8 @@
 using namespace Math3d;
 
 const VECTOR Player::LING_ROTATE	   = { 0.0f, 1.0f, 0.0f };		//リング倍率
-const VECTOR Player::LING_ROTATE_SPEED = { 0.0f, 5.0f, 0.0f };		//リング回転角度
-const VECTOR Player::LING_SIZE		   = { -0.5f, -0.5f, -0.5f };	//リング回転スピード
+const VECTOR Player::LING_ROTATE_SPEED = { 0.0f, 5.0f, 0.0f };		//リング回転スピード
+const VECTOR Player::LING_SIZE		   = { -0.5f, -0.5f, -0.5f };	//リングサイズ
 
 //コンストラクタ
 Player::Player() : PlayerBase()

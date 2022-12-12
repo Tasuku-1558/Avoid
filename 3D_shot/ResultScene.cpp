@@ -43,11 +43,11 @@ void ResultScene::Initialize()
 	background = new BackGround();
 	background->Initialize();
 
-	resultUi = LoadGraph("data/image/ResultUi.png");
+	resultUi		= LoadGraph("data/image/ResultUi.png");
 	scoreGaugeFrame = LoadGraph("data/image/ScoreGauge.png");
-	scoreB = LoadGraph("data/image/ScoreB.png");
-	scoreA = LoadGraph("data/image/ScoreA.png");
-	scoreS = LoadGraph("data/image/ScoreS.png");
+	scoreB			= LoadGraph("data/image/ScoreB.png");
+	scoreA			= LoadGraph("data/image/ScoreA.png");
+	scoreS			= LoadGraph("data/image/ScoreS.png");
 }
 
 void ResultScene::Finalize()

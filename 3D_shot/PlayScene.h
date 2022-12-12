@@ -73,6 +73,7 @@ private:
 	int  font;					//UIフォント
 	bool slow;					//時間をスローにするか
 	float meteoritePopCount;	//隕石出現カウント
+	int  wave;
 	
 
 	//静的定数

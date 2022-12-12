@@ -17,7 +17,7 @@
 #include "Score.h"
 #include "TimeSlow.h"
 
-const int PlayScene::GAMETIME = 90;		//ゲーム時間
+const int PlayScene::GAMETIME = 30;		//ゲーム時間
 
 PlayScene::PlayScene(SceneManager* const sceneManager)
 		: SceneBase(sceneManager)
@@ -43,6 +43,7 @@ PlayScene::PlayScene(SceneManager* const sceneManager)
 		, targetScore(0)
 		, slow(false)
 		, meteoritePopCount(0.0f)
+		, wave(0)
 {
 	//処理なし
 }
@@ -201,6 +202,7 @@ void PlayScene::MeteoritePop(float deltaTime)
 			Meteorite* newMeteorite = new Meteorite;
 			EntryMeteorite(newMeteorite);
 			meteoritePopCount = 0.0f;
+			wave = 1;
 		}
 	}
 	if (countDown < 70)
@@ -210,6 +212,7 @@ void PlayScene::MeteoritePop(float deltaTime)
 			Meteorite* newMeteorite = new Meteorite;
 			EntryMeteorite(newMeteorite);
 			meteoritePopCount = 0.0f;
+			wave = 2;
 		}
 	}
 	if (countDown < 50)
@@ -219,6 +222,7 @@ void PlayScene::MeteoritePop(float deltaTime)
 			Meteorite* newMeteorite = new Meteorite;
 			EntryMeteorite(newMeteorite);
 			meteoritePopCount = 0.0f;
+			wave = 3;
 		}
 	}
 	if (countDown < 20)
@@ -227,8 +231,18 @@ void PlayScene::MeteoritePop(float deltaTime)
 		{
 			Meteorite* newMeteorite = new Meteorite;
 			EntryMeteorite(newMeteorite);
-			
 			meteoritePopCount = 0.0f;
+			
+		}
+	}
+	if (countDown < 10)
+	{
+		if (meteoritePopCount > 1.0f)
+		{
+			Meteorite* newMeteorite = new Meteorite;
+			EntryMeteorite(newMeteorite);
+			meteoritePopCount = 0.0f;
+			
 		}
 	}
 }
@@ -293,12 +307,14 @@ void PlayScene::UpdateGame(float deltaTime)
 		if (countDown < 20)
 		{
 			ptr->YellowColor();
+			wave = 4;
 		}
 		if (countDown < 11)
 		{
 			state = FEVER;
 			ptr->SpeedUp();
 			ptr->RedColor();
+			wave = 5;
 			pUpdate = &PlayScene::UpdateFever;
 		}
 		if (countDown == 0)
@@ -365,5 +381,6 @@ void PlayScene::Draw()
 	//獲得スコア表示
 	DrawFormatStringToHandle(1000, 100, GetColor(255, 255, 0), font, "SCORE : %d", score);
 	
-	//DrawBillboard3D(VGet(320.0f, a, 10.0f), 0.5f, 0.5f, 50.0f, 0.0f, star, TRUE);
+	//ウェーブ表示
+	DrawFormatStringToHandle(100, 100, GetColor(0, 255, 0), font, "WAVE : %d", wave);
 }

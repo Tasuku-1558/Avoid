@@ -49,7 +49,7 @@ private:
 	bool noDrawFrame;
 
 	static const VECTOR LING_SIZE;				//リング倍率
-	static const VECTOR LING_ROTATE;			//リング回転角度
-	static const VECTOR LING_ROTATE_SPEED;		//リング回転スピード
+	static const VECTOR LING_ROTATE;			//リング回転スピード
+	static const VECTOR LING_ROTATE_SPEED;		//リングサイズ
 	
 };
