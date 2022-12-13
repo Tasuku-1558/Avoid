@@ -7,8 +7,8 @@ const int	 MeteoriteBase::RANDOM_RANGE_X_OR_Y    = 400;						//XÀ•W‚ÆYÀ•W‚Ìƒ‰ƒ
 const float  MeteoriteBase::Z_POSITION			   = 1600.0f;					//ZÀ•W
 const VECTOR MeteoriteBase::DIR					   = { 0.0f, 0.0f, -1.0f };		//•ûŒü
 const int    MeteoriteBase::RANDOM_ROTATION_SPEED  = 400;						//ƒ‰ƒ“ƒ_ƒ€‚È‰ñ“]ƒXƒs[ƒh
-const float  MeteoriteBase::RADIUS				   = 65.0f;						//”¼Œa‚Ì”ÍˆÍ
 const int	 MeteoriteBase::RANGE				   = 2;							//ƒ‰ƒ“ƒ_ƒ€’l‚Ì”ÍˆÍ
+const float  MeteoriteBase::SPEED_UP			   = 2500.0f;					//ˆÚ“®‘¬“xƒAƒbƒv
 
 
 MeteoriteBase::MeteoriteBase()
@@ -17,6 +17,7 @@ MeteoriteBase::MeteoriteBase()
 	, popFlag(true)
 	, random(0)
 	, speed(0.0f)
+	, shadowMapHandle(0)
 {
 	//ˆ—‚È‚µ
 }

@@ -4,17 +4,9 @@
 
 using namespace Math3d;
 
-const VECTOR Player::LING_ROTATE	   = { 0.0f, 1.0f, 0.0f };		//リング倍率
-const VECTOR Player::LING_ROTATE_SPEED = { 0.0f, 5.0f, 0.0f };		//リング回転スピード
-const VECTOR Player::LING_SIZE		   = { -0.5f, -0.5f, -0.5f };	//リングサイズ
 
 //コンストラクタ
 Player::Player() : PlayerBase()
-	, lingModel(0)
-	, rotate()
-	, rotate_Speed()
-	, damageCount(0)
-	, noDrawFrame(false)
 {
 	state = State::Nomal;
 }
@@ -65,11 +57,6 @@ void Player::Activate()
 {
 	position = POSITION;
 
-	// 当たり判定球を設定
-	collisionSphere.localCenter = ZERO_VECTOR;
-	collisionSphere.worldCenter = position;
-	collisionSphere.radius		= RADIUS;
-
 	rotate = LING_ROTATE;
 	rotate_Speed = LING_ROTATE_SPEED;
 
@@ -84,12 +71,8 @@ void Player::Update(float deltaTime)
 	// プレイヤーの位置をセット
 	MV1SetPosition(modelHandle, position);
 
-	// 当たり判定の移動
-	collisionSphere.HitTestMove(position);
-
 	MV1SetPosition(lingModel, position);
 	MV1SetRotationXYZ(lingModel, rotate);
-	
 }
 
 //移動処理
@@ -104,7 +87,7 @@ void Player::Move(float deltaTime)
 	//上下
 	if (CheckHitKey(KEY_INPUT_UP))
 	{
-		if (position.y < 350)
+		if (position.y < UP_RANGE)
 		{
 			inputDirection += UP;
 			inputFlag = true;
@@ -114,9 +97,9 @@ void Player::Move(float deltaTime)
 			inputDirection = ZERO_VECTOR;
 		}
 	}
-	else if (CheckHitKey(KEY_INPUT_DOWN))
+	if (CheckHitKey(KEY_INPUT_DOWN))
 	{
-		if (position.y > 50)
+		if (position.y > DOWN_RANGE)
 		{
 			inputDirection += DOWN;
 			inputFlag = true;
@@ -127,9 +110,9 @@ void Player::Move(float deltaTime)
 		}
 	}
 	//左右
-	else if (CheckHitKey(KEY_INPUT_RIGHT))
+	if (CheckHitKey(KEY_INPUT_RIGHT))
 	{
-		if (position.x < 410)
+		if (position.x < RIGHT_RANGE)
 		{
 			inputDirection += RIGHT;
 			inputFlag = true;
@@ -139,9 +122,9 @@ void Player::Move(float deltaTime)
 			inputDirection = ZERO_VECTOR;
 		}
 	}
-	else if (CheckHitKey(KEY_INPUT_LEFT))
+	if (CheckHitKey(KEY_INPUT_LEFT))
 	{
-		if (position.x > -410)
+		if (position.x > LEFT_RANGE)
 		{
 			inputDirection += LEFT;
 			inputFlag = true;
@@ -155,6 +138,12 @@ void Player::Move(float deltaTime)
 	//十字キーの入力があったら
 	if (inputFlag)
 	{
+		// 左右・上下同時押しなどで入力ベクトルが0の時
+		if (VSquareSize(inputDirection) < 1.0f)
+		{
+			return;
+		}
+
 		//十字キーの入力方向を正規化
 		inputDirection = VNorm(inputDirection);
 

@@ -153,7 +153,6 @@
   <ItemGroup>
     <ClCompile Include="BackGround.cpp" />
     <ClCompile Include="Camera.cpp" />
-    <ClCompile Include="Collision.cpp" />
     <ClCompile Include="Light.cpp" />
     <ClCompile Include="ScoreEarn.cpp" />
     <ClCompile Include="Evaluation.cpp" />
@@ -180,7 +179,6 @@
   <ItemGroup>
     <ClInclude Include="BackGround.h" />
     <ClInclude Include="Camera.h" />
-    <ClInclude Include="Collision.h" />
     <ClInclude Include="Common.h" />
     <ClInclude Include="Light.h" />
     <ClInclude Include="ScoreEarn.h" />

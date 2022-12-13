@@ -7,11 +7,9 @@
 using namespace Math3d;
 
 Meteorite::Meteorite() : MeteoriteBase()
-	, shadowMapHandle(0)
 {
 	Initialize();
 	Activate();
-	meteoriteColor = MeteoriteColor::Nomal;
 }
 
 Meteorite::~Meteorite()
@@ -54,11 +52,6 @@ void Meteorite::Activate()
 	// ランダムな回転角速度をセット
 	rotateSpeed = VGet(GetRand(RANDOM_ROTATION_SPEED) / 1000.0f, GetRand(RANDOM_ROTATION_SPEED) / 1000.0f, GetRand(RANDOM_ROTATION_SPEED) / 1000.0f);
 	rotateAngle = ZERO_VECTOR;
-
-	// 当たり判定球を設定
-	collisionSphere.localCenter = ZERO_VECTOR;
-	collisionSphere.worldCenter = position;
-	collisionSphere.radius		= RADIUS;
 }
 
 //更新処理
@@ -68,9 +61,6 @@ void Meteorite::Update(float deltaTime, Player* player)
 	MV1SetRotationXYZ(modelHandle, rotateAngle);
 
 	Move(deltaTime, player);
-	
-	// 当たり判定の移動
-	collisionSphere.HitTestMove(position);
 }
 
 //移動処理
@@ -98,25 +88,6 @@ void Meteorite::Move(float deltaTime, Player* player)
 	rotateAngle += rotateSpeed;
 }
 
-void Meteorite::mUpdate()
-{
-	switch (meteoriteColor)
-	{
-	case MeteoriteColor::Nomal:
-		break;
-
-	case MeteoriteColor::BLUE:
-		break;
-
-	case MeteoriteColor::GREEN:
-		break;
-
-	case MeteoriteColor::RED:
-		RedColor();
-		break;
-	}
-}
-
 void Meteorite::RedColor()
 {
 	MV1SetDifColorScale(modelHandle, GetColorF(5.0f, 0.0f, 0.0f, 1.0f));
@@ -134,7 +105,7 @@ void Meteorite::OrangeCollor()
 
 void Meteorite::SpeedUp()
 {
-	speed = 2500.0f;
+	speed = SPEED_UP;
 }
 
 //描画処理

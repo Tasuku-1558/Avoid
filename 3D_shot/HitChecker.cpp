@@ -80,8 +80,6 @@ void HitChecker::PlayerAndMeteorite(Player* player, Meteorite* meteorite, Explos
 	//隕石が判定ラインに入ったら判定を開始する
 	if (meteorite->GetPosition().z <= SCORE_DECISION_LINE)
 	{
-		//隕石の当たり判定球を取得
-		Math3d::Sphere sphereMeteorite = meteorite->GetCollisionSphere();
 
 		//プレイヤーから隕石の座標を引いた値を取得
 		double posX = player->GetPosition().x - meteorite->GetPosition().x;
@@ -89,30 +87,30 @@ void HitChecker::PlayerAndMeteorite(Player* player, Meteorite* meteorite, Explos
 
 		//プレイヤーと隕石の２点間の距離を計算
 		direction = sqrt(pow(posX, 2) + pow(posY, 2));
-		
+
 		//判定してないなら
 		if (!decisionFlag)
 		{
 			//隕石と衝突したら
-			if (direction < RADIUS_MISS + sphereMeteorite.radius)
+			if (direction < RADIUS_MISS)
 			{
 				MissDecision(evaluation, player);
 			}
 
 			//隕石とギリギリの範囲
-			else if (direction < RADIUS_EXCELLENT + sphereMeteorite.radius)
+			else if (direction < RADIUS_EXCELLENT)
 			{
 				ExcellentDecision(evaluation);
 			}
 
 			//隕石と中くらいの範囲
-			else if (direction < RADIUS_GREAT + sphereMeteorite.radius)
+			else if (direction < RADIUS_GREAT)
 			{
 				GreatDecision(evaluation);
 			}
 
 			//隕石と一番離れている
-			else if (direction < RADIUS_GOOD + sphereMeteorite.radius)
+			else if (direction < RADIUS_GOOD)
 			{
 				GoodDecision(evaluation);
 			}
@@ -127,10 +125,10 @@ void HitChecker::PlayerAndMeteorite(Player* player, Meteorite* meteorite, Explos
 			{
 				excellent = false;
 				TimeSlow::GetInstance().SetTimeSlow(excellent);
-				
+
 				scoreearn->UpdateExcellent();
 				explosion->Update(meteorite);
-				
+
 				hit = true;
 			}
 
@@ -145,7 +143,7 @@ void HitChecker::PlayerAndMeteorite(Player* player, Meteorite* meteorite, Explos
 			{
 				great = false;
 				TimeSlow::GetInstance().SetTimeSlow(great);
-				
+
 				scoreearn->UpdateGreat();
 
 				hit = true;

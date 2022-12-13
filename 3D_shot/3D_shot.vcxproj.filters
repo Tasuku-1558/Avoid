@@ -70,9 +70,6 @@
     <ClCompile Include="ObjectBase.cpp">
       <Filter>ソースファイル\ObjectBase</Filter>
     </ClCompile>
-    <ClCompile Include="Collision.cpp">
-      <Filter>ソースファイル</Filter>
-    </ClCompile>
     <ClCompile Include="Explosion.cpp">
       <Filter>ソースファイル\Effect</Filter>
     </ClCompile>
@@ -149,9 +146,6 @@
     </ClInclude>
     <ClInclude Include="ObjectBase.h">
       <Filter>ソースファイル\ObjectBase</Filter>
-    </ClInclude>
-    <ClInclude Include="Collision.h">
-      <Filter>ソースファイル</Filter>
     </ClInclude>
     <ClInclude Include="Explosion.h">
       <Filter>ソースファイル\Effect</Filter>
