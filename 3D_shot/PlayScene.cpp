@@ -16,8 +16,9 @@
 #include "Explosion.h"
 #include "Score.h"
 #include "TimeSlow.h"
+#include "ScreenFadeManager.h"
 
-const int PlayScene::GAMETIME = 90;		//ゲーム時間
+const int PlayScene::GAMETIME = 10;		//ゲーム時間
 
 PlayScene::PlayScene(SceneManager* const sceneManager)
 		: SceneBase(sceneManager)
@@ -152,6 +153,8 @@ void PlayScene::Activate()
 	explosion->Activate();
 	
 	player->Activate();
+
+	//ScreenFadeManager::GetInstance().FadeIn();
 }
 
 //ゲーム時間計算
@@ -260,7 +263,9 @@ void PlayScene::Update(float deltaTime)
 //ゲーム開始前
 void PlayScene::UpdateStart(float deltaTime)
 {
-	//if (frame > 10)
+	//ScreenFadeManager::GetInstance().Update();
+
+	//if (frame > 60)
 	{
 		frame = 0;
 		score = 0;
@@ -274,11 +279,13 @@ void PlayScene::UpdateStart(float deltaTime)
 
 		TimeSlow::GetInstance().SetTimeSlow(slow);
 
-		//for (auto ptr : meteorite)
-		//{
-		//	//隕石活性化
-		//	ptr->Activate();
-		//}
+		
+
+		for (auto ptr : meteorite)
+		{
+			//隕石活性化
+			ptr->Activate();
+		}
 		
 		//ゲーム起動時の時間を取得
 		startTime = GetNowCount();
@@ -333,11 +340,11 @@ void PlayScene::UpdateGame(float deltaTime)
 		
 	}
 
-	//スコアを計算
-	Score::GetInstance().Scoring();
-
 	//スコアを取得
 	score = Score::GetInstance().GetScore();
+
+	//スコアを計算
+	Score::GetInstance().Scoring();
 
 	GameCountDown();
 }
@@ -346,7 +353,6 @@ void PlayScene::UpdateGame(float deltaTime)
 void PlayScene::UpdateFever(float deltaTime)
 {
 	UpdateGame(deltaTime);
-	/*a -= tan(10.0f);*/
 }
 
 void PlayScene::Draw()
@@ -373,14 +379,7 @@ void PlayScene::Draw()
 	explosion->Draw();
 
 	//UI管理クラスの描画
-	uiManager->Draw(state, frame);
+	uiManager->Draw(state, frame, font, countDown, score, wave);
 
-	//制限時間表示
-	DrawFormatStringToHandle(500, 100, GetColor(255, 0, 0), font, "TIME : %d", countDown);
-
-	//獲得スコア表示
-	DrawFormatStringToHandle(1000, 100, GetColor(255, 255, 0), font, "SCORE : %d", score);
-	
-	//ウェーブ表示
-	DrawFormatStringToHandle(100, 100, GetColor(0, 255, 0), font, "WAVE : %d", wave);
+	//ScreenFadeManager::GetInstance().Draw();
 }

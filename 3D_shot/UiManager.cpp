@@ -49,7 +49,7 @@ void UiManager::Finalize()
 	}
 }
 
-void UiManager::Draw(PlayScene::State state, int frame)
+void UiManager::Draw(PlayScene::State state, int frame,int font, int countDown, int score, int wave)
 {
 	switch (state)
 	{
@@ -59,10 +59,13 @@ void UiManager::Draw(PlayScene::State state, int frame)
 
 	case PlayScene::GAME:
 		FrameDraw();
+		GameUIDraw(font, countDown, score, wave);
+		
 		break;
 
 	case PlayScene::FEVER:
 		FrameDraw();
+		GameUIDraw(font, countDown, score, wave);
 		FeverImageDraw();
 		break;
 	}
@@ -71,6 +74,18 @@ void UiManager::Draw(PlayScene::State state, int frame)
 void UiManager::StartGameDraw()
 {
 	
+}
+
+void UiManager::GameUIDraw(int font, int countDown, int score, int wave)
+{
+	//制限時間表示
+	DrawFormatStringToHandle(500, 100, GetColor(255, 0, 0), font, "TIME : %d", countDown);
+
+	//獲得スコア表示
+	DrawFormatStringToHandle(1000, 100, GetColor(255, 255, 0), font, "SCORE : %d", score);
+
+	//隕石のウェーブ表示
+	DrawFormatStringToHandle(100, 100, GetColor(0, 255, 0), font, "WAVE : %d", wave);
 }
 
 void UiManager::FrameDraw()

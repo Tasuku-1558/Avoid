@@ -1,7 +1,7 @@
 #pragma once
 
-//時間を低速にするかしないか
 //シングルトン
+//時間を低速にするかしないか
 class TimeSlow final
 {
 public:
@@ -13,9 +13,9 @@ public:
 
 private:
 
-	 TimeSlow();
+	 TimeSlow();					//コンストラクタ
 	 TimeSlow(const TimeSlow&);		//コピーコンストラクタ
-	~TimeSlow();
+	~TimeSlow();					//デストラクタ
 
 	bool slow;
 	

@@ -22,7 +22,6 @@ private:
 	void Blink();						//•¶Žš‚ð–¾–Å
 
 	int backGroundHandle;
-
 	int titleName;
 	int titleUi;
 };

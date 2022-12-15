@@ -23,8 +23,8 @@ TitleScene::~TitleScene()
 void TitleScene::Initialize()
 {
 	backGroundHandle = LoadGraph("data/video/PlayVideo.mp4");
-	titleName = LoadGraph("data/image/titleName.png");
-	titleUi = LoadGraph("data/image/titleUi.png");
+	titleName		 = LoadGraph("data/image/titleName.png");
+	titleUi			 = LoadGraph("data/image/titleUi.png");
 }
 
 void TitleScene::Finalize()

@@ -10,7 +10,7 @@ public:
 
 	void Activate();
 
-	//スコア合計
+	//スコアの合計
 	void SetScore(int totalScore);
 	int  GetScore() { return targetScore; }
 

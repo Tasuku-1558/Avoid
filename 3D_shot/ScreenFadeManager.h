@@ -23,13 +23,13 @@ private:
 	 ScreenFadeManager(const ScreenFadeManager&);		//コピーコンストラクタ
 	~ScreenFadeManager();								//デストラクタ
 
-	void(ScreenFadeManager::* pUpdate)();	//Update関数ポインタ
-	void(ScreenFadeManager::* pDraw)();		//Draw関数ポインタ
-
 	void UpdateFadeIn();
 	void DrawFadeIn();
 	void UpdateFadeOut();
 	void DrawFadeOut();
+
+	void(ScreenFadeManager::* pUpdate)();	//Update関数ポインタ
+	void(ScreenFadeManager::* pDraw)();		//Draw関数ポインタ
 
 	int remainingDrawFrame;  // 残りの描画するframe数
 	int alphaParameter; // ALPHA値(0～255)

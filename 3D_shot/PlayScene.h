@@ -70,7 +70,7 @@ private:
 	int  countDown;				//制限時間
 	int  targetScore;			//目標スコア
 	int  score;					//獲得スコア
-	int  font;					//UIフォント
+	int  font;					//ゲームフォント
 	bool slow;					//時間をスローにするか
 	float meteoritePopCount;	//隕石出現カウント
 	int  wave;

@@ -4,6 +4,7 @@
 #include "PlayScene.h"
 #include <string>		//文字列型クラス
 
+//UI管理クラス
 class UiManager final
 {
 public:
@@ -13,7 +14,7 @@ public:
 	void Initialize();
 	void Finalize();
 
-	void Draw(PlayScene::State state, int frame);
+	void Draw(PlayScene::State state, int frame, int font, int countDown, int score, int wave);
 
 
 private:
@@ -22,6 +23,7 @@ private:
 	void StartGameDraw();
 	void FrameDraw();					//フレームUIの描画
 	void FeverImageDraw();				//フィーバーモードUIの描画
+	void GameUIDraw(int font, int countDown, int score, int wave);
 
 	//静的定数
 	static const std::string FOLDER_PATH;			//画像格納フォルダ
