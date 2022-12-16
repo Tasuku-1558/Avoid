@@ -35,8 +35,6 @@ void TitleScene::Finalize()
 
 void TitleScene::Activate()
 {
-	//ƒ€[ƒr[‚ğÄ¶ó‘Ô‚É
-	PlayMovieToGraph(backGroundHandle);
 }
 
 void TitleScene::Update(float deltaTime)

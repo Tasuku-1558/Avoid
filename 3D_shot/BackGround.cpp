@@ -28,8 +28,6 @@ void BackGround::Finalize()
 
 void BackGround::Activate()
 {	
-	//ƒ€[ƒr[‚ğÄ¶ó‘Ô‚É
-	PlayMovieToGraph(backGroundHandle);
 }
 
 void BackGround::Draw()
