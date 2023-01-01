@@ -1,7 +1,9 @@
 #pragma once
 
-//シングルトン
-//スコア分配クラス
+
+/// <summary>
+/// スコア分配クラス
+/// </summary>
 class Score final
 {
 public:
@@ -27,17 +29,23 @@ public:
 	void SetMissCount(int totalMiss);
 	int  GetMissCount() { return miss; }
 
-	void Scoring();				//スコアを目標スコアに足し引き
+	void Scoring();				//目標スコアまでスコアを足し引き
 private:
 
 	 Score();					//コンストラクタ
 	 Score(const Score&);		//コピーコンストラクタ
 	~Score();					//デストラクタ
 
+	//各スコア格納用
 	int score;
 	int excellent;
 	int great;
 	int good;
 	int miss;
-	int targetScore;
+
+	int targetScore;	//目標スコアまでスコアを足し引きする
+
+	//静的定数
+	static const int   FIRST_SCORE;			//スコアの初期値
+
 };

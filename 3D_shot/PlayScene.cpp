@@ -2,7 +2,7 @@
 #include "DxLib.h"
 
 #include "SceneManager.h"
-#include "Common.h"
+#include "PreCompiledHeader.h"
 #include "Player.h"
 #include "Meteorite.h"
 #include "Camera.h"
@@ -16,7 +16,6 @@
 #include "Explosion.h"
 #include "Score.h"
 #include "TimeSlow.h"
-#include "ScreenFadeManager.h"
 
 const int PlayScene::GAMETIME = 10;		//ゲーム時間
 
@@ -33,7 +32,7 @@ PlayScene::PlayScene(SceneManager* const sceneManager)
 		, player(nullptr)
 		, explosion(nullptr)
 		, evaluation(nullptr)
-		, scoreearn(nullptr)
+		, scorEearn(nullptr)
 		, pUpdate(nullptr)
 		, meteorite()
 		, startTime(0)
@@ -93,7 +92,7 @@ void PlayScene::Initialize()
 	evaluation->Initialize();
 
 	//スコア獲得クラス
-	scoreearn = new ScoreEarn();
+	scorEearn = new ScoreEarn();
 }
 
 //終了処理
@@ -129,7 +128,7 @@ void PlayScene::Finalize()
 	SafeDelete(evaluation);
 	evaluation->Finalize();
 
-	SafeDelete(scoreearn);
+	SafeDelete(scorEearn);
 
 	//作成したフォントデータの削除
 	DeleteFontToHandle(font);
@@ -153,11 +152,11 @@ void PlayScene::Activate()
 	explosion->Activate();
 	
 	player->Activate();
-
-	//ScreenFadeManager::GetInstance().FadeIn();
 }
 
-//ゲーム時間計算
+/// <summary>
+/// ゲーム時間計算
+/// </summary>
 void PlayScene::GameCountDown()
 {
 	nowTime = GetNowCount();
@@ -171,13 +170,19 @@ void PlayScene::GameCountDown()
 	}
 }
 
-//隕石を登録
+/// <summary>
+/// 隕石を登録
+/// </summary>
+/// <param name="newMeteorite"></param>
 void PlayScene::EntryMeteorite(Meteorite* newMeteorite)
 {
 	meteorite.emplace_back(newMeteorite);
 }
 
-//隕石を削除
+/// <summary>
+/// 隕石を削除
+/// </summary>
+/// <param name="deleteMeteorite"></param>
 void PlayScene::DeleteMeteorite(Meteorite* deleteMeteorite)
 {
 	//隕石オブジェクトから検索して削除
@@ -193,7 +198,10 @@ void PlayScene::DeleteMeteorite(Meteorite* deleteMeteorite)
 	}
 }
 
-//隕石の出現間隔
+/// <summary>
+/// 隕石の出現間隔
+/// </summary>
+/// <param name="deltaTime"></param>
 void PlayScene::MeteoritePop(float deltaTime)
 {
 	meteoritePopCount += deltaTime;
@@ -260,11 +268,12 @@ void PlayScene::Update(float deltaTime)
 	++frame;
 }
 
-//ゲーム開始前
+/// <summary>
+/// ゲーム開始前
+/// </summary>
+/// <param name="deltaTime"></param>
 void PlayScene::UpdateStart(float deltaTime)
 {
-	//ScreenFadeManager::GetInstance().Update();
-
 	//if (frame > 60)
 	{
 		frame = 0;
@@ -275,7 +284,7 @@ void PlayScene::UpdateStart(float deltaTime)
 
 		Score::GetInstance().Activate();
 
-		scoreearn->Activate();
+		scorEearn->Activate();
 
 		TimeSlow::GetInstance().SetTimeSlow(slow);
 
@@ -292,7 +301,10 @@ void PlayScene::UpdateStart(float deltaTime)
 	}
 }
 
-//ゲーム中
+/// <summary>
+/// ゲーム中
+/// </summary>
+/// <param name="deltaTime"></param>
 void PlayScene::UpdateGame(float deltaTime)
 {
 	//プレイヤーの制御
@@ -306,7 +318,6 @@ void PlayScene::UpdateGame(float deltaTime)
 		//隕石制御
 		ptr->Update(deltaTime, player);
 
-		//制限時間が11秒以下になったらフィーバー状態へ移行
 		if (countDown < 50)
 		{
 			ptr->OrangeCollor();
@@ -316,7 +327,7 @@ void PlayScene::UpdateGame(float deltaTime)
 			ptr->YellowColor();
 			wave = 4;
 		}
-		if (countDown < 11)
+		if (countDown < 11)		//制限時間が11秒以下になったらフィーバー状態へ移行
 		{
 			state = FEVER;
 			ptr->SpeedUp();
@@ -330,7 +341,7 @@ void PlayScene::UpdateGame(float deltaTime)
 		}
 
 		//プレイヤーと隕石の当たり判定
-		hitChecker->PlayerAndMeteorite(player, ptr, explosion, evaluation, scoreearn);
+		hitChecker->PlayerAndMeteorite(player, ptr, explosion, evaluation, scorEearn);
 
 		//隕石と衝突したもしくは制限時間が0になったら
 		if (hitChecker->Hit())
@@ -349,7 +360,10 @@ void PlayScene::UpdateGame(float deltaTime)
 	GameCountDown();
 }
 
-//フィーバー中
+/// <summary>
+/// フィーバー中
+/// </summary>
+/// <param name="deltaTime"></param>
 void PlayScene::UpdateFever(float deltaTime)
 {
 	UpdateGame(deltaTime);
@@ -380,6 +394,4 @@ void PlayScene::Draw()
 
 	//UI管理クラスの描画
 	uiManager->Draw(state, frame, font, countDown, score, wave);
-
-	//ScreenFadeManager::GetInstance().Draw();
 }

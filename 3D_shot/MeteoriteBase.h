@@ -2,10 +2,10 @@
 
 #include "ObjectBase.h"
 
-//Meteoriteの親クラス
-//ObjectBaseを継承
-
-
+/// <summary>
+/// Meteoriteの親クラス
+/// ObjectBaseを継承
+/// </summary>
 class MeteoriteBase : public ObjectBase
 {
 public:

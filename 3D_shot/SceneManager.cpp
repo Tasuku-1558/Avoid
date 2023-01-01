@@ -1,5 +1,5 @@
 #include "SceneManager.h"
-#include "Common.h"
+#include "PreCompiledHeader.h"
 #include "TitleScene.h"
 #include "PlayScene.h"
 #include "ResultScene.h"
@@ -85,13 +85,19 @@ void SceneManager::ChangeScene()
 	nowPointer->Activate();				//次のシーンを活性化
 }
 
-//今のシーンを取得
+/// <summary>
+/// 今のシーンを取得
+/// </summary>
+/// <returns></returns>
 SceneManager::Scene SceneManager::GetNowScene()
 {
 	return nowScene;
 }
 
-//次のシーンを取得
+/// <summary>
+/// 次のシーンを取得
+/// </summary>
+/// <returns></returns>
 SceneManager::Scene SceneManager::GetNextScene()
 {
 	return nextScene;

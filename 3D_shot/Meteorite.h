@@ -8,8 +8,11 @@ class Player;
 
 using namespace Math3d;
 
-//隕石クラス
-//MeteoriteBaseクラスを継承
+
+/// <summary>
+/// 隕石クラス
+/// MeteoriteBaseクラスを継承
+/// </summary>
 class Meteorite final : public MeteoriteBase
 {
 public:
@@ -20,8 +23,8 @@ public:
 	void Finalize();
 	void Activate();
 	void Update(float deltaTime, Player* player);
-	void SpeedUp();
-	void RedColor();
+	void SpeedUp();					//隕石スピードアップ
+	void RedColor();				//各Waveでの隕石の色変更
 	void YellowColor();
 	void OrangeCollor();
 	void Draw();

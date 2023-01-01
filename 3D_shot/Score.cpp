@@ -1,6 +1,8 @@
 #include "Score.h"
 
 
+const int Score::FIRST_SCORE = 0;		//スコアの初期値
+
 Score::Score()
 	: score(0)
 	, miss(0)
@@ -25,12 +27,12 @@ Score& Score::GetInstance()
 
 void Score::Activate()
 {
-	score = 0;
-	excellent = 0;
-	great = 0;
-	good = 0;
-	miss = 0;
-	targetScore = 0;
+	score		= FIRST_SCORE;
+	excellent	= FIRST_SCORE;
+	great		= FIRST_SCORE;
+	good		= FIRST_SCORE;
+	miss		= FIRST_SCORE;
+	targetScore = FIRST_SCORE;
 }
 
 void Score::SetScore(int totalScore)
@@ -58,7 +60,9 @@ void Score::SetMissCount(int totalMiss)
 	miss = totalMiss;
 }
 
-//スコアを目標スコアに足し引き
+/// <summary>
+/// 目標スコアまでスコアを足し引き
+/// </summary>
 void Score::Scoring()
 {
 	if (score != targetScore)

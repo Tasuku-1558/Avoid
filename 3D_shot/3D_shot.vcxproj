@@ -171,7 +171,6 @@
     <ClCompile Include="ResultScene.cpp" />
     <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="Score.cpp" />
-    <ClCompile Include="ScreenFadeManager.cpp" />
     <ClCompile Include="TimeSlow.cpp" />
     <ClCompile Include="TitleScene.cpp" />
     <ClCompile Include="UiManager.cpp" />
@@ -179,7 +178,7 @@
   <ItemGroup>
     <ClInclude Include="BackGround.h" />
     <ClInclude Include="Camera.h" />
-    <ClInclude Include="Common.h" />
+    <ClInclude Include="PreCompiledHeader.h" />
     <ClInclude Include="Light.h" />
     <ClInclude Include="ScoreEarn.h" />
     <ClInclude Include="EffectBase.h" />
@@ -199,7 +198,6 @@
     <ClInclude Include="SceneBase.h" />
     <ClInclude Include="SceneManager.h" />
     <ClInclude Include="Score.h" />
-    <ClInclude Include="ScreenFadeManager.h" />
     <ClInclude Include="TimeSlow.h" />
     <ClInclude Include="TitleScene.h" />
     <ClInclude Include="UiManager.h" />

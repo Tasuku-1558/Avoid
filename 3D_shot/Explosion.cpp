@@ -4,6 +4,11 @@
 #include "Meteorite.h"
 
 
+const string Explosion::EFFECT_FOLDER_PATH = "data/effect/";		//effectフォルダまでのパス
+const string Explosion::EXPLOSION_PATH	   = "Explosion.efkefc";	//爆発エフェクトのパス
+const string Explosion::SOUND_FOLDER_PATH  = "data/sound/";			//soundフォルダまでのパス
+const string Explosion::EXPLOSION_SE_PATH  = "ExplosionSE.mp3";		//爆発SEのパス
+
 Explosion::Explosion()
 	: effectHandle(0)
 	, effectPos_X(0.0f)
@@ -23,8 +28,11 @@ Explosion::~Explosion()
 
 void Explosion::Initialize()
 {
-	effectHandle = LoadEffekseerEffect("data/effect/Explosion.efkefc", 15.0f);
-	explosionSE = LoadSoundMem("data/sound/ExplosionSE.mp3");
+	string failePath = EFFECT_FOLDER_PATH + EXPLOSION_PATH;
+	effectHandle = LoadEffekseerEffect(failePath.c_str(), 15.0f);
+
+	failePath = SOUND_FOLDER_PATH + EXPLOSION_SE_PATH;
+	explosionSE = LoadSoundMem(failePath.c_str());
 }
 
 void Explosion::Finalize()

@@ -1,7 +1,7 @@
 #include "Meteorite.h"
 #include "Player.h"
 #include "ModelManager.h"
-#include "Common.h"
+#include "PreCompiledHeader.h"
 #include <math.h>
 
 using namespace Math3d;
@@ -21,7 +21,9 @@ Meteorite::~Meteorite()
 	}
 }
 
-//初期化処理
+/// <summary>
+/// 初期化処理
+/// </summary>
 void Meteorite::Initialize()
 {
 	modelHandle = MV1DuplicateModel(ModelManager::GetInstance().GetModelHandle(ModelManager::METEORITE));
@@ -34,14 +36,18 @@ void Meteorite::Initialize()
 	}
 }
 
-//終了処理
+/// <summary>
+/// 終了処理
+/// </summary>
 void Meteorite::Finalize()
 {
 	MV1DeleteModel(modelHandle);
 	modelHandle = NULL;
 }
 
-//活性化処理
+/// <summary>
+/// 活性化処理
+/// </summary>
 void Meteorite::Activate()
 {
 	position = VGet(GetRand(RANDOM_RANGE_X_OR_Y), GetRand(RANDOM_RANGE_X_OR_Y), Z_POSITION);
@@ -54,7 +60,11 @@ void Meteorite::Activate()
 	rotateAngle = ZERO_VECTOR;
 }
 
-//更新処理
+/// <summary>
+/// 更新処理
+/// </summary>
+/// <param name="deltaTime"></param>
+/// <param name="player"></param>
 void Meteorite::Update(float deltaTime, Player* player)
 {
 	MV1SetPosition(modelHandle, position);
@@ -63,7 +73,11 @@ void Meteorite::Update(float deltaTime, Player* player)
 	Move(deltaTime, player);
 }
 
-//移動処理
+/// <summary>
+/// 移動処理
+/// </summary>
+/// <param name="deltaTime"></param>
+/// <param name="player"></param>
 void Meteorite::Move(float deltaTime, Player* player)
 {
 	//プレイヤーに向かって跳ぶ
@@ -88,6 +102,9 @@ void Meteorite::Move(float deltaTime, Player* player)
 	rotateAngle += rotateSpeed;
 }
 
+/// <summary>
+/// 各Waveでの隕石の色変更
+/// </summary>
 void Meteorite::RedColor()
 {
 	MV1SetDifColorScale(modelHandle, GetColorF(5.0f, 0.0f, 0.0f, 1.0f));
@@ -108,7 +125,9 @@ void Meteorite::SpeedUp()
 	speed = SPEED_UP;
 }
 
-//描画処理
+/// <summary>
+/// 描画処理
+/// </summary>
 void Meteorite::Draw()
 {
 	MV1DrawModel(modelHandle);

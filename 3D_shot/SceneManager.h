@@ -2,14 +2,19 @@
 
 class SceneBase;
 
+/// <summary>
+/// シーンマネージャークラス
+/// </summary>
 class SceneManager final
 {
 public:
 
-	//シーン状態
+	/// <summary>
+	/// シーンの状態
+	/// </summary>
 	enum Scene
 	{
-		TITLE = 0,		//タイトル画面
+		TITLE,			//タイトル画面
 		PLAY,			//ゲーム画面
 		RESULT,			//リザルト画面
 		END				//終了とシーン数
@@ -36,5 +41,5 @@ private:
 	Scene	   nowScene;				//今のシーン
 	Scene	   nextScene;				//次のシーン
 
-	void	  ChangeScene();			//シーンの変更
+	void ChangeScene();					//シーンの変更
 };

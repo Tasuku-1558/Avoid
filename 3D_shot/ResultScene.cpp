@@ -1,10 +1,18 @@
 #include "ResultScene.h"
 #include "DxLib.h"
 
-#include "Common.h"
+#include "PreCompiledHeader.h"
 #include "BackGround.h"
 #include "Score.h"
 #include "SceneManager.h"
+
+
+const string ResultScene::IMAGE_FOLDER_PATH = "data/image/";		//imageフォルダまでのパス
+const string ResultScene::RESULT_UI_PATH	= "ResultUi.png";		//リプレイ、タイトルへのUI画像のパス
+const string ResultScene::SCORE_GAUGE_PATH  = "ScoreGauge.png";		//スコアゲージ枠画像のパス
+const string ResultScene::SCORE_B_PATH		= "ScoreB.png";			//B評価画像のパス
+const string ResultScene::SCORE_A_PATH		= "ScoreA.png";			//A評価画像のパス
+const string ResultScene::SCORE_S_PATH		= "ScoreS.png";			//S評価画像のパス
 
 
 ResultScene::ResultScene(SceneManager* const sceneManager)
@@ -43,11 +51,20 @@ void ResultScene::Initialize()
 	background = new BackGround();
 	background->Initialize();
 
-	resultUi		= LoadGraph("data/image/ResultUi.png");
-	scoreGaugeFrame = LoadGraph("data/image/ScoreGauge.png");
-	scoreB			= LoadGraph("data/image/ScoreB.png");
-	scoreA			= LoadGraph("data/image/ScoreA.png");
-	scoreS			= LoadGraph("data/image/ScoreS.png");
+	string failePath = IMAGE_FOLDER_PATH + RESULT_UI_PATH;
+	resultUi = LoadGraph(failePath.c_str());
+
+	failePath = IMAGE_FOLDER_PATH + SCORE_GAUGE_PATH;
+	scoreGaugeFrame = LoadGraph(failePath.c_str());
+
+	failePath = IMAGE_FOLDER_PATH + SCORE_B_PATH;
+	scoreB = LoadGraph(failePath.c_str());
+
+	failePath = IMAGE_FOLDER_PATH + SCORE_A_PATH;
+	scoreA = LoadGraph(failePath.c_str());
+
+	failePath = IMAGE_FOLDER_PATH + SCORE_S_PATH;
+	scoreS = LoadGraph(failePath.c_str());
 }
 
 void ResultScene::Finalize()
@@ -71,7 +88,7 @@ void ResultScene::Activate()
 	state = START;
 	frame = 0;
 	
-	scoreFont = CreateFontToHandle("Oranienbaum", 130, 1);
+	scoreFont	   = CreateFontToHandle("Oranienbaum", 130, 1);
 	evaluationFont = CreateFontToHandle("Oranienbaum", 80, 1);
 	
 	pUpdate = &ResultScene::UpdateStart;
@@ -79,7 +96,9 @@ void ResultScene::Activate()
 	background->Activate();
 }
 
-//スコアを取得
+/// <summary>
+/// スコアを取得
+/// </summary>
 void ResultScene::AcquisitionScore()
 {
 	totalScore	   = Score::GetInstance().GetScore();
@@ -134,7 +153,9 @@ void ResultScene::UpdateResult()
 	}
 }
 
-//獲得スコア表示
+/// <summary>
+/// 獲得スコア表示
+/// </summary>
 void ResultScene::DisplayScore()
 {
 	displayCount += 1.0f;
@@ -163,6 +184,9 @@ void ResultScene::DisplayScore()
 	}
 }
 
+/// <summary>
+/// 文字の点滅
+/// </summary>
 void ResultScene::Blink()
 {
 	// 明滅ルーチン
@@ -183,14 +207,16 @@ void ResultScene::Blink()
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, alpha);
 }
 
-//スコアゲージ表示
+/// <summary>
+/// スコアゲージ表示
+/// </summary>
 void ResultScene::ScoreGauge()
 {
-	scoreMaxGauge = 100.0f/*totalScore / 10.0f*/;
+	scoreMaxGauge = 100.0f;
 	
 	
 	DrawBox(500, 200, 500 + 200 * (scoreGauge / scoreMaxGauge), 117, GetColor(186, 85, 211), TRUE);	//スコアゲージを描画
-	DrawGraph(218, -270, scoreGaugeFrame, TRUE);		//枠を描画
+	DrawGraph(218, -270, scoreGaugeFrame, TRUE);		//スコアゲージ枠を描画
 
 	scoreGauge += 1.0f;
 

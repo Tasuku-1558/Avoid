@@ -1,5 +1,7 @@
 #include "BackGround.h"
 
+const string BackGround::VIDEO_FOLDER_PATH		= "data/video/";		//videoフォルダまでのパス
+const string BackGround::BACK_GROUND_VIDEO_PATH = "BackGround.mp4";		//背景動画のパス
 
 BackGround::BackGround()
 	: backGroundHandle(0)
@@ -17,7 +19,8 @@ BackGround::~BackGround()
 
 void BackGround::Initialize()
 {
-	backGroundHandle = LoadGraph("data/video/BackGround.mp4");
+	string failePath = VIDEO_FOLDER_PATH + BACK_GROUND_VIDEO_PATH;
+	backGroundHandle = LoadGraph(failePath.c_str());
 }
 
 void BackGround::Finalize()

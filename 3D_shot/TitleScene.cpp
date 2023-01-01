@@ -1,7 +1,14 @@
 #include "TitleScene.h"
 #include "DxLib.h"
-
 #include "SceneManager.h"
+
+
+const string TitleScene::VIDEO_FOLDER_PATH = "data/video/";		//videoフォルダまでのパス
+const string TitleScene::IMAGE_FOLDER_PATH = "data/image/";		//imageフォルダまでのパス
+const string TitleScene::PLAY_VIDEO_PATH   = "PlayVideo.mp4";	//タイトル動画のパス
+const string TitleScene::TITLENAME_PATH	   = "titleName.png";	//タイトル名の画像のパス
+const string TitleScene::TITLE_UI_PATH     = "titleUi.png";		//プレイシーンへ遷移キーのUIのパス
+
 
 TitleScene::TitleScene(SceneManager* const sceneManager)
 	: SceneBase(sceneManager)
@@ -22,9 +29,14 @@ TitleScene::~TitleScene()
 
 void TitleScene::Initialize()
 {
-	backGroundHandle = LoadGraph("data/video/PlayVideo.mp4");
-	titleName		 = LoadGraph("data/image/titleName.png");
-	titleUi			 = LoadGraph("data/image/titleUi.png");
+	string failePath = VIDEO_FOLDER_PATH + PLAY_VIDEO_PATH;
+	backGroundHandle = LoadGraph(failePath.c_str());
+
+	failePath = IMAGE_FOLDER_PATH + TITLENAME_PATH;
+	titleName = LoadGraph(failePath.c_str());
+
+	failePath = IMAGE_FOLDER_PATH + TITLE_UI_PATH;
+	titleUi = LoadGraph(failePath.c_str());
 }
 
 void TitleScene::Finalize()
@@ -47,7 +59,9 @@ void TitleScene::Update(float deltaTime)
 	}
 }
 
-//文字を明滅
+/// <summary>
+/// 文字の点滅
+/// </summary>
 void TitleScene::Blink()
 {
 	// 明滅ルーチン

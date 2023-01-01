@@ -29,17 +29,17 @@ ModelManager& ModelManager::GetInstance()
 void ModelManager::LoadAllModel()
 {
 	//モデルファイルへのパス
-	string FailePath = MODEL_FOLDER_PATH + PLAYER_PATH;
-	modelHandle[PLAYER] = MV1LoadModel(FailePath.c_str());
+	string failePath = MODEL_FOLDER_PATH + PLAYER_PATH;
+	modelHandle[PLAYER] = MV1LoadModel(failePath.c_str());
 
-	FailePath = MODEL_FOLDER_PATH + LING_PATH;
-	modelHandle[PLAYER_LING] = MV1LoadModel(FailePath.c_str());
+	failePath = MODEL_FOLDER_PATH + LING_PATH;
+	modelHandle[PLAYER_LING] = MV1LoadModel(failePath.c_str());
 
-	FailePath = MODEL_FOLDER_PATH + METEORITE_PATH;
-	modelHandle[METEORITE] = MV1LoadModel(FailePath.c_str());
+	failePath = MODEL_FOLDER_PATH + METEORITE_PATH;
+	modelHandle[METEORITE] = MV1LoadModel(failePath.c_str());
 
-	FailePath = MODEL_FOLDER_PATH + FIELD_PATH;
-	modelHandle[FIELD] = MV1LoadModel(FailePath.c_str());
+	failePath = MODEL_FOLDER_PATH + FIELD_PATH;
+	modelHandle[FIELD] = MV1LoadModel(failePath.c_str());
 
 	//読み込み失敗ならエラー
 	for (int i = 0; i < MODEL_AMOUNT; ++i)

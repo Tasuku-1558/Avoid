@@ -3,7 +3,7 @@
 //-----------------------------------------------------------------------------
 #include "DxLib.h"
 #include "EffekseerForDXLib.h"
-#include "Common.h"
+#include "PreCompiledHeader.h"
 #include "SceneManager.h"
 #include "ModelManager.h"
 #include "TimeSlow.h"

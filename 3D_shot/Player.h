@@ -7,14 +7,20 @@
 
 using namespace Math3d;
 
+/// <summary>
+/// プレイヤーの状態
+/// </summary>
 enum class State
 {
-	Nomal,
-	Damage,
+	NOMAL,
+	DAMAGE,
 };
 
-//プレイヤークラス
-//PlayerBaseクラスを継承
+
+/// <summary>
+/// プレイヤークラス
+/// PlayerBaseクラスを継承
+/// </summary>
 class Player final : public PlayerBase
 {
 public:
@@ -33,7 +39,7 @@ private:
 	Player(const Player&);			//コピーコンストラクタ
 
 	void Move(float deltaTime);		//移動処理
-	void pUpdate();					//状態変化
-	void OnHitMeteorite();			//隕石に当たった
+	void pUpdate();					//プレイヤーの状態
+	void OnHitMeteorite();			//隕石に当たったならば
 
 };

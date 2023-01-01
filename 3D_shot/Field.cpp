@@ -5,6 +5,9 @@
 const VECTOR Field::SIZE	 = { 6.0f, 1.0f, 3.0f };						//モデルの倍率
 const VECTOR Field::POSITION = { 0.0f, -50.0f, 1200.0f };					//モデルの位置
 const VECTOR Field::ROTATE	 = { 0.0f, 90.0f * DX_PI_F / 180.0f, 0.0f };	//モデルの回転
+const string Field::IMAGE_FOLDER_PATH = "data/image/";						//imageフォルダまでのパス
+const string Field::LINE_PATH		  = "line.png";							//ライン画像のパス
+
 
 Field::Field()
 	: rotateAngle()
@@ -33,7 +36,8 @@ void Field::Initialize()
 		printfDx("モデルデータ読み込みに失敗 [FIELD]\n");
 	}
 
-	lineHandle = LoadGraph("data/image/line.png");
+	string failePath = IMAGE_FOLDER_PATH + LINE_PATH;
+	lineHandle = LoadGraph(failePath.c_str());
 }
 
 void Field::Finalize()

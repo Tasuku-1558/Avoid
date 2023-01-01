@@ -18,8 +18,9 @@ public:
 	const VECTOR& GetDir() const;		//dirのgetter
 
 protected:
+
 	VECTOR position;						//現在の座標
 	VECTOR dir;								//向きベクトル
-	int	   modelHandle;						//モデルハンドル
+	int modelHandle;						//モデルハンドル
 	
 };

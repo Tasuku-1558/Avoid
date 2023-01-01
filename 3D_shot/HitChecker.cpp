@@ -34,48 +34,68 @@ HitChecker::~HitChecker()
 	//処理なし
 }
 
-//miss判定
+/// <summary>
+/// miss判定
+/// </summary>
+/// <param name="evaluation"></param>
+/// <param name="player"></param>
 void HitChecker::MissDecision(Evaluation* evaluation, Player* player)
 {
-	evaluation->ui = UI::Miss;
+	evaluation->ui = UI::MISS;
 
-	player->state = State::Damage;
+	player->state = State::DAMAGE;
 	
 	miss = true;
 }
 
-//excellent判定
+/// <summary>
+/// excellent判定
+/// </summary>
+/// <param name="evaluation"></param>
 void HitChecker::ExcellentDecision(Evaluation* evaluation)
 {
-	evaluation->ui = UI::Excellent;
+	evaluation->ui = UI::EXCELLENT;
 
 	excellent = true;
 	TimeSlow::GetInstance().SetTimeSlow(excellent);
 }
 
-//great判定
+/// <summary>
+/// great判定
+/// </summary>
+/// <param name="evaluation"></param>
 void HitChecker::GreatDecision(Evaluation* evaluation)
 {
-	evaluation->ui = UI::Great;
+	evaluation->ui = UI::GREAT;
 
 	great = true;
 	TimeSlow::GetInstance().SetTimeSlow(great);
 }
 
-//good判定
+/// <summary>
+/// good判定
+/// </summary>
+/// <param name="evaluation"></param>
 void HitChecker::GoodDecision(Evaluation* evaluation)
 {
-	evaluation->ui = UI::Good;
+	evaluation->ui = UI::GOOD;
 
 	good = true;
 	
 }
 
-//プレイヤーと隕石の当たり判定
+/// <summary>
+/// プレイヤーと隕石の当たり判定
+/// </summary>
+/// <param name="player"></param>
+/// <param name="meteorite"></param>
+/// <param name="explosion"></param>
+/// <param name="evaluation"></param>
+/// <param name="scoreearn"></param>
 void HitChecker::PlayerAndMeteorite(Player* player, Meteorite* meteorite, Explosion* explosion, Evaluation* evaluation, ScoreEarn* scoreearn)
 {
-	//隕石と衝突していないなら
-	hit = false;
+	
+	hit = false;	//隕石と衝突していないなら
 
 	//隕石が判定ラインに入ったら判定を開始する
 	if (meteorite->GetPosition().z <= SCORE_DECISION_LINE)

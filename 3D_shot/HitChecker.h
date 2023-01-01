@@ -8,6 +8,9 @@ class ScoreEarn;
 
 using namespace std;
 
+/// <summary>
+/// ヒットチェッカークラス
+/// </summary>
 class HitChecker final
 {
 public:

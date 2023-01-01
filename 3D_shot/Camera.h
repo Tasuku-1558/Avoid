@@ -2,6 +2,9 @@
 
 #include "DxLib.h"
 
+/// <summary>
+/// ƒJƒƒ‰ƒNƒ‰ƒX
+/// </summary>
 class Camera final
 {
 public: 

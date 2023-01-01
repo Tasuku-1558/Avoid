@@ -97,9 +97,6 @@
     <ClCompile Include="Light.cpp">
       <Filter>ソースファイル</Filter>
     </ClCompile>
-    <ClCompile Include="ScreenFadeManager.cpp">
-      <Filter>ソースファイル\System</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="TitleScene.h">
@@ -138,7 +135,7 @@
     <ClInclude Include="SceneManager.h">
       <Filter>ソースファイル\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="Common.h">
+    <ClInclude Include="PreCompiledHeader.h">
       <Filter>ソースファイル</Filter>
     </ClInclude>
     <ClInclude Include="HitChecker.h">
@@ -176,9 +173,6 @@
     </ClInclude>
     <ClInclude Include="Light.h">
       <Filter>ソースファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="ScreenFadeManager.h">
-      <Filter>ソースファイル\System</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -1,17 +1,21 @@
 #include "Player.h"
-#include "Common.h"
+#include "PreCompiledHeader.h"
 #include "ModelManager.h"
 
 using namespace Math3d;
 
 
-//コンストラクタ
+/// <summary>
+/// コンストラクタ
+/// </summary>
 Player::Player() : PlayerBase()
 {
-	state = State::Nomal;
+	state = State::NOMAL;
 }
 
-//デストラクタ
+/// <summary>
+/// デストラクタ
+/// </summary>
 Player::~Player()
 {
 	//終了処理が呼ばれてなければ
@@ -21,7 +25,9 @@ Player::~Player()
 	}
 }
 
-//初期化処理
+/// <summary>
+/// 初期化処理
+/// </summary>
 void Player::Initialize()
 {
 	modelHandle = MV1DuplicateModel(ModelManager::GetInstance().GetModelHandle(ModelManager::PLAYER));
@@ -42,7 +48,9 @@ void Player::Initialize()
 	}
 }
 
-//終了処理
+/// <summary>
+/// 終了処理
+/// </summary>
 void Player::Finalize()
 {
 	MV1DeleteModel(modelHandle);
@@ -52,7 +60,9 @@ void Player::Finalize()
 	lingModel = NULL;
 }
 
-//活性化処理
+/// <summary>
+/// 活性化処理
+/// </summary>
 void Player::Activate()
 {
 	position = POSITION;
@@ -63,7 +73,10 @@ void Player::Activate()
 	noDrawFrame = false;
 }
 
-//更新処理
+/// <summary>
+/// 更新処理
+/// </summary>
+/// <param name="deltaTime"></param>
 void Player::Update(float deltaTime)
 {
 	Move(deltaTime);
@@ -75,7 +88,10 @@ void Player::Update(float deltaTime)
 	MV1SetRotationXYZ(lingModel, rotate);
 }
 
-//移動処理
+/// <summary>
+/// 移動処理
+/// </summary>
+/// <param name="deltaTime"></param>
 void Player::Move(float deltaTime)
 {
 	inputDirection = ZERO_VECTOR;
@@ -152,20 +168,25 @@ void Player::Move(float deltaTime)
 	}
 }
 
+/// <summary>
+/// プレイヤーの状態
+/// </summary>
 void Player::pUpdate()
 {
 	switch (state)
 	{
-	case State::Nomal:
+	case State::NOMAL:
 		break;
 
-	case State::Damage:
+	case State::DAMAGE:
 		OnHitMeteorite();
 		break;
 	}
 }
 
-//隕石に当たった
+/// <summary>
+/// 隕石に当たったならば
+/// </summary>
 void Player::OnHitMeteorite()
 {
 	noDrawFrame = !noDrawFrame;			//2回に1回描画しない
@@ -173,13 +194,15 @@ void Player::OnHitMeteorite()
 
 	if (damageCount > 10)
 	{
-		state = State::Nomal;
+		state = State::NOMAL;
 		noDrawFrame = false;
 		damageCount = 0;
 	}
 }
 
-//描画処理
+/// <summary>
+/// 描画処理
+/// </summary>
 void Player::Draw()
 {
 	pUpdate();

@@ -2,6 +2,9 @@
 
 class SceneManager;
 
+/// <summary>
+/// シーンベースクラス
+/// </summary>
 class SceneBase
 {
 public:

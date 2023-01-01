@@ -16,7 +16,9 @@ class Explosion;
 class Evaluation;
 class ScoreEarn;
 
-//プレイシーンクラス
+/// <summary>
+/// プレイシーンクラス
+/// </summary>
 class PlayScene final : public SceneBase
 {
 public:
@@ -29,7 +31,9 @@ public:
 	void Update(float deltaTime);
 	void Draw();
 
-	//ゲーム状態
+	/// <summary>
+	/// ゲーム状態
+	/// </summary>
 	enum State
 	{
 		START,	//開始前
@@ -51,7 +55,7 @@ private:
 	UiManager* uiManager;
 	Explosion* explosion;
 	Evaluation* evaluation;
-	ScoreEarn* scoreearn;
+	ScoreEarn* scorEearn;
 	
 	void EntryMeteorite(Meteorite* newMeteorite);		//隕石を登録
 	void DeleteMeteorite(Meteorite* deleteMeteorite);	//隕石を削除
@@ -73,7 +77,7 @@ private:
 	int  font;					//ゲームフォント
 	bool slow;					//時間をスローにするか
 	float meteoritePopCount;	//隕石出現カウント
-	int  wave;
+	int  wave;					//ゲームの区分け
 	
 
 	//静的定数

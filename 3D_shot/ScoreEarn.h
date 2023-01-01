@@ -2,7 +2,9 @@
 
 class Score;
 
-//スコア獲得クラス
+/// <summary>
+/// スコア獲得クラス
+/// </summary>
 class ScoreEarn final
 {
 public:

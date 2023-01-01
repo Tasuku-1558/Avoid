@@ -2,9 +2,10 @@
 
 #include "ObjectBase.h"
 
-//Playerの親クラス
-//ObjectBaseを継承
-
+/// <summary>
+/// Playerの親クラス
+/// ObjectBaseを継承
+/// </summary>
 class PlayerBase : public ObjectBase
 {
 public:

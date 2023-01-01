@@ -4,13 +4,17 @@
 
 using namespace std;
 
-//シングルトン
-//モデル管理クラス
+
+/// <summary>
+/// モデル管理クラス
+/// </summary>
 class ModelManager final
 {
 public:
 
-	//モデルの種類
+	/// <summary>
+	/// モデルの種類
+	/// </summary>
 	enum ModelType
 	{
 		PLAYER,
@@ -34,13 +38,13 @@ private:
 	void DeleteAllModel();						//全てのモデルの削除
 
 
+	int modelHandle[MODEL_AMOUNT];				//モデルハンドル格納用
+
 	//静的定数
 	static const string MODEL_FOLDER_PATH;		//modelフォルダまでのパス
 	static const string PLAYER_PATH;			//playerモデルファイルのパス
 	static const string LING_PATH;				//lingモデルファイルのパス
 	static const string METEORITE_PATH;			//meteoriteモデルファイルのパス
 	static const string FIELD_PATH;				//fieldモデルファイルのパス
-
-	int modelHandle[MODEL_AMOUNT];				//モデルハンドル
 
 };
