@@ -5,9 +5,9 @@
 #include "Explosion.h"
 #include "Evaluation.h"
 #include "ScoreEarn.h"
-#include <math.h>
+//#include <math.h>
 
-using namespace std;
+using namespace Math3d;
 
 const float HitChecker::RADIUS_GOOD			= 1500.0f;	//goodの範囲
 const float HitChecker::RADIUS_GREAT		= 150.0f;	//greatの範囲
@@ -102,11 +102,10 @@ void HitChecker::PlayerAndMeteorite(Player* player, Meteorite* meteorite, Explos
 	{
 
 		//プレイヤーから隕石の座標を引いた値を取得
-		double posX = player->GetPosition().x - meteorite->GetPosition().x;
-		double posY = player->GetPosition().y - meteorite->GetPosition().y;
+		VECTOR sub = player->GetPosition() - meteorite->GetPosition();
 
-		//プレイヤーと隕石の２点間の距離を計算
-		direction = sqrt(pow(posX, 2) + pow(posY, 2));
+		//プレイヤーと隕石の2点間の距離を計算
+		float direction = sqrt(pow(sub.x, 2) + pow(sub.y, 2));
 
 		//判定してないなら
 		if (!decisionFlag)

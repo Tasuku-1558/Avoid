@@ -17,7 +17,7 @@
 #include "Score.h"
 #include "TimeSlow.h"
 
-const int PlayScene::GAMETIME = 10;		//ƒQ[ƒ€ŠÔ
+const int PlayScene::GAMETIME = 90;		//ƒQ[ƒ€ŠÔ
 
 PlayScene::PlayScene(SceneManager* const sceneManager)
 		: SceneBase(sceneManager)

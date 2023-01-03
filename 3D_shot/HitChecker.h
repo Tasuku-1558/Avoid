@@ -1,12 +1,12 @@
 #pragma once
 
+#include "Math3D.h"
+
 class Meteorite;
 class Player;
 class Explosion;
 class Evaluation;
 class ScoreEarn;
-
-using namespace std;
 
 /// <summary>
 /// ヒットチェッカークラス
