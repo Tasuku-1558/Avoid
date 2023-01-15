@@ -24,9 +24,7 @@ public:
 	void Activate();
 	void Update(float deltaTime, Player* player);
 	void SpeedUp();					//隕石スピードアップ
-	void RedColor();				//各Waveでの隕石の色変更
-	void YellowColor();
-	void OrangeCollor();
+	void ChangeColor(float red, float green, float blue);				//各Waveでの隕石の色変更
 	void Draw();
 
 private:

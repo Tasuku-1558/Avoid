@@ -17,7 +17,7 @@
 #include "Score.h"
 #include "TimeSlow.h"
 
-const int PlayScene::GAMETIME = 90;		//ゲーム時間
+const int PlayScene::GAMETIME = 60;		//ゲーム時間
 
 PlayScene::PlayScene(SceneManager* const sceneManager)
 		: SceneBase(sceneManager)
@@ -25,7 +25,7 @@ PlayScene::PlayScene(SceneManager* const sceneManager)
 		, frame(0)
 		, camera(nullptr)
 		, light(nullptr)
-		, background(nullptr)
+		, backGround(nullptr)
 		, field(nullptr)
 		, hitChecker(nullptr)
 		, uiManager()
@@ -69,8 +69,8 @@ void PlayScene::Initialize()
 	player->Initialize();
 
 	//背景クラス
-	background = new BackGround();
-	background->Initialize();
+	backGround = new BackGround();
+	backGround->Initialize();
 
 	//フィールドクラス
 	field = new Field();
@@ -111,8 +111,8 @@ void PlayScene::Finalize()
 		ptr->Finalize();
 	}
 	
-	SafeDelete(background);
-	background->Finalize();
+	SafeDelete(backGround);
+	backGround->Finalize();
 
 	SafeDelete(field);
 	field->Finalize();
@@ -143,7 +143,7 @@ void PlayScene::Activate()
 	
 	pUpdate = &PlayScene::UpdateStart;
 	
-	background->Activate();
+	backGround->Activate();
 
 	field->Activate();
 
@@ -288,8 +288,6 @@ void PlayScene::UpdateStart(float deltaTime)
 
 		TimeSlow::GetInstance().SetTimeSlow(slow);
 
-		
-
 		for (auto ptr : meteorite)
 		{
 			//隕石活性化
@@ -320,18 +318,18 @@ void PlayScene::UpdateGame(float deltaTime)
 
 		if (countDown < 50)
 		{
-			ptr->OrangeCollor();
+			ptr->ChangeColor(0.0f, 1.0f, 1.0f);
 		}
 		if (countDown < 20)
 		{
-			ptr->YellowColor();
+			ptr->ChangeColor(50.0f, 50.0f, 0.0f);
 			wave = 4;
 		}
 		if (countDown < 11)		//制限時間が11秒以下になったらフィーバー状態へ移行
 		{
 			state = FEVER;
 			ptr->SpeedUp();
-			ptr->RedColor();
+			ptr->ChangeColor(5.0f, 0.0f, 0.0f);
 			wave = 5;
 			pUpdate = &PlayScene::UpdateFever;
 		}
@@ -372,7 +370,7 @@ void PlayScene::UpdateFever(float deltaTime)
 void PlayScene::Draw()
 {
 	//背景描画
-	background->Draw();
+	backGround->Draw();
 
 	//評価UIの描画
 	evaluation->Draw();

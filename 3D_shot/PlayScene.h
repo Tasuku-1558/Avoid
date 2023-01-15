@@ -47,7 +47,7 @@ private:
 
 	Camera* camera;
 	Light* light;
-	BackGround* background;
+	BackGround* backGround;
 	Field* field;
 	Player* player;
 	std::vector<Meteorite*> meteorite;
