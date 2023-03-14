@@ -8,14 +8,14 @@
 class Camera final
 {
 public: 
-	 Camera();		//コンストラクタ
-	~Camera();		//デストラクタ
+	Camera();
+	virtual ~Camera();
 
 	void Initialize();
 
 private:
 
-	//静的定数
+	//定数
 	static const float  NEAR_DISTANCE;		//カメラに映る手前の範囲
 	static const float  FAR_DISTANCE;		//カメラに映る最奥の範囲
 	static const VECTOR INITIAL_POSITION;	//初期位置

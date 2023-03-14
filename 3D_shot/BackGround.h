@@ -11,19 +11,19 @@ using namespace std;
 class BackGround final
 {
 public:
-	 BackGround();
-	~BackGround();
+	BackGround();
+	virtual ~BackGround();
 
     void Initialize();
-    void Finalize();
     void Activate();
     void Draw();
 
 
 private:
 
-    int backGroundHandle;       //”wŒi“®‰æŠi”[—p
+    void Finalize();
 
+    int backGroundHandle;       //”wŒi“®‰æŠi”[—p
 
     //Ã“I’è”
     static const string VIDEO_FOLDER_PATH;	    //videoƒtƒHƒ‹ƒ_‚Ü‚Å‚ÌƒpƒX

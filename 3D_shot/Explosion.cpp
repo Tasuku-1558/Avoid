@@ -1,7 +1,6 @@
 #include "Explosion.h"
 #include "DxLib.h"
 #include "EffekseerForDXLib.h"
-#include "Meteorite.h"
 
 
 const string Explosion::EFFECT_FOLDER_PATH = "data/effect/";		//effectフォルダまでのパス
@@ -9,11 +8,12 @@ const string Explosion::EXPLOSION_PATH	   = "Explosion.efkefc";	//爆発エフェクト
 const string Explosion::SOUND_FOLDER_PATH  = "data/sound/";			//soundフォルダまでのパス
 const string Explosion::EXPLOSION_SE_PATH  = "ExplosionSE.mp3";		//爆発SEのパス
 
+
+/// <summary>
+/// コンストラクタ
+/// </summary>
 Explosion::Explosion()
 	: effectHandle(0)
-	, effectPos_X(0.0f)
-	, effectPos_Y(0.0f)
-	, effectPos_Z(0.0f)
 	, effectTime(0)
 	, playingEffectHandle(0)
 	, explosionSE(0)
@@ -21,11 +21,17 @@ Explosion::Explosion()
 	//処理なし
 }
 
+/// <summary>
+/// デストラクタ
+/// </summary>
 Explosion::~Explosion()
 {
 	//処理なし
 }
 
+/// <summary>
+/// 初期化処理
+/// </summary>
 void Explosion::Initialize()
 {
 	string failePath = EFFECT_FOLDER_PATH + EXPLOSION_PATH;
@@ -35,6 +41,9 @@ void Explosion::Initialize()
 	explosionSE = LoadSoundMem(failePath.c_str());
 }
 
+/// <summary>
+/// 終了処理
+/// </summary>
 void Explosion::Finalize()
 {
 	// エフェクトリソースを削除
@@ -44,18 +53,21 @@ void Explosion::Finalize()
 	InitSoundMem();
 }
 
+/// <summary>
+/// 活性化処理
+/// </summary>
 void Explosion::Activate()
 {
 	// エフェクトを停止する
 	StopEffekseer3DEffect(playingEffectHandle);
 }
 
-void Explosion::Update(Meteorite* meteorite)
+/// <summary>
+/// 更新処理
+/// </summary>
+/// <param name="effectPos"></param>
+void Explosion::Update(VECTOR effectPos)
 {
-	effectPos_X = meteorite->GetPosition().x;
-	effectPos_Y = meteorite->GetPosition().y;
-	effectPos_Z = meteorite->GetPosition().z;
-
 	// 定期的にエフェクトを再生
 	if (effectTime % 1 == 0)
 	{
@@ -67,12 +79,15 @@ void Explosion::Update(Meteorite* meteorite)
 	}
 
 	// 再生中のエフェクトを移動
-	SetPosPlayingEffekseer3DEffect(playingEffectHandle, effectPos_X, effectPos_Y, effectPos_Z);
+	SetPosPlayingEffekseer3DEffect(playingEffectHandle, effectPos.x, effectPos.y, effectPos.z);
 
 	// 時間を経過
 	effectTime++;
 }
 
+/// <summary>
+/// 描画処理
+/// </summary>
 void Explosion::Draw()
 {
 	// 再生中のエフェクトを更新

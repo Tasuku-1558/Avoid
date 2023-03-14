@@ -29,17 +29,13 @@ ModelManager& ModelManager::GetInstance()
 void ModelManager::LoadAllModel()
 {
 	//モデルファイルへのパス
-	string failePath = MODEL_FOLDER_PATH + PLAYER_PATH;
-	modelHandle[PLAYER] = MV1LoadModel(failePath.c_str());
+	modelHandle[PLAYER]		 = MV1LoadModel(InputPath(MODEL_FOLDER_PATH, PLAYER_PATH).c_str());
 
-	failePath = MODEL_FOLDER_PATH + LING_PATH;
-	modelHandle[PLAYER_LING] = MV1LoadModel(failePath.c_str());
+	modelHandle[PLAYER_LING] = MV1LoadModel(InputPath(MODEL_FOLDER_PATH, LING_PATH).c_str());
 
-	failePath = MODEL_FOLDER_PATH + METEORITE_PATH;
-	modelHandle[METEORITE] = MV1LoadModel(failePath.c_str());
+	modelHandle[METEORITE]	 = MV1LoadModel(InputPath(MODEL_FOLDER_PATH, METEORITE_PATH).c_str());
 
-	failePath = MODEL_FOLDER_PATH + FIELD_PATH;
-	modelHandle[FIELD] = MV1LoadModel(failePath.c_str());
+	modelHandle[FIELD]		 = MV1LoadModel(InputPath(MODEL_FOLDER_PATH, FIELD_PATH).c_str());
 
 	//読み込み失敗ならエラー
 	for (int i = 0; i < MODEL_AMOUNT; ++i)
@@ -49,6 +45,17 @@ void ModelManager::LoadAllModel()
 			printfDx("モデルデータ読み込み失敗\n", i);
 		}
 	}
+}
+
+/// <summary>
+/// モデルのパスを入力
+/// </summary>
+/// <param name="folderPath"></param>
+/// <param name="path"></param>
+/// <returns></returns>
+string ModelManager::InputPath(string folderPath, string path)
+{
+	return string(folderPath + path);
 }
 
 void ModelManager::DeleteAllModel()

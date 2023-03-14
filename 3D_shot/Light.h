@@ -9,14 +9,14 @@ class Light final
 {
 public:
 
-	 Light();		//コンストラクタ
-	~Light();		//デストラクタ
+	Light();
+	virtual ~Light();
 
-	void Initialize();
+	void Initialize();	//初期化処理
 
 private:
 
-	//静的定数
-	static const VECTOR DIRECTION;	//ライトの方向
+	//定数
+	const VECTOR DIRECTION;	//ライトの方向
 
 };

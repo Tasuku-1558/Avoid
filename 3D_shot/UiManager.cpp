@@ -9,6 +9,7 @@ const string UiManager::FILENAME_EXTENSION = ".png";			//画像拡張子
 
 UiManager::UiManager()
 	: uiHandle()
+	, fever(false)
 {
 	//処理なし
 }
@@ -53,19 +54,20 @@ void UiManager::Draw(PlayScene::State state, int frame,int font, int countDown, 
 {
 	switch (state)
 	{
-	case PlayScene::START:
+	case PlayScene::State::START:
 		StartGameDraw();
 		break;
 
-	case PlayScene::GAME:
+	case PlayScene::State::GAME:
 		FrameDraw();
 		GameUIDraw(font, countDown, score, wave);
 		
 		break;
 
-	case PlayScene::FEVER:
+	case PlayScene::State::FINALWAVE:
 		FrameDraw();
 		GameUIDraw(font, countDown, score, wave);
+		fever = true;
 		FeverImageDraw();
 		break;
 	}
@@ -88,12 +90,21 @@ void UiManager::GameUIDraw(int font, int countDown, int score, int wave)
 	DrawFormatStringToHandle(100, 100, GetColor(0, 255, 0), font, "WAVE : %d", wave);
 }
 
+/// <summary>
+/// 制限時間、スコアの枠描画処理
+/// </summary>
 void UiManager::FrameDraw()
 {
 	DrawGraph(0, -150, uiHandle[FRAME], TRUE);
 }
 
+/// <summary>
+/// フィーバーモードUIの描画
+/// </summary>
 void UiManager::FeverImageDraw()
 {
-	DrawRotaGraph(950, 950, 1.5f, 0, uiHandle[FEVER_IMAGE], TRUE);
+	if (fever)
+	{
+		DrawRotaGraph(950, 950, 1.5f, 0, uiHandle[FEVER_IMAGE], TRUE);
+	}
 }

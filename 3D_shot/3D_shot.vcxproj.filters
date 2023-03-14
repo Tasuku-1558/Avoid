@@ -26,6 +26,9 @@
     <Filter Include="ソースファイル\UI">
       <UniqueIdentifier>{5593caca-20fe-4044-8759-794cea8e4ddd}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソースファイル\Collision">
+      <UniqueIdentifier>{4e2d48d0-8836-43bf-b368-e2c1241561f7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Player.cpp">
@@ -64,9 +67,6 @@
     <ClCompile Include="SceneManager.cpp">
       <Filter>ソースファイル\Scene</Filter>
     </ClCompile>
-    <ClCompile Include="HitChecker.cpp">
-      <Filter>ソースファイル</Filter>
-    </ClCompile>
     <ClCompile Include="ObjectBase.cpp">
       <Filter>ソースファイル\ObjectBase</Filter>
     </ClCompile>
@@ -96,6 +96,12 @@
     </ClCompile>
     <ClCompile Include="Light.cpp">
       <Filter>ソースファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="SoundManager.cpp">
+      <Filter>ソースファイル\System</Filter>
+    </ClCompile>
+    <ClCompile Include="HitChecker.cpp">
+      <Filter>ソースファイル\Collision</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -138,9 +144,6 @@
     <ClInclude Include="PreCompiledHeader.h">
       <Filter>ソースファイル</Filter>
     </ClInclude>
-    <ClInclude Include="HitChecker.h">
-      <Filter>ソースファイル</Filter>
-    </ClInclude>
     <ClInclude Include="ObjectBase.h">
       <Filter>ソースファイル\ObjectBase</Filter>
     </ClInclude>
@@ -173,6 +176,12 @@
     </ClInclude>
     <ClInclude Include="Light.h">
       <Filter>ソースファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="SoundManager.h">
+      <Filter>ソースファイル\System</Filter>
+    </ClInclude>
+    <ClInclude Include="HitChecker.h">
+      <Filter>ソースファイル\Collision</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

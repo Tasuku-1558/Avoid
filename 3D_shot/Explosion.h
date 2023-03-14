@@ -5,36 +5,27 @@
 
 using namespace std;
 
-class Meteorite;
-
 /// <summary>
 /// 爆発エフェクトクラス
 /// </summary>
 class Explosion final : public EffectBase
 {
 public:
-	 Explosion();
-	~Explosion()override;
+	Explosion();
+	virtual ~Explosion();
 
-	void Initialize()override;					//初期化
-	void Finalize()override;
-	void Activate()override;
-
-	void Update(Meteorite* meteorite);			//更新
-	void Draw() override;						//描画
+	void Initialize()override;					//初期化処理
+	void Finalize()override;					//終了処理
+	void Activate()override;					//活性化処理
+	void Update(VECTOR effectPos)override;		//更新処理
+	void Draw()override;						//描画処理
 
 private:
 	
 	int effectHandle;				//爆発エフェクト格納用
 	int explosionSE;				//爆発SE格納用
 	int effectTime;					//エフェクト時間
-
-	//爆発エフェクトの位置
-	float effectPos_X;
-	float effectPos_Y;
-	float effectPos_Z;
-
-	int playingEffectHandle;		// 再生中のエフェクトのハンドルを初期化
+	int playingEffectHandle;		//再生中のエフェクトのハンドルを初期化
 
 
 	//静的定数

@@ -5,7 +5,7 @@
 #include "Explosion.h"
 #include "Evaluation.h"
 #include "ScoreEarn.h"
-//#include <math.h>
+
 
 using namespace Math3d;
 
@@ -41,9 +41,9 @@ HitChecker::~HitChecker()
 /// <param name="player"></param>
 void HitChecker::MissDecision(Evaluation* evaluation, Player* player)
 {
-	evaluation->ui = UI::MISS;
+	evaluation->ui = Evaluation::Ui::MISS;
 
-	player->state = State::DAMAGE;
+	player->state = Player::State::DAMAGE;
 	
 	miss = true;
 }
@@ -54,7 +54,7 @@ void HitChecker::MissDecision(Evaluation* evaluation, Player* player)
 /// <param name="evaluation"></param>
 void HitChecker::ExcellentDecision(Evaluation* evaluation)
 {
-	evaluation->ui = UI::EXCELLENT;
+	evaluation->ui = Evaluation::Ui::EXCELLENT;
 
 	excellent = true;
 	TimeSlow::GetInstance().SetTimeSlow(excellent);
@@ -66,7 +66,7 @@ void HitChecker::ExcellentDecision(Evaluation* evaluation)
 /// <param name="evaluation"></param>
 void HitChecker::GreatDecision(Evaluation* evaluation)
 {
-	evaluation->ui = UI::GREAT;
+	evaluation->ui = Evaluation::Ui::GREAT;
 
 	great = true;
 	TimeSlow::GetInstance().SetTimeSlow(great);
@@ -78,10 +78,9 @@ void HitChecker::GreatDecision(Evaluation* evaluation)
 /// <param name="evaluation"></param>
 void HitChecker::GoodDecision(Evaluation* evaluation)
 {
-	evaluation->ui = UI::GOOD;
+	evaluation->ui = Evaluation::Ui::GOOD;
 
 	good = true;
-	
 }
 
 /// <summary>
@@ -100,7 +99,6 @@ void HitChecker::PlayerAndMeteorite(Player* player, Meteorite* meteorite, Explos
 	//隕石が判定ラインに入ったら判定を開始する
 	if (meteorite->GetPosition().z <= SCORE_DECISION_LINE)
 	{
-
 		//プレイヤーから隕石の座標を引いた値を取得
 		VECTOR sub = player->GetPosition() - meteorite->GetPosition();
 
@@ -146,7 +144,7 @@ void HitChecker::PlayerAndMeteorite(Player* player, Meteorite* meteorite, Explos
 				TimeSlow::GetInstance().SetTimeSlow(excellent);
 
 				scoreearn->UpdateExcellent();
-				explosion->Update(meteorite);
+				explosion->Update(meteorite->GetPosition());
 
 				hit = true;
 			}

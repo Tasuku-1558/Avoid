@@ -13,24 +13,30 @@ const int	 PlayerBase::UP_RANGE	 = 350;							//上方向の移動範囲
 const int	 PlayerBase::DOWN_RANGE  = 50;							//下方向の移動範囲
 const int	 PlayerBase::LEFT_RANGE  = -410;						//左方向の移動範囲
 const int	 PlayerBase::RIGHT_RANGE = 410;							//右方向の移動範囲
-const VECTOR PlayerBase::LING_ROTATE	   = { 0.0f, 1.0f, 0.0f };			//リング倍率
+const int	 PlayerBase::AFTER_IMAGE_NUMBER = 3;					//プレイヤーの残像枚数
 const VECTOR PlayerBase::LING_ROTATE_SPEED = { 0.0f, 5.0f, 0.0f };			//リング回転スピード
-const VECTOR PlayerBase::LING_SIZE		   = { -0.5f, -0.5f, -0.5f };		//リングサイズ
+const VECTOR PlayerBase::LING_SIZE		   = { -0.5f, -0.5f, -0.5f };		//リング倍率
 
 
-
+/// <summary>
+/// コンストラクタ
+/// </summary>
 PlayerBase::PlayerBase()
-	: inputDirection()
+	: ObjectBase()
+	, inputDirection()
 	, inputFlag(false)
 	, lingModel(0)
 	, rotate()
-	, rotate_Speed()
-	, damageCount(0)
+	, rotateSpeed()
+	, damageCount(0.0f)
 	, noDrawFrame(false)
 {
 	//処理なし
 }
 
+/// <summary>
+/// デストラクタ
+/// </summary>
 PlayerBase::~PlayerBase()
 {
 	//処理なし

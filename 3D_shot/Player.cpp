@@ -2,13 +2,15 @@
 #include "PreCompiledHeader.h"
 #include "ModelManager.h"
 
-using namespace Math3d;
 
+using namespace Math3d;
 
 /// <summary>
 /// コンストラクタ
 /// </summary>
 Player::Player() : PlayerBase()
+	, pastPosition()
+	, emptyModel()
 {
 	state = State::NOMAL;
 }
@@ -18,11 +20,7 @@ Player::Player() : PlayerBase()
 /// </summary>
 Player::~Player()
 {
-	//終了処理が呼ばれてなければ
-	if (modelHandle != NULL || lingModel != NULL)
-	{
-		Finalize();
-	}
+	Finalize();
 }
 
 /// <summary>
@@ -30,21 +28,21 @@ Player::~Player()
 /// </summary>
 void Player::Initialize()
 {
+	//プレイヤーモデル読み込み
 	modelHandle = MV1DuplicateModel(ModelManager::GetInstance().GetModelHandle(ModelManager::PLAYER));
 	MV1SetScale(modelHandle, SIZE);
-	
-	//読み込み失敗でエラー
-	if (modelHandle < 0)
-	{
-		printfDx("モデルデータ読み込みに失敗 [PLAYER]\n");
-	}
 
+	//プレイヤーリングモデル読み込み
 	lingModel = MV1DuplicateModel(ModelManager::GetInstance().GetModelHandle(ModelManager::PLAYER_LING));
 	MV1SetScale(lingModel, LING_SIZE);
 
-	if (lingModel < 0)
+	//プレイヤー残像モデル読み込み
+	for (int i = 0; i < AFTER_IMAGE_NUMBER; i++)
 	{
-		printfDx("モデルデータ読み込みに失敗 [PLAYER_LING]\n");
+		emptyModel[i] = MV1DuplicateModel(ModelManager::GetInstance().GetModelHandle(ModelManager::PLAYER));
+		MV1SetScale(emptyModel[i], SIZE);
+		MV1SetOpacityRate(emptyModel[i], 0.05f);
+		MV1SetMaterialEmiColor(emptyModel[i], 0, GetColorF(0.0f, 1.0f, 0.0f, 1.0f));
 	}
 }
 
@@ -54,10 +52,13 @@ void Player::Initialize()
 void Player::Finalize()
 {
 	MV1DeleteModel(modelHandle);
-	modelHandle = NULL;
 
 	MV1DeleteModel(lingModel);
-	lingModel = NULL;
+
+	for (int i = 0; i < AFTER_IMAGE_NUMBER; i++)
+	{
+		MV1DeleteModel(emptyModel[i]);
+	}
 }
 
 /// <summary>
@@ -67,10 +68,15 @@ void Player::Activate()
 {
 	position = POSITION;
 
-	rotate = LING_ROTATE;
-	rotate_Speed = LING_ROTATE_SPEED;
+	rotate = ZERO_VECTOR;
+	rotateSpeed = LING_ROTATE_SPEED;
 
 	noDrawFrame = false;
+
+	for (int i = 0; i < AFTER_IMAGE_NUMBER; i++)
+	{
+		pastPosition[i] = position;
+	}
 }
 
 /// <summary>
@@ -81,11 +87,16 @@ void Player::Update(float deltaTime)
 {
 	Move(deltaTime);
 
-	// プレイヤーの位置をセット
+	//プレイヤーの位置をセット
 	MV1SetPosition(modelHandle, position);
 
+	//リングの位置と回転値をセット
 	MV1SetPosition(lingModel, position);
 	MV1SetRotationXYZ(lingModel, rotate);
+
+	AfterImage();
+
+	pUpdate(deltaTime);
 }
 
 /// <summary>
@@ -98,11 +109,12 @@ void Player::Move(float deltaTime)
 
 	inputFlag = false;
 
-	rotate += rotate_Speed * deltaTime;
+	rotate += rotateSpeed * deltaTime;
 	
 	//上下
 	if (CheckHitKey(KEY_INPUT_UP))
 	{
+		//上方向の移動範囲内なら
 		if (position.y < UP_RANGE)
 		{
 			inputDirection += UP;
@@ -115,6 +127,7 @@ void Player::Move(float deltaTime)
 	}
 	if (CheckHitKey(KEY_INPUT_DOWN))
 	{
+		//下方向の移動範囲内なら
 		if (position.y > DOWN_RANGE)
 		{
 			inputDirection += DOWN;
@@ -128,6 +141,7 @@ void Player::Move(float deltaTime)
 	//左右
 	if (CheckHitKey(KEY_INPUT_RIGHT))
 	{
+		//右方向の移動範囲内なら
 		if (position.x < RIGHT_RANGE)
 		{
 			inputDirection += RIGHT;
@@ -140,6 +154,7 @@ void Player::Move(float deltaTime)
 	}
 	if (CheckHitKey(KEY_INPUT_LEFT))
 	{
+		//左方向の移動範囲内なら
 		if (position.x > LEFT_RANGE)
 		{
 			inputDirection += LEFT;
@@ -171,7 +186,8 @@ void Player::Move(float deltaTime)
 /// <summary>
 /// プレイヤーの状態
 /// </summary>
-void Player::pUpdate()
+/// <param name="deltaTime"></param>
+void Player::pUpdate(float deltaTime)
 {
 	switch (state)
 	{
@@ -179,7 +195,7 @@ void Player::pUpdate()
 		break;
 
 	case State::DAMAGE:
-		OnHitMeteorite();
+		OnHitMeteorite(deltaTime);
 		break;
 	}
 }
@@ -187,17 +203,34 @@ void Player::pUpdate()
 /// <summary>
 /// 隕石に当たったならば
 /// </summary>
-void Player::OnHitMeteorite()
+/// <param name="deltaTime"></param>
+void Player::OnHitMeteorite(float deltaTime)
 {
 	noDrawFrame = !noDrawFrame;			//2回に1回描画しない
-	damageCount += 1;
+	damageCount += deltaTime;
 
-	if (damageCount > 10)
+	//1秒間プレイヤーを点滅させる
+	if (damageCount > 1.0f)
 	{
 		state = State::NOMAL;
 		noDrawFrame = false;
-		damageCount = 0;
+		damageCount = 0.0f;
 	}
+}
+
+/// <summary>
+/// プレイヤーの残像処理
+/// </summary>
+void Player::AfterImage()
+{
+	for (int i = 2; i >= 1; i--)
+	{
+		pastPosition[i] = pastPosition[i - 1];
+		MV1SetPosition(emptyModel[i], pastPosition[i]);
+	}
+
+	pastPosition[0] = position;
+	MV1SetPosition(emptyModel[0], pastPosition[0]);
 }
 
 /// <summary>
@@ -205,11 +238,14 @@ void Player::OnHitMeteorite()
 /// </summary>
 void Player::Draw()
 {
-	pUpdate();
-
 	if (noDrawFrame == true)
 	{
 		return;
+	}
+
+	for (int i = 0; i < AFTER_IMAGE_NUMBER; i++)
+	{
+		MV1DrawModel(emptyModel[i]);
 	}
 
 	MV1DrawModel(modelHandle);

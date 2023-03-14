@@ -6,12 +6,13 @@ using namespace std;
 
 
 /// <summary>
+/// シングルトン
 /// モデル管理クラス
 /// </summary>
 class ModelManager final
 {
 public:
-
+	
 	/// <summary>
 	/// モデルの種類
 	/// </summary>
@@ -29,10 +30,12 @@ public:
 	const int& GetModelHandle(ModelType modelType) const; // モデルハンドルの参照を返す
 
 private:
-	 ModelManager();							//コンストラクタ
-	~ModelManager();							//デストラクタ
+	ModelManager();
+	ModelManager(const ModelManager&);			//コピーコンストラクタ
+	virtual ~ModelManager();
 
-	 ModelManager(const ModelManager&);			//コピーコンストラクタ
+	string InputPath(string folderPath,			//モデルのパスを入力
+					 string path);
 
 	void LoadAllModel();						//全てのモデルの読み込み
 	void DeleteAllModel();						//全てのモデルの削除

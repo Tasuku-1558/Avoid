@@ -2,15 +2,18 @@
 #include "ModelManager.h"
 
 
+const string Field::IMAGE_FOLDER_PATH = "data/image/";						//imageフォルダまでのパス
+const string Field::LINE_PATH		  = "line.png";							//ライン画像のパス
 const VECTOR Field::SIZE	 = { 6.0f, 1.0f, 3.0f };						//モデルの倍率
 const VECTOR Field::POSITION = { 0.0f, -50.0f, 1200.0f };					//モデルの位置
 const VECTOR Field::ROTATE	 = { 0.0f, 90.0f * DX_PI_F / 180.0f, 0.0f };	//モデルの回転
-const string Field::IMAGE_FOLDER_PATH = "data/image/";						//imageフォルダまでのパス
-const string Field::LINE_PATH		  = "line.png";							//ライン画像のパス
 
 
+/// <summary>
+/// コンストラクタ
+/// </summary>
 Field::Field()
-	: rotateAngle()
+	: rotate()
 	, lineHandle(0)
 {
 	//処理なし
@@ -18,11 +21,7 @@ Field::Field()
 
 Field::~Field()
 {
-	//終了処理が呼ばれてなければ
-	if (modelHandle != NULL || lineHandle != NULL)
-	{
-		Finalize();
-	}
+	Finalize();
 }
 
 void Field::Initialize()
@@ -30,11 +29,11 @@ void Field::Initialize()
 	modelHandle = MV1DuplicateModel(ModelManager::GetInstance().GetModelHandle(ModelManager::FIELD));
 	MV1SetScale(modelHandle, SIZE);
 
-	//読み込み失敗でエラー
-	if (modelHandle < 0)
-	{
-		printfDx("モデルデータ読み込みに失敗 [FIELD]\n");
-	}
+	position = POSITION;
+	rotate = ROTATE;
+
+	MV1SetPosition(modelHandle, position);
+	MV1SetRotationXYZ(modelHandle, rotate);
 
 	string failePath = IMAGE_FOLDER_PATH + LINE_PATH;
 	lineHandle = LoadGraph(failePath.c_str());
@@ -43,20 +42,13 @@ void Field::Initialize()
 void Field::Finalize()
 {
 	MV1DeleteModel(modelHandle);
-	modelHandle = NULL;
 
 	DeleteGraph(lineHandle);
-	lineHandle = NULL;
 }
 
 void Field::Activate()
 {
-	position = POSITION;
-	rotateAngle = ROTATE;
-
-	
-	MV1SetPosition(modelHandle, position);
-	MV1SetRotationXYZ(modelHandle, rotateAngle);
+	//処理なし
 }
 
 void Field::Draw()

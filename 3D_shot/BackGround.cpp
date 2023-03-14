@@ -1,7 +1,7 @@
 #include "BackGround.h"
 
 const string BackGround::VIDEO_FOLDER_PATH		= "data/video/";		//videoフォルダまでのパス
-const string BackGround::BACK_GROUND_VIDEO_PATH = "BackGround.mp4";		//背景動画のパス
+const string BackGround::BACK_GROUND_VIDEO_PATH = "BackGround_.mp4";		//背景動画のパス
 
 BackGround::BackGround()
 	: backGroundHandle(0)
@@ -11,10 +11,7 @@ BackGround::BackGround()
 
 BackGround::~BackGround()
 {
-	if (backGroundHandle != NULL)
-	{
-		Finalize();
-	}
+	Finalize();
 }
 
 void BackGround::Initialize()
@@ -30,14 +27,16 @@ void BackGround::Finalize()
 }
 
 void BackGround::Activate()
-{	
+{
+	//処理なし
 }
 
 void BackGround::Draw()
 {
 	DrawGraph(0, 0, backGroundHandle, FALSE);
 
-	if (GetMovieStateToGraph(backGroundHandle) == 0)
+	//プレイ画面の動画を再生
+	if (!GetMovieStateToGraph(backGroundHandle))
 	{
 		SeekMovieToGraph(backGroundHandle, 5000);
 

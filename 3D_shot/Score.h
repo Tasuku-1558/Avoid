@@ -7,6 +7,9 @@
 class Score final
 {
 public:
+	Score();
+	virtual ~Score();
+
 
 	static Score& GetInstance();		// アドレスを返す
 
@@ -30,11 +33,9 @@ public:
 	int  GetMissCount() { return miss; }
 
 	void Scoring();				//目標スコアまでスコアを足し引き
-private:
 
-	 Score();					//コンストラクタ
+private:
 	 Score(const Score&);		//コピーコンストラクタ
-	~Score();					//デストラクタ
 
 	//各スコア格納用
 	int score;
@@ -45,7 +46,7 @@ private:
 
 	int targetScore;	//目標スコアまでスコアを足し引きする
 
-	//静的定数
-	static const int   FIRST_SCORE;			//スコアの初期値
+	//定数
+	static const int FIRST_SCORE;	//スコアの初期値
 
 };

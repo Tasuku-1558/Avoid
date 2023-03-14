@@ -14,11 +14,14 @@ class ScoreEarn;
 class HitChecker final
 {
 public:
-	 HitChecker();
-	~HitChecker();
+	HitChecker();
+	virtual ~HitChecker();
 
-	void PlayerAndMeteorite(Player* player, Meteorite* meteorite, Explosion* explosion, Evaluation* evaluation, ScoreEarn* scoreearn);		//当たりチェック
-	bool Hit() { return hit; }
+	void PlayerAndMeteorite(Player* player, Meteorite* meteorite, 
+							Explosion* explosion, Evaluation* evaluation, 
+							ScoreEarn* scoreearn);							//プレイヤーとエネミーの衝突判定
+
+	const bool Hit() { return hit; }
 
 private:
 	HitChecker(const HitChecker&);			//コピーコンストラクタ

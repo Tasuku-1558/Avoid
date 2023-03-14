@@ -13,20 +13,18 @@ class BackGround;
 class ResultScene final : public SceneBase
 {
 public:
-	 ResultScene(SceneManager* const sceneManager);
-	~ResultScene();
+	ResultScene(SceneManager* const sceneManager);
+	virtual ~ResultScene();
 
-	void Initialize();					//初期化
-	void Finalize();
-	void Activate();
-	void Update(float deltaTime);		//更新
-	void Draw();						//描画
+	void Initialize()override;					//初期化
+	void Finalize()override;
+	void Activate()override;
+	void Update(float deltaTime)override;		//更新
+	void Draw()override;						//描画
 
 	
-	/// <summary>
-	/// ゲームの状態
-	/// </summary>
-	enum State
+	// ゲームの状態
+	enum class State
 	{
 		START,	//開始前
 		GAME,	//ゲーム中
@@ -43,13 +41,14 @@ private:
 	void DisplayScore();				//獲得スコア表示
 	void Blink();						//文字の点滅
 	void ScoreGauge();					//スコアゲージ表示
+
 	void UpdateStart();					//開始前
 	void UpdateGame();					//ゲーム中
 	void UpdateResult();				//リザルト中
 	void(ResultScene::* pUpdate)();		//Update関数ポインタ
 
 	State state;				//ゲーム状態
-	int frame;					//フレーム数
+	float frame;					//フレーム数
 	int totalScore;				//獲得スコア
 	int excellentCount;			//excellentの数
 	int greatCount;				//greatの数
@@ -65,6 +64,8 @@ private:
 	int scoreB;					//B評価画像の格納用
 	int scoreA;					//A評価画像の格納用
 	int scoreS;					//S評価画像の格納用
+	int alpha;					//透過度
+	int inc;
 
 	//静的定数
 	static const string IMAGE_FOLDER_PATH;		//imageフォルダまでのパス

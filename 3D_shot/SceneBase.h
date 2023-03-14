@@ -8,8 +8,8 @@ class SceneManager;
 class SceneBase
 {
 public:
-	SceneBase(SceneManager* const sceneManager) : parent(sceneManager){ /*処理なし*/ }	//コンストラクタ
-	virtual ~SceneBase(){/*処理なし*/}													//デストラクタ
+	SceneBase(SceneManager* const sceneManager) : parent(sceneManager){ /*処理なし*/ }
+	virtual ~SceneBase(){/*処理なし*/}
 
 	virtual void Initialize() = 0;
 	virtual void Finalize() = 0;

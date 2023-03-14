@@ -2,12 +2,14 @@
 
 #include "DxLib.h"
 
-
+/// <summary>
+/// オブジェクト基底クラス
+/// </summary>
 class ObjectBase
 {
 public:
-	         ObjectBase();		//コンストラクタ
-	virtual ~ObjectBase();		//デストラクタ
+	ObjectBase();
+	virtual ~ObjectBase();
 
 	virtual void Initialize() = 0;
 	virtual void Activate() = 0;
@@ -21,6 +23,6 @@ protected:
 
 	VECTOR position;						//現在の座標
 	VECTOR dir;								//向きベクトル
-	int modelHandle;						//モデルハンドル
+	int	   modelHandle;						//モデルハンドル
 	
 };

@@ -2,23 +2,25 @@
 #include "Player.h"
 #include "ModelManager.h"
 #include "PreCompiledHeader.h"
-#include <math.h>
+
 
 using namespace Math3d;
 
+/// <summary>
+/// コンストラクタ
+/// </summary>
 Meteorite::Meteorite() : MeteoriteBase()
 {
 	Initialize();
 	Activate();
 }
 
+/// <summary>
+/// デストラクタ
+/// </summary>
 Meteorite::~Meteorite()
 {
-	//終了処理が呼ばれてなければ
-	if (modelHandle != NULL)
-	{
-		Finalize();
-	}
+	Finalize();
 }
 
 /// <summary>
@@ -26,14 +28,9 @@ Meteorite::~Meteorite()
 /// </summary>
 void Meteorite::Initialize()
 {
+	//モデル読み込み
 	modelHandle = MV1DuplicateModel(ModelManager::GetInstance().GetModelHandle(ModelManager::METEORITE));
 	MV1SetScale(modelHandle, SIZE);
-
-	//読み込み失敗でエラー
-	if (modelHandle < 0)
-	{
-		printfDx("モデルデータ読み込みに失敗 [METEORITE]\n");
-	}
 }
 
 /// <summary>
@@ -42,7 +39,6 @@ void Meteorite::Initialize()
 void Meteorite::Finalize()
 {
 	MV1DeleteModel(modelHandle);
-	modelHandle = NULL;
 }
 
 /// <summary>
@@ -50,12 +46,14 @@ void Meteorite::Finalize()
 /// </summary>
 void Meteorite::Activate()
 {
+	//隕石の位置にランダム値を入れる
 	position = VGet(GetRand(RANDOM_RANGE_X_OR_Y), GetRand(RANDOM_RANGE_X_OR_Y), Z_POSITION);
+
 	dir = DIR;
 	random = rand() % RANGE;
 	speed = SPEED;
 
-	// ランダムな回転角速度をセット
+	//ランダムな回転角速度をセット
 	rotateSpeed = VGet(GetRand(RANDOM_ROTATION_SPEED) / 1000.0f, GetRand(RANDOM_ROTATION_SPEED) / 1000.0f, GetRand(RANDOM_ROTATION_SPEED) / 1000.0f);
 	rotateAngle = ZERO_VECTOR;
 }
@@ -67,6 +65,7 @@ void Meteorite::Activate()
 /// <param name="player"></param>
 void Meteorite::Update(float deltaTime, Player* player)
 {
+	//隕石の位置と回転値をセット
 	MV1SetPosition(modelHandle, position);
 	MV1SetRotationXYZ(modelHandle, rotateAngle);
 
@@ -92,6 +91,7 @@ void Meteorite::Move(float deltaTime, Player* player)
 
 		popFlag = false;
 	}
+
 	//真っすぐ跳ぶ
 	else if(random == 1)
 	{
@@ -110,6 +110,9 @@ void Meteorite::ChangeColor(float red, float green, float blue)
 	MV1SetDifColorScale(modelHandle, GetColorF(red, green, blue, 1.0f));
 }
 
+/// <summary>
+/// 隕石のスピード変化
+/// </summary>
 void Meteorite::SpeedUp()
 {
 	speed = SPEED_UP;

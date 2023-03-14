@@ -15,16 +15,16 @@ TitleScene::TitleScene(SceneManager* const sceneManager)
 	, backGroundHandle(0)
 	, titleName(0)
 	, titleUi(0)
+	, alpha(0)
+	, inc(0)
+	, frame(0.0f)
 {
 	//処理なし
 }
 
 TitleScene::~TitleScene()
 {
-	if (backGroundHandle != NULL)
-	{
-		Finalize();
-	}
+	Finalize();
 }
 
 void TitleScene::Initialize()
@@ -41,17 +41,32 @@ void TitleScene::Initialize()
 
 void TitleScene::Finalize()
 {
+	PauseMovieToGraph(backGroundHandle);
+
 	DeleteGraph(backGroundHandle);
-	backGroundHandle = NULL;
+
+	DeleteGraph(titleName);
+
+	DeleteGraph(titleUi);
 }
 
 void TitleScene::Activate()
 {
+	alpha = 255;
+	inc = -1;
 }
 
 void TitleScene::Update(float deltaTime)
 {
-	//次のシーンへ
+	//デモ動画を再生
+	if (!GetMovieStateToGraph(backGroundHandle))
+	{
+		SeekMovieToGraph(backGroundHandle, 5000);
+
+		PlayMovieToGraph(backGroundHandle);
+	}
+
+	//プレイ画面へ
 	if (CheckHitKey(KEY_INPUT_SPACE))
 	{
 		parent->SetNextScene(SceneManager::PLAY);
@@ -64,10 +79,6 @@ void TitleScene::Update(float deltaTime)
 /// </summary>
 void TitleScene::Blink()
 {
-	// 明滅ルーチン
-	static int alpha = 0;
-	static int inc = 3;
-
 	if (alpha > 255 && inc > 0)
 		inc *= -1;
 
@@ -86,13 +97,6 @@ void TitleScene::Blink()
 void TitleScene::Draw()
 {
 	DrawGraph(0, 0, backGroundHandle, FALSE);
-
-	if (GetMovieStateToGraph(backGroundHandle) == 0)
-	{
-		SeekMovieToGraph(backGroundHandle, 5000);
-
-		PlayMovieToGraph(backGroundHandle);
-	}
 
 	DrawGraph(250, 450, titleName, TRUE);
 	

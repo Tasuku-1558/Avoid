@@ -8,8 +8,8 @@ class Score;
 class ScoreEarn final
 {
 public:
-	 ScoreEarn();
-	~ScoreEarn();
+	ScoreEarn();
+	virtual ~ScoreEarn();
 
 	void Activate();
 	void Finalize();
@@ -28,9 +28,9 @@ private:
 	
 
 	//静的定数
-	static const int   SCORE_GOOD;			//goodのスコア
-	static const int   SCORE_GREAT;			//greatのスコア
-	static const int   SCORE_EXCELLENT;		//excellentのスコア
-	static const int   SCORE_MISS;			//missのスコア
-	static const int   FIRST_SCORE;			//スコアの初期値
+	static const int SCORE_GOOD;			//goodのスコア
+	static const int SCORE_GREAT;			//greatのスコア
+	static const int SCORE_EXCELLENT;		//excellentのスコア
+	static const int SCORE_MISS;			//missのスコア
+	static const int FIRST_SCORE;			//スコアの初期値
 };

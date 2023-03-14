@@ -17,12 +17,12 @@
 #include "Score.h"
 #include "TimeSlow.h"
 
-const int PlayScene::GAMETIME = 60;		//ゲーム時間
+const int PlayScene::GAMETIME = 90;		//ゲーム時間
 
 PlayScene::PlayScene(SceneManager* const sceneManager)
 		: SceneBase(sceneManager)
 		, state()
-		, frame(0)
+		, frame(0.0f)
 		, camera(nullptr)
 		, light(nullptr)
 		, backGround(nullptr)
@@ -103,30 +103,23 @@ void PlayScene::Finalize()
 	SafeDelete(light);
 
 	SafeDelete(player);
-	player->Finalize();
 
-	for (auto ptr : meteorite)
+	for (auto meteoritePtr : meteorite)
 	{
-		SafeDelete(ptr);
-		ptr->Finalize();
+		SafeDelete(meteoritePtr);
 	}
 	
 	SafeDelete(backGround);
-	backGround->Finalize();
 
 	SafeDelete(field);
-	field->Finalize();
 
 	SafeDelete(hitChecker);
 
 	SafeDelete(uiManager);
-	uiManager->Finalize();
 	
 	SafeDelete(explosion);
-	explosion->Finalize();
 
 	SafeDelete(evaluation);
-	evaluation->Finalize();
 
 	SafeDelete(scorEearn);
 
@@ -136,12 +129,14 @@ void PlayScene::Finalize()
 
 void PlayScene::Activate()
 {
-	state = START;
-	frame = 0;
+	state = State::START;
+	pUpdate = &PlayScene::UpdateStart;
+
+	frame = 0.0f;
+	wave = 0;
+	countDown = 0;
 
 	font = CreateFontToHandle("Oranienbaum", 80, 1);
-	
-	pUpdate = &PlayScene::UpdateStart;
 	
 	backGround->Activate();
 
@@ -258,14 +253,16 @@ void PlayScene::MeteoritePop(float deltaTime)
 	}
 }
 
+/// <summary>
+/// 更新処理
+/// </summary>
+/// <param name="deltaTime"></param>
 void PlayScene::Update(float deltaTime)
 {
 	if (pUpdate != nullptr)
 	{
 		(this->*pUpdate)(deltaTime);		//状態ごとに更新
 	}
-
-	++frame;
 }
 
 /// <summary>
@@ -274,29 +271,23 @@ void PlayScene::Update(float deltaTime)
 /// <param name="deltaTime"></param>
 void PlayScene::UpdateStart(float deltaTime)
 {
-	//if (frame > 60)
+	state = State::GAME;
+	pUpdate = &PlayScene::UpdateGame;
+
+	Score::GetInstance().Activate();
+
+	scorEearn->Activate();
+
+	TimeSlow::GetInstance().SetTimeSlow(slow);
+
+	for (auto meteoritePtr : meteorite)
 	{
-		frame = 0;
-		score = 0;
-		state = GAME;
-		
-		pUpdate = &PlayScene::UpdateGame;
-
-		Score::GetInstance().Activate();
-
-		scorEearn->Activate();
-
-		TimeSlow::GetInstance().SetTimeSlow(slow);
-
-		for (auto ptr : meteorite)
-		{
-			//隕石活性化
-			ptr->Activate();
-		}
-		
-		//ゲーム起動時の時間を取得
-		startTime = GetNowCount();
+		//隕石活性化
+		meteoritePtr->Activate();
 	}
+
+	//ゲーム起動時の時間を取得
+	startTime = GetNowCount();
 }
 
 /// <summary>
@@ -305,48 +296,42 @@ void PlayScene::UpdateStart(float deltaTime)
 /// <param name="deltaTime"></param>
 void PlayScene::UpdateGame(float deltaTime)
 {
-	//プレイヤーの制御
 	player->Update(deltaTime);
 
 	//隕石の出現間隔
 	MeteoritePop(deltaTime);
 	
-	for (auto ptr : meteorite)
+	for (auto meteoritePtr : meteorite)
 	{
-		//隕石制御
-		ptr->Update(deltaTime, player);
+		meteoritePtr->Update(deltaTime, player);
 
+		//制限時間によって隕石の色やスピードが変化
 		if (countDown < 50)
 		{
-			ptr->ChangeColor(0.0f, 1.0f, 1.0f);
+			meteoritePtr->ChangeColor(0.0f, 1.0f, 1.0f);
 		}
 		if (countDown < 20)
 		{
-			ptr->ChangeColor(50.0f, 50.0f, 0.0f);
+			meteoritePtr->ChangeColor(50.0f, 50.0f, 0.0f);
 			wave = 4;
 		}
 		if (countDown < 11)		//制限時間が11秒以下になったらフィーバー状態へ移行
 		{
-			state = FEVER;
-			ptr->SpeedUp();
-			ptr->ChangeColor(5.0f, 0.0f, 0.0f);
+			state = State::FINALWAVE;
+			meteoritePtr->SpeedUp();
+			meteoritePtr->ChangeColor(5.0f, 0.0f, 0.0f);
 			wave = 5;
 			pUpdate = &PlayScene::UpdateFever;
 		}
-		if (countDown == 0)
-		{
-			DeleteMeteorite(ptr);
-		}
 
 		//プレイヤーと隕石の当たり判定
-		hitChecker->PlayerAndMeteorite(player, ptr, explosion, evaluation, scorEearn);
+		hitChecker->PlayerAndMeteorite(player, meteoritePtr, explosion, evaluation, scorEearn);
 
-		//隕石と衝突したもしくは制限時間が0になったら
-		if (hitChecker->Hit())
+		//隕石と衝突したもしくは制限時間が0になったら隕石を消す
+		if (hitChecker->Hit() || countDown == 0)
 		{
-			DeleteMeteorite(ptr);
+			DeleteMeteorite(meteoritePtr);
 		}
-		
 	}
 
 	//スコアを取得
@@ -367,29 +352,25 @@ void PlayScene::UpdateFever(float deltaTime)
 	UpdateGame(deltaTime);
 }
 
+/// <summary>
+/// 描画処理
+/// </summary>
 void PlayScene::Draw()
 {
-	//背景描画
 	backGround->Draw();
 
-	//評価UIの描画
 	evaluation->Draw();
 
-	//プレイヤー描画
 	player->Draw();
 
-	for (auto ptr : meteorite)
+	for (auto meteoritePtr : meteorite)
 	{
-		//隕石描画
-		ptr->Draw();
+		meteoritePtr->Draw();
 	}
 
-	//フィールド描画
 	field->Draw();
 
-	//爆発エフェクト描画
 	explosion->Draw();
 
-	//UI管理クラスの描画
 	uiManager->Draw(state, frame, font, countDown, score, wave);
 }

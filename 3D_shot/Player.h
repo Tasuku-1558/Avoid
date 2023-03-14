@@ -4,19 +4,6 @@
 #include "PlayerBase.h"
 #include "Math3D.h"
 
-
-using namespace Math3d;
-
-/// <summary>
-/// プレイヤーの状態
-/// </summary>
-enum class State
-{
-	NOMAL,
-	DAMAGE,
-};
-
-
 /// <summary>
 /// プレイヤークラス
 /// PlayerBaseクラスを継承
@@ -28,18 +15,29 @@ public:
 	~Player();    //デストラクタ
 
 	void Initialize();
-	void Finalize();
 	void Activate();
 	void Update(float deltaTime);
 	void Draw();
 
-	enum class State state;
+	//プレイヤーの状態
+	enum class State
+	{
+		NOMAL,		//通常状態
+		DAMAGE,		//被弾状態
+	};
+
+	State state;	//プレイヤーの状態
 
 private:
 	Player(const Player&);			//コピーコンストラクタ
 
-	void Move(float deltaTime);		//移動処理
-	void pUpdate();					//プレイヤーの状態
-	void OnHitMeteorite();			//隕石に当たったならば
+	void Move(float deltaTime);					//移動処理
+	void pUpdate(float deltaTime);				//プレイヤーの状態
+	void OnHitMeteorite(float deltaTime);		//隕石に当たったならば
+	void AfterImage();							//プレイヤーの残像処理
+	void Finalize();							//終了処理
 
+
+	int emptyModel[3];			//残像モデル格納用
+	VECTOR pastPosition[3];		//プレイヤーの過去の位置
 };

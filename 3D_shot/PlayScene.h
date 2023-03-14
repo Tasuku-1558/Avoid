@@ -22,23 +22,28 @@ class ScoreEarn;
 class PlayScene final : public SceneBase
 {
 public:
-	 PlayScene(SceneManager* const sceneManager);
-	~PlayScene();
+	PlayScene(SceneManager* const sceneManager);
+	virtual ~PlayScene();
 
-	void Initialize();
-	void Finalize();
-	void Activate();
-	void Update(float deltaTime);
-	void Draw();
+	void Initialize()override;
+	void Finalize()override;
+	void Activate()override;
+	void Update(float deltaTime)override;
+	void Draw()override;
 
-	/// <summary>
-	/// ゲーム状態
-	/// </summary>
-	enum State
+
+	// ゲーム状態
+	enum class State
 	{
 		START,	//開始前
 		GAME,	//ゲーム中
-		FEVER,	//フィーバー中
+		/*WAVE1,
+		WAVE2,
+		WAVE3,
+		WAVE4,*/
+		FINALWAVE,
+		FINISH,	//終了
+		RESULT	//結果画面
 	};
 
 private:
@@ -68,7 +73,7 @@ private:
 	
 
 	State state;				//ゲーム状態
-	int  frame;					//フレーム数
+	float frame;				//フレーム数
 	int  startTime;				//起動時間
 	int  nowTime;				//現在時間
 	int  countDown;				//制限時間

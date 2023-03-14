@@ -18,7 +18,7 @@ const string ResultScene::SCORE_S_PATH		= "ScoreS.png";			//S評価画像のパス
 ResultScene::ResultScene(SceneManager* const sceneManager)
 	: SceneBase(sceneManager)
 	, state()
-	, frame(0)
+	, frame(0.0f)
 	, background(nullptr)
 	, pUpdate(nullptr)
 	, totalScore(0)
@@ -36,6 +36,8 @@ ResultScene::ResultScene(SceneManager* const sceneManager)
 	, scoreB(0)
 	, scoreA(0)
 	, scoreS(0)
+	, alpha(0)
+	, inc(0)
 {
 	//処理なし
 }
@@ -71,7 +73,6 @@ void ResultScene::Finalize()
 {
 	//背景クラス
 	SafeDelete(background);
-	background->Finalize();
 
 	DeleteFontToHandle(scoreFont);
 	DeleteFontToHandle(evaluationFont);
@@ -85,14 +86,18 @@ void ResultScene::Finalize()
 
 void ResultScene::Activate()
 {
-	state = START;
-	frame = 0;
+	state = State::START;
+	pUpdate = &ResultScene::UpdateStart;
+
+	alpha = 255;
+	inc = -1;
+	frame = 0.0f;
+	displayCount = 0;
+	scoreGauge = 0.0f;
 	
 	scoreFont	   = CreateFontToHandle("Oranienbaum", 130, 1);
 	evaluationFont = CreateFontToHandle("Oranienbaum", 80, 1);
 	
-	pUpdate = &ResultScene::UpdateStart;
-
 	background->Activate();
 }
 
@@ -114,23 +119,17 @@ void ResultScene::Update(float deltaTime)
 	{
 		(this->*pUpdate)();		//状態ごとに更新
 	}
-
-	++frame;
 }
 
 void ResultScene::UpdateStart()
 {
-	frame = 0;
-	displayCount = 0.0f;
-	scoreGauge = 0.0f;
-	state = GAME;
-
+	state = State::GAME;
 	pUpdate = &ResultScene::UpdateGame;
 }
 
 void ResultScene::UpdateGame()
 {
-	state = RESULT;
+	state = State::RESULT;
 	pUpdate = &ResultScene::UpdateResult;
 
 	AcquisitionScore();
@@ -140,12 +139,13 @@ void ResultScene::UpdateResult()
 {
 	Score::GetInstance().Activate();
 
-	//次のシーンへ
+	//タイトル画面へ
 	if (CheckHitKey(KEY_INPUT_BACK))
 	{
 		parent->SetNextScene(SceneManager::TITLE);
 		return;
 	}
+	//もう一度プレイする
 	if (CheckHitKey(KEY_INPUT_RETURN))
 	{
 		parent->SetNextScene(SceneManager::PLAY);
@@ -189,10 +189,6 @@ void ResultScene::DisplayScore()
 /// </summary>
 void ResultScene::Blink()
 {
-	// 明滅ルーチン
-	static int alpha = 0;
-	static int inc = 3;
-
 	if (alpha > 255 && inc > 0)
 		inc *= -1;
 
