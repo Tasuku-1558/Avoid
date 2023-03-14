@@ -14,13 +14,13 @@ public:
 	BackGround();
 	virtual ~BackGround();
 
-    void Initialize();
-    void Activate();
+    void Update();
     void Draw();
 
-
 private:
+    BackGround(const BackGround&);  //コピーコンストラクタ
 
+    void Initialize();
     void Finalize();
 
     int backGroundHandle;       //背景動画格納用

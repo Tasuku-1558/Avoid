@@ -10,9 +10,6 @@ class ScoreEarn final
 public:
 	ScoreEarn();
 	virtual ~ScoreEarn();
-
-	void Activate();
-	void Finalize();
 	
 	void UpdateMiss();
 	void UpdateExcellent();
@@ -20,6 +17,9 @@ public:
 	void UpdateGood();
 
 private:
+
+	void Activate();
+
 	int score;								//Šl“¾ƒXƒRƒA
 	int excellentCount;						//excellent‚Ì”
 	int greatCount;							//great‚Ì”

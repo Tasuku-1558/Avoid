@@ -1,5 +1,4 @@
 #include "Light.h"
-#include "DxLib.h"
 
 
 /// <summary>
@@ -8,7 +7,7 @@
 Light::Light()
 	: DIRECTION({ 0.0f, -0.5f, 0.0f })
 {
-	//èàóùÇ»Çµ
+	Initialize();
 }
 
 /// <summary>

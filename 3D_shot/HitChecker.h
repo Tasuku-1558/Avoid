@@ -1,10 +1,10 @@
 #pragma once
 
 #include "Math3D.h"
+#include "EffectManager.h"
 
 class Meteorite;
 class Player;
-class Explosion;
 class Evaluation;
 class ScoreEarn;
 
@@ -14,12 +14,11 @@ class ScoreEarn;
 class HitChecker final
 {
 public:
-	HitChecker();
+	HitChecker(EffectManager* const inEffect);
 	virtual ~HitChecker();
 
 	void PlayerAndMeteorite(Player* player, Meteorite* meteorite, 
-							Explosion* explosion, Evaluation* evaluation, 
-							ScoreEarn* scoreearn);							//プレイヤーとエネミーの衝突判定
+							Evaluation* evaluation, ScoreEarn* scoreEarn);							//プレイヤーとエネミーの衝突判定
 
 	const bool Hit() { return hit; }
 
@@ -32,7 +31,8 @@ private:
 	void GoodDecision(Evaluation* evaluation);					//good判定
 	
 
-	double direction;						//プレイヤーと隕石の距離
+	EffectManager* effectManager;			//エフェクトマネージャーのポインタ
+
 	bool hit;								//隕石と衝突したか
 	bool excellent;							//excellentだったら
 	bool miss;								//missだったら

@@ -10,7 +10,7 @@ const VECTOR Camera::UP_VECTOR		  = { 0.0f, 200.0f, 0.0f };		//ƒJƒƒ‰‚Ìã•ûŒü
 /// </summary>
 Camera::Camera()
 {
-	//ˆ—‚È‚µ
+	Initialize();
 }
 
 /// <summary>

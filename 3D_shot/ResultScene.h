@@ -13,16 +13,12 @@ class BackGround;
 class ResultScene final : public SceneBase
 {
 public:
-	ResultScene(SceneManager* const sceneManager);
+	ResultScene();
 	virtual ~ResultScene();
 
-	void Initialize()override;					//初期化
-	void Finalize()override;
-	void Activate()override;
-	void Update(float deltaTime)override;		//更新
+	SceneType Update(float deltaTime)override;		//更新
 	void Draw()override;						//描画
 
-	
 	// ゲームの状態
 	enum class State
 	{
@@ -37,6 +33,9 @@ private:
 
 	BackGround* background;
 
+	void Initialize()override;					//初期化
+	void Finalize()override;
+	void Activate()override;
 	void AcquisitionScore();			//スコア取得
 	void DisplayScore();				//獲得スコア表示
 	void Blink();						//文字の点滅

@@ -1,18 +1,46 @@
 #include "DxLib.h"
 #include "EffekseerForDXLib.h"
 #include "PreCompiledHeader.h"
-#include "SceneManager.h"
 #include "ModelManager.h"
+#include "SoundManager.h"
 #include "TimeSlow.h"
+
+#include "TitleScene.h"
+#include "PlayScene.h"
+#include "ResultScene.h"
+
+
+//新しいシーンを生成する
+SceneBase* CreateScene(SceneType nowScene)
+{
+	SceneBase* retScene = nullptr;
+
+	switch (nowScene)
+	{
+	case SceneType::TITLE:
+		retScene = new TitleScene();
+		break;
+
+	case SceneType::PLAY:
+		retScene = new PlayScene();
+		break;
+
+	case SceneType::RESULT:
+		retScene = new ResultScene();
+		break;
+	}
+
+	return retScene;
+}
 
 
 //メインプログラム
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
-	SetOutApplicationLogValidFlag(FALSE);					//ログファイルを出力しない
 	ChangeWindowMode(IS_WINDOW_MODE);						//ウィンドウモードにするか
 	SetGraphMode(SCREEN_WIDTH, SCREEN_HEIGHT, COLOR_BIT);	//画面モードのセット
 	SetUseDirect3DVersion(DX_DIRECT3D_11);					//DirectX11を使用するようにする
+	SetOutApplicationLogValidFlag(FALSE);					//ログファイルを出力しない
 
 	//Dxlib初期化処理
 	if (DxLib_Init() == -1)
@@ -21,7 +49,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	}
 
 	//Effekseerを初期化処理
-	if (Effekseer_Init(8000) == -1)
+	//引数は画面に表示する最大パーティクル数を設定
+	if (Effekseer_Init(MAX_PARTICLE_NUMBER) == -1)
 	{
 		DxLib_End();
 		return -1;
@@ -52,7 +81,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	SetShadowMapDrawArea(shadowMapHandle, SHADOWMAP_MINPOSITION, SHADOUMAP_MAXPOSITION);
 
 	//フォント変更
-	LPCSTR fontPath = "data/font/Oranienbaum.ttf";
+	LPCSTR fontPath = "Data/Font/Oranienbaum.ttf";
 
 	if (AddFontResourceEx(fontPath, FR_PRIVATE, NULL) > 0) {}
 	else { MessageBox(NULL, "フォント読込失敗", "", MB_OK); }
@@ -64,12 +93,21 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	//待機フレーム時間(60fps)
 	float waitFrameTime = 16667.0f;
 	
-	ModelManager::GetInstance();	//モデル管理クラスの生成
+	//モデル管理クラスの生成
+	ModelManager::GetInstance();
 
-	SceneManager* sceneManager = new SceneManager();
-	
-	sceneManager->Initialize();
-	
+	//サウンド管理クラスの生成
+	SoundManager::GetInstance();
+
+	//ひとつ前のシーン
+	SceneType nowSceneType;
+
+	//今のシーン
+	SceneType prevSceneType = nowSceneType = SceneType::TITLE;
+
+	//シーンを生成
+	SceneBase* sceneBase = new TitleScene();
+
 	//メインループ
 	while (ProcessMessage() == 0 && CheckHitKey(KEY_INPUT_ESCAPE) == 0)
 	{
@@ -94,7 +132,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		//DxlibのカメラとEffekseerのカメラを同期
 		Effekseer_Sync3DSetting();
 
-		sceneManager->Update(deltaTime);
+		SoundManager::GetInstance().SeUpdate();
+
+		nowSceneType = sceneBase->Update(deltaTime);		//各シーンの更新処理
 
 		//画面を初期化する
 		ClearDrawScreen();
@@ -102,7 +142,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		//シャドウマップへの描画の準備
 		ShadowMap_DrawSetup(shadowMapHandle);
 
-		sceneManager->Draw();
+		sceneBase->Draw();     //各シーンの描画処理
 
 		//シャドウマップへの描画を終了
 		ShadowMap_DrawEnd();
@@ -110,19 +150,32 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		//描画に使用するシャドウマップを設定
 		SetUseShadowMap(0, shadowMapHandle);
 
-		sceneManager->Draw();
+		sceneBase->Draw();     //各シーンの描画処理
 
 		//描画に使用するシャドウマップの設定を解除
 		SetUseShadowMap(0, -1);
 		
+		//デバック用　デルタタイム計測
+		DrawFormatString(0, 500, GetColor(255, 255, 255), "%f", deltaTime, TRUE);
+
 		//裏画面の内容を表画面に反映させる
 		ScreenFlip();
 
-		//次のシーンがENDなら
-		if (sceneManager->GetNextScene() == SceneManager::END)
+		//次のシーンがENDならループを抜ける
+		if (nowSceneType == SceneType::END)
 		{
 			break;
 		}
+
+		//今のシーンが前のシーンと違うなら
+		if (nowSceneType != prevSceneType)
+		{
+			delete sceneBase;						//シーンの解放
+			sceneBase = CreateScene(nowSceneType);	//シーンの生成
+		}
+
+		//直前のシーンを記録
+		prevSceneType = nowSceneType;
 
 		//60fps制御用ループ
 		while (GetNowHiPerformanceCount() - nowTime < waitFrameTime);
@@ -136,7 +189,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	DeleteShadowMap(shadowMapHandle);	//シャドウマップの削除
 
-	SafeDelete(sceneManager);	//シーンマネージャーの解放
+	delete sceneBase;
 
 	Effkseer_End();				//Effekseerの終了処理
 	

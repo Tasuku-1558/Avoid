@@ -17,17 +17,16 @@ public:
 	enum Bgm
 	{
 		TITLE,		//タイトル曲
-		/*PLAY,
-		RESULT,*/
-		BGM_AMOUNT	//BGMの数
+		//PLAY,
+		//RESULT,
+		BGM_AMOUNT,	//BGMの数
 	};
 
 	//SEの種類
 	enum Se
 	{
-		ENEMY_FIND,	//エネミーに見つかった時のSE
-		CAKE_SHOOT,	//ケーキを発射した時のSE
-		SE_AMOUNT	//SEの数
+		EXPLOSION,	//隕石が爆発した時のSE
+		SE_AMOUNT,	//SEの数
 	};
 
 	static SoundManager& GetInstance();		//アドレスを返す

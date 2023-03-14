@@ -13,6 +13,7 @@ public:
 	virtual ~PlayerBase();
 
 protected:
+
 	VECTOR inputDirection;			//入力された方向
 	bool   inputFlag;				//キー入力フラグ
 	int    lingModel;				//リングモデル格納用
@@ -22,9 +23,9 @@ protected:
 	bool   noDrawFrame;				//モデルを2回に１回は描画しない
 
 
-
-	//静的定数
+	//定数
 	static const float SPEED;		//移動速度
+	const float	  OPACITY;			//不透明度
 	static const float RADIUS;		//半径の範囲
 	static const VECTOR POSITION;	//モデルの位置
 	static const VECTOR SIZE;		//モデル倍率
@@ -37,6 +38,7 @@ protected:
 	static const int    LEFT_RANGE; //左方向の移動範囲
 	static const int    RIGHT_RANGE;//右方向の移動範囲
 	static const int AFTER_IMAGE_NUMBER;	//プレイヤーの残像枚数
+	const COLOR_F AFTER_IMAGE_COLOR;			//残像モデルのエミッシブカラー
 
 
 	static const VECTOR LING_SIZE;				//リング倍率

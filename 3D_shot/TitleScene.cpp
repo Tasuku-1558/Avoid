@@ -1,6 +1,6 @@
 #include "TitleScene.h"
 #include "DxLib.h"
-#include "SceneManager.h"
+#include "SoundManager.h"
 
 
 const string TitleScene::VIDEO_FOLDER_PATH = "data/video/";		//videoフォルダまでのパス
@@ -10,18 +10,26 @@ const string TitleScene::TITLENAME_PATH	   = "titleName.png";	//タイトル名の画像
 const string TitleScene::TITLE_UI_PATH     = "titleUi.png";		//プレイシーンへ遷移キーのUIのパス
 
 
-TitleScene::TitleScene(SceneManager* const sceneManager)
-	: SceneBase(sceneManager)
-	, backGroundHandle(0)
+/// <summary>
+/// コンストラクタ
+/// </summary>
+TitleScene::TitleScene()
+	: SceneBase(SceneType::TITLE)
+	, titleMovie(0)
 	, titleName(0)
 	, titleUi(0)
 	, alpha(0)
 	, inc(0)
 	, frame(0.0f)
+	, selectState(SelectState::START)
 {
-	//処理なし
+	Initialize();
+	Activate();
 }
 
+/// <summary>
+/// デストラクタ
+/// </summary>
 TitleScene::~TitleScene()
 {
 	Finalize();
@@ -29,9 +37,11 @@ TitleScene::~TitleScene()
 
 void TitleScene::Initialize()
 {
+	//動画データの読み込み
 	string failePath = VIDEO_FOLDER_PATH + PLAY_VIDEO_PATH;
-	backGroundHandle = LoadGraph(failePath.c_str());
+	titleMovie = LoadGraph(failePath.c_str());
 
+	//タイトル画像UIの読み込み
 	failePath = IMAGE_FOLDER_PATH + TITLENAME_PATH;
 	titleName = LoadGraph(failePath.c_str());
 
@@ -41,9 +51,9 @@ void TitleScene::Initialize()
 
 void TitleScene::Finalize()
 {
-	PauseMovieToGraph(backGroundHandle);
+	PauseMovieToGraph(titleMovie);
 
-	DeleteGraph(backGroundHandle);
+	DeleteGraph(titleMovie);
 
 	DeleteGraph(titleName);
 
@@ -54,24 +64,30 @@ void TitleScene::Activate()
 {
 	alpha = 255;
 	inc = -1;
+
+	//タイトルBGMを再生
+	SoundManager::GetInstance().PlayBgm(SoundManager::TITLE);
 }
 
-void TitleScene::Update(float deltaTime)
+SceneType TitleScene::Update(float deltaTime)
 {
 	//デモ動画を再生
-	if (!GetMovieStateToGraph(backGroundHandle))
+	if (!GetMovieStateToGraph(titleMovie))
 	{
-		SeekMovieToGraph(backGroundHandle, 5000);
+		//動画が終了したら0秒の所からまた再生する
+		SeekMovieToGraph(titleMovie, 5000);
 
-		PlayMovieToGraph(backGroundHandle);
+		//動画を再生する
+		PlayMovieToGraph(titleMovie);
 	}
 
-	//プレイ画面へ
+	//ゲーム画面へ
 	if (CheckHitKey(KEY_INPUT_SPACE))
 	{
-		parent->SetNextScene(SceneManager::PLAY);
-		return;
+		nowSceneType = SceneType::PLAY;
 	}
+
+	return nowSceneType;
 }
 
 /// <summary>
@@ -96,8 +112,10 @@ void TitleScene::Blink()
 
 void TitleScene::Draw()
 {
-	DrawGraph(0, 0, backGroundHandle, FALSE);
+	//デモ動画を再生する
+	DrawGraph(0, 0, titleMovie, FALSE);
 
+	//タイトル名描画
 	DrawGraph(250, 450, titleName, TRUE);
 	
 	Blink();

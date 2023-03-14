@@ -2,7 +2,7 @@
 #include "ModelManager.h"
 
 
-const string Field::IMAGE_FOLDER_PATH = "data/image/";						//imageフォルダまでのパス
+const string Field::IMAGE_FOLDER_PATH = "Data/image/";						//imageフォルダまでのパス
 const string Field::LINE_PATH		  = "line.png";							//ライン画像のパス
 const VECTOR Field::SIZE	 = { 6.0f, 1.0f, 3.0f };						//モデルの倍率
 const VECTOR Field::POSITION = { 0.0f, -50.0f, 1200.0f };					//モデルの位置
@@ -16,7 +16,7 @@ Field::Field()
 	: rotate()
 	, lineHandle(0)
 {
-	//処理なし
+	Initialize();
 }
 
 Field::~Field()
@@ -26,6 +26,7 @@ Field::~Field()
 
 void Field::Initialize()
 {
+	//フィールドモデルの読み込み
 	modelHandle = MV1DuplicateModel(ModelManager::GetInstance().GetModelHandle(ModelManager::FIELD));
 	MV1SetScale(modelHandle, SIZE);
 
@@ -35,6 +36,7 @@ void Field::Initialize()
 	MV1SetPosition(modelHandle, position);
 	MV1SetRotationXYZ(modelHandle, rotate);
 
+	//ライン画像の読み込み
 	string failePath = IMAGE_FOLDER_PATH + LINE_PATH;
 	lineHandle = LoadGraph(failePath.c_str());
 }
@@ -44,11 +46,6 @@ void Field::Finalize()
 	MV1DeleteModel(modelHandle);
 
 	DeleteGraph(lineHandle);
-}
-
-void Field::Activate()
-{
-	//処理なし
 }
 
 void Field::Draw()

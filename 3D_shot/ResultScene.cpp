@@ -4,7 +4,6 @@
 #include "PreCompiledHeader.h"
 #include "BackGround.h"
 #include "Score.h"
-#include "SceneManager.h"
 
 
 const string ResultScene::IMAGE_FOLDER_PATH = "data/image/";		//imageフォルダまでのパス
@@ -15,11 +14,10 @@ const string ResultScene::SCORE_A_PATH		= "ScoreA.png";			//A評価画像のパス
 const string ResultScene::SCORE_S_PATH		= "ScoreS.png";			//S評価画像のパス
 
 
-ResultScene::ResultScene(SceneManager* const sceneManager)
-	: SceneBase(sceneManager)
+ResultScene::ResultScene()
+	: SceneBase(SceneType::RESULT)
 	, state()
 	, frame(0.0f)
-	, background(nullptr)
 	, pUpdate(nullptr)
 	, totalScore(0)
 	, excellentCount(0)
@@ -39,19 +37,18 @@ ResultScene::ResultScene(SceneManager* const sceneManager)
 	, alpha(0)
 	, inc(0)
 {
-	//処理なし
+	Initialize();
+	Activate();
 }
 
 ResultScene::~ResultScene()
 {
-	//処理なし
+	Finalize();
 }
 
 void ResultScene::Initialize()
 {
-	//背景クラス
 	background = new BackGround();
-	background->Initialize();
 
 	string failePath = IMAGE_FOLDER_PATH + RESULT_UI_PATH;
 	resultUi = LoadGraph(failePath.c_str());
@@ -71,8 +68,7 @@ void ResultScene::Initialize()
 
 void ResultScene::Finalize()
 {
-	//背景クラス
-	SafeDelete(background);
+	delete background;
 
 	DeleteFontToHandle(scoreFont);
 	DeleteFontToHandle(evaluationFont);
@@ -91,14 +87,9 @@ void ResultScene::Activate()
 
 	alpha = 255;
 	inc = -1;
-	frame = 0.0f;
-	displayCount = 0;
-	scoreGauge = 0.0f;
 	
 	scoreFont	   = CreateFontToHandle("Oranienbaum", 130, 1);
 	evaluationFont = CreateFontToHandle("Oranienbaum", 80, 1);
-	
-	background->Activate();
 }
 
 /// <summary>
@@ -113,11 +104,13 @@ void ResultScene::AcquisitionScore()
 	missCount	   = Score::GetInstance().GetMissCount();
 }
 
-void ResultScene::Update(float deltaTime)
+SceneType ResultScene::Update(float deltaTime)
 {
 	if (pUpdate != nullptr)
 	{
 		(this->*pUpdate)();		//状態ごとに更新
+
+		return nowSceneType;
 	}
 }
 
@@ -142,14 +135,13 @@ void ResultScene::UpdateResult()
 	//タイトル画面へ
 	if (CheckHitKey(KEY_INPUT_BACK))
 	{
-		parent->SetNextScene(SceneManager::TITLE);
-		return;
+		nowSceneType = SceneType::TITLE;
 	}
+
 	//もう一度プレイする
 	if (CheckHitKey(KEY_INPUT_RETURN))
 	{
-		parent->SetNextScene(SceneManager::PLAY);
-		return;
+		nowSceneType = SceneType::PLAY;
 	}
 }
 
@@ -252,7 +244,6 @@ void ResultScene::ScoreGauge()
 
 void ResultScene::Draw()
 {
-	//背景描画
 	background->Draw();
 
 	//獲得スコア表示

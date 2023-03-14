@@ -1,7 +1,6 @@
 #include "PlayScene.h"
 #include "DxLib.h"
 
-#include "SceneManager.h"
 #include "PreCompiledHeader.h"
 #include "Player.h"
 #include "Meteorite.h"
@@ -13,140 +12,100 @@
 #include "UiManager.h"
 #include "Evaluation.h"
 #include "ScoreEarn.h"
-#include "Explosion.h"
+#include "EffectManager.h"
 #include "Score.h"
 #include "TimeSlow.h"
 
-const int PlayScene::GAMETIME = 90;		//ゲーム時間
 
-PlayScene::PlayScene(SceneManager* const sceneManager)
-		: SceneBase(sceneManager)
-		, state()
-		, frame(0.0f)
-		, camera(nullptr)
-		, light(nullptr)
-		, backGround(nullptr)
-		, field(nullptr)
-		, hitChecker(nullptr)
-		, uiManager()
-		, player(nullptr)
-		, explosion(nullptr)
-		, evaluation(nullptr)
-		, scorEearn(nullptr)
-		, pUpdate(nullptr)
-		, meteorite()
-		, startTime(0)
-		, nowTime(0)
-		, countDown(0)
-		, score(0)
-		, font(0)
-		, targetScore(0)
-		, slow(false)
-		, meteoritePopCount(0.0f)
-		, wave(0)
+/// <summary>
+/// コンストラクタ
+/// </summary>
+PlayScene::PlayScene()
+	: SceneBase(SceneType::PLAY)
+	, gameState(GameState::START)
+	, frame(0.0f)
+	, pUpdate(nullptr)
+	, meteorite()
+	, startTime(0)
+	, nowTime(0)
+	, countDown(0)
+	, score(0)
+	, font(0)
+	, targetScore(0)
+	, slow(false)
+	, meteoritePopCount(0.0f)
+	, wave(0)
+	, GAME_TIME(90)
 {
-	//処理なし
+	Initialize();
+	Activate();
 }
 
+/// <summary>
+/// デストラクタ
+/// </summary>
 PlayScene::~PlayScene()
 {
-	//処理なし
+	Finalize();
 }
 
-//初期化処理
+/// <summary>
+/// 初期化処理
+/// </summary>
 void PlayScene::Initialize()
 {
-	//カメラクラス
 	camera = new Camera();
-	camera->Initialize();
 
-	//ライトクラス
 	light = new Light();
-	light->Initialize();
 
-	//プレイヤークラス
 	player = new Player();
-	player->Initialize();
 
-	//背景クラス
 	backGround = new BackGround();
-	backGround->Initialize();
 
-	//フィールドクラス
 	field = new Field();
-	field->Initialize();
 
-	//当たり判定クラス
-	hitChecker = new HitChecker();
+	effectManager = new EffectManager();
 
-	//UI画像管理クラス
+	hitChecker = new HitChecker(effectManager);
+
 	uiManager = new UiManager();
-	uiManager->Initialize();
 
-	//爆発エフェクトクラス
-	explosion = new Explosion();
-	explosion->Initialize();
-
-	//評価UIクラス
 	evaluation = new Evaluation();
-	evaluation->Initialize();
 
-	//スコア獲得クラス
-	scorEearn = new ScoreEarn();
+	scoreEarn = new ScoreEarn();
 }
 
 //終了処理
 void PlayScene::Finalize()
 {
-	SafeDelete(camera);
-
-	SafeDelete(light);
-
-	SafeDelete(player);
+	delete camera;
+	delete light;
+	delete player;	
+	delete backGround;
+	delete field;
+	delete hitChecker;
+	delete uiManager;
+	delete effectManager;
+	delete evaluation;
+	delete scoreEarn;
 
 	for (auto meteoritePtr : meteorite)
 	{
-		SafeDelete(meteoritePtr);
+		DeleteMeteorite(meteoritePtr);
 	}
-	
-	SafeDelete(backGround);
-
-	SafeDelete(field);
-
-	SafeDelete(hitChecker);
-
-	SafeDelete(uiManager);
-	
-	SafeDelete(explosion);
-
-	SafeDelete(evaluation);
-
-	SafeDelete(scorEearn);
 
 	//作成したフォントデータの削除
 	DeleteFontToHandle(font);
 }
 
+/// <summary>
+/// 活性化処理
+/// </summary>
 void PlayScene::Activate()
 {
-	state = State::START;
 	pUpdate = &PlayScene::UpdateStart;
 
-	frame = 0.0f;
-	wave = 0;
-	countDown = 0;
-
 	font = CreateFontToHandle("Oranienbaum", 80, 1);
-	
-	backGround->Activate();
-
-	field->Activate();
-
-	evaluation->Activate();
-
-	explosion->Activate();
-	
-	player->Activate();
 }
 
 /// <summary>
@@ -155,13 +114,13 @@ void PlayScene::Activate()
 void PlayScene::GameCountDown()
 {
 	nowTime = GetNowCount();
-	countDown = GAMETIME - (nowTime - startTime) / 1000;
+	countDown = GAME_TIME - (nowTime - startTime) / 1000;
 
 	//制限時間が0になったら
+	//結果画面へ遷移する
 	if (countDown == 0)
 	{
-		parent->SetNextScene(SceneManager::RESULT);
-		return;
+		nowSceneType = SceneType::RESULT;
 	}
 }
 
@@ -257,11 +216,13 @@ void PlayScene::MeteoritePop(float deltaTime)
 /// 更新処理
 /// </summary>
 /// <param name="deltaTime"></param>
-void PlayScene::Update(float deltaTime)
+SceneType PlayScene::Update(float deltaTime)
 {
 	if (pUpdate != nullptr)
 	{
 		(this->*pUpdate)(deltaTime);		//状態ごとに更新
+
+		return nowSceneType;
 	}
 }
 
@@ -271,31 +232,25 @@ void PlayScene::Update(float deltaTime)
 /// <param name="deltaTime"></param>
 void PlayScene::UpdateStart(float deltaTime)
 {
-	state = State::GAME;
-	pUpdate = &PlayScene::UpdateGame;
+	gameState = GameState::GAME;
+	pUpdate = &PlayScene::UpdateWave1;
 
 	Score::GetInstance().Activate();
 
-	scorEearn->Activate();
-
 	TimeSlow::GetInstance().SetTimeSlow(slow);
-
-	for (auto meteoritePtr : meteorite)
-	{
-		//隕石活性化
-		meteoritePtr->Activate();
-	}
 
 	//ゲーム起動時の時間を取得
 	startTime = GetNowCount();
 }
 
 /// <summary>
-/// ゲーム中
+/// Wave1
 /// </summary>
 /// <param name="deltaTime"></param>
-void PlayScene::UpdateGame(float deltaTime)
+void PlayScene::UpdateWave1(float deltaTime)
 {
+	backGround->Update();
+
 	player->Update(deltaTime);
 
 	//隕石の出現間隔
@@ -317,15 +272,15 @@ void PlayScene::UpdateGame(float deltaTime)
 		}
 		if (countDown < 11)		//制限時間が11秒以下になったらフィーバー状態へ移行
 		{
-			state = State::FINALWAVE;
+			gameState = GameState::FINALWAVE;
 			meteoritePtr->SpeedUp();
 			meteoritePtr->ChangeColor(5.0f, 0.0f, 0.0f);
 			wave = 5;
-			pUpdate = &PlayScene::UpdateFever;
+			pUpdate = &PlayScene::UpdateFinal;
 		}
 
 		//プレイヤーと隕石の当たり判定
-		hitChecker->PlayerAndMeteorite(player, meteoritePtr, explosion, evaluation, scorEearn);
+		hitChecker->PlayerAndMeteorite(player, meteoritePtr, evaluation, scoreEarn);
 
 		//隕石と衝突したもしくは制限時間が0になったら隕石を消す
 		if (hitChecker->Hit() || countDown == 0)
@@ -347,9 +302,9 @@ void PlayScene::UpdateGame(float deltaTime)
 /// フィーバー中
 /// </summary>
 /// <param name="deltaTime"></param>
-void PlayScene::UpdateFever(float deltaTime)
+void PlayScene::UpdateFinal(float deltaTime)
 {
-	UpdateGame(deltaTime);
+	UpdateWave1(deltaTime);
 }
 
 /// <summary>
@@ -361,8 +316,6 @@ void PlayScene::Draw()
 
 	evaluation->Draw();
 
-	player->Draw();
-
 	for (auto meteoritePtr : meteorite)
 	{
 		meteoritePtr->Draw();
@@ -370,7 +323,9 @@ void PlayScene::Draw()
 
 	field->Draw();
 
-	explosion->Draw();
+	player->Draw();
 
-	uiManager->Draw(state, frame, font, countDown, score, wave);
+	effectManager->Draw();
+
+	uiManager->Draw(gameState, font, countDown, score, wave);
 }

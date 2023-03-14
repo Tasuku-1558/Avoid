@@ -11,26 +11,26 @@
 class Player final : public PlayerBase
 {
 public:
-	 Player();    //コンストラクタ
-	~Player();    //デストラクタ
+	Player();
+	virtual ~Player();
 
-	void Initialize();
-	void Activate();
 	void Update(float deltaTime);
 	void Draw();
 
 	//プレイヤーの状態
-	enum class State
+	enum class PlayerState
 	{
 		NOMAL,		//通常状態
 		DAMAGE,		//被弾状態
 	};
 
-	State state;	//プレイヤーの状態
+	PlayerState playerState;	//プレイヤーの状態
 
 private:
 	Player(const Player&);			//コピーコンストラクタ
 
+	void Initialize();
+	void Activate();
 	void Move(float deltaTime);					//移動処理
 	void pUpdate(float deltaTime);				//プレイヤーの状態
 	void OnHitMeteorite(float deltaTime);		//隕石に当たったならば

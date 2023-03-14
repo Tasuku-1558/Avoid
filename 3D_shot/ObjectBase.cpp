@@ -5,8 +5,8 @@
 /// </summary>
 ObjectBase::ObjectBase()
     : position()
-    , dir()
-    , modelHandle(-1)
+    , direction()
+    , modelHandle(0)
 {
     //ˆ—‚È‚µ
 }
@@ -17,18 +17,4 @@ ObjectBase::ObjectBase()
 ObjectBase::~ObjectBase()
 {
     //ˆ—‚È‚µ
-}
-
-/// <summary>
-/// ƒQƒbƒ^[ŠÖ”ŒQ
-/// </summary>
-/// <returns></returns>
-const VECTOR& ObjectBase::GetPosition() const
-{
-    return position;
-}
-
-const VECTOR& ObjectBase::GetDir() const
-{
-    return dir;
 }

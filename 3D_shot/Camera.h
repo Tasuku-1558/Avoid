@@ -4,6 +4,7 @@
 
 /// <summary>
 /// カメラクラス
+/// 固定型カメラ
 /// </summary>
 class Camera final
 {
@@ -11,9 +12,10 @@ public:
 	Camera();
 	virtual ~Camera();
 
-	void Initialize();
-
 private:
+	Camera(const Camera&);						//コピーコンストラクタ
+
+	void Initialize();
 
 	//定数
 	static const float  NEAR_DISTANCE;		//カメラに映る手前の範囲

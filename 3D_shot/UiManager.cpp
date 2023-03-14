@@ -2,16 +2,19 @@
 
 using std::string;
 
-const string UiManager::FOLDER_PATH		   = "data/image/";		//画像ファイルのパス
+const string UiManager::FOLDER_PATH		   = "Data/image/";		//画像ファイルのパス
 const string UiManager::UI_GRAPHIC_PATH    = "ui";				//UI画像
 const string UiManager::FILENAME_EXTENSION = ".png";			//画像拡張子
 
 
+/// <summary>
+/// コンストラクタ
+/// </summary>
 UiManager::UiManager()
 	: uiHandle()
 	, fever(false)
 {
-	//処理なし
+	Initialize();
 }
 
 UiManager::~UiManager()
@@ -26,7 +29,7 @@ UiManager::~UiManager()
 void UiManager::Initialize()
 {
 	//UI画像読み込み
-	string path = FOLDER_PATH + UI_GRAPHIC_PATH; // フォルダパス + ファイル名
+	string path = FOLDER_PATH + UI_GRAPHIC_PATH; //フォルダパス + ファイル名
 	string fullPath = path;
 
 	for (int i = 0; i < GRAPHIC_AMOUNT; ++i)
@@ -50,21 +53,29 @@ void UiManager::Finalize()
 	}
 }
 
-void UiManager::Draw(PlayScene::State state, int frame,int font, int countDown, int score, int wave)
+/// <summary>
+/// 描画処理
+/// </summary>
+/// <param name="gameState"></param>
+/// <param name="font"></param>
+/// <param name="countDown"></param>
+/// <param name="score"></param>
+/// <param name="wave"></param>
+void UiManager::Draw(PlayScene::GameState gameState, int font, int countDown, int score, int wave)
 {
-	switch (state)
+	switch (gameState)
 	{
-	case PlayScene::State::START:
+	case PlayScene::GameState::START:
 		StartGameDraw();
 		break;
 
-	case PlayScene::State::GAME:
+	case PlayScene::GameState::GAME:
 		FrameDraw();
 		GameUIDraw(font, countDown, score, wave);
 		
 		break;
 
-	case PlayScene::State::FINALWAVE:
+	case PlayScene::GameState::FINALWAVE:
 		FrameDraw();
 		GameUIDraw(font, countDown, score, wave);
 		fever = true;

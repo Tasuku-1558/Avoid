@@ -15,7 +15,7 @@ ScoreEarn::ScoreEarn()
 	, goodCount(0)
 	, missCount(0)
 {
-	//èàóùÇ»Çµ
+	Activate();
 }
 
 ScoreEarn::~ScoreEarn()
@@ -30,10 +30,6 @@ void ScoreEarn::Activate()
 	greatCount	   = FIRST_SCORE;
 	goodCount	   = FIRST_SCORE;
 	missCount	   = FIRST_SCORE;
-}
-
-void ScoreEarn::Finalize()
-{
 }
 
 void ScoreEarn::UpdateMiss()

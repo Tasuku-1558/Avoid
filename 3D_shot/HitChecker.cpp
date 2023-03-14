@@ -1,13 +1,13 @@
 #include "HitChecker.h"
 #include "TimeSlow.h"
+#include "SoundManager.h"
 #include "Player.h"
 #include "Meteorite.h"
-#include "Explosion.h"
 #include "Evaluation.h"
 #include "ScoreEarn.h"
 
 
-using namespace Math3d;
+using namespace Math3d;		//VECTORの計算に使用
 
 const float HitChecker::RADIUS_GOOD			= 1500.0f;	//goodの範囲
 const float HitChecker::RADIUS_GREAT		= 150.0f;	//greatの範囲
@@ -17,16 +17,19 @@ const int   HitChecker::SCORE_DECISION_LINE = 150;		//スコア判定ライン
 const int   HitChecker::DECISION_END_LINE	= -140;		//判定終了ライン
 
 
-HitChecker::HitChecker()
-	: direction(0.0f)
-	, hit(false)
+/// <summary>
+/// コンストラクタ
+/// </summary>
+/// <param name="inEffect"></param>
+HitChecker::HitChecker(EffectManager* const inEffect)
+	: hit(false)
 	, excellent(false)
 	, miss(false)
 	, great(false)
 	, good(false)
 	, decisionFlag(false)
 {
-	//処理なし
+	effectManager = inEffect;
 }
 
 HitChecker::~HitChecker()
@@ -43,7 +46,7 @@ void HitChecker::MissDecision(Evaluation* evaluation, Player* player)
 {
 	evaluation->ui = Evaluation::Ui::MISS;
 
-	player->state = Player::State::DAMAGE;
+	player->playerState = Player::PlayerState::DAMAGE;
 	
 	miss = true;
 }
@@ -88,13 +91,12 @@ void HitChecker::GoodDecision(Evaluation* evaluation)
 /// </summary>
 /// <param name="player"></param>
 /// <param name="meteorite"></param>
-/// <param name="explosion"></param>
 /// <param name="evaluation"></param>
-/// <param name="scoreearn"></param>
-void HitChecker::PlayerAndMeteorite(Player* player, Meteorite* meteorite, Explosion* explosion, Evaluation* evaluation, ScoreEarn* scoreearn)
+/// <param name="scoreEarn"></param>
+void HitChecker::PlayerAndMeteorite(Player* player, Meteorite* meteorite, Evaluation* evaluation, ScoreEarn* scoreEarn)
 {
-	
-	hit = false;	//隕石と衝突していないなら
+	//隕石と衝突していないなら
+	hit = false;
 
 	//隕石が判定ラインに入ったら判定を開始する
 	if (meteorite->GetPosition().z <= SCORE_DECISION_LINE)
@@ -102,8 +104,8 @@ void HitChecker::PlayerAndMeteorite(Player* player, Meteorite* meteorite, Explos
 		//プレイヤーから隕石の座標を引いた値を取得
 		VECTOR sub = player->GetPosition() - meteorite->GetPosition();
 
-		//プレイヤーと隕石の2点間の距離を計算
-		float direction = sqrt(pow(sub.x, 2) + pow(sub.y, 2));
+		//プレイヤーと隕石の距離を計算
+		float direction = VSize(sub);
 
 		//判定してないなら
 		if (!decisionFlag)
@@ -133,7 +135,8 @@ void HitChecker::PlayerAndMeteorite(Player* player, Meteorite* meteorite, Explos
 			}
 		}
 
-		decisionFlag = true;				// 判定した
+		//判定した
+		decisionFlag = true;
 
 		//隕石が判定最終ラインに突入しているなら判定を終了する
 		if (meteorite->GetPosition().z <= DECISION_END_LINE)
@@ -143,15 +146,20 @@ void HitChecker::PlayerAndMeteorite(Player* player, Meteorite* meteorite, Explos
 				excellent = false;
 				TimeSlow::GetInstance().SetTimeSlow(excellent);
 
-				scoreearn->UpdateExcellent();
-				explosion->Update(meteorite->GetPosition());
+				scoreEarn->UpdateExcellent();
+
+				//爆発エフェクトを出す
+				effectManager->CreateExplosionEffect(meteorite->GetPosition());
+
+				//隕石が爆発した時のSE音を再生
+				SoundManager::GetInstance().SePlayFlag(SoundManager::EXPLOSION);
 
 				hit = true;
 			}
 
 			if (miss)
 			{
-				scoreearn->UpdateMiss();
+				scoreEarn->UpdateMiss();
 				miss = false;
 				hit = true;
 			}
@@ -161,14 +169,14 @@ void HitChecker::PlayerAndMeteorite(Player* player, Meteorite* meteorite, Explos
 				great = false;
 				TimeSlow::GetInstance().SetTimeSlow(great);
 
-				scoreearn->UpdateGreat();
+				scoreEarn->UpdateGreat();
 
 				hit = true;
 			}
 
 			if (good)
 			{
-				scoreearn->UpdateGood();
+				scoreEarn->UpdateGood();
 				good = false;
 				hit = true;
 			}

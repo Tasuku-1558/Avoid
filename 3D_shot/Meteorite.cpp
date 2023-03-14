@@ -4,12 +4,13 @@
 #include "PreCompiledHeader.h"
 
 
-using namespace Math3d;
+using namespace Math3d;		//VECTORの計算に使用
 
 /// <summary>
 /// コンストラクタ
 /// </summary>
-Meteorite::Meteorite() : MeteoriteBase()
+Meteorite::Meteorite()
+	: MeteoriteBase()
 {
 	Initialize();
 	Activate();
@@ -28,7 +29,7 @@ Meteorite::~Meteorite()
 /// </summary>
 void Meteorite::Initialize()
 {
-	//モデル読み込み
+	//隕石モデルの読み込み
 	modelHandle = MV1DuplicateModel(ModelManager::GetInstance().GetModelHandle(ModelManager::METEORITE));
 	MV1SetScale(modelHandle, SIZE);
 }
@@ -49,13 +50,12 @@ void Meteorite::Activate()
 	//隕石の位置にランダム値を入れる
 	position = VGet(GetRand(RANDOM_RANGE_X_OR_Y), GetRand(RANDOM_RANGE_X_OR_Y), Z_POSITION);
 
-	dir = DIR;
+	direction = DIRECTION;
 	random = rand() % RANGE;
 	speed = SPEED;
 
 	//ランダムな回転角速度をセット
 	rotateSpeed = VGet(GetRand(RANDOM_ROTATION_SPEED) / 1000.0f, GetRand(RANDOM_ROTATION_SPEED) / 1000.0f, GetRand(RANDOM_ROTATION_SPEED) / 1000.0f);
-	rotateAngle = ZERO_VECTOR;
 }
 
 /// <summary>
@@ -82,11 +82,11 @@ void Meteorite::Move(float deltaTime, Player* player)
 	//プレイヤーに向かって跳ぶ
 	if (popFlag && random == 0)
 	{
-		dir = player->GetPosition() - position;
+		direction = player->GetPosition() - position;
 
-		if (VSize(dir) > 0.1f)
+		if (VSize(direction) > 0.1f)
 		{
-			dir = VNorm(dir);
+			direction = VNorm(direction);
 		}
 
 		popFlag = false;
@@ -95,10 +95,10 @@ void Meteorite::Move(float deltaTime, Player* player)
 	//真っすぐ跳ぶ
 	else if(random == 1)
 	{
-		dir = DIR;
+		direction = DIRECTION;
 	}
 	
-	position += dir * deltaTime * speed;
+	position += direction * deltaTime * speed;
 	rotateAngle += rotateSpeed;
 }
 

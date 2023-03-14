@@ -23,7 +23,7 @@ protected:
 
 	//静的定数
 	static const VECTOR SIZE;					//モデル倍率
-	static const VECTOR DIR;					//方向
+	static const VECTOR DIRECTION;				//方向
 	static const float  SPEED;					//移動速度
 	static const int    RANDOM_RANGE_X_OR_Y;	//X座標とY座標のランダム座標
 	static const float  Z_POSITION;				//Z座標

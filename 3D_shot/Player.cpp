@@ -3,16 +3,19 @@
 #include "ModelManager.h"
 
 
-using namespace Math3d;
+using namespace Math3d;		//VECTORの計算に使用
 
 /// <summary>
 /// コンストラクタ
 /// </summary>
-Player::Player() : PlayerBase()
+Player::Player()
+	: PlayerBase()
 	, pastPosition()
 	, emptyModel()
+	, playerState(PlayerState::NOMAL)
 {
-	state = State::NOMAL;
+	Initialize();
+	Activate();
 }
 
 /// <summary>
@@ -28,21 +31,27 @@ Player::~Player()
 /// </summary>
 void Player::Initialize()
 {
-	//プレイヤーモデル読み込み
+	//プレイヤーモデルの読み込み
 	modelHandle = MV1DuplicateModel(ModelManager::GetInstance().GetModelHandle(ModelManager::PLAYER));
 	MV1SetScale(modelHandle, SIZE);
 
-	//プレイヤーリングモデル読み込み
+	//プレイヤーリングモデルの読み込み
 	lingModel = MV1DuplicateModel(ModelManager::GetInstance().GetModelHandle(ModelManager::PLAYER_LING));
 	MV1SetScale(lingModel, LING_SIZE);
 
-	//プレイヤー残像モデル読み込み
+	//残像の枚数分読み込む
 	for (int i = 0; i < AFTER_IMAGE_NUMBER; i++)
 	{
+		//プレイヤー残像モデルの読み込みとサイズの設定
 		emptyModel[i] = MV1DuplicateModel(ModelManager::GetInstance().GetModelHandle(ModelManager::PLAYER));
 		MV1SetScale(emptyModel[i], SIZE);
-		MV1SetOpacityRate(emptyModel[i], 0.05f);
-		MV1SetMaterialEmiColor(emptyModel[i], 0, GetColorF(0.0f, 1.0f, 0.0f, 1.0f));
+
+		//モデルの不透明度の設定
+		//0.0fに近いほど透明度が上がる
+		MV1SetOpacityRate(emptyModel[i], OPACITY);
+
+		//モデルのエミッシブカラーを変更
+		MV1SetMaterialEmiColor(emptyModel[i], 0, AFTER_IMAGE_COLOR);
 	}
 }
 
@@ -68,14 +77,11 @@ void Player::Activate()
 {
 	position = POSITION;
 
-	rotate = ZERO_VECTOR;
 	rotateSpeed = LING_ROTATE_SPEED;
-
-	noDrawFrame = false;
 
 	for (int i = 0; i < AFTER_IMAGE_NUMBER; i++)
 	{
-		pastPosition[i] = position;
+		pastPosition[i] = POSITION;
 	}
 }
 
@@ -105,13 +111,12 @@ void Player::Update(float deltaTime)
 /// <param name="deltaTime"></param>
 void Player::Move(float deltaTime)
 {
+	//入力方向を初期化する
 	inputDirection = ZERO_VECTOR;
-
-	inputFlag = false;
 
 	rotate += rotateSpeed * deltaTime;
 	
-	//上下
+	//上下移動
 	if (CheckHitKey(KEY_INPUT_UP))
 	{
 		//上方向の移動範囲内なら
@@ -138,7 +143,7 @@ void Player::Move(float deltaTime)
 			inputDirection = ZERO_VECTOR;
 		}
 	}
-	//左右
+	//左右移動
 	if (CheckHitKey(KEY_INPUT_RIGHT))
 	{
 		//右方向の移動範囲内なら
@@ -176,10 +181,10 @@ void Player::Move(float deltaTime)
 		}
 
 		//十字キーの入力方向を正規化
-		inputDirection = VNorm(inputDirection);
+		direction = VNorm(inputDirection);
 
 		//十字キーの移動方向に移動
-		position += inputDirection * SPEED * deltaTime;
+		position += direction * SPEED * deltaTime;
 	}
 }
 
@@ -189,12 +194,12 @@ void Player::Move(float deltaTime)
 /// <param name="deltaTime"></param>
 void Player::pUpdate(float deltaTime)
 {
-	switch (state)
+	switch (playerState)
 	{
-	case State::NOMAL:
+	case PlayerState::NOMAL:
 		break;
 
-	case State::DAMAGE:
+	case PlayerState::DAMAGE:
 		OnHitMeteorite(deltaTime);
 		break;
 	}
@@ -207,12 +212,14 @@ void Player::pUpdate(float deltaTime)
 void Player::OnHitMeteorite(float deltaTime)
 {
 	noDrawFrame = !noDrawFrame;			//2回に1回描画しない
+
+	//ダメージカウントを開始する
 	damageCount += deltaTime;
 
 	//1秒間プレイヤーを点滅させる
 	if (damageCount > 1.0f)
 	{
-		state = State::NOMAL;
+		playerState = PlayerState::NOMAL;
 		noDrawFrame = false;
 		damageCount = 0.0f;
 	}
@@ -223,14 +230,14 @@ void Player::OnHitMeteorite(float deltaTime)
 /// </summary>
 void Player::AfterImage()
 {
-	for (int i = 2; i >= 1; i--)
+	for (int i = AFTER_IMAGE_NUMBER - 1; i >= 1; i--)
 	{
 		pastPosition[i] = pastPosition[i - 1];
 		MV1SetPosition(emptyModel[i], pastPosition[i]);
-	}
 
-	pastPosition[0] = position;
-	MV1SetPosition(emptyModel[0], pastPosition[0]);
+		pastPosition[0] = position;
+		MV1SetPosition(emptyModel[0], pastPosition[0]);
+	}
 }
 
 /// <summary>

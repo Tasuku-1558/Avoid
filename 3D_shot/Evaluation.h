@@ -13,9 +13,6 @@ public:
 	Evaluation();
 	virtual ~Evaluation();
 
-	void Initialize();
-	void Finalize();
-	void Activate();
 	void Update(int evaluationGraph);
 	void Draw();
 
@@ -30,15 +27,19 @@ public:
 		MISS,		//miss評価
 	};
 
-	enum class Ui ui;
+	enum class Ui ui;		//評価の種類
 
 private:
 
+	Evaluation(const Evaluation&);			//コピーコンストラクタ
+
+	void Initialize();
+	void Finalize();
 	void ImageMove(int evaluationGraph);	//評価文字の動き
 	void EvaluationUi();					//各評価の描画処理
 	void SlowUi();							//速度低速時の集中線の描画処理
 
-	string InputPath(string folderPath,	//画像のパスを入力
+	string InputPath(string folderPath,		//画像のパスを入力
 					 string imagePath);
 
 	int evaluationGraph[5];					//評価文字の格納用

@@ -15,15 +15,16 @@ public:
 	Field();
 	virtual ~Field();
 
-	void Initialize();
-	void Finalize();
-	void Activate();
 	void Draw();
 
 private:
+	Field(const Field&);		//コピーコンストラクタ
 
-	VECTOR rotate;					//回転値格納用
-	int	   lineHandle;				//判定ライン格納用
+	void Initialize();
+	void Finalize();
+
+	VECTOR rotate;				//回転値格納用
+	int lineHandle;				//判定ライン格納用
 
 	//静的定数
 	static const string IMAGE_FOLDER_PATH;	//imageフォルダまでのパス

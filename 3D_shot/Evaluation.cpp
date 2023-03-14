@@ -1,7 +1,7 @@
 #include "Evaluation.h"
 #include "DxLib.h"
 
-const string Evaluation::IMAGE_FOLDER_PATH = "data/image/";				//imageフォルダまでのパス
+const string Evaluation::IMAGE_FOLDER_PATH = "Data/image/";				//imageフォルダまでのパス
 const string Evaluation::EXCELLENT_PATH	   = "ExcellentEffect.png";		//excellent画像のパス
 const string Evaluation::GREAT_PATH		   = "GreatEffect.png";			//great画像のパス
 const string Evaluation::GOOD_PATH		   = "GoodEffect.png";			//good画像のパス
@@ -20,7 +20,7 @@ Evaluation::Evaluation()
 	, waitTime(0.0f)
 	, ui(Ui::NOMAL)
 {
-	//処理なし
+	Initialize();
 }
 
 /// <summary>
@@ -28,7 +28,7 @@ Evaluation::Evaluation()
 /// </summary>
 Evaluation::~Evaluation()
 {
-	//処理なし
+	Finalize();
 }
 
 /// <summary>
@@ -36,7 +36,7 @@ Evaluation::~Evaluation()
 /// </summary>
 void Evaluation::Initialize()
 {
-	//画像の読み込み
+	//評価画像の読み込み
 	evaluationGraph[0] = LoadGraph(InputPath(IMAGE_FOLDER_PATH, EXCELLENT_PATH).c_str());
 
 	evaluationGraph[1] = LoadGraph(InputPath(IMAGE_FOLDER_PATH, GREAT_PATH).c_str());
@@ -70,14 +70,6 @@ void Evaluation::Finalize()
 	}
 
 	DeleteGraph(slowScreenGraph);
-}
-
-/// <summary>
-/// 活性化処理
-/// </summary>
-void Evaluation::Activate()
-{
-	//処理なし
 }
 
 /// <summary>

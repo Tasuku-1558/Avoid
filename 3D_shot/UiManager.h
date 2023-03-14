@@ -15,24 +15,22 @@ public:
 	UiManager();
 	virtual ~UiManager();
 
-	void Initialize();
-	void Finalize();
-
-	void Draw(PlayScene::State state, int frame, int font, int countDown, int score, int wave);
-
+	void Draw(PlayScene::GameState gameState, int font, int countDown, int score, int wave);
 
 private:
+
+	UiManager(const UiManager&);		//コピーコンストラクタ
 
 	//画像の種類
 	enum Graphic
 	{
-		FRAME,
+		FRAME,			//制限時間フレーム画像
 		FEVER_IMAGE,
-		GRAPHIC_AMOUNT
+		GRAPHIC_AMOUNT,	//画像の数
 	};
-
-	UiManager(const UiManager&);		//コピーコンストラクタ
 	
+	void Initialize();
+	void Finalize();
 	void StartGameDraw();
 	void GameUIDraw(int font, int countDown, int score, int wave);		//ゲーム中のUIの描画
 	void FrameDraw();					//制限時間、スコアの枠描画処理

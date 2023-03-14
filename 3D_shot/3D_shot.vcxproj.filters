@@ -64,9 +64,6 @@
     <ClCompile Include="Camera.cpp">
       <Filter>ソースファイル</Filter>
     </ClCompile>
-    <ClCompile Include="SceneManager.cpp">
-      <Filter>ソースファイル\Scene</Filter>
-    </ClCompile>
     <ClCompile Include="ObjectBase.cpp">
       <Filter>ソースファイル\ObjectBase</Filter>
     </ClCompile>
@@ -103,6 +100,15 @@
     <ClCompile Include="HitChecker.cpp">
       <Filter>ソースファイル\Collision</Filter>
     </ClCompile>
+    <ClCompile Include="EffectManager.cpp">
+      <Filter>ソースファイル\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="EffectBase.cpp">
+      <Filter>ソースファイル\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="FadeManager.cpp">
+      <Filter>ソースファイル\System</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="TitleScene.h">
@@ -137,9 +143,6 @@
     </ClInclude>
     <ClInclude Include="Camera.h">
       <Filter>ソースファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="SceneManager.h">
-      <Filter>ソースファイル\Scene</Filter>
     </ClInclude>
     <ClInclude Include="PreCompiledHeader.h">
       <Filter>ソースファイル</Filter>
@@ -182,6 +185,12 @@
     </ClInclude>
     <ClInclude Include="HitChecker.h">
       <Filter>ソースファイル\Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="EffectManager.h">
+      <Filter>ソースファイル\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="FadeManager.h">
+      <Filter>ソースファイル\System</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -4,7 +4,6 @@
 
 using namespace std;
 
-
 /// <summary>
 /// シングルトン
 /// モデル管理クラス
@@ -18,16 +17,16 @@ public:
 	/// </summary>
 	enum ModelType
 	{
-		PLAYER,
-		PLAYER_LING,
-		METEORITE,
-		FIELD,
-		MODEL_AMOUNT	//モデルの個数
+		PLAYER,			//プレイヤーモデル
+		PLAYER_LING,	//プレイヤーリングモデル
+		METEORITE,		//隕石モデル
+		FIELD,			//ステージモデル
+		MODEL_AMOUNT,	//モデルの数
 	};
 
-	static ModelManager& GetInstance();					  // アドレスを返す
+	static ModelManager& GetInstance();					  //アドレスを返す
 
-	const int& GetModelHandle(ModelType modelType) const; // モデルハンドルの参照を返す
+	const int& GetModelHandle(ModelType modelType) const; //モデルハンドルの参照を返す
 
 private:
 	ModelManager();
