@@ -25,11 +25,11 @@ public:
 	PlayScene();
 	virtual ~PlayScene();
 
-	SceneType Update(float deltaTime)override;
-	void Draw()override;
+	SceneType Update(float deltaTime)override;		//更新処理
+	void Draw()override;							//描画処理
 
 
-	// ゲーム状態
+	//ゲームの状態
 	enum class GameState
 	{
 		START,		//開始前
@@ -59,8 +59,9 @@ private:
 	Evaluation* evaluation;
 	ScoreEarn* scoreEarn;
 	
-	void Initialize()override;
-	void Activate()override;
+	void Initialize()override;							//初期化処理
+	void Activate()override;							//活性化処理
+	void GameCountDown();								//ゲーム時間計算
 	void EntryMeteorite(Meteorite* newMeteorite);		//隕石を登録
 	void DeleteMeteorite(Meteorite* deleteMeteorite);	//隕石を削除
 	void MeteoritePop(float deltaTime);					//隕石の出現間隔
@@ -71,20 +72,19 @@ private:
 	void GameFinish(float deltaTime);					//ゲーム終了
 	void UpdateResult(float deltaTime);					//結果画面
 	void(PlayScene::* pUpdate)(float deltaTime);		//Update関数ポインタ
-	void GameCountDown();								//ゲーム時間計算
 	
 
 	GameState gameState;		//ゲームの状態
-	float frame;				//フレーム数
 	int  startTime;				//起動時間
 	int  nowTime;				//現在時間
 	int  countDown;				//制限時間
 	int  targetScore;			//目標スコア
 	int  score;					//獲得スコア
 	int  font;					//ゲームフォント
-	bool slow;					//時間をスローにするか
-	float meteoritePopCount;	//隕石出現カウント
 	int  wave;					//ゲームの区分け
+	float frame;				//フレーム数
+	float meteoritePopCount;	//隕石出現カウント
+	bool slow;					//時間をスローにするか
 	
 
 	//定数

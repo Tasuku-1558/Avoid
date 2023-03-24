@@ -2,17 +2,16 @@
 #include "DxLib.h"
 
 
-const string ModelManager::MODEL_FOLDER_PATH = "Data/Model/";		//Modelフォルダまでのパス
-const string ModelManager::PLAYER_PATH		 = "Player/player.mv1";	//playerモデルファイルのパス
-const string ModelManager::LING_PATH		 = "Player/ling.mv1";			//lingモデルファイルのパス
-const string ModelManager::METEORITE_PATH	 = "Meteorite/meteorite.mv1";		//meteoriteモデルファイルのパス
-const string ModelManager::FIELD_PATH		 = "Field/field.mv1";			//fieldモデルファイルのパス
-
 /// <summary>
 /// コンストラクタ
 /// </summary>
 ModelManager::ModelManager()
 	: modelHandle()
+	, MODEL_FOLDER_PATH("Data/Model/")
+	, PLAYER_PATH("Player/player.mv1")
+	, LING_PATH("Player/ling.mv1")
+	, METEORITE_PATH("Meteorite/meteorite.mv1")
+	, FIELD_PATH("Field/field.mv1")
 {
 	LoadAllModel();
 }
@@ -53,7 +52,7 @@ void ModelManager::LoadAllModel()
 	{
 		if (modelHandle[i] < 0)
 		{
-			printfDx("モデルデータ読み込み失敗\n", i);
+			printfDx("モデルデータ読み込み失敗[%d]\n", i);
 		}
 	}
 }
@@ -61,12 +60,12 @@ void ModelManager::LoadAllModel()
 /// <summary>
 /// モデルのパスを入力
 /// </summary>
-/// <param name="folderPath"></param>
-/// <param name="path"></param>
+/// <param name="folderPath">フォルダのパス</param>
+/// <param name="modelPath">モデルのパス</param>
 /// <returns></returns>
-string ModelManager::InputPath(string folderPath, string path)
+string ModelManager::InputPath(string folderPath, string modelPath)
 {
-	return string(folderPath + path);
+	return string(folderPath + modelPath);
 }
 
 /// <summary>

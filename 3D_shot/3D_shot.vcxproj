@@ -160,7 +160,7 @@
     <ClCompile Include="SceneBase.cpp" />
     <ClCompile Include="ScoreEarn.cpp" />
     <ClCompile Include="Evaluation.cpp" />
-    <ClCompile Include="Explosion.cpp" />
+    <ClCompile Include="ExplosionEffect.cpp" />
     <ClCompile Include="Field.cpp" />
     <ClCompile Include="MeteoriteBase.cpp" />
     <ClCompile Include="ModelManager.cpp" />
@@ -189,7 +189,7 @@
     <ClInclude Include="ScoreEarn.h" />
     <ClInclude Include="EffectBase.h" />
     <ClInclude Include="Evaluation.h" />
-    <ClInclude Include="Explosion.h" />
+    <ClInclude Include="ExplosionEffect.h" />
     <ClInclude Include="Field.h" />
     <ClInclude Include="MeteoriteBase.h" />
     <ClInclude Include="ModelManager.h" />

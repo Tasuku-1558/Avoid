@@ -15,7 +15,7 @@ public:
 	UiManager();
 	virtual ~UiManager();
 
-	void Draw(PlayScene::GameState gameState, int font, int countDown, int score, int wave);
+	void Draw(PlayScene::GameState gameState, int font, int countDown, int score, int wave);	//描画処理
 
 private:
 
@@ -24,7 +24,7 @@ private:
 	//画像の種類
 	enum Graphic
 	{
-		FRAME,			//制限時間フレーム画像
+		FRAME,			//枠画像
 		FEVER_IMAGE,
 		GRAPHIC_AMOUNT,	//画像の数
 	};
@@ -37,11 +37,13 @@ private:
 	void FeverImageDraw();				//フィーバーモードUIの描画
 	
 
-	//静的定数
-	static const string FOLDER_PATH;		//画像格納フォルダ
-	static const string UI_GRAPHIC_PATH;	//UI画像
-	static const string FILENAME_EXTENSION;	//画像拡張子
-
+	int uiHandle[GRAPHIC_AMOUNT];		//画像ハンドル格納用
 	bool fever;
-	int uiHandle[GRAPHIC_AMOUNT];					//画像ハンドル格納用
+
+
+	//定数
+	const string FOLDER_PATH;			//画像格納フォルダ
+	const string UI_GRAPHIC_PATH;		//UI画像
+	const string FILENAME_EXTENSION;	//画像拡張子
+	
 };

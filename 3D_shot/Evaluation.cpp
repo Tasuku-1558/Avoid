@@ -1,14 +1,6 @@
 #include "Evaluation.h"
 #include "DxLib.h"
 
-const string Evaluation::IMAGE_FOLDER_PATH = "Data/image/";				//imageフォルダまでのパス
-const string Evaluation::EXCELLENT_PATH	   = "ExcellentEffect.png";		//excellent画像のパス
-const string Evaluation::GREAT_PATH		   = "GreatEffect.png";			//great画像のパス
-const string Evaluation::GOOD_PATH		   = "GoodEffect.png";			//good画像のパス
-const string Evaluation::MISS_PATH		   = "MissEffect.png";			//miss画像のパス
-const string Evaluation::SLOW_SCREEN_PATH  = "SlowScreen.png";			//集中線画像のパス
-const int	 Evaluation::EVALUATION_NUMBER = 4;							//評価文字数
-
 
 /// <summary>
 /// コンストラクタ
@@ -19,6 +11,13 @@ Evaluation::Evaluation()
 	, scale(0.0f)
 	, waitTime(0.0f)
 	, ui(Ui::NOMAL)
+	, IMAGE_FOLDER_PATH("Data/image/")
+	, EXCELLENT_PATH("ExcellentEffect.png")
+	, GREAT_PATH("GreatEffect.png")
+	, GOOD_PATH("GoodEffect.png")
+	, MISS_PATH("MissEffect.png")
+	, SLOW_SCREEN_PATH("SlowScreen.png")
+	, EVALUATION_NUMBER(4)
 {
 	Initialize();
 }
@@ -45,7 +44,8 @@ void Evaluation::Initialize()
 
 	evaluationGraph[3] = LoadGraph(InputPath(IMAGE_FOLDER_PATH, MISS_PATH).c_str());
 
-	slowScreenGraph	   = LoadGraph(InputPath(IMAGE_FOLDER_PATH, SLOW_SCREEN_PATH).c_str());
+	//集中線画像の読み込み
+	slowScreenGraph	= LoadGraph(InputPath(IMAGE_FOLDER_PATH, SLOW_SCREEN_PATH).c_str());
 }
 
 /// <summary>
@@ -73,18 +73,9 @@ void Evaluation::Finalize()
 }
 
 /// <summary>
-/// 更新処理
-/// </summary>
-/// <param name="evaluationGraph"></param>
-void Evaluation::Update(int evaluationGraph)
-{
-	ImageMove(evaluationGraph);
-}
-
-/// <summary>
 /// 速度低速時の集中線の描画処理
 /// </summary>
-void Evaluation::SlowUi()
+void Evaluation::SlowImageDraw()
 {
 	DrawGraph(0, 0, slowScreenGraph, TRUE);
 }
@@ -92,7 +83,7 @@ void Evaluation::SlowUi()
 /// <summary>
 /// 評価文字の動き
 /// </summary>
-/// <param name="evaluationGraph"></param>
+/// <param name="evaluationGraph">評価画像格納</param>
 void Evaluation::ImageMove(int evaluationGraph)
 {
 	DrawRotaGraph(500, 500, scale, 0, evaluationGraph, TRUE);
@@ -105,9 +96,13 @@ void Evaluation::ImageMove(int evaluationGraph)
 		scale = 1.0f;
 		waitTime += 1.0f;
 
+		//表示時間が経過したら
 		if (waitTime > 30.0f)
 		{
+			//通常状態に
 			ui = Ui::NOMAL;
+
+			//サイズと表示時間を初期化
 			scale = 0.0f;
 			waitTime = 0.0f;
 		}
@@ -117,31 +112,35 @@ void Evaluation::ImageMove(int evaluationGraph)
 /// <summary>
 /// 各評価の描画処理
 /// </summary>
-void Evaluation::EvaluationUi()
+void Evaluation::EvaluationDraw()
 {
+	//各評価
 	switch (ui)
 	{
 	case Ui::EXCELLENT:
-		SlowUi();
-		Update(evaluationGraph[0]);
+		SlowImageDraw();
+		ImageMove(evaluationGraph[0]);
 		break;
 
 	case Ui::GREAT:
-		SlowUi();
-		Update(evaluationGraph[1]);
+		SlowImageDraw();
+		ImageMove(evaluationGraph[1]);
 		break;
 
 	case Ui::GOOD:
-		Update(evaluationGraph[2]);
+		ImageMove(evaluationGraph[2]);
 		break;
 		
 	case Ui::MISS:
-		Update(evaluationGraph[3]);
+		ImageMove(evaluationGraph[3]);
 		break;
 	}
 }
 
+/// <summary>
+/// 描画処理
+/// </summary>
 void Evaluation::Draw()
 {
-	EvaluationUi();
+	EvaluationDraw();
 }

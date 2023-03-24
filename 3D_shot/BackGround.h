@@ -1,6 +1,5 @@
 #pragma once
 
-#include "DxLib.h"
 #include <string>
 
 using namespace std;
@@ -14,20 +13,21 @@ public:
 	BackGround();
 	virtual ~BackGround();
 
-    void Update();
-    void Draw();
+    void Update();          //更新処理
+    void Draw();            //描画処理
 
 private:
     BackGround(const BackGround&);  //コピーコンストラクタ
 
-    void Initialize();
-    void Finalize();
+    void Initialize();              //初期化処理
+    void Finalize();                //終了処理
 
-    int backGroundHandle;       //背景動画格納用
+    int backGroundHandle;           //背景動画格納用
 
-    //静的定数
-    static const string VIDEO_FOLDER_PATH;	    //videoフォルダまでのパス
-    static const string BACK_GROUND_VIDEO_PATH;	//背景動画のパス
+    //定数
+    const string VIDEO_FOLDER_PATH;         //Videoフォルダまでのパス
+    const string BACKGROUND_VIDEO_PATH;     //背景動画のパス
+    const int    PLAY_POSITION;             //動画再生位置
 
 };
 

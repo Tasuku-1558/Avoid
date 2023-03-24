@@ -1,7 +1,7 @@
 #include "Meteorite.h"
+#include "PreCompiledHeader.h"
 #include "Player.h"
 #include "ModelManager.h"
-#include "PreCompiledHeader.h"
 
 
 using namespace Math3d;		//VECTORの計算に使用
@@ -10,7 +10,6 @@ using namespace Math3d;		//VECTORの計算に使用
 /// コンストラクタ
 /// </summary>
 Meteorite::Meteorite()
-	: MeteoriteBase()
 {
 	Initialize();
 	Activate();
@@ -29,7 +28,7 @@ Meteorite::~Meteorite()
 /// </summary>
 void Meteorite::Initialize()
 {
-	//隕石モデルの読み込み
+	//隕石モデルの読み込みとサイズの設定
 	modelHandle = MV1DuplicateModel(ModelManager::GetInstance().GetModelHandle(ModelManager::METEORITE));
 	MV1SetScale(modelHandle, SIZE);
 }
@@ -48,14 +47,13 @@ void Meteorite::Finalize()
 void Meteorite::Activate()
 {
 	//隕石の位置にランダム値を入れる
-	position = VGet(GetRand(RANDOM_RANGE_X_OR_Y), GetRand(RANDOM_RANGE_X_OR_Y), Z_POSITION);
+	position = VGet((float)GetRand(400), (float)GetRand(400), POSITION_Z);
 
-	direction = DIRECTION;
 	random = rand() % RANGE;
 	speed = SPEED;
 
-	//ランダムな回転角速度をセット
-	rotateSpeed = VGet(GetRand(RANDOM_ROTATION_SPEED) / 1000.0f, GetRand(RANDOM_ROTATION_SPEED) / 1000.0f, GetRand(RANDOM_ROTATION_SPEED) / 1000.0f);
+	//ランダムな回転速度を設定
+	rotateSpeed = VGet(GetRandf(0.0f, MAX_ROTATE), GetRandf(0.0f, MAX_ROTATE), GetRandf(0.0f, MAX_ROTATE));
 }
 
 /// <summary>
@@ -67,7 +65,7 @@ void Meteorite::Update(float deltaTime, Player* player)
 {
 	//隕石の位置と回転値をセット
 	MV1SetPosition(modelHandle, position);
-	MV1SetRotationXYZ(modelHandle, rotateAngle);
+	MV1SetRotationXYZ(modelHandle, rotate);
 
 	Move(deltaTime, player);
 }
@@ -99,7 +97,7 @@ void Meteorite::Move(float deltaTime, Player* player)
 	}
 	
 	position += direction * deltaTime * speed;
-	rotateAngle += rotateSpeed;
+	rotate += rotateSpeed;
 }
 
 /// <summary>

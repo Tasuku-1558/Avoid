@@ -2,45 +2,49 @@
 #include "ModelManager.h"
 
 
-const string Field::IMAGE_FOLDER_PATH = "Data/image/";						//imageフォルダまでのパス
-const string Field::LINE_PATH		  = "line.png";							//ライン画像のパス
-const VECTOR Field::SIZE	 = { 6.0f, 1.0f, 3.0f };						//モデルの倍率
-const VECTOR Field::POSITION = { 0.0f, -50.0f, 1200.0f };					//モデルの位置
-const VECTOR Field::ROTATE	 = { 0.0f, 90.0f * DX_PI_F / 180.0f, 0.0f };	//モデルの回転
-
-
 /// <summary>
 /// コンストラクタ
 /// </summary>
 Field::Field()
-	: rotate()
-	, lineHandle(0)
+	: lineHandle(0)
+	, IMAGE_FOLDER_PATH("Data/image/")
+	, LINE_PATH("line.png")
+	, SIZE({ 6.0f, 1.0f, 3.0f })
+	, POSITION({ 0.0f, -50.0f, 1200.0f })
+	, ROTATE({ 0.0f, 90.0f * DX_PI_F / 180.0f, 0.0f })
 {
 	Initialize();
 }
 
+/// <summary>
+/// デストラクタ
+/// </summary>
 Field::~Field()
 {
 	Finalize();
 }
 
+/// <summary>
+/// 初期化処理
+/// </summary>
 void Field::Initialize()
 {
 	//フィールドモデルの読み込み
 	modelHandle = MV1DuplicateModel(ModelManager::GetInstance().GetModelHandle(ModelManager::FIELD));
+
+	//フィールドモデルの位置,サイズ,回転値を設定
+	MV1SetPosition(modelHandle, POSITION);
 	MV1SetScale(modelHandle, SIZE);
-
-	position = POSITION;
-	rotate = ROTATE;
-
-	MV1SetPosition(modelHandle, position);
-	MV1SetRotationXYZ(modelHandle, rotate);
+	MV1SetRotationXYZ(modelHandle, ROTATE);
 
 	//ライン画像の読み込み
 	string failePath = IMAGE_FOLDER_PATH + LINE_PATH;
 	lineHandle = LoadGraph(failePath.c_str());
 }
 
+/// <summary>
+/// 終了処理
+/// </summary>
 void Field::Finalize()
 {
 	MV1DeleteModel(modelHandle);
@@ -48,6 +52,9 @@ void Field::Finalize()
 	DeleteGraph(lineHandle);
 }
 
+/// <summary>
+/// 描画処理
+/// </summary>
 void Field::Draw()
 {
 	MV1DrawModel(modelHandle);

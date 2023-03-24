@@ -1,5 +1,5 @@
 #include "EffectManager.h"
-#include "Explosion.h"
+#include "ExplosionEffect.h"
 
 
 /// <summary>
@@ -30,7 +30,7 @@ EffectManager::~EffectManager()
 void EffectManager::Initialize()
 {
 	//各エフェクトの読み込み
-	effect[0] = new Explosion(InputPath(EFFECT_FOLDER_PATH, EXPLOSION_EFFECT_PATH), EXPLOSION_SIZE);
+	effect[0] = new ExplosionEffect(InputPath(EFFECT_FOLDER_PATH, EXPLOSION_EFFECT_PATH), EXPLOSION_SIZE);
 }
 
 /// <summary>

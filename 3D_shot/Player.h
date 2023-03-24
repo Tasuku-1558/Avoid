@@ -1,12 +1,10 @@
 #pragma once
 
-#include "DxLib.h"
 #include "PlayerBase.h"
 #include "Math3D.h"
 
 /// <summary>
 /// プレイヤークラス
-/// PlayerBaseクラスを継承
 /// </summary>
 class Player final : public PlayerBase
 {
@@ -14,8 +12,8 @@ public:
 	Player();
 	virtual ~Player();
 
-	void Update(float deltaTime);
-	void Draw();
+	void Update(float deltaTime);		//更新処理
+	void Draw();						//描画処理
 
 	//プレイヤーの状態
 	enum class PlayerState
@@ -27,17 +25,14 @@ public:
 	PlayerState playerState;	//プレイヤーの状態
 
 private:
-	Player(const Player&);			//コピーコンストラクタ
+	Player(const Player&);		//コピーコンストラクタ
 
-	void Initialize();
-	void Activate();
+	void Initialize();							//初期化処理
+	void Activate();							//活性化処理
 	void Move(float deltaTime);					//移動処理
-	void pUpdate(float deltaTime);				//プレイヤーの状態
-	void OnHitMeteorite(float deltaTime);		//隕石に当たったならば
+	void KeyInput();							//キー入力処理
+	void HitMeteorite(float deltaTime);			//隕石に衝突した
 	void AfterImage();							//プレイヤーの残像処理
 	void Finalize();							//終了処理
 
-
-	int emptyModel[3];			//残像モデル格納用
-	VECTOR pastPosition[3];		//プレイヤーの過去の位置
 };

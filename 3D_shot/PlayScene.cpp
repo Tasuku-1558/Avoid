@@ -1,12 +1,12 @@
 #include "PlayScene.h"
 
 #include "PreCompiledHeader.h"
-#include "Player.h"
-#include "Meteorite.h"
 #include "Camera.h"
 #include "Light.h"
 #include "BackGround.h"
 #include "Field.h"
+#include "Player.h"
+#include "Meteorite.h"
 #include "HitChecker.h"
 #include "UiManager.h"
 #include "Evaluation.h"
@@ -22,8 +22,6 @@
 PlayScene::PlayScene()
 	: SceneBase(SceneType::PLAY)
 	, gameState(GameState::START)
-	, frame(0.0f)
-	, pUpdate(nullptr)
 	, meteorite()
 	, startTime(0)
 	, nowTime(0)
@@ -31,9 +29,11 @@ PlayScene::PlayScene()
 	, score(0)
 	, font(0)
 	, targetScore(0)
-	, slow(false)
-	, meteoritePopCount(0.0f)
 	, wave(0)
+	, frame(0.0f)
+	, meteoritePopCount(0.0f)
+	, slow(false)
+	, pUpdate(nullptr)
 	, GAME_TIME(90)
 {
 	Initialize();
@@ -63,19 +63,19 @@ void PlayScene::Initialize()
 
 	light = new Light();
 
-	player = new Player();
-
 	backGround = new BackGround();
 
 	field = new Field();
 
+	player = new Player();
+
 	effectManager = new EffectManager();
 
-	hitChecker = new HitChecker(effectManager);
+	evaluation = new Evaluation();
+
+	hitChecker = new HitChecker(effectManager, evaluation);
 
 	uiManager = new UiManager();
-
-	evaluation = new Evaluation();
 
 	scoreEarn = new ScoreEarn();
 }
@@ -268,8 +268,8 @@ void PlayScene::UpdateWave1(float deltaTime)
 		}
 	}
 
-	//プレイヤーと隕石の当たり判定
-	hitChecker->PlayerAndMeteorite(player, &meteorite, evaluation, scoreEarn);
+	//プレイヤーと隕石の衝突判定
+	hitChecker->PlayerAndMeteorite(player, &meteorite, scoreEarn);
 
 	//スコアを取得
 	score = Score::GetInstance().GetScore();
@@ -298,12 +298,12 @@ void PlayScene::Draw()
 
 	evaluation->Draw();
 
+	field->Draw();
+
 	for (auto meteoritePtr : meteorite)
 	{
 		meteoritePtr->Draw();
 	}
-
-	field->Draw();
 
 	player->Draw();
 

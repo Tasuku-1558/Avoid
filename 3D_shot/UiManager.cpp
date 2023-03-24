@@ -1,11 +1,5 @@
 #include "UiManager.h"
 
-using std::string;
-
-const string UiManager::FOLDER_PATH		   = "Data/image/";		//画像ファイルのパス
-const string UiManager::UI_GRAPHIC_PATH    = "ui";				//UI画像
-const string UiManager::FILENAME_EXTENSION = ".png";			//画像拡張子
-
 
 /// <summary>
 /// コンストラクタ
@@ -13,10 +7,16 @@ const string UiManager::FILENAME_EXTENSION = ".png";			//画像拡張子
 UiManager::UiManager()
 	: uiHandle()
 	, fever(false)
+	, FOLDER_PATH("Data/image/")
+	, UI_GRAPHIC_PATH("ui")
+	, FILENAME_EXTENSION(".png")
 {
 	Initialize();
 }
 
+/// <summary>
+/// デストラクタ
+/// </summary>
 UiManager::~UiManager()
 {
 	//終了処理が呼ばれてなければ
@@ -26,12 +26,15 @@ UiManager::~UiManager()
 	}
 }
 
+/// <summary>
+/// 初期化処理
+/// </summary>
 void UiManager::Initialize()
 {
 	//UI画像読み込み
-	string path = FOLDER_PATH + UI_GRAPHIC_PATH; //フォルダパス + ファイル名
+	string path = FOLDER_PATH + UI_GRAPHIC_PATH;	//フォルダパス + ファイル名
 	string fullPath = path;
-
+	
 	for (int i = 0; i < GRAPHIC_AMOUNT; ++i)
 	{
 		fullPath = path + std::to_string(i) + FILENAME_EXTENSION;
@@ -44,6 +47,9 @@ void UiManager::Initialize()
 	}
 }
 
+/// <summary>
+/// 終了処理
+/// </summary>
 void UiManager::Finalize()
 {
 	for (int i = 0; i < GRAPHIC_AMOUNT; ++i)

@@ -21,7 +21,7 @@ TitleScene::TitleScene()
 	, TITLENAME_PATH("titleName.png")
 	, TITLE_UI_PATH("titleUi.png")
 	, MAX_ALPHA(255)
-	, VIDEO_PLAYBACK_POSITION(5000)
+	, PLAY_POSITION(5000)
 {
 	Initialize();
 	Activate();
@@ -58,7 +58,7 @@ void TitleScene::Initialize()
 /// <summary>
 /// パスを入力
 /// </summary>
-/// <param name="folderPath"></param>
+/// <param name="folderPath">フォルダまでのパス</param>
 /// <param name="path"></param>
 /// <returns></returns>
 string TitleScene::InputPath(string folderPath, string path)
@@ -86,7 +86,7 @@ SceneType TitleScene::Update(float deltaTime)
 	if (!GetMovieStateToGraph(titleMovie))
 	{
 		//動画が終了したら5000秒の所からまた再生する
-		SeekMovieToGraph(titleMovie, VIDEO_PLAYBACK_POSITION);
+		SeekMovieToGraph(titleMovie, PLAY_POSITION);
 
 		//動画を再生する
 		PlayMovieToGraph(titleMovie);

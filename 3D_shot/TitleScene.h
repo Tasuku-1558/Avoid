@@ -15,7 +15,7 @@ public:
 	virtual ~TitleScene();
 
 	SceneType Update(float deltaTime)override;		//更新処理
-	void Draw()override;						//描画処理
+	void Draw()override;							//描画処理
 	
 private:
 
@@ -45,12 +45,12 @@ private:
 
 
 	//定数
-	const string VIDEO_FOLDER_PATH;		//videoフォルダまでのパス
-	const string IMAGE_FOLDER_PATH;		//imageフォルダまでのパス
+	const string VIDEO_FOLDER_PATH;		//Videoフォルダまでのパス
+	const string IMAGE_FOLDER_PATH;		//Imageフォルダまでのパス
 	const string PLAY_VIDEO_PATH;		//タイトル動画のパス
 	const string TITLENAME_PATH;		//タイトル名の画像のパス
 	const string TITLE_UI_PATH;			//プレイシーンへ遷移キーのUIのパス
 	const int	 MAX_ALPHA;				//最大透過度
-	const int	 VIDEO_PLAYBACK_POSITION;	//タイトル動画の再生位置
+	const int	 PLAY_POSITION;			//タイトル動画の再生位置
 
 };

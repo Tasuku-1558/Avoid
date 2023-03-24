@@ -2,11 +2,11 @@
 
 #include "Math3D.h"
 #include "EffectManager.h"
+#include "Evaluation.h"
 #include <vector>
 
 class Meteorite;
 class Player;
-class Evaluation;
 class ScoreEarn;
 
 using namespace std;
@@ -17,37 +17,38 @@ using namespace std;
 class HitChecker final
 {
 public:
-	HitChecker(EffectManager* const inEffect);
+	HitChecker(EffectManager* const inEffect, Evaluation* const inEvaluation);
 	virtual ~HitChecker();
 
-	void PlayerAndMeteorite(Player* player, vector<Meteorite*>* meteorite, 
-							Evaluation* evaluation, ScoreEarn* scoreEarn);		//プレイヤーとエネミーの衝突判定
+	void PlayerAndMeteorite(Player* player, 
+							vector<Meteorite*>* meteorite, 
+							ScoreEarn* scoreEarn);				//プレイヤーとエネミーの衝突判定
 
 	const bool Hit() { return hit; }
 
 private:
-	HitChecker(const HitChecker&);			//コピーコンストラクタ
+	HitChecker(const HitChecker&);		//コピーコンストラクタ
 
-	void MissDecision(Evaluation* evaluation, Player* player);	//miss判定
-	void ExcellentDecision(Evaluation* evaluation);				//excellent判定
-	void GreatDecision(Evaluation* evaluation);					//great判定
-	void GoodDecision(Evaluation* evaluation);					//good判定
+	void Input(bool ina);
+	void Decision(Player* player);		//各評価の判定
 	
 
-	EffectManager* effectManager;			//エフェクトマネージャーのポインタ
+	EffectManager* effectManager;		//エフェクトマネージャーのポインタ
+	Evaluation* evaluation;				//評価UIクラスのポインタ
 
-	bool hit;								//隕石と衝突したか
-	bool excellent;							//excellentだったら
-	bool miss;								//missだったら
-	bool great;								//greatだったら
-	bool good;								//goodだったら
-	bool decisionFlag;						//判定したか
+	float distance;						//距離
+	bool hit;							//隕石と衝突したか
+	bool excellent;						//excellentだったら
+	bool miss;							//missだったら
+	bool great;							//greatだったら
+	bool good;							//goodだったら
+	bool decisionFlag;					//判定したか
 
 	//定数
+	const int   DECISION_START_LINE;	//判定開始ライン
+	const int   DECISION_END_LINE;		//判定終了ライン
 	const float RADIUS_EXCELLENT;		//excellentの範囲
 	const float RADIUS_GREAT;			//greatの範囲
 	const float RADIUS_GOOD;			//goodの範囲
 	const float RADIUS_MISS;			//missの範囲
-	const int   SCORE_DECISION_LINE;	//スコア判定ライン
-	const int   DECISION_END_LINE;		//判定終了ライン
 };

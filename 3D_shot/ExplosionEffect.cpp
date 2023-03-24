@@ -1,13 +1,13 @@
-#include "Explosion.h"
+#include "ExplosionEffect.h"
 #include "EffekseerForDXLib.h"
 
 
 /// <summary>
 /// コンストラクタ
 /// </summary>
-/// <param name="effectPath"></param>
-/// <param name="effectSize"></param>
-Explosion::Explosion(string effectPath, float effectSize)
+/// <param name="effectPath">エフェクトのパス</param>
+/// <param name="effectSize">エフェクトのサイズ</param>
+ExplosionEffect::ExplosionEffect(string effectPath, float effectSize)
 {
 	effectHandle = LoadEffekseerEffect(effectPath.c_str(), effectSize);
 }
@@ -15,7 +15,7 @@ Explosion::Explosion(string effectPath, float effectSize)
 /// <summary>
 /// デストラクタ
 /// </summary>
-Explosion::~Explosion()
+ExplosionEffect::~ExplosionEffect()
 {
 	//エフェクトリソースを削除
 	DeleteEffekseerEffect(effectHandle);
@@ -24,8 +24,8 @@ Explosion::~Explosion()
 /// <summary>
 /// 更新処理
 /// </summary>
-/// <param name="position"></param>
-void Explosion::Update(VECTOR position)
+/// <param name="position">エフェクトの位置</param>
+void ExplosionEffect::Update(VECTOR position)
 {
 	//時間を経過
 	effectTime++;
@@ -46,7 +46,7 @@ void Explosion::Update(VECTOR position)
 /// <summary>
 /// 描画処理
 /// </summary>
-void Explosion::Draw()
+void ExplosionEffect::Draw()
 {
 	//再生中のエフェクトを更新
 	UpdateEffekseer3D();

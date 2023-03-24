@@ -38,7 +38,7 @@ private:
 
 
 	//エフェクト
-	const string EFFECT_FOLDER_PATH;		//effectフォルダまでのパス
+	const string EFFECT_FOLDER_PATH;		//Effectフォルダまでのパス
 	const string EXPLOSION_EFFECT_PATH;		//爆発エフェクトのパス
 
 	//エフェクトのサイズ

@@ -9,10 +9,7 @@ using namespace Math3d;		//VECTORの計算に使用
 /// コンストラクタ
 /// </summary>
 Player::Player()
-	: PlayerBase()
-	, pastPosition()
-	, emptyModel()
-	, playerState(PlayerState::NOMAL)
+	: playerState(PlayerState::NOMAL)
 {
 	Initialize();
 	Activate();
@@ -31,15 +28,14 @@ Player::~Player()
 /// </summary>
 void Player::Initialize()
 {
-	//プレイヤーモデルの読み込み
+	//プレイヤーモデルの読み込みとサイズの設定
 	modelHandle = MV1DuplicateModel(ModelManager::GetInstance().GetModelHandle(ModelManager::PLAYER));
 	MV1SetScale(modelHandle, SIZE);
 
-	//プレイヤーリングモデルの読み込み
+	//プレイヤーリングモデルの読み込みとサイズの設定
 	lingModel = MV1DuplicateModel(ModelManager::GetInstance().GetModelHandle(ModelManager::PLAYER_LING));
 	MV1SetScale(lingModel, LING_SIZE);
 
-	//残像の枚数分読み込む
 	for (int i = 0; i < AFTER_IMAGE_NUMBER; i++)
 	{
 		//プレイヤー残像モデルの読み込みとサイズの設定
@@ -93,16 +89,16 @@ void Player::Update(float deltaTime)
 {
 	Move(deltaTime);
 
-	//プレイヤーの位置をセット
+	//プレイヤーモデルの位置を設定
 	MV1SetPosition(modelHandle, position);
 
-	//リングの位置と回転値をセット
+	//プレイヤーリングモデルの位置と回転値を設定
 	MV1SetPosition(lingModel, position);
 	MV1SetRotationXYZ(lingModel, rotate);
 
 	AfterImage();
 
-	pUpdate(deltaTime);
+	HitMeteorite(deltaTime);
 }
 
 /// <summary>
@@ -116,6 +112,30 @@ void Player::Move(float deltaTime)
 
 	rotate += rotateSpeed * deltaTime;
 	
+	KeyInput();
+	
+	//十字キーの入力があったら
+	if (inputFlag)
+	{
+		// 左右・上下同時押しなどで入力ベクトルが0の時
+		if (VSquareSize(inputDirection) < 1.0f)
+		{
+			return;
+		}
+
+		//十字キーの入力方向を正規化
+		direction = VNorm(inputDirection);
+
+		//十字キーの移動方向に移動
+		position += direction * SPEED * deltaTime;
+	}
+}
+
+/// <summary>
+/// キー入力処理
+/// </summary>
+void Player::KeyInput()
+{
 	//上下移動
 	if (CheckHitKey(KEY_INPUT_UP))
 	{
@@ -170,58 +190,31 @@ void Player::Move(float deltaTime)
 			inputDirection = ZERO_VECTOR;
 		}
 	}
-	
-	//十字キーの入力があったら
-	if (inputFlag)
+}
+
+/// <summary>
+/// 隕石に衝突した
+/// </summary>
+/// <param name="deltaTime"></param>
+void Player::HitMeteorite(float deltaTime)
+{
+	//プレイヤーの状態が被弾状態なら
+	if (playerState == PlayerState::DAMAGE)
 	{
-		// 左右・上下同時押しなどで入力ベクトルが0の時
-		if (VSquareSize(inputDirection) < 1.0f)
+		noDrawFrame = !noDrawFrame;			//2回に1回描画しない
+
+		//ダメージカウントを開始する
+		damageCount += deltaTime;
+
+		//1秒間プレイヤーを点滅させる
+		if (damageCount > FLASH_TIME)
 		{
-			return;
+			//通常状態へ戻す
+			playerState = PlayerState::NOMAL;
+
+			noDrawFrame = false;
+			damageCount = 0.0f;
 		}
-
-		//十字キーの入力方向を正規化
-		direction = VNorm(inputDirection);
-
-		//十字キーの移動方向に移動
-		position += direction * SPEED * deltaTime;
-	}
-}
-
-/// <summary>
-/// プレイヤーの状態
-/// </summary>
-/// <param name="deltaTime"></param>
-void Player::pUpdate(float deltaTime)
-{
-	switch (playerState)
-	{
-	case PlayerState::NOMAL:
-		break;
-
-	case PlayerState::DAMAGE:
-		OnHitMeteorite(deltaTime);
-		break;
-	}
-}
-
-/// <summary>
-/// 隕石に当たったならば
-/// </summary>
-/// <param name="deltaTime"></param>
-void Player::OnHitMeteorite(float deltaTime)
-{
-	noDrawFrame = !noDrawFrame;			//2回に1回描画しない
-
-	//ダメージカウントを開始する
-	damageCount += deltaTime;
-
-	//1秒間プレイヤーを点滅させる
-	if (damageCount > 1.0f)
-	{
-		playerState = PlayerState::NOMAL;
-		noDrawFrame = false;
-		damageCount = 0.0f;
 	}
 }
 

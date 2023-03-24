@@ -1,7 +1,5 @@
 #include "BackGround.h"
-
-const string BackGround::VIDEO_FOLDER_PATH		= "Data/Video/";		//VideoƒtƒHƒ‹ƒ_‚Ü‚Å‚ÌƒpƒX
-const string BackGround::BACK_GROUND_VIDEO_PATH = "BackGround_.mp4";	//”wŒi“®‰æ‚ÌƒpƒX
+#include "DxLib.h"
 
 
 /// <summary>
@@ -9,6 +7,9 @@ const string BackGround::BACK_GROUND_VIDEO_PATH = "BackGround_.mp4";	//”wŒi“®‰æ‚
 /// </summary>
 BackGround::BackGround()
 	: backGroundHandle(0)
+	, VIDEO_FOLDER_PATH("Data/Video/")
+	, BACKGROUND_VIDEO_PATH("BackGround_.mp4")
+	, PLAY_POSITION(5000)
 {
 	Initialize();
 }
@@ -21,9 +22,13 @@ BackGround::~BackGround()
 	Finalize();
 }
 
+/// <summary>
+/// ‰Šú‰»ˆ—
+/// </summary>
 void BackGround::Initialize()
 {
-	string failePath = VIDEO_FOLDER_PATH + BACK_GROUND_VIDEO_PATH;
+	//”wŒi“®‰æ‚Ì“Ç‚İ‚İ
+	string failePath = VIDEO_FOLDER_PATH + BACKGROUND_VIDEO_PATH;
 	backGroundHandle = LoadGraph(failePath.c_str());
 }
 
@@ -46,7 +51,7 @@ void BackGround::Update()
 	if (!GetMovieStateToGraph(backGroundHandle))
 	{
 		//“®‰æ‚ªI—¹‚µ‚½‚ç5000•b‚ÌŠ‚©‚ç‚Ü‚½Ä¶‚·‚é
-		SeekMovieToGraph(backGroundHandle, 5000);
+		SeekMovieToGraph(backGroundHandle, PLAY_POSITION);
 
 		//“®‰æ‚ğÄ¶‚·‚é
 		PlayMovieToGraph(backGroundHandle);

@@ -29,6 +29,9 @@
     <Filter Include="ソースファイル\Collision">
       <UniqueIdentifier>{4e2d48d0-8836-43bf-b368-e2c1241561f7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソースファイル\Field">
+      <UniqueIdentifier>{bc7b1738-f86e-41c3-82f1-14bb604d11f2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Player.cpp">
@@ -67,7 +70,7 @@
     <ClCompile Include="ObjectBase.cpp">
       <Filter>ソースファイル\ObjectBase</Filter>
     </ClCompile>
-    <ClCompile Include="Explosion.cpp">
+    <ClCompile Include="ExplosionEffect.cpp">
       <Filter>ソースファイル\Effect</Filter>
     </ClCompile>
     <ClCompile Include="Evaluation.cpp">
@@ -81,9 +84,6 @@
     </ClCompile>
     <ClCompile Include="Score.cpp">
       <Filter>ソースファイル\System</Filter>
-    </ClCompile>
-    <ClCompile Include="Field.cpp">
-      <Filter>ソースファイル\ObjectBase</Filter>
     </ClCompile>
     <ClCompile Include="TimeSlow.cpp">
       <Filter>ソースファイル\System</Filter>
@@ -111,6 +111,9 @@
     </ClCompile>
     <ClCompile Include="SceneBase.cpp">
       <Filter>ソースファイル\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Field.cpp">
+      <Filter>ソースファイル\Field</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -153,7 +156,7 @@
     <ClInclude Include="ObjectBase.h">
       <Filter>ソースファイル\ObjectBase</Filter>
     </ClInclude>
-    <ClInclude Include="Explosion.h">
+    <ClInclude Include="ExplosionEffect.h">
       <Filter>ソースファイル\Effect</Filter>
     </ClInclude>
     <ClInclude Include="EffectBase.h">
@@ -170,9 +173,6 @@
     </ClInclude>
     <ClInclude Include="Score.h">
       <Filter>ソースファイル\System</Filter>
-    </ClInclude>
-    <ClInclude Include="Field.h">
-      <Filter>ソースファイル\ObjectBase</Filter>
     </ClInclude>
     <ClInclude Include="TimeSlow.h">
       <Filter>ソースファイル\System</Filter>
@@ -194,6 +194,9 @@
     </ClInclude>
     <ClInclude Include="FadeManager.h">
       <Filter>ソースファイル\System</Filter>
+    </ClInclude>
+    <ClInclude Include="Field.h">
+      <Filter>ソースファイル\Field</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

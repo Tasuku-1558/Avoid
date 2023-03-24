@@ -12,9 +12,7 @@ class ModelManager final
 {
 public:
 	
-	/// <summary>
-	/// モデルの種類
-	/// </summary>
+	//モデルの種類
 	enum ModelType
 	{
 		PLAYER,			//プレイヤーモデル
@@ -33,20 +31,19 @@ private:
 	ModelManager(const ModelManager&);			//コピーコンストラクタ
 	virtual ~ModelManager();
 
-	string InputPath(string folderPath,			//モデルのパスを入力
-					 string path);
-
 	void LoadAllModel();						//全てのモデルの読み込み
 	void DeleteAllModel();						//全てのモデルの削除
 
+	string InputPath(string folderPath,
+					 string modelPath);			//モデルのパスを入力
 
 	int modelHandle[MODEL_AMOUNT];				//モデルハンドル格納用
 
-	//静的定数
-	static const string MODEL_FOLDER_PATH;		//modelフォルダまでのパス
-	static const string PLAYER_PATH;			//playerモデルファイルのパス
-	static const string LING_PATH;				//lingモデルファイルのパス
-	static const string METEORITE_PATH;			//meteoriteモデルファイルのパス
-	static const string FIELD_PATH;				//fieldモデルファイルのパス
+	//定数
+	const string MODEL_FOLDER_PATH;		//Modelフォルダまでのパス
+	const string PLAYER_PATH;			//playerモデルファイルのパス
+	const string LING_PATH;				//lingモデルファイルのパス
+	const string METEORITE_PATH;		//meteoriteモデルファイルのパス
+	const string FIELD_PATH;			//fieldモデルファイルのパス
 
 };
