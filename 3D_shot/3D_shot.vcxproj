@@ -157,6 +157,7 @@
     <ClCompile Include="EffectManager.cpp" />
     <ClCompile Include="FadeManager.cpp" />
     <ClCompile Include="Light.cpp" />
+    <ClCompile Include="SceneBase.cpp" />
     <ClCompile Include="ScoreEarn.cpp" />
     <ClCompile Include="Evaluation.cpp" />
     <ClCompile Include="Explosion.cpp" />

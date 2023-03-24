@@ -13,13 +13,13 @@ public:
 	virtual ~Camera();
 
 private:
-	Camera(const Camera&);						//コピーコンストラクタ
+	Camera(const Camera&);			//コピーコンストラクタ
 
-	void Initialize();
+	void Initialize();				//初期化処理
 
 	//定数
-	static const float  NEAR_DISTANCE;		//カメラに映る手前の範囲
-	static const float  FAR_DISTANCE;		//カメラに映る最奥の範囲
-	static const VECTOR INITIAL_POSITION;	//初期位置
-	static const VECTOR UP_VECTOR;			//カメラの上方向
+	const float  NEAR_DISTANCE;		//カメラに映る手前の範囲
+	const float  FAR_DISTANCE;		//カメラに映る最奥の範囲
+	const VECTOR INITIAL_POSITION;	//初期位置
+	const VECTOR UP_VECTOR;			//カメラの上方向
 };

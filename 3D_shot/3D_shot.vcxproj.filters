@@ -109,6 +109,9 @@
     <ClCompile Include="FadeManager.cpp">
       <Filter>ソースファイル\System</Filter>
     </ClCompile>
+    <ClCompile Include="SceneBase.cpp">
+      <Filter>ソースファイル\Scene</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="TitleScene.h">

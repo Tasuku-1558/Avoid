@@ -16,10 +16,10 @@ public:
 	ResultScene();
 	virtual ~ResultScene();
 
-	SceneType Update(float deltaTime)override;		//更新
-	void Draw()override;						//描画
+	SceneType Update(float deltaTime)override;		//更新処理
+	void Draw()override;							//描画処理
 
-	// ゲームの状態
+	//ゲームの状態
 	enum class State
 	{
 		START,	//開始前
@@ -29,12 +29,9 @@ public:
 
 private:
 
-	ResultScene(const ResultScene&);		//コピーコンストラクタ
+	ResultScene(const ResultScene&);	//コピーコンストラクタ
 
-	BackGround* background;
-
-	void Initialize()override;					//初期化
-	void Finalize()override;
+	void Initialize()override;			//初期化処理
 	void Activate()override;
 	void AcquisitionScore();			//スコア取得
 	void DisplayScore();				//獲得スコア表示
@@ -45,6 +42,8 @@ private:
 	void UpdateGame();					//ゲーム中
 	void UpdateResult();				//リザルト中
 	void(ResultScene::* pUpdate)();		//Update関数ポインタ
+
+	BackGround* background;
 
 	State state;				//ゲーム状態
 	float frame;					//フレーム数

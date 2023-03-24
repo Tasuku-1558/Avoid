@@ -3,25 +3,25 @@
 #include "SoundManager.h"
 
 
-const string TitleScene::VIDEO_FOLDER_PATH = "data/video/";		//videoフォルダまでのパス
-const string TitleScene::IMAGE_FOLDER_PATH = "data/image/";		//imageフォルダまでのパス
-const string TitleScene::PLAY_VIDEO_PATH   = "PlayVideo.mp4";	//タイトル動画のパス
-const string TitleScene::TITLENAME_PATH	   = "titleName.png";	//タイトル名の画像のパス
-const string TitleScene::TITLE_UI_PATH     = "titleUi.png";		//プレイシーンへ遷移キーのUIのパス
-
-
 /// <summary>
 /// コンストラクタ
 /// </summary>
 TitleScene::TitleScene()
 	: SceneBase(SceneType::TITLE)
+	, selectState(SelectState::START)
 	, titleMovie(0)
 	, titleName(0)
 	, titleUi(0)
-	, alpha(0)
-	, inc(0)
+	, alpha(255)
+	, inc(-1)
 	, frame(0.0f)
-	, selectState(SelectState::START)
+	, VIDEO_FOLDER_PATH("Data/Video/")
+	, IMAGE_FOLDER_PATH("Data/image/")
+	, PLAY_VIDEO_PATH("PlayVideo.mp4")
+	, TITLENAME_PATH("titleName.png")
+	, TITLE_UI_PATH("titleUi.png")
+	, MAX_ALPHA(255)
+	, VIDEO_PLAYBACK_POSITION(5000)
 {
 	Initialize();
 	Activate();
@@ -32,25 +32,6 @@ TitleScene::TitleScene()
 /// </summary>
 TitleScene::~TitleScene()
 {
-	Finalize();
-}
-
-void TitleScene::Initialize()
-{
-	//動画データの読み込み
-	string failePath = VIDEO_FOLDER_PATH + PLAY_VIDEO_PATH;
-	titleMovie = LoadGraph(failePath.c_str());
-
-	//タイトル画像UIの読み込み
-	failePath = IMAGE_FOLDER_PATH + TITLENAME_PATH;
-	titleName = LoadGraph(failePath.c_str());
-
-	failePath = IMAGE_FOLDER_PATH + TITLE_UI_PATH;
-	titleUi = LoadGraph(failePath.c_str());
-}
-
-void TitleScene::Finalize()
-{
 	PauseMovieToGraph(titleMovie);
 
 	DeleteGraph(titleMovie);
@@ -60,22 +41,52 @@ void TitleScene::Finalize()
 	DeleteGraph(titleUi);
 }
 
+/// <summary>
+/// 初期化処理
+/// </summary>
+void TitleScene::Initialize()
+{
+	//動画データの読み込み
+	titleMovie = LoadGraph(InputPath(VIDEO_FOLDER_PATH, PLAY_VIDEO_PATH).c_str());
+
+	//タイトル画像UIの読み込み
+	titleName = LoadGraph(InputPath(IMAGE_FOLDER_PATH, TITLENAME_PATH).c_str());
+
+	titleUi = LoadGraph(InputPath(IMAGE_FOLDER_PATH, TITLE_UI_PATH).c_str());
+}
+
+/// <summary>
+/// パスを入力
+/// </summary>
+/// <param name="folderPath"></param>
+/// <param name="path"></param>
+/// <returns></returns>
+string TitleScene::InputPath(string folderPath, string path)
+{
+	return string(folderPath + path);
+}
+
+/// <summary>
+/// 活性化処理
+/// </summary>
 void TitleScene::Activate()
 {
-	alpha = 255;
-	inc = -1;
-
 	//タイトルBGMを再生
 	SoundManager::GetInstance().PlayBgm(SoundManager::TITLE);
 }
 
+/// <summary>
+/// 更新処理
+/// </summary>
+/// <param name="deltaTime"></param>
+/// <returns></returns>
 SceneType TitleScene::Update(float deltaTime)
 {
 	//デモ動画を再生
 	if (!GetMovieStateToGraph(titleMovie))
 	{
-		//動画が終了したら0秒の所からまた再生する
-		SeekMovieToGraph(titleMovie, 5000);
+		//動画が終了したら5000秒の所からまた再生する
+		SeekMovieToGraph(titleMovie, VIDEO_PLAYBACK_POSITION);
 
 		//動画を再生する
 		PlayMovieToGraph(titleMovie);
@@ -95,11 +106,15 @@ SceneType TitleScene::Update(float deltaTime)
 /// </summary>
 void TitleScene::Blink()
 {
-	if (alpha > 255 && inc > 0)
+	if (alpha > MAX_ALPHA && inc > 0)
+	{
 		inc *= -1;
+	}
 
 	if (alpha < 0 && inc < 0)
+	{
 		inc *= -1;
+	}
 
 	alpha += inc;
 	
@@ -110,6 +125,9 @@ void TitleScene::Blink()
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, alpha);
 }
 
+/// <summary>
+/// 描画処理
+/// </summary>
 void TitleScene::Draw()
 {
 	//デモ動画を再生する

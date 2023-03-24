@@ -60,7 +60,6 @@ private:
 	ScoreEarn* scoreEarn;
 	
 	void Initialize()override;
-	void Finalize()override;
 	void Activate()override;
 	void EntryMeteorite(Meteorite* newMeteorite);		//è¦Î‚ğ“o˜^
 	void DeleteMeteorite(Meteorite* deleteMeteorite);	//è¦Î‚ğíœ

@@ -9,17 +9,16 @@ public:
 	FadeManager();
 	virtual ~FadeManager();
 
-	void FadeMove();				//画面効果処理
-	void Draw();					//描画処理
+	void FadeMove();					//画面効果処理
+	void Draw();						//描画処理
 
 private:
-	FadeManager(const FadeManager&);//コピーコンストラクタ
-
-	void Activate();				//活性化処理
+	FadeManager(const FadeManager&);	//コピーコンストラクタ
 
 	int fade;
 	int fadeInc;
 
 	//定数
 	const int BLACK;			//フェードのカラー
+	const int MAX_FADE;
 };

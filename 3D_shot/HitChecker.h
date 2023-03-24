@@ -2,11 +2,14 @@
 
 #include "Math3D.h"
 #include "EffectManager.h"
+#include <vector>
 
 class Meteorite;
 class Player;
 class Evaluation;
 class ScoreEarn;
+
+using namespace std;
 
 /// <summary>
 /// ヒットチェッカークラス
@@ -17,8 +20,8 @@ public:
 	HitChecker(EffectManager* const inEffect);
 	virtual ~HitChecker();
 
-	void PlayerAndMeteorite(Player* player, Meteorite* meteorite, 
-							Evaluation* evaluation, ScoreEarn* scoreEarn);							//プレイヤーとエネミーの衝突判定
+	void PlayerAndMeteorite(Player* player, vector<Meteorite*>* meteorite, 
+							Evaluation* evaluation, ScoreEarn* scoreEarn);		//プレイヤーとエネミーの衝突判定
 
 	const bool Hit() { return hit; }
 
@@ -40,11 +43,11 @@ private:
 	bool good;								//goodだったら
 	bool decisionFlag;						//判定したか
 
-	//静的定数
-	static const float RADIUS_GOOD;			//goodの範囲
-	static const float RADIUS_GREAT;		//greatの範囲
-	static const float RADIUS_EXCELLENT;	//excellentの範囲
-	static const float RADIUS_MISS;			//missの範囲
-	static const int   SCORE_DECISION_LINE;	//スコア判定ライン
-	static const int   DECISION_END_LINE;	//判定終了ライン
+	//定数
+	const float RADIUS_EXCELLENT;		//excellentの範囲
+	const float RADIUS_GREAT;			//greatの範囲
+	const float RADIUS_GOOD;			//goodの範囲
+	const float RADIUS_MISS;			//missの範囲
+	const int   SCORE_DECISION_LINE;	//スコア判定ライン
+	const int   DECISION_END_LINE;		//判定終了ライン
 };

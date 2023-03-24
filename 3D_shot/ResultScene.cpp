@@ -16,7 +16,7 @@ const string ResultScene::SCORE_S_PATH		= "ScoreS.png";			//S•]‰¿‰æ‘œ‚ÌƒpƒX
 
 ResultScene::ResultScene()
 	: SceneBase(SceneType::RESULT)
-	, state()
+	, state(State::START)
 	, frame(0.0f)
 	, pUpdate(nullptr)
 	, totalScore(0)
@@ -34,8 +34,8 @@ ResultScene::ResultScene()
 	, scoreB(0)
 	, scoreA(0)
 	, scoreS(0)
-	, alpha(0)
-	, inc(0)
+	, alpha(255)
+	, inc(-1)
 {
 	Initialize();
 	Activate();
@@ -43,7 +43,14 @@ ResultScene::ResultScene()
 
 ResultScene::~ResultScene()
 {
-	Finalize();
+	DeleteFontToHandle(scoreFont);
+	DeleteFontToHandle(evaluationFont);
+
+	DeleteGraph(resultUi);
+	DeleteGraph(scoreGaugeFrame);
+	DeleteGraph(scoreB);
+	DeleteGraph(scoreA);
+	DeleteGraph(scoreS);
 }
 
 void ResultScene::Initialize()
@@ -66,27 +73,9 @@ void ResultScene::Initialize()
 	scoreS = LoadGraph(failePath.c_str());
 }
 
-void ResultScene::Finalize()
-{
-	delete background;
-
-	DeleteFontToHandle(scoreFont);
-	DeleteFontToHandle(evaluationFont);
-
-	DeleteGraph(resultUi);
-	DeleteGraph(scoreGaugeFrame);
-	DeleteGraph(scoreB);
-	DeleteGraph(scoreA);
-	DeleteGraph(scoreS);
-}
-
 void ResultScene::Activate()
 {
-	state = State::START;
 	pUpdate = &ResultScene::UpdateStart;
-
-	alpha = 255;
-	inc = -1;
 	
 	scoreFont	   = CreateFontToHandle("Oranienbaum", 130, 1);
 	evaluationFont = CreateFontToHandle("Oranienbaum", 80, 1);

@@ -96,7 +96,7 @@ namespace Math3d
 	{
 		max -= min;
 
-		float Random = GetRand(1000.0f * max) / 1000.0f;
-		return Random + min;
+		float random = GetRand(1000.0f * max) / 1000.0f;
+		return random + min;
 	}
 } 

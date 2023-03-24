@@ -8,10 +8,11 @@
 /// </summary>
 FadeManager::FadeManager()
 	: fade(0)
-	, fadeInc(0)
+	, fadeInc(2)
 	, BLACK(GetColor(0, 0, 0))
+	, MAX_FADE(255)
 {
-	Activate();
+	//処理なし
 }
 
 /// <summary>
@@ -23,20 +24,12 @@ FadeManager::~FadeManager()
 }
 
 /// <summary>
-/// 活性化処理
-/// </summary>
-void FadeManager::Activate()
-{
-	fadeInc = 2;
-}
-
-/// <summary>
 /// 画面効果処理
 /// </summary>
 void FadeManager::FadeMove()
 {
 	//画面効果の増分チェック
-	if (fade > 255 && fadeInc > 0)
+	if (fade > MAX_FADE && fadeInc > 0)
 	{
 		fadeInc *= -1;
 	}

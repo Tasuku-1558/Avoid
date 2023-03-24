@@ -22,13 +22,13 @@ const VECTOR PlayerBase::LING_SIZE		   = { -0.5f, -0.5f, -0.5f };		//リング倍率
 /// コンストラクタ
 /// </summary>
 PlayerBase::PlayerBase()
-	: inputDirection()
+	: lingModel(0)
+	, damageCount(0.0f)
 	, inputFlag(false)
-	, lingModel(0)
+	, noDrawFrame(false)
+	, inputDirection()
 	, rotate()
 	, rotateSpeed()
-	, damageCount(0.0f)
-	, noDrawFrame(false)
 	, OPACITY(0.05f)
 	, AFTER_IMAGE_COLOR(GetColorF(0.0f, 0.0f, 1.0f, 1.0f))
 {

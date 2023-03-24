@@ -14,13 +14,13 @@ public:
 
 protected:
 
-	VECTOR inputDirection;			//入力された方向
-	bool   inputFlag;				//キー入力フラグ
 	int    lingModel;				//リングモデル格納用
+	float  damageCount;				//ダメージ時間カウント
+	bool   inputFlag;				//キー入力フラグ
+	bool   noDrawFrame;				//モデルを2回に１回は描画しない
+	VECTOR inputDirection;			//入力された方向
 	VECTOR rotate;					//リング回転
 	VECTOR rotateSpeed;				//リング回転スピード
-	float  damageCount;				//ダメージ時間カウント
-	bool   noDrawFrame;				//モデルを2回に１回は描画しない
 
 
 	//定数

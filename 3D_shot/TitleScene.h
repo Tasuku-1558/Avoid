@@ -22,9 +22,11 @@ private:
 	TitleScene(const TitleScene&);		//コピーコンストラクタ
 
 	void Initialize()override;			//初期化処理
-	void Finalize()override;			//終了処理
 	void Activate()override;			//活性化処理
 	void Blink();						//文字の点滅
+
+	string InputPath(string folderPath,
+					 string path);		//パスを入力
 
 	//タイトルの状態
 	enum class SelectState
@@ -41,11 +43,14 @@ private:
 	int inc;
 	float frame;						//フレーム数
 
+
 	//定数
-	static const string VIDEO_FOLDER_PATH;	//videoフォルダまでのパス
-	static const string IMAGE_FOLDER_PATH;	//imageフォルダまでのパス
-	static const string PLAY_VIDEO_PATH;	//タイトル動画のパス
-	static const string TITLENAME_PATH;		//タイトル名の画像のパス
-	static const string TITLE_UI_PATH;		//プレイシーンへ遷移キーのUIのパス
+	const string VIDEO_FOLDER_PATH;		//videoフォルダまでのパス
+	const string IMAGE_FOLDER_PATH;		//imageフォルダまでのパス
+	const string PLAY_VIDEO_PATH;		//タイトル動画のパス
+	const string TITLENAME_PATH;		//タイトル名の画像のパス
+	const string TITLE_UI_PATH;			//プレイシーンへ遷移キーのUIのパス
+	const int	 MAX_ALPHA;				//最大透過度
+	const int	 VIDEO_PLAYBACK_POSITION;	//タイトル動画の再生位置
 
 };

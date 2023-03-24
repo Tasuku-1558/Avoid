@@ -9,14 +9,6 @@
 
 using namespace Math3d;		//VECTORの計算に使用
 
-const float HitChecker::RADIUS_GOOD			= 1500.0f;	//goodの範囲
-const float HitChecker::RADIUS_GREAT		= 150.0f;	//greatの範囲
-const float HitChecker::RADIUS_EXCELLENT	= 40.0f;	//excellentの範囲
-const float HitChecker::RADIUS_MISS			= 4.0f;		//missの範囲
-const int   HitChecker::SCORE_DECISION_LINE = 150;		//スコア判定ライン
-const int   HitChecker::DECISION_END_LINE	= -140;		//判定終了ライン
-
-
 /// <summary>
 /// コンストラクタ
 /// </summary>
@@ -28,10 +20,19 @@ HitChecker::HitChecker(EffectManager* const inEffect)
 	, great(false)
 	, good(false)
 	, decisionFlag(false)
+	, RADIUS_EXCELLENT(40.0f)
+	, RADIUS_GREAT(150.0f)
+	, RADIUS_GOOD(1500.0f)
+	, RADIUS_MISS(4.0f)
+	, SCORE_DECISION_LINE(150)
+	, DECISION_END_LINE(-140)
 {
 	effectManager = inEffect;
 }
 
+/// <summary>
+/// デストラクタ
+/// </summary>
 HitChecker::~HitChecker()
 {
 	//処理なし
@@ -93,95 +94,99 @@ void HitChecker::GoodDecision(Evaluation* evaluation)
 /// <param name="meteorite"></param>
 /// <param name="evaluation"></param>
 /// <param name="scoreEarn"></param>
-void HitChecker::PlayerAndMeteorite(Player* player, Meteorite* meteorite, Evaluation* evaluation, ScoreEarn* scoreEarn)
+void HitChecker::PlayerAndMeteorite(Player* player, vector<Meteorite*>* meteorite, Evaluation* evaluation, ScoreEarn* scoreEarn)
 {
 	//隕石と衝突していないなら
 	hit = false;
 
-	//隕石が判定ラインに入ったら判定を開始する
-	if (meteorite->GetPosition().z <= SCORE_DECISION_LINE)
+	for (auto itr = meteorite->begin(); itr != meteorite->end(); ++itr)
 	{
-		//プレイヤーから隕石の座標を引いた値を取得
-		VECTOR sub = player->GetPosition() - meteorite->GetPosition();
-
-		//プレイヤーと隕石の距離を計算
-		float direction = VSize(sub);
-
-		//判定してないなら
-		if (!decisionFlag)
+		//隕石が判定ラインに入ったら判定を開始する
+		if ((*itr)->GetPosition().z <= SCORE_DECISION_LINE)
 		{
-			//隕石と衝突したら
-			if (direction < RADIUS_MISS)
+			//プレイヤーから隕石の座標を引いた値を取得
+			VECTOR sub = player->GetPosition() - (*itr)->GetPosition();
+
+			//プレイヤーと隕石の距離を計算
+			float direction = VSize(sub);
+
+			//判定してないなら
+			if (!decisionFlag)
 			{
-				MissDecision(evaluation, player);
+				//隕石と衝突したら
+				if (direction < RADIUS_MISS)
+				{
+					MissDecision(evaluation, player);
+				}
+
+				//隕石とギリギリの範囲
+				else if (direction < RADIUS_EXCELLENT)
+				{
+					ExcellentDecision(evaluation);
+				}
+
+				//隕石と中くらいの範囲
+				else if (direction < RADIUS_GREAT)
+				{
+					GreatDecision(evaluation);
+				}
+
+				//隕石と一番離れている
+				else if (direction < RADIUS_GOOD)
+				{
+					GoodDecision(evaluation);
+				}
 			}
 
-			//隕石とギリギリの範囲
-			else if (direction < RADIUS_EXCELLENT)
-			{
-				ExcellentDecision(evaluation);
-			}
+			//判定した
+			decisionFlag = true;
 
-			//隕石と中くらいの範囲
-			else if (direction < RADIUS_GREAT)
+			//隕石が判定最終ラインに突入しているなら判定を終了する
+			if ((*itr)->GetPosition().z <= DECISION_END_LINE)
 			{
-				GreatDecision(evaluation);
-			}
+				if (excellent)
+				{
+					excellent = false;
+					TimeSlow::GetInstance().SetTimeSlow(excellent);
 
-			//隕石と一番離れている
-			else if (direction < RADIUS_GOOD)
-			{
-				GoodDecision(evaluation);
+					scoreEarn->UpdateExcellent();
+
+					//爆発エフェクトを出す
+					effectManager->CreateExplosionEffect((*itr)->GetPosition());
+
+					//隕石が爆発した時のSE音を再生
+					SoundManager::GetInstance().SePlayFlag(SoundManager::EXPLOSION);
+
+					hit = true;
+				}
+
+				if (miss)
+				{
+					scoreEarn->UpdateMiss();
+					miss = false;
+					hit = true;
+				}
+
+				if (great)
+				{
+					great = false;
+					TimeSlow::GetInstance().SetTimeSlow(great);
+
+					scoreEarn->UpdateGreat();
+
+					hit = true;
+				}
+
+				if (good)
+				{
+					scoreEarn->UpdateGood();
+					good = false;
+					hit = true;
+				}
+
+				decisionFlag = false;
 			}
 		}
 
-		//判定した
-		decisionFlag = true;
-
-		//隕石が判定最終ラインに突入しているなら判定を終了する
-		if (meteorite->GetPosition().z <= DECISION_END_LINE)
-		{
-			if (excellent)
-			{
-				excellent = false;
-				TimeSlow::GetInstance().SetTimeSlow(excellent);
-
-				scoreEarn->UpdateExcellent();
-
-				//爆発エフェクトを出す
-				effectManager->CreateExplosionEffect(meteorite->GetPosition());
-
-				//隕石が爆発した時のSE音を再生
-				SoundManager::GetInstance().SePlayFlag(SoundManager::EXPLOSION);
-
-				hit = true;
-			}
-
-			if (miss)
-			{
-				scoreEarn->UpdateMiss();
-				miss = false;
-				hit = true;
-			}
-
-			if (great)
-			{
-				great = false;
-				TimeSlow::GetInstance().SetTimeSlow(great);
-
-				scoreEarn->UpdateGreat();
-
-				hit = true;
-			}
-
-			if (good)
-			{
-				scoreEarn->UpdateGood();
-				good = false;
-				hit = true;
-			}
-
-			decisionFlag = false;
-		}
 	}
 }

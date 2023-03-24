@@ -39,8 +39,8 @@ private:
 	void EvaluationUi();					//各評価の描画処理
 	void SlowUi();							//速度低速時の集中線の描画処理
 
-	string InputPath(string folderPath,		//画像のパスを入力
-					 string imagePath);
+	string InputPath(string folderPath,
+					 string imagePath);		//画像のパスを入力
 
 	int evaluationGraph[5];					//評価文字の格納用
 	int slowScreenGraph;					//速度低速時の集中線

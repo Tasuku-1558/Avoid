@@ -6,32 +6,6 @@
 #include "TimeSlow.h"
 
 #include "TitleScene.h"
-#include "PlayScene.h"
-#include "ResultScene.h"
-
-
-//新しいシーンを生成する
-SceneBase* CreateScene(SceneType nowScene)
-{
-	SceneBase* retScene = nullptr;
-
-	switch (nowScene)
-	{
-	case SceneType::TITLE:
-		retScene = new TitleScene();
-		break;
-
-	case SceneType::PLAY:
-		retScene = new PlayScene();
-		break;
-
-	case SceneType::RESULT:
-		retScene = new ResultScene();
-		break;
-	}
-
-	return retScene;
-}
 
 
 //メインプログラム
@@ -92,6 +66,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	//待機フレーム時間(60fps)
 	float waitFrameTime = 16667.0f;
+
+	//メインループ用フラグ変数
+	bool loop = true;
 	
 	//モデル管理クラスの生成
 	ModelManager::GetInstance();
@@ -99,17 +76,17 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	//サウンド管理クラスの生成
 	SoundManager::GetInstance();
 
-	//ひとつ前のシーン
+	//今のシーン
 	SceneType nowSceneType;
 
-	//今のシーン
+	//ひとつ前のシーン
 	SceneType prevSceneType = nowSceneType = SceneType::TITLE;
 
 	//シーンを生成
 	SceneBase* sceneBase = new TitleScene();
 
 	//メインループ
-	while (ProcessMessage() == 0 && CheckHitKey(KEY_INPUT_ESCAPE) == 0)
+	while (loop)
 	{
 		//前フレームと現在のフレームの差分
 		float deltaTime;
@@ -161,17 +138,18 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		//裏画面の内容を表画面に反映させる
 		ScreenFlip();
 
-		//次のシーンがENDならループを抜ける
-		if (nowSceneType == SceneType::END)
+		//次のシーンがENDならメインループを抜ける
+		if (nowSceneType == SceneType::END || CheckHitKey(KEY_INPUT_ESCAPE))
 		{
+			loop = false;
 			break;
 		}
 
 		//今のシーンが前のシーンと違うなら
 		if (nowSceneType != prevSceneType)
 		{
-			delete sceneBase;						//シーンの解放
-			sceneBase = CreateScene(nowSceneType);	//シーンの生成
+			delete sceneBase;									//シーンの解放
+			sceneBase = sceneBase->CreateScene(nowSceneType);	//シーンの生成
 		}
 
 		//直前のシーンを記録
@@ -189,8 +167,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	DeleteShadowMap(shadowMapHandle);	//シャドウマップの削除
 
-	delete sceneBase;
-
+	delete sceneBase;			//シーンの解放
+	
 	Effkseer_End();				//Effekseerの終了処理
 	
 	DxLib_End();				//Dxlib使用の終了処理

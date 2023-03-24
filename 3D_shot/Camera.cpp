@@ -1,14 +1,14 @@
 #include "Camera.h"
 
-const float  Camera::NEAR_DISTANCE	  = 1.0f;						//カメラに映る手前の範囲
-const float  Camera::FAR_DISTANCE	  = 3000.0f;					//カメラに映る最奥の範囲
-const VECTOR Camera::INITIAL_POSITION = { 0.0f, 200.0f, -550.0f };	//初期位置
-const VECTOR Camera::UP_VECTOR		  = { 0.0f, 200.0f, 0.0f };		//カメラの上方向
 
 /// <summary>
 /// コンストラクタ
 /// </summary>
 Camera::Camera()
+	: NEAR_DISTANCE(1.0f)
+	, FAR_DISTANCE(3000.0f)
+	, INITIAL_POSITION({ 0.0f, 200.0f, -550.0f })
+	, UP_VECTOR({ 0.0f, 200.0f, 0.0f })
 {
 	Initialize();
 }

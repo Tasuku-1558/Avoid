@@ -31,7 +31,7 @@ private:
 	EffectManager(const EffectManager&);		//コピーコンストラクタ
 
 	string InputPath(string folderPath,
-		string effectPath);		//パスの入力
+					 string effectPath);		//エフェクトパスの入力
 
 
 	EffectBase* effect[EFFECT_AMOUNT];			//エフェクト格納用

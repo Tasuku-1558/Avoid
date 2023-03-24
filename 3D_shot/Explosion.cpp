@@ -17,7 +17,7 @@ Explosion::Explosion(string effectPath, float effectSize)
 /// </summary>
 Explosion::~Explosion()
 {
-	// エフェクトリソースを削除
+	//エフェクトリソースを削除
 	DeleteEffekseerEffect(effectHandle);
 }
 
@@ -48,9 +48,9 @@ void Explosion::Update(VECTOR position)
 /// </summary>
 void Explosion::Draw()
 {
-	// 再生中のエフェクトを更新
+	//再生中のエフェクトを更新
 	UpdateEffekseer3D();
 
-	// 再生中のエフェクトを描画
+	//再生中のエフェクトを描画
 	DrawEffekseer3D();
 }

@@ -1,5 +1,4 @@
 #include "PlayScene.h"
-#include "DxLib.h"
 
 #include "PreCompiledHeader.h"
 #include "Player.h"
@@ -46,7 +45,13 @@ PlayScene::PlayScene()
 /// </summary>
 PlayScene::~PlayScene()
 {
-	Finalize();
+	for (auto meteoritePtr : meteorite)
+	{
+		DeleteMeteorite(meteoritePtr);
+	}
+
+	//作成したフォントデータの削除
+	DeleteFontToHandle(font);
 }
 
 /// <summary>
@@ -73,29 +78,6 @@ void PlayScene::Initialize()
 	evaluation = new Evaluation();
 
 	scoreEarn = new ScoreEarn();
-}
-
-//終了処理
-void PlayScene::Finalize()
-{
-	delete camera;
-	delete light;
-	delete player;	
-	delete backGround;
-	delete field;
-	delete hitChecker;
-	delete uiManager;
-	delete effectManager;
-	delete evaluation;
-	delete scoreEarn;
-
-	for (auto meteoritePtr : meteorite)
-	{
-		DeleteMeteorite(meteoritePtr);
-	}
-
-	//作成したフォントデータの削除
-	DeleteFontToHandle(font);
 }
 
 /// <summary>
@@ -279,15 +261,15 @@ void PlayScene::UpdateWave1(float deltaTime)
 			pUpdate = &PlayScene::UpdateFinal;
 		}
 
-		//プレイヤーと隕石の当たり判定
-		hitChecker->PlayerAndMeteorite(player, meteoritePtr, evaluation, scoreEarn);
-
 		//隕石と衝突したもしくは制限時間が0になったら隕石を消す
 		if (hitChecker->Hit() || countDown == 0)
 		{
 			DeleteMeteorite(meteoritePtr);
 		}
 	}
+
+	//プレイヤーと隕石の当たり判定
+	hitChecker->PlayerAndMeteorite(player, &meteorite, evaluation, scoreEarn);
 
 	//スコアを取得
 	score = Score::GetInstance().GetScore();
