@@ -12,7 +12,6 @@ Player::Player()
 	: playerState(PlayerState::NOMAL)
 {
 	Initialize();
-	Activate();
 }
 
 /// <summary>
@@ -39,15 +38,24 @@ void Player::Initialize()
 	for (int i = 0; i < AFTER_IMAGE_NUMBER; i++)
 	{
 		//プレイヤー残像モデルの読み込みとサイズの設定
-		emptyModel[i] = MV1DuplicateModel(ModelManager::GetInstance().GetModelHandle(ModelManager::PLAYER));
-		MV1SetScale(emptyModel[i], SIZE);
+		afterImageModelHandle[i] = MV1DuplicateModel(ModelManager::GetInstance().GetModelHandle(ModelManager::PLAYER));
+		MV1SetScale(afterImageModelHandle[i], SIZE);
 
 		//モデルの不透明度の設定
 		//0.0fに近いほど透明度が上がる
-		MV1SetOpacityRate(emptyModel[i], OPACITY);
+		MV1SetOpacityRate(afterImageModelHandle[i], OPACITY);
 
 		//モデルのエミッシブカラーを変更
-		MV1SetMaterialEmiColor(emptyModel[i], 0, AFTER_IMAGE_COLOR);
+		MV1SetMaterialEmiColor(afterImageModelHandle[i], 0, AFTER_IMAGE_COLOR);
+	}
+
+	position = POSITION;
+
+	rotateSpeed = LING_ROTATE_SPEED;
+
+	for (int i = 0; i < AFTER_IMAGE_NUMBER; i++)
+	{
+		pastPosition[i] = POSITION;
 	}
 }
 
@@ -62,22 +70,7 @@ void Player::Finalize()
 
 	for (int i = 0; i < AFTER_IMAGE_NUMBER; i++)
 	{
-		MV1DeleteModel(emptyModel[i]);
-	}
-}
-
-/// <summary>
-/// 活性化処理
-/// </summary>
-void Player::Activate()
-{
-	position = POSITION;
-
-	rotateSpeed = LING_ROTATE_SPEED;
-
-	for (int i = 0; i < AFTER_IMAGE_NUMBER; i++)
-	{
-		pastPosition[i] = POSITION;
+		MV1DeleteModel(afterImageModelHandle[i]);
 	}
 }
 
@@ -201,7 +194,8 @@ void Player::HitMeteorite(float deltaTime)
 	//プレイヤーの状態が被弾状態なら
 	if (playerState == PlayerState::DAMAGE)
 	{
-		noDrawFrame = !noDrawFrame;			//2回に1回描画しない
+		//2回に1回描画しない
+		noDrawFrame = !noDrawFrame;
 
 		//ダメージカウントを開始する
 		damageCount += deltaTime;
@@ -226,10 +220,10 @@ void Player::AfterImage()
 	for (int i = AFTER_IMAGE_NUMBER - 1; i >= 1; i--)
 	{
 		pastPosition[i] = pastPosition[i - 1];
-		MV1SetPosition(emptyModel[i], pastPosition[i]);
-
+		MV1SetPosition(afterImageModelHandle[i], pastPosition[i]);
+		
 		pastPosition[0] = position;
-		MV1SetPosition(emptyModel[0], pastPosition[0]);
+		MV1SetPosition(afterImageModelHandle[0], pastPosition[0]);
 	}
 }
 
@@ -245,7 +239,7 @@ void Player::Draw()
 
 	for (int i = 0; i < AFTER_IMAGE_NUMBER; i++)
 	{
-		MV1DrawModel(emptyModel[i]);
+		MV1DrawModel(afterImageModelHandle[i]);
 	}
 
 	MV1DrawModel(modelHandle);

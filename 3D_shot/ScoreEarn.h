@@ -3,7 +3,7 @@
 class Score;
 
 /// <summary>
-/// スコア獲得クラス
+/// スコア計測クラス
 /// </summary>
 class ScoreEarn final
 {
@@ -18,8 +18,6 @@ public:
 
 private:
 
-	void Activate();
-
 	int score;								//獲得スコア
 	int excellentCount;						//excellentの数
 	int greatCount;							//greatの数
@@ -27,10 +25,9 @@ private:
 	int missCount;							//missの数
 	
 
-	//静的定数
+	//定数
 	static const int SCORE_GOOD;			//goodのスコア
 	static const int SCORE_GREAT;			//greatのスコア
 	static const int SCORE_EXCELLENT;		//excellentのスコア
 	static const int SCORE_MISS;			//missのスコア
-	static const int FIRST_SCORE;			//スコアの初期値
 };

@@ -1,6 +1,6 @@
 #include "SceneBase.h"
 #include "TitleScene.h"
-#include "PlayScene.h"
+#include "GameScene.h"
 #include "ResultScene.h"
 
 
@@ -25,7 +25,7 @@ SceneBase::~SceneBase()
 /// <summary>
 /// 新しいシーンを生成する
 /// </summary>
-/// <param name="nowScene"></param>
+/// <param name="nowScene">現在のシーン</param>
 /// <returns></returns>
 SceneBase* SceneBase::CreateScene(SceneType nowScene)
 {
@@ -37,8 +37,8 @@ SceneBase* SceneBase::CreateScene(SceneType nowScene)
 		retScene = new TitleScene();
 		break;
 
-	case SceneType::PLAY:
-		retScene = new PlayScene();
+	case SceneType::GAME:
+		retScene = new GameScene();
 		break;
 
 	case SceneType::RESULT:

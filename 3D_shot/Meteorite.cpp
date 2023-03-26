@@ -9,10 +9,12 @@ using namespace Math3d;		//VECTORの計算に使用
 /// <summary>
 /// コンストラクタ
 /// </summary>
-Meteorite::Meteorite()
+/// <param name="player"></param>
+Meteorite::Meteorite(Player* player)
 {
 	Initialize();
-	Activate();
+
+	playerPosition = player->GetPosition();
 }
 
 /// <summary>
@@ -31,6 +33,16 @@ void Meteorite::Initialize()
 	//隕石モデルの読み込みとサイズの設定
 	modelHandle = MV1DuplicateModel(ModelManager::GetInstance().GetModelHandle(ModelManager::METEORITE));
 	MV1SetScale(modelHandle, SIZE);
+
+	//隕石の位置をランダム値に
+	position = RANDOM_POSITION;
+
+	randomDirection = rand() % RANGE_DIRECTION;
+	speed = SPEED;
+
+	//ランダムな回転速度を設定
+	rotateSpeed = VGet(GetRandf(0.0f, MAX_ROTATE), GetRandf(0.0f, MAX_ROTATE), GetRandf(0.0f, MAX_ROTATE));
+
 }
 
 /// <summary>
@@ -42,45 +54,30 @@ void Meteorite::Finalize()
 }
 
 /// <summary>
-/// 活性化処理
-/// </summary>
-void Meteorite::Activate()
-{
-	//隕石の位置にランダム値を入れる
-	position = VGet((float)GetRand(400), (float)GetRand(400), POSITION_Z);
-
-	random = rand() % RANGE;
-	speed = SPEED;
-
-	//ランダムな回転速度を設定
-	rotateSpeed = VGet(GetRandf(0.0f, MAX_ROTATE), GetRandf(0.0f, MAX_ROTATE), GetRandf(0.0f, MAX_ROTATE));
-}
-
-/// <summary>
 /// 更新処理
 /// </summary>
 /// <param name="deltaTime"></param>
-/// <param name="player"></param>
-void Meteorite::Update(float deltaTime, Player* player)
+void Meteorite::Update(float deltaTime)
 {
 	//隕石の位置と回転値をセット
 	MV1SetPosition(modelHandle, position);
 	MV1SetRotationXYZ(modelHandle, rotate);
 
-	Move(deltaTime, player);
+	Move(deltaTime);
 }
 
 /// <summary>
 /// 移動処理
 /// </summary>
 /// <param name="deltaTime"></param>
-/// <param name="player"></param>
-void Meteorite::Move(float deltaTime, Player* player)
+void Meteorite::Move(float deltaTime)
 {
+	//ランダム値が0で出現フラグがtrueなら
 	//プレイヤーに向かって跳ぶ
-	if (popFlag && random == 0)
+	if (popFlag && randomDirection == 0)
 	{
-		direction = player->GetPosition() - position;
+		//プレイヤーから隕石の座標を引いた値を取得
+		direction = playerPosition - position;
 
 		if (VSize(direction) > 0.1f)
 		{
@@ -90,8 +87,9 @@ void Meteorite::Move(float deltaTime, Player* player)
 		popFlag = false;
 	}
 
+	//ランダム値が1なら
 	//真っすぐ跳ぶ
-	else if(random == 1)
+	else if(randomDirection == 1)
 	{
 		direction = DIRECTION;
 	}

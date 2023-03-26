@@ -22,13 +22,14 @@ public:
 		EFFECT_AMOUNT,		//エフェクトの種類
 	};
 
-	void Initialize();		//初期化処理
 	void Draw();			//描画処理
 
 	void CreateExplosionEffect(VECTOR position);	//爆発エフェクトの生成
 
 private:
 	EffectManager(const EffectManager&);		//コピーコンストラクタ
+
+	void Initialize();							//初期化処理
 
 	string InputPath(string folderPath,
 					 string effectPath);		//エフェクトパスの入力

@@ -1,4 +1,4 @@
-#include "PlayScene.h"
+#include "GameScene.h"
 
 #include "PreCompiledHeader.h"
 #include "Camera.h"
@@ -12,6 +12,7 @@
 #include "Evaluation.h"
 #include "ScoreEarn.h"
 #include "EffectManager.h"
+#include "FadeManager.h"
 #include "Score.h"
 #include "TimeSlow.h"
 
@@ -19,8 +20,8 @@
 /// <summary>
 /// コンストラクタ
 /// </summary>
-PlayScene::PlayScene()
-	: SceneBase(SceneType::PLAY)
+GameScene::GameScene()
+	: SceneBase(SceneType::GAME)
 	, gameState(GameState::START)
 	, meteorite()
 	, startTime(0)
@@ -30,20 +31,20 @@ PlayScene::PlayScene()
 	, font(0)
 	, targetScore(0)
 	, wave(0)
+	, shadowMapHandle(0)
 	, frame(0.0f)
 	, meteoritePopCount(0.0f)
 	, slow(false)
 	, pUpdate(nullptr)
-	, GAME_TIME(90)
+	, GAME_TIME(20)
 {
 	Initialize();
-	Activate();
 }
 
 /// <summary>
 /// デストラクタ
 /// </summary>
-PlayScene::~PlayScene()
+GameScene::~GameScene()
 {
 	for (auto meteoritePtr : meteorite)
 	{
@@ -52,16 +53,20 @@ PlayScene::~PlayScene()
 
 	//作成したフォントデータの削除
 	DeleteFontToHandle(font);
+
+	//シャドウマップの削除
+	DeleteShadowMap(shadowMapHandle);
 }
 
 /// <summary>
 /// 初期化処理
 /// </summary>
-void PlayScene::Initialize()
+void GameScene::Initialize()
 {
 	camera = new Camera();
 
-	light = new Light();
+	/*light = new Light();
+	light->GameLight();*/
 
 	backGround = new BackGround();
 
@@ -78,30 +83,37 @@ void PlayScene::Initialize()
 	uiManager = new UiManager();
 
 	scoreEarn = new ScoreEarn();
-}
 
-/// <summary>
-/// 活性化処理
-/// </summary>
-void PlayScene::Activate()
-{
-	pUpdate = &PlayScene::UpdateStart;
+	fadeManager = new FadeManager();
 
 	font = CreateFontToHandle("Oranienbaum", 80, 1);
+
+	//シャドウマップハンドルの作成
+	shadowMapHandle = MakeShadowMap(SCREEN_WIDTH, SCREEN_HEIGHT);
+
+	//シャドウマップが想定するライトの方向をセット
+	SetShadowMapLightDirection(shadowMapHandle, LIGHT_DIRECTION);
+
+	//シャドウマップに描画する範囲を設定
+	SetShadowMapDrawArea(shadowMapHandle, SHADOWMAP_MINPOSITION, SHADOUMAP_MAXPOSITION);
+
+	pUpdate = &GameScene::UpdateStart;
 }
 
 /// <summary>
 /// ゲーム時間計算
 /// </summary>
-void PlayScene::GameCountDown()
+void GameScene::GameCountDown()
 {
 	nowTime = GetNowCount();
 	countDown = GAME_TIME - (nowTime - startTime) / 1000;
 
 	//制限時間が0になったら
-	//結果画面へ遷移する
 	if (countDown == 0)
 	{
+		/*gameState = GameState::RESULT;
+		pUpdate = &GameScene::UpdateResult;*/
+
 		nowSceneType = SceneType::RESULT;
 	}
 }
@@ -110,7 +122,7 @@ void PlayScene::GameCountDown()
 /// 隕石を登録
 /// </summary>
 /// <param name="newMeteorite"></param>
-void PlayScene::EntryMeteorite(Meteorite* newMeteorite)
+void GameScene::EntryMeteorite(Meteorite* newMeteorite)
 {
 	meteorite.emplace_back(newMeteorite);
 }
@@ -119,7 +131,7 @@ void PlayScene::EntryMeteorite(Meteorite* newMeteorite)
 /// 隕石を削除
 /// </summary>
 /// <param name="deleteMeteorite"></param>
-void PlayScene::DeleteMeteorite(Meteorite* deleteMeteorite)
+void GameScene::DeleteMeteorite(Meteorite* deleteMeteorite)
 {
 	//隕石オブジェクトから検索して削除
 	auto iter = std::find(meteorite.begin(), meteorite.end(), deleteMeteorite);
@@ -138,59 +150,16 @@ void PlayScene::DeleteMeteorite(Meteorite* deleteMeteorite)
 /// 隕石の出現間隔
 /// </summary>
 /// <param name="deltaTime"></param>
-void PlayScene::MeteoritePop(float deltaTime)
+void GameScene::MeteoritePop(float deltaTime)
 {
 	meteoritePopCount += deltaTime;
 
-	if (countDown > 70)
+	if (meteoritePopCount > 1.2f)
 	{
-		if (meteoritePopCount > 1.2f)
-		{
-			Meteorite* newMeteorite = new Meteorite;
-			EntryMeteorite(newMeteorite);
-			meteoritePopCount = 0.0f;
-			wave = 1;
-		}
-	}
-	if (countDown < 70)
-	{
-		if (meteoritePopCount > 0.8f)
-		{
-			Meteorite* newMeteorite = new Meteorite;
-			EntryMeteorite(newMeteorite);
-			meteoritePopCount = 0.0f;
-			wave = 2;
-		}
-	}
-	if (countDown < 50)
-	{
-		if (meteoritePopCount > 0.5f)
-		{
-			Meteorite* newMeteorite = new Meteorite;
-			EntryMeteorite(newMeteorite);
-			meteoritePopCount = 0.0f;
-			wave = 3;
-		}
-	}
-	if (countDown < 20)
-	{
-		if (meteoritePopCount > 1.0f)
-		{
-			Meteorite* newMeteorite = new Meteorite;
-			EntryMeteorite(newMeteorite);
-			meteoritePopCount = 0.0f;
-			
-		}
-	}
-	if (countDown < 10)
-	{
-		if (meteoritePopCount > 1.0f)
-		{
-			Meteorite* newMeteorite = new Meteorite;
-			EntryMeteorite(newMeteorite);
-			meteoritePopCount = 0.0f;
-			
-		}
+		Meteorite* newMeteorite = new Meteorite(player);
+		EntryMeteorite(newMeteorite);
+		meteoritePopCount = 0.0f;
+		wave = 1;
 	}
 }
 
@@ -198,7 +167,7 @@ void PlayScene::MeteoritePop(float deltaTime)
 /// 更新処理
 /// </summary>
 /// <param name="deltaTime"></param>
-SceneType PlayScene::Update(float deltaTime)
+SceneType GameScene::Update(float deltaTime)
 {
 	if (pUpdate != nullptr)
 	{
@@ -212,24 +181,24 @@ SceneType PlayScene::Update(float deltaTime)
 /// ゲーム開始前
 /// </summary>
 /// <param name="deltaTime"></param>
-void PlayScene::UpdateStart(float deltaTime)
+void GameScene::UpdateStart(float deltaTime)
 {
-	gameState = GameState::GAME;
-	pUpdate = &PlayScene::UpdateWave1;
-
 	Score::GetInstance().Activate();
 
 	TimeSlow::GetInstance().SetTimeSlow(slow);
 
 	//ゲーム起動時の時間を取得
 	startTime = GetNowCount();
+
+	gameState = GameState::GAME;
+	pUpdate = &GameScene::UpdateWave1;
 }
 
 /// <summary>
 /// Wave1
 /// </summary>
 /// <param name="deltaTime"></param>
-void PlayScene::UpdateWave1(float deltaTime)
+void GameScene::UpdateWave1(float deltaTime)
 {
 	backGround->Update();
 
@@ -240,7 +209,7 @@ void PlayScene::UpdateWave1(float deltaTime)
 	
 	for (auto meteoritePtr : meteorite)
 	{
-		meteoritePtr->Update(deltaTime, player);
+		meteoritePtr->Update(deltaTime);
 
 		//制限時間によって隕石の色やスピードが変化
 		if (countDown < 50)
@@ -258,7 +227,7 @@ void PlayScene::UpdateWave1(float deltaTime)
 			meteoritePtr->SpeedUp();
 			meteoritePtr->ChangeColor(5.0f, 0.0f, 0.0f);
 			wave = 5;
-			pUpdate = &PlayScene::UpdateFinal;
+			pUpdate = &GameScene::UpdateFinal;
 		}
 
 		//隕石と衝突したもしくは制限時間が0になったら隕石を消す
@@ -284,30 +253,66 @@ void PlayScene::UpdateWave1(float deltaTime)
 /// フィーバー中
 /// </summary>
 /// <param name="deltaTime"></param>
-void PlayScene::UpdateFinal(float deltaTime)
+void GameScene::UpdateFinal(float deltaTime)
 {
 	UpdateWave1(deltaTime);
+}
+
+void GameScene::GameFinish(float deltaTime)
+{
+}
+
+/// <summary>
+/// 結果画面
+/// </summary>
+/// <param name="deltaTime"></param>
+void GameScene::UpdateResult(float deltaTime)
+{
 }
 
 /// <summary>
 /// 描画処理
 /// </summary>
-void PlayScene::Draw()
+void GameScene::Draw()
 {
 	backGround->Draw();
 
-	evaluation->Draw();
-
 	field->Draw();
+
+	//シャドウマップへの描画の準備
+	ShadowMap_DrawSetup(shadowMapHandle);
+
+	player->Draw();
 
 	for (auto meteoritePtr : meteorite)
 	{
 		meteoritePtr->Draw();
 	}
 
+	//シャドウマップへの描画を終了
+	ShadowMap_DrawEnd();
+
+	//描画に使用するシャドウマップを設定
+	SetUseShadowMap(0, shadowMapHandle);
+
 	player->Draw();
+
+	for (auto meteoritePtr : meteorite)
+	{
+		meteoritePtr->Draw();
+	}
+
+	//描画に使用するシャドウマップの設定を解除
+	SetUseShadowMap(0, -1);
 
 	effectManager->Draw();
 
+	evaluation->Draw();
+
 	uiManager->Draw(gameState, font, countDown, score, wave);
+
+	if (gameState == GameState::RESULT || gameState == GameState::FINISH)
+	{
+		fadeManager->Draw();
+	}
 }

@@ -6,7 +6,7 @@
 #include "Score.h"
 
 
-const string ResultScene::IMAGE_FOLDER_PATH = "data/image/";		//imageフォルダまでのパス
+const string ResultScene::IMAGE_FOLDER_PATH = "Data/image/";		//Imageフォルダまでのパス
 const string ResultScene::RESULT_UI_PATH	= "ResultUi.png";		//リプレイ、タイトルへのUI画像のパス
 const string ResultScene::SCORE_GAUGE_PATH  = "ScoreGauge.png";		//スコアゲージ枠画像のパス
 const string ResultScene::SCORE_B_PATH		= "ScoreB.png";			//B評価画像のパス
@@ -38,7 +38,6 @@ ResultScene::ResultScene()
 	, inc(-1)
 {
 	Initialize();
-	Activate();
 }
 
 ResultScene::~ResultScene()
@@ -71,13 +70,10 @@ void ResultScene::Initialize()
 
 	failePath = IMAGE_FOLDER_PATH + SCORE_S_PATH;
 	scoreS = LoadGraph(failePath.c_str());
-}
 
-void ResultScene::Activate()
-{
 	pUpdate = &ResultScene::UpdateStart;
-	
-	scoreFont	   = CreateFontToHandle("Oranienbaum", 130, 1);
+
+	scoreFont = CreateFontToHandle("Oranienbaum", 130, 1);
 	evaluationFont = CreateFontToHandle("Oranienbaum", 80, 1);
 }
 
@@ -130,7 +126,7 @@ void ResultScene::UpdateResult()
 	//もう一度プレイする
 	if (CheckHitKey(KEY_INPUT_RETURN))
 	{
-		nowSceneType = SceneType::PLAY;
+		nowSceneType = SceneType::GAME;
 	}
 }
 

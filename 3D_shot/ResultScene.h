@@ -32,7 +32,6 @@ private:
 	ResultScene(const ResultScene&);	//コピーコンストラクタ
 
 	void Initialize()override;			//初期化処理
-	void Activate()override;
 	void AcquisitionScore();			//スコア取得
 	void DisplayScore();				//獲得スコア表示
 	void Blink();						//文字の点滅

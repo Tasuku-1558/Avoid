@@ -5,7 +5,7 @@
 /// </summary>
 PlayerBase::PlayerBase()
 	: lingModel(0)
-	, emptyModel()
+	, afterImageModelHandle()
 	, damageCount(0.0f)
 	, inputFlag(false)
 	, noDrawFrame(false)

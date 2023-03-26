@@ -1,6 +1,9 @@
 #include "TitleScene.h"
-#include "DxLib.h"
+#include "PreCompiledHeader.h"
+#include "Light.h"
+#include "Camera.h"
 #include "SoundManager.h"
+#include "FadeManager.h"
 
 
 /// <summary>
@@ -8,23 +11,30 @@
 /// </summary>
 TitleScene::TitleScene()
 	: SceneBase(SceneType::TITLE)
-	, selectState(SelectState::START)
+	, titleState(TitleState::START)
 	, titleMovie(0)
 	, titleName(0)
-	, titleUi(0)
+	, startUi(0)
+	, exitUi(0)
 	, alpha(255)
-	, inc(-1)
+	, inc(-2)
 	, frame(0.0f)
+	, sceneChangeGame(false)
+	, sceneChangeEnd(false)
+	, spherePosition({ -360.0f, 0.0f, 0.0f })
 	, VIDEO_FOLDER_PATH("Data/Video/")
 	, IMAGE_FOLDER_PATH("Data/image/")
 	, PLAY_VIDEO_PATH("PlayVideo.mp4")
 	, TITLENAME_PATH("titleName.png")
-	, TITLE_UI_PATH("titleUi.png")
+	, START_UI_PATH("titleUi.png")
+	, EXIT_UI_PATH("exitUi.png")
 	, MAX_ALPHA(255)
 	, PLAY_POSITION(5000)
+	, START_SPHERE_POSY(90.0f)
+	, EXIT_SPHERE_POSY(0.0f)
+	, CHANGE_FRAME(2.2f)
 {
 	Initialize();
-	Activate();
 }
 
 /// <summary>
@@ -32,13 +42,19 @@ TitleScene::TitleScene()
 /// </summary>
 TitleScene::~TitleScene()
 {
+	delete light;
+	delete camera;
+	delete fadeManager;
+
 	PauseMovieToGraph(titleMovie);
 
 	DeleteGraph(titleMovie);
 
 	DeleteGraph(titleName);
 
-	DeleteGraph(titleUi);
+	DeleteGraph(startUi);
+
+	DeleteGraph(exitUi);
 }
 
 /// <summary>
@@ -46,13 +62,25 @@ TitleScene::~TitleScene()
 /// </summary>
 void TitleScene::Initialize()
 {
+	light = new Light();
+	light->TitleLight();
+
+	camera = new Camera();
+
+	fadeManager = new FadeManager();
+
 	//動画データの読み込み
 	titleMovie = LoadGraph(InputPath(VIDEO_FOLDER_PATH, PLAY_VIDEO_PATH).c_str());
 
-	//タイトル画像UIの読み込み
+	//タイトルUIの読み込み
 	titleName = LoadGraph(InputPath(IMAGE_FOLDER_PATH, TITLENAME_PATH).c_str());
 
-	titleUi = LoadGraph(InputPath(IMAGE_FOLDER_PATH, TITLE_UI_PATH).c_str());
+	startUi = LoadGraph(InputPath(IMAGE_FOLDER_PATH, START_UI_PATH).c_str());
+
+	exitUi = LoadGraph(InputPath(IMAGE_FOLDER_PATH, EXIT_UI_PATH).c_str());
+
+	//タイトルBGMを再生
+	SoundManager::GetInstance().PlayBgm(SoundManager::TITLE);
 }
 
 /// <summary>
@@ -64,15 +92,6 @@ void TitleScene::Initialize()
 string TitleScene::InputPath(string folderPath, string path)
 {
 	return string(folderPath + path);
-}
-
-/// <summary>
-/// 活性化処理
-/// </summary>
-void TitleScene::Activate()
-{
-	//タイトルBGMを再生
-	SoundManager::GetInstance().PlayBgm(SoundManager::TITLE);
 }
 
 /// <summary>
@@ -92,13 +111,94 @@ SceneType TitleScene::Update(float deltaTime)
 		PlayMovieToGraph(titleMovie);
 	}
 
-	//ゲーム画面へ
-	if (CheckHitKey(KEY_INPUT_SPACE))
+	if (!sceneChangeGame && !sceneChangeEnd)
 	{
-		nowSceneType = SceneType::PLAY;
+		ChangeState();
 	}
 
+	ReturnScreen(deltaTime);
+
 	return nowSceneType;
+}
+
+/// <summary>
+/// タイトルの状態の変更
+/// </summary>
+void TitleScene::ChangeState()
+{
+	//スタート状態なら
+	if (titleState == TitleState::START)
+	{
+		spherePosition.y = START_SPHERE_POSY;
+
+		if (CheckHitKey(KEY_INPUT_SPACE))
+		{
+			sceneChangeGame = true;
+		}
+
+		//下矢印キーで状態を終了にする
+		if (CheckHitKey(KEY_INPUT_DOWN))
+		{
+			titleState = TitleState::EXIT;
+		}
+	}
+
+	//終了状態なら
+	else
+	{
+		spherePosition.y = EXIT_SPHERE_POSY;
+
+		if (CheckHitKey(KEY_INPUT_SPACE))
+		{
+			sceneChangeEnd = true;
+		}
+
+		//上矢印キーで状態をスタートにする
+		if (CheckHitKey(KEY_INPUT_UP))
+		{
+			titleState = TitleState::START;
+		}
+	}
+}
+
+/// <summary>
+/// 画面を遷移する
+/// </summary>
+/// <param name="deltaTime"></param>
+void TitleScene::ReturnScreen(float deltaTime)
+{
+	if (sceneChangeGame)
+	{
+		//ゲーム画面へ
+		InputScene(deltaTime, SceneType::GAME);
+	}
+
+	if (sceneChangeEnd)
+	{
+		//ゲームを終了する
+		InputScene(deltaTime, SceneType::END);
+	}
+}
+
+/// <summary>
+/// シーンを入力
+/// </summary>
+/// <param name="deltaTime"></param>
+/// <param name="sceneType"></param>
+void TitleScene::InputScene(float deltaTime, SceneType sceneType)
+{
+	frame += deltaTime;
+
+	fadeManager->FadeMove();
+
+	//フレーム数が2.2秒経過したら
+	if (frame > CHANGE_FRAME)
+	{
+		//タイトルBGMを停止
+		SoundManager::GetInstance().StopBgm();
+
+		nowSceneType = sceneType;
+	}
 }
 
 /// <summary>
@@ -106,23 +206,35 @@ SceneType TitleScene::Update(float deltaTime)
 /// </summary>
 void TitleScene::Blink()
 {
-	if (alpha > MAX_ALPHA && inc > 0)
-	{
-		inc *= -1;
-	}
-
-	if (alpha < 0 && inc < 0)
+	if (alpha > MAX_ALPHA && inc > 0 ||
+		alpha < 0 && inc < 0)
 	{
 		inc *= -1;
 	}
 
 	alpha += inc;
-	
-	SetDrawBlendMode(DX_BLENDMODE_ALPHA, alpha);
-	
-	DrawGraph(400, 700, titleUi, TRUE);
-	
-	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, alpha);
+
+	//状態によって文字を点滅させる
+	if (titleState == TitleState::START)
+	{
+		SetDrawBlendMode(DX_BLENDMODE_ALPHA, alpha);
+
+		DrawGraph(400, 700, startUi, TRUE);
+
+		SetDrawBlendMode(DX_BLENDMODE_NOBLEND, alpha);
+
+		DrawGraph(400, 850, exitUi, TRUE);
+	}
+	else
+	{
+		DrawGraph(400, 700, startUi, TRUE);
+
+		SetDrawBlendMode(DX_BLENDMODE_ALPHA, alpha);
+
+		DrawGraph(400, 850, exitUi, TRUE);
+
+		SetDrawBlendMode(DX_BLENDMODE_NOBLEND, alpha);
+	}
 }
 
 /// <summary>
@@ -137,4 +249,9 @@ void TitleScene::Draw()
 	DrawGraph(250, 450, titleName, TRUE);
 	
 	Blink();
+
+	//3D球体の描画
+	DrawSphere3D(spherePosition, 15.0f, 32, GetColor(0, 255, 0), GetColor(255, 255, 255), TRUE);
+
+	fadeManager->Draw();
 }

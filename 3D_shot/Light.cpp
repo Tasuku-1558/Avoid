@@ -1,13 +1,14 @@
 #include "Light.h"
-
+#include "SceneBase.h"
 
 /// <summary>
 /// コンストラクタ
 /// </summary>
 Light::Light()
-	: DIRECTION({ 0.0f, -0.5f, 0.0f })
+	: TITLE_DIRECTION({ 0.0f, 0.0f, 0.5f })
+	, GAME_DIRECTION({ 0.0f, -0.5f, 0.0f })
 {
-	Initialize();
+	//処理なし
 }
 
 /// <summary>
@@ -19,10 +20,17 @@ Light::~Light()
 }
 
 /// <summary>
-/// 初期化処理
+/// タイトルシーンのライトの方向
 /// </summary>
-void Light::Initialize()
+void Light::TitleLight()
 {
-	//ライトの向きを設定
-	SetLightDirection(DIRECTION);
+	SetLightDirection(TITLE_DIRECTION);
+}
+
+/// <summary>
+/// ゲームシーンのライトの方向
+/// </summary>
+void Light::GameLight()
+{
+	SetLightDirection(GAME_DIRECTION);
 }

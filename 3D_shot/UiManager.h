@@ -1,7 +1,7 @@
 #pragma once
 
 #include "DxLib.h"
-#include "PlayScene.h"
+#include "GameScene.h"
 #include <string>
 
 using namespace std;
@@ -15,7 +15,7 @@ public:
 	UiManager();
 	virtual ~UiManager();
 
-	void Draw(PlayScene::GameState gameState, int font, int countDown, int score, int wave);	//描画処理
+	void Draw(GameScene::GameState gameState, int font, int countDown, int score, int wave);	//描画処理
 
 private:
 
@@ -33,7 +33,7 @@ private:
 	void Finalize();
 	void StartGameDraw();
 	void GameUIDraw(int font, int countDown, int score, int wave);		//ゲーム中のUIの描画
-	void FrameDraw();					//制限時間、スコアの枠描画処理
+	void FrameDraw();					//制限時間とスコアの枠描画処理
 	void FeverImageDraw();				//フィーバーモードUIの描画
 	
 

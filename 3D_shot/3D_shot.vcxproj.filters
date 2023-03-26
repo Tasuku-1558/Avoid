@@ -40,7 +40,7 @@
     <ClCompile Include="TitleScene.cpp">
       <Filter>ソースファイル\Scene</Filter>
     </ClCompile>
-    <ClCompile Include="PlayScene.cpp">
+    <ClCompile Include="GameScene.cpp">
       <Filter>ソースファイル\Scene</Filter>
     </ClCompile>
     <ClCompile Include="Math3D.cpp">
@@ -51,9 +51,6 @@
     </ClCompile>
     <ClCompile Include="ModelManager.cpp">
       <Filter>ソースファイル\System</Filter>
-    </ClCompile>
-    <ClCompile Include="MeteoriteBase.cpp">
-      <Filter>ソースファイル\Meteorite</Filter>
     </ClCompile>
     <ClCompile Include="Meteorite.cpp">
       <Filter>ソースファイル\Meteorite</Filter>
@@ -115,6 +112,9 @@
     <ClCompile Include="Field.cpp">
       <Filter>ソースファイル\Field</Filter>
     </ClCompile>
+    <ClCompile Include="MeteoriteBase.cpp">
+      <Filter>ソースファイル\Meteorite</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="TitleScene.h">
@@ -123,7 +123,7 @@
     <ClInclude Include="SceneBase.h">
       <Filter>ソースファイル\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="PlayScene.h">
+    <ClInclude Include="GameScene.h">
       <Filter>ソースファイル\Scene</Filter>
     </ClInclude>
     <ClInclude Include="Math3D.h">

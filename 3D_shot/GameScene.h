@@ -6,7 +6,6 @@
 class Camera;
 class Light;
 class BackGround;
-class SlowScreen;
 class Field;
 class Player;
 class Meteorite;
@@ -15,15 +14,16 @@ class UiManager;
 class EffectManager;
 class Evaluation;
 class ScoreEarn;
+class FadeManager;
 
 /// <summary>
-/// プレイシーンクラス
+/// ゲームシーンクラス
 /// </summary>
-class PlayScene final : public SceneBase
+class GameScene final : public SceneBase
 {
 public:
-	PlayScene();
-	virtual ~PlayScene();
+	GameScene();
+	virtual ~GameScene();
 
 	SceneType Update(float deltaTime)override;		//更新処理
 	void Draw()override;							//描画処理
@@ -45,7 +45,7 @@ public:
 
 private:
 
-	PlayScene(const PlayScene&);		//コピーコンストラクタ
+	GameScene(const GameScene&);		//コピーコンストラクタ
 
 	Camera* camera;
 	Light* light;
@@ -58,20 +58,22 @@ private:
 	EffectManager* effectManager;
 	Evaluation* evaluation;
 	ScoreEarn* scoreEarn;
+	FadeManager* fadeManager;
 	
 	void Initialize()override;							//初期化処理
-	void Activate()override;							//活性化処理
 	void GameCountDown();								//ゲーム時間計算
 	void EntryMeteorite(Meteorite* newMeteorite);		//隕石を登録
 	void DeleteMeteorite(Meteorite* deleteMeteorite);	//隕石を削除
 	void MeteoritePop(float deltaTime);					//隕石の出現間隔
+	void DrawResult();
 
+	//各状態に応じた更新処理
 	void UpdateStart(float deltaTime);					//ゲーム開始前
 	void UpdateWave1(float deltaTime);					//Wave1
 	void UpdateFinal(float deltaTime);					//ファイナルWave
 	void GameFinish(float deltaTime);					//ゲーム終了
 	void UpdateResult(float deltaTime);					//結果画面
-	void(PlayScene::* pUpdate)(float deltaTime);		//Update関数ポインタ
+	void(GameScene::* pUpdate)(float deltaTime);		//Update関数ポインタ
 	
 
 	GameState gameState;		//ゲームの状態
@@ -82,6 +84,7 @@ private:
 	int  score;					//獲得スコア
 	int  font;					//ゲームフォント
 	int  wave;					//ゲームの区分け
+	int shadowMapHandle;		//シャドウマップハンドル
 	float frame;				//フレーム数
 	float meteoritePopCount;	//隕石出現カウント
 	bool slow;					//時間をスローにするか

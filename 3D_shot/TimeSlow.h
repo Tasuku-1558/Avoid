@@ -3,6 +3,7 @@
 
 /// <summary>
 /// 時間低速クラス
+/// シングルトン
 /// </summary>
 class TimeSlow final
 {

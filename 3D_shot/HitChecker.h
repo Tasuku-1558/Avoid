@@ -24,14 +24,12 @@ public:
 							vector<Meteorite*>* meteorite, 
 							ScoreEarn* scoreEarn);				//プレイヤーとエネミーの衝突判定
 
-	const bool Hit() { return hit; }
+	const bool Hit() { return hit; }	//隕石と衝突したかを返す
 
 private:
 	HitChecker(const HitChecker&);		//コピーコンストラクタ
 
-	void Input(bool ina);
 	void Decision(Player* player);		//各評価の判定
-	
 
 	EffectManager* effectManager;		//エフェクトマネージャーのポインタ
 	Evaluation* evaluation;				//評価UIクラスのポインタ

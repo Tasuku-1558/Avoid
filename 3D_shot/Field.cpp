@@ -12,6 +12,7 @@ Field::Field()
 	, SIZE({ 6.0f, 1.0f, 3.0f })
 	, POSITION({ 0.0f, -50.0f, 1200.0f })
 	, ROTATE({ 0.0f, 90.0f * DX_PI_F / 180.0f, 0.0f })
+	, LINE_POSITION({ 0.0f, 120.0f, 230.0f })
 {
 	Initialize();
 }
@@ -53,11 +54,20 @@ void Field::Finalize()
 }
 
 /// <summary>
+/// XVˆ—
+/// </summary>
+/// <param name="deltaTime"></param>
+void Field::Update(float deltaTime)
+{
+	//ˆ—‚È‚µ
+}
+
+/// <summary>
 /// •`‰æˆ—
 /// </summary>
 void Field::Draw()
 {
 	MV1DrawModel(modelHandle);
 
-	DrawBillboard3D(VGet(0.0f, 120.0f, 230.0f), 0.5f, 0.5f, 1100.0f, 0.0f, lineHandle, TRUE);
+	DrawBillboard3D(LINE_POSITION, 0.5f, 0.5f, 1100.0f, 0.0f, lineHandle, TRUE);
 }

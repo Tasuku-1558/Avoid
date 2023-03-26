@@ -67,21 +67,21 @@ void UiManager::Finalize()
 /// <param name="countDown"></param>
 /// <param name="score"></param>
 /// <param name="wave"></param>
-void UiManager::Draw(PlayScene::GameState gameState, int font, int countDown, int score, int wave)
+void UiManager::Draw(GameScene::GameState gameState, int font, int countDown, int score, int wave)
 {
 	switch (gameState)
 	{
-	case PlayScene::GameState::START:
+	case GameScene::GameState::START:
 		StartGameDraw();
 		break;
 
-	case PlayScene::GameState::GAME:
+	case GameScene::GameState::GAME:
 		FrameDraw();
 		GameUIDraw(font, countDown, score, wave);
 		
 		break;
 
-	case PlayScene::GameState::FINALWAVE:
+	case GameScene::GameState::FINALWAVE:
 		FrameDraw();
 		GameUIDraw(font, countDown, score, wave);
 		fever = true;
@@ -108,7 +108,7 @@ void UiManager::GameUIDraw(int font, int countDown, int score, int wave)
 }
 
 /// <summary>
-/// 制限時間、スコアの枠描画処理
+/// 制限時間とスコアの枠描画処理
 /// </summary>
 void UiManager::FrameDraw()
 {

@@ -5,7 +5,6 @@ const int ScoreEarn::SCORE_GOOD		 = 100;		//goodのスコア
 const int ScoreEarn::SCORE_GREAT	 = 300;		//greatのスコア
 const int ScoreEarn::SCORE_EXCELLENT = 600;		//excellentのスコア
 const int ScoreEarn::SCORE_MISS		 = 300;		//missのスコア
-const int ScoreEarn::FIRST_SCORE	 = 0;		//スコアの初期値
 
 
 ScoreEarn::ScoreEarn()
@@ -15,21 +14,12 @@ ScoreEarn::ScoreEarn()
 	, goodCount(0)
 	, missCount(0)
 {
-	Activate();
+	//処理なし
 }
 
 ScoreEarn::~ScoreEarn()
 {
 	//処理なし
-}
-
-void ScoreEarn::Activate()
-{
-	score		   = FIRST_SCORE;
-	excellentCount = FIRST_SCORE;
-	greatCount	   = FIRST_SCORE;
-	goodCount	   = FIRST_SCORE;
-	missCount	   = FIRST_SCORE;
 }
 
 void ScoreEarn::UpdateMiss()

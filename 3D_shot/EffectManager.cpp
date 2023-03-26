@@ -56,8 +56,8 @@ void EffectManager::CreateExplosionEffect(VECTOR position)
 /// <summary>
 /// エフェクトパスの入力
 /// </summary>
-/// <param name="folderPath">エフェクトフォルダーの名前</param>
-/// <param name="effectPath">エフェクトの名前</param>
+/// <param name="folderPath">エフェクトフォルダーのパス</param>
+/// <param name="effectPath">エフェクトのパス</param>
 /// <returns>エフェクトのパス</returns>
 string EffectManager::InputPath(string folderPath, string effectPath)
 {

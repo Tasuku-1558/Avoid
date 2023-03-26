@@ -60,7 +60,7 @@ void ModelManager::LoadAllModel()
 /// <summary>
 /// モデルのパスを入力
 /// </summary>
-/// <param name="folderPath">フォルダのパス</param>
+/// <param name="folderPath">モデルフォルダのパス</param>
 /// <param name="modelPath">モデルのパス</param>
 /// <returns></returns>
 string ModelManager::InputPath(string folderPath, string modelPath)

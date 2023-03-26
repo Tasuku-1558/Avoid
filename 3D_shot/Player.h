@@ -28,7 +28,6 @@ private:
 	Player(const Player&);		//コピーコンストラクタ
 
 	void Initialize();							//初期化処理
-	void Activate();							//活性化処理
 	void Move(float deltaTime);					//移動処理
 	void KeyInput();							//キー入力処理
 	void HitMeteorite(float deltaTime);			//隕石に衝突した

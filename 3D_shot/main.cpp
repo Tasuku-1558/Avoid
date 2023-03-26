@@ -45,15 +45,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	//Zバッファへの書き込みを有効にする
 	SetWriteZBuffer3D(TRUE);
 	
-	//シャドウマップハンドルの作成
-	int shadowMapHandle = MakeShadowMap(SHADOWMAP_SIZE_X, SHADOWMAP_SIZE_Y);
-
-	//シャドウマップが想定するライトの方向をセット
-	SetShadowMapLightDirection(shadowMapHandle, LIGHT_DIRECTION);
-
-	//シャドウマップに描画する範囲を設定
-	SetShadowMapDrawArea(shadowMapHandle, SHADOWMAP_MINPOSITION, SHADOUMAP_MAXPOSITION);
-
 	//フォント変更
 	LPCSTR fontPath = "Data/Font/Oranienbaum.ttf";
 
@@ -88,6 +79,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	//メインループ
 	while (loop)
 	{
+
+		SceneBase* scene = nullptr;
+
 		//前フレームと現在のフレームの差分
 		float deltaTime;
 
@@ -116,21 +110,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		//画面を初期化する
 		ClearDrawScreen();
 
-		//シャドウマップへの描画の準備
-		ShadowMap_DrawSetup(shadowMapHandle);
-
 		sceneBase->Draw();     //各シーンの描画処理
-
-		//シャドウマップへの描画を終了
-		ShadowMap_DrawEnd();
-
-		//描画に使用するシャドウマップを設定
-		SetUseShadowMap(0, shadowMapHandle);
-
-		sceneBase->Draw();     //各シーンの描画処理
-
-		//描画に使用するシャドウマップの設定を解除
-		SetUseShadowMap(0, -1);
 		
 		//デバック用　デルタタイム計測
 		DrawFormatString(0, 500, GetColor(255, 255, 255), "%f", deltaTime, TRUE);
@@ -148,8 +128,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		//今のシーンが前のシーンと違うなら
 		if (nowSceneType != prevSceneType)
 		{
-			delete sceneBase;									//シーンの解放
-			sceneBase = sceneBase->CreateScene(nowSceneType);	//シーンの生成
+			delete sceneBase;								//シーンの解放
+			sceneBase = scene->CreateScene(nowSceneType);	//シーンの生成
 		}
 
 		//直前のシーンを記録
@@ -161,17 +141,15 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		prevTime = nowTime;
 	}
 
-	//フォントのアンロード
+	//フォントの削除
 	if (RemoveFontResourceEx(fontPath, FR_PRIVATE, NULL)) {}
 	else { MessageBox(NULL, "remove failure", "", MB_OK); }
 
-	DeleteShadowMap(shadowMapHandle);	//シャドウマップの削除
-
-	delete sceneBase;			//シーンの解放
+	delete sceneBase;	//シーンの解放
 	
-	Effkseer_End();				//Effekseerの終了処理
+	Effkseer_End();		//Effekseerの終了処理
 	
-	DxLib_End();				//Dxlib使用の終了処理
+	DxLib_End();		//Dxlib使用の終了処理
 
-	return 0;					//ソフトの終了 
+	return 0;			//ソフトの終了 
 }

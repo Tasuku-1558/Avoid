@@ -41,11 +41,6 @@ HitChecker::~HitChecker()
 	//ˆ—‚È‚µ
 }
 
-void HitChecker::Input(bool ina)
-{
-	ina = true;
-}
-
 /// <summary>
 /// Še•]‰¿‚Ì”»’è
 /// </summary>
@@ -56,7 +51,7 @@ void HitChecker::Decision(Player* player)
 	if (!decisionFlag)
 	{
 		//Miss”»’è
-		if (distance < RADIUS_MISS)
+		if (distance <= RADIUS_MISS)
 		{
 			evaluation->ui = Evaluation::Ui::MISS;
 
@@ -66,7 +61,7 @@ void HitChecker::Decision(Player* player)
 		}
 
 		//Excellent”»’è
-		else if (distance < RADIUS_EXCELLENT)
+		else if (distance <= RADIUS_EXCELLENT)
 		{
 			evaluation->ui = Evaluation::Ui::EXCELLENT;
 
@@ -76,7 +71,7 @@ void HitChecker::Decision(Player* player)
 		}
 
 		//Great”»’è
-		else if (distance < RADIUS_GREAT)
+		else if (distance <= RADIUS_GREAT)
 		{
 			evaluation->ui = Evaluation::Ui::GREAT;
 
@@ -86,7 +81,7 @@ void HitChecker::Decision(Player* player)
 		}
 
 		//Good”»’è
-		else if (distance < RADIUS_GOOD)
+		else if (distance <= RADIUS_GOOD)
 		{
 			evaluation->ui = Evaluation::Ui::GOOD;
 
