@@ -1,59 +1,75 @@
 #include "ScoreEarn.h"
-#include "Score.h"
 
-const int ScoreEarn::SCORE_GOOD		 = 100;		//goodのスコア
-const int ScoreEarn::SCORE_GREAT	 = 300;		//greatのスコア
-const int ScoreEarn::SCORE_EXCELLENT = 600;		//excellentのスコア
-const int ScoreEarn::SCORE_MISS		 = 300;		//missのスコア
-
-
+/// <summary>
+/// コンストラクタ
+/// </summary>
 ScoreEarn::ScoreEarn()
 	: score(0)
+	, targetScore(0)
 	, excellentCount(0)
 	, greatCount(0)
 	, goodCount(0)
 	, missCount(0)
+	, SCORE_EXCELLENT(600)
+	, SCORE_GREAT(300)
+	, SCORE_GOOD(100)
+	, SCORE_MISS(300)
 {
 	//処理なし
 }
 
+/// <summary>
+/// デストラクタ
+/// </summary>
 ScoreEarn::~ScoreEarn()
 {
 	//処理なし
 }
 
+/// <summary>
+/// 更新処理
+/// </summary>
+void ScoreEarn::Update()
+{
+	Scoring();
+}
+
 void ScoreEarn::UpdateMiss()
 {
 	score -= SCORE_MISS;
-	Score::GetInstance().SetScore(score);
-
 	missCount++;
-	Score::GetInstance().SetMissCount(missCount);
 }
 
 void ScoreEarn::UpdateExcellent()
 {
 	score += SCORE_EXCELLENT;
-	Score::GetInstance().SetScore(score);
-
 	excellentCount++;
-	Score::GetInstance().SetExcellentCount(excellentCount);
 }
 
 void ScoreEarn::UpdateGreat()
 {
 	score += SCORE_GREAT;
-	Score::GetInstance().SetScore(score);
-
 	greatCount++;
-	Score::GetInstance().SetGreatCount(greatCount);
 }
 
 void ScoreEarn::UpdateGood()
 {
 	score += SCORE_GOOD;
-	Score::GetInstance().SetScore(score);
-
 	goodCount++;
-	Score::GetInstance().SetGoodCount(goodCount);
+}
+
+void ScoreEarn::Scoring()
+{
+	//目標スコアになるまでスコアを足し引きする
+	if (score != targetScore)
+	{
+		if (score > targetScore)
+		{
+			targetScore += 100;
+		}
+		else
+		{
+			targetScore -= 100;
+		}
+	}
 }

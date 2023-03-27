@@ -12,7 +12,7 @@ const int MAX_PARTICLE_NUMBER = 2200;               //画面に表示する最大パーティ
 
 const VECTOR ZERO_VECTOR  = { 0.0f, 0.0f, 0.0f };	//ゼロベクトル
 
-const VECTOR LIGHT_DIRECTION = { 0.0f, -0.5f, 0.0f };   //シャドウマップが想定するライトの方向
+const VECTOR LIGHT_DIRECTION = { 0.0f, -0.5f, 0.5f };   //シャドウマップが想定するライトの方向
 
-const VECTOR SHADOWMAP_MINPOSITION = { -1000.0f, -1.0f, -1000.0f }; //影を描画する範囲の座標の最小値
-const VECTOR SHADOUMAP_MAXPOSITION = { 1000.0f, 1000.0f, 1000.0f }; //影を描画する範囲の座標の最大値
+const VECTOR SHADOWMAP_MINPOSITION = { -2000.0f, -1.0f, -2000.0f }; //影を描画する範囲の座標の最小値
+const VECTOR SHADOUMAP_MAXPOSITION = { 2000.0f, 1000.0f, 2500.0f }; //影を描画する範囲の座標の最大値

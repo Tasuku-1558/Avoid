@@ -157,6 +157,7 @@
     <ClCompile Include="EffectManager.cpp" />
     <ClCompile Include="FadeManager.cpp" />
     <ClCompile Include="Light.cpp" />
+    <ClCompile Include="ResultUi.cpp" />
     <ClCompile Include="SceneBase.cpp" />
     <ClCompile Include="ScoreEarn.cpp" />
     <ClCompile Include="Evaluation.cpp" />
@@ -173,7 +174,6 @@
     <ClCompile Include="PlayerBase.cpp" />
     <ClCompile Include="GameScene.cpp" />
     <ClCompile Include="ResultScene.cpp" />
-    <ClCompile Include="Score.cpp" />
     <ClCompile Include="SoundManager.cpp" />
     <ClCompile Include="TimeSlow.cpp" />
     <ClCompile Include="TitleScene.cpp" />
@@ -186,6 +186,7 @@
     <ClInclude Include="FadeManager.h" />
     <ClInclude Include="PreCompiledHeader.h" />
     <ClInclude Include="Light.h" />
+    <ClInclude Include="ResultUi.h" />
     <ClInclude Include="ScoreEarn.h" />
     <ClInclude Include="EffectBase.h" />
     <ClInclude Include="Evaluation.h" />
@@ -202,7 +203,6 @@
     <ClInclude Include="GameScene.h" />
     <ClInclude Include="ResultScene.h" />
     <ClInclude Include="SceneBase.h" />
-    <ClInclude Include="Score.h" />
     <ClInclude Include="SoundManager.h" />
     <ClInclude Include="TimeSlow.h" />
     <ClInclude Include="TitleScene.h" />

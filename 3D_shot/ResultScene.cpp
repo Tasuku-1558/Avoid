@@ -3,7 +3,6 @@
 
 #include "PreCompiledHeader.h"
 #include "BackGround.h"
-#include "Score.h"
 
 
 const string ResultScene::IMAGE_FOLDER_PATH = "Data/image/";		//Imageフォルダまでのパス
@@ -77,18 +76,6 @@ void ResultScene::Initialize()
 	evaluationFont = CreateFontToHandle("Oranienbaum", 80, 1);
 }
 
-/// <summary>
-/// スコアを取得
-/// </summary>
-void ResultScene::AcquisitionScore()
-{
-	totalScore	   = Score::GetInstance().GetScore();
-	excellentCount = Score::GetInstance().GetExcellentCount();
-	greatCount	   = Score::GetInstance().GetGreatCount();
-	goodCount	   = Score::GetInstance().GetGoodCount();
-	missCount	   = Score::GetInstance().GetMissCount();
-}
-
 SceneType ResultScene::Update(float deltaTime)
 {
 	if (pUpdate != nullptr)
@@ -109,13 +96,10 @@ void ResultScene::UpdateGame()
 {
 	state = State::RESULT;
 	pUpdate = &ResultScene::UpdateResult;
-
-	AcquisitionScore();
 }
 
 void ResultScene::UpdateResult()
 {
-	Score::GetInstance().Activate();
 
 	//タイトル画面へ
 	if (CheckHitKey(KEY_INPUT_BACK))

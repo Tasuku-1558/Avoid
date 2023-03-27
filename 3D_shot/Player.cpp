@@ -47,16 +47,13 @@ void Player::Initialize()
 
 		//モデルのエミッシブカラーを変更
 		MV1SetMaterialEmiColor(afterImageModelHandle[i], 0, AFTER_IMAGE_COLOR);
+
+		pastPosition[i] = POSITION;
 	}
 
 	position = POSITION;
 
 	rotateSpeed = LING_ROTATE_SPEED;
-
-	for (int i = 0; i < AFTER_IMAGE_NUMBER; i++)
-	{
-		pastPosition[i] = POSITION;
-	}
 }
 
 /// <summary>

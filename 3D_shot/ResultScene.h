@@ -32,7 +32,6 @@ private:
 	ResultScene(const ResultScene&);	//コピーコンストラクタ
 
 	void Initialize()override;			//初期化処理
-	void AcquisitionScore();			//スコア取得
 	void DisplayScore();				//獲得スコア表示
 	void Blink();						//文字の点滅
 	void ScoreGauge();					//スコアゲージ表示
@@ -51,7 +50,7 @@ private:
 	int greatCount;				//greatの数
 	int goodCount;				//goodの数
 	int missCount;				//missの数
-	int displayCount;			//スコア表示カウント
+	float displayCount;			//スコア表示カウント
 	int resultUi;				//リプレイ、タイトルへのUI
 	int scoreFont;				//獲得スコアフォント
 	int evaluationFont;			//各評価フォント

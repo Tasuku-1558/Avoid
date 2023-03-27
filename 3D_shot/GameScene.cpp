@@ -13,7 +13,7 @@
 #include "ScoreEarn.h"
 #include "EffectManager.h"
 #include "FadeManager.h"
-#include "Score.h"
+#include "SoundManager.h"
 #include "TimeSlow.h"
 
 
@@ -29,14 +29,17 @@ GameScene::GameScene()
 	, countDown(0)
 	, score(0)
 	, font(0)
-	, targetScore(0)
 	, wave(0)
-	, shadowMapHandle(0)
+	, excellentCount(0)
+	, greatCount(0)
+	, goodCount(0)
+	, missCount(0)
 	, frame(0.0f)
 	, meteoritePopCount(0.0f)
-	, slow(false)
 	, pUpdate(nullptr)
-	, GAME_TIME(20)
+	, GAME_TIME(5)
+	, displayCount(0.0f)
+	, scoreFont(0)
 {
 	Initialize();
 }
@@ -53,9 +56,6 @@ GameScene::~GameScene()
 
 	//作成したフォントデータの削除
 	DeleteFontToHandle(font);
-
-	//シャドウマップの削除
-	DeleteShadowMap(shadowMapHandle);
 }
 
 /// <summary>
@@ -65,8 +65,8 @@ void GameScene::Initialize()
 {
 	camera = new Camera();
 
-	/*light = new Light();
-	light->GameLight();*/
+	light = new Light();
+	light->GameLight();
 
 	backGround = new BackGround();
 
@@ -87,35 +87,15 @@ void GameScene::Initialize()
 	fadeManager = new FadeManager();
 
 	font = CreateFontToHandle("Oranienbaum", 80, 1);
+	scoreFont = CreateFontToHandle("Oranienbaum", 130, 1);
 
-	//シャドウマップハンドルの作成
-	shadowMapHandle = MakeShadowMap(SCREEN_WIDTH, SCREEN_HEIGHT);
+	//ゲーム起動時の時間を取得
+	startTime = GetNowCount();
 
-	//シャドウマップが想定するライトの方向をセット
-	SetShadowMapLightDirection(shadowMapHandle, LIGHT_DIRECTION);
-
-	//シャドウマップに描画する範囲を設定
-	SetShadowMapDrawArea(shadowMapHandle, SHADOWMAP_MINPOSITION, SHADOUMAP_MAXPOSITION);
+	//ゲームBGMを再生
+	SoundManager::GetInstance().PlayBgm(SoundManager::GAME);
 
 	pUpdate = &GameScene::UpdateStart;
-}
-
-/// <summary>
-/// ゲーム時間計算
-/// </summary>
-void GameScene::GameCountDown()
-{
-	nowTime = GetNowCount();
-	countDown = GAME_TIME - (nowTime - startTime) / 1000;
-
-	//制限時間が0になったら
-	if (countDown == 0)
-	{
-		/*gameState = GameState::RESULT;
-		pUpdate = &GameScene::UpdateResult;*/
-
-		nowSceneType = SceneType::RESULT;
-	}
 }
 
 /// <summary>
@@ -164,6 +144,37 @@ void GameScene::MeteoritePop(float deltaTime)
 }
 
 /// <summary>
+/// スコアを取得
+/// </summary>
+void GameScene::GetScore()
+{
+	score		   = scoreEarn->GetScore();
+	excellentCount = scoreEarn->GetExcellentCount();
+	greatCount	   = scoreEarn->GetGreatCount();
+	goodCount	   = scoreEarn->GetGoodCount();
+	missCount	   = scoreEarn->GetMissCount();
+
+	//スコアを計算
+	scoreEarn->Update();
+}
+
+/// <summary>
+/// ゲーム時間計算
+/// </summary>
+void GameScene::GameCountDown()
+{
+	nowTime = GetNowCount();
+	countDown = GAME_TIME - (nowTime - startTime) / 1000;
+
+	//制限時間が0になったら
+	if (countDown == 0)
+	{
+		gameState = GameState::FINISH;
+		pUpdate = &GameScene::UpdateFinish;
+	}
+}
+
+/// <summary>
 /// 更新処理
 /// </summary>
 /// <param name="deltaTime"></param>
@@ -183,22 +194,15 @@ SceneType GameScene::Update(float deltaTime)
 /// <param name="deltaTime"></param>
 void GameScene::UpdateStart(float deltaTime)
 {
-	Score::GetInstance().Activate();
-
-	TimeSlow::GetInstance().SetTimeSlow(slow);
-
-	//ゲーム起動時の時間を取得
-	startTime = GetNowCount();
-
 	gameState = GameState::GAME;
-	pUpdate = &GameScene::UpdateWave1;
+	pUpdate = &GameScene::UpdateGame;
 }
 
 /// <summary>
-/// Wave1
+/// ゲーム中
 /// </summary>
 /// <param name="deltaTime"></param>
-void GameScene::UpdateWave1(float deltaTime)
+void GameScene::UpdateGame(float deltaTime)
 {
 	backGround->Update();
 
@@ -211,25 +215,6 @@ void GameScene::UpdateWave1(float deltaTime)
 	{
 		meteoritePtr->Update(deltaTime);
 
-		//制限時間によって隕石の色やスピードが変化
-		if (countDown < 50)
-		{
-			meteoritePtr->ChangeColor(0.0f, 1.0f, 1.0f);
-		}
-		if (countDown < 20)
-		{
-			meteoritePtr->ChangeColor(50.0f, 50.0f, 0.0f);
-			wave = 4;
-		}
-		if (countDown < 11)		//制限時間が11秒以下になったらフィーバー状態へ移行
-		{
-			gameState = GameState::FINALWAVE;
-			meteoritePtr->SpeedUp();
-			meteoritePtr->ChangeColor(5.0f, 0.0f, 0.0f);
-			wave = 5;
-			pUpdate = &GameScene::UpdateFinal;
-		}
-
 		//隕石と衝突したもしくは制限時間が0になったら隕石を消す
 		if (hitChecker->Hit() || countDown == 0)
 		{
@@ -241,25 +226,35 @@ void GameScene::UpdateWave1(float deltaTime)
 	hitChecker->PlayerAndMeteorite(player, &meteorite, scoreEarn);
 
 	//スコアを取得
-	score = Score::GetInstance().GetScore();
-
-	//スコアを計算
-	Score::GetInstance().Scoring();
+	GetScore();
 
 	GameCountDown();
 }
 
 /// <summary>
-/// フィーバー中
+/// ゲーム終了
 /// </summary>
 /// <param name="deltaTime"></param>
-void GameScene::UpdateFinal(float deltaTime)
+void GameScene::UpdateFinish(float deltaTime)
 {
-	UpdateWave1(deltaTime);
-}
+	frame += deltaTime;
 
-void GameScene::GameFinish(float deltaTime)
-{
+	//ゲームBGMを停止
+	SoundManager::GetInstance().StopBgm();
+
+	TimeSlow::GetInstance().SetTimeSlow(false);
+
+	if (frame > 1.0f)
+	{
+		fadeManager->FadeMove();
+	}
+
+	//フレーム数が3.2秒経過したら
+	if (frame > 3.2f)
+	{
+		gameState = GameState::RESULT;
+		pUpdate = &GameScene::UpdateResult;
+	}
 }
 
 /// <summary>
@@ -268,6 +263,27 @@ void GameScene::GameFinish(float deltaTime)
 /// <param name="deltaTime"></param>
 void GameScene::UpdateResult(float deltaTime)
 {
+	backGround->Update();
+
+	//リザルトBGMを再生
+	SoundManager::GetInstance().PlayBgm(SoundManager::RESULT);
+
+	//タイトル画面へ
+	if (CheckHitKey(KEY_INPUT_RETURN))
+	{
+		//リザルトBGMを停止
+		SoundManager::GetInstance().StopBgm();
+
+		nowSceneType = SceneType::TITLE;
+	}
+
+	if (CheckHitKey(KEY_INPUT_G))
+	{
+		Initialize();
+
+		gameState = GameState::START;
+		pUpdate = &GameScene::UpdateStart;
+	}
 }
 
 /// <summary>
@@ -277,42 +293,60 @@ void GameScene::Draw()
 {
 	backGround->Draw();
 
-	field->Draw();
-
-	//シャドウマップへの描画の準備
-	ShadowMap_DrawSetup(shadowMapHandle);
-
-	player->Draw();
-
-	for (auto meteoritePtr : meteorite)
+	if (gameState != GameState::RESULT)
 	{
-		meteoritePtr->Draw();
+		evaluation->Draw();
+
+		field->Draw();
+
+		player->Draw();
+
+		for (auto meteoritePtr : meteorite)
+		{
+			meteoritePtr->Draw();
+		}
+
+		effectManager->Draw();
+
+		uiManager->Draw(gameState, font, countDown, score, wave);
 	}
 
-	//シャドウマップへの描画を終了
-	ShadowMap_DrawEnd();
-
-	//描画に使用するシャドウマップを設定
-	SetUseShadowMap(0, shadowMapHandle);
-
-	player->Draw();
-
-	for (auto meteoritePtr : meteorite)
-	{
-		meteoritePtr->Draw();
-	}
-
-	//描画に使用するシャドウマップの設定を解除
-	SetUseShadowMap(0, -1);
-
-	effectManager->Draw();
-
-	evaluation->Draw();
-
-	uiManager->Draw(gameState, font, countDown, score, wave);
-
-	if (gameState == GameState::RESULT || gameState == GameState::FINISH)
+	if (gameState == GameState::FINISH)
 	{
 		fadeManager->Draw();
+	}
+
+	//リザルト画面の表示
+	if (gameState == GameState::RESULT)
+	{
+		DrawResult();
+	}
+}
+
+void GameScene::DrawResult()
+{
+	displayCount ++;
+
+	if (displayCount > 10.0f)
+	{
+		DrawFormatStringToHandle(650, 250, GetColor(255, 69, 0), scoreFont, "SCORE : %d", score);
+
+		if (displayCount > 30.0f)
+		{
+			DrawFormatStringToHandle(650, 400, GetColor(255, 255, 0), font, "Excellent   ×  %d", excellentCount);
+			if (displayCount > 50.0f)
+			{
+				DrawFormatStringToHandle(650, 500, GetColor(255, 105, 180), font, "Great         ×  %d", greatCount);
+				if (displayCount > 70.0f)
+				{
+					DrawFormatStringToHandle(650, 600, GetColor(175, 238, 238), font, "Good          ×  %d", goodCount);
+					if (displayCount > 90.0f)
+					{
+						DrawFormatStringToHandle(650, 700, GetColor(169, 169, 169), font, "Miss          ×  %d", missCount);
+						displayCount = 90.0f;
+					}
+				}
+			}
+		}
 	}
 }

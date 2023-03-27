@@ -32,8 +32,8 @@ private:
 	void Initialize();
 	void Finalize();
 	void StartGameDraw();
-	void GameUIDraw(int font, int countDown, int score, int wave);		//ゲーム中のUIの描画
-	void FrameDraw();					//制限時間とスコアの枠描画処理
+	void GameUIDraw(int font, int countDown, int score, int wave);		//ゲーム内UI描画
+	void FrameDraw();					//枠描画
 	void FeverImageDraw();				//フィーバーモードUIの描画
 	
 

@@ -32,7 +32,7 @@ TitleScene::TitleScene()
 	, PLAY_POSITION(5000)
 	, START_SPHERE_POSY(90.0f)
 	, EXIT_SPHERE_POSY(0.0f)
-	, CHANGE_FRAME(2.2f)
+	, CHANGE_FRAME(2.1f)
 {
 	Initialize();
 }
@@ -42,10 +42,6 @@ TitleScene::TitleScene()
 /// </summary>
 TitleScene::~TitleScene()
 {
-	delete light;
-	delete camera;
-	delete fadeManager;
-
 	PauseMovieToGraph(titleMovie);
 
 	DeleteGraph(titleMovie);
@@ -191,7 +187,7 @@ void TitleScene::InputScene(float deltaTime, SceneType sceneType)
 
 	fadeManager->FadeMove();
 
-	//フレーム数が2.2秒経過したら
+	//フレーム数が2.1秒経過したら
 	if (frame > CHANGE_FRAME)
 	{
 		//タイトルBGMを停止

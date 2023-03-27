@@ -60,6 +60,15 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	//メインループ用フラグ変数
 	bool loop = true;
+
+	//シャドウマップハンドルの作成
+	int shadowMapHandle = MakeShadowMap(SCREEN_WIDTH, SCREEN_HEIGHT);
+
+	//シャドウマップが想定するライトの方向をセット
+	SetShadowMapLightDirection(shadowMapHandle, LIGHT_DIRECTION);
+
+	//シャドウマップに描画する範囲を設定
+	SetShadowMapDrawArea(shadowMapHandle, SHADOWMAP_MINPOSITION, SHADOUMAP_MAXPOSITION);
 	
 	//モデル管理クラスの生成
 	ModelManager::GetInstance();
@@ -67,11 +76,11 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	//サウンド管理クラスの生成
 	SoundManager::GetInstance();
 
-	//今のシーン
-	SceneType nowSceneType;
-
 	//ひとつ前のシーン
-	SceneType prevSceneType = nowSceneType = SceneType::TITLE;
+	SceneType prevSceneType;
+
+	//今のシーン
+	SceneType nowSceneType = prevSceneType = SceneType::TITLE;
 
 	//シーンを生成
 	SceneBase* sceneBase = new TitleScene();
@@ -79,7 +88,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	//メインループ
 	while (loop)
 	{
-
 		SceneBase* scene = nullptr;
 
 		//前フレームと現在のフレームの差分
@@ -100,6 +108,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			deltaTime = (nowTime - prevTime) / 1000000.0f;
 		}
 
+		//マウスカーソルを表示しない
+		SetMouseDispFlag(FALSE);
+
 		//DxlibのカメラとEffekseerのカメラを同期
 		Effekseer_Sync3DSetting();
 
@@ -110,7 +121,21 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		//画面を初期化する
 		ClearDrawScreen();
 
+		//シャドウマップへの描画の準備
+		ShadowMap_DrawSetup(shadowMapHandle);
+
 		sceneBase->Draw();     //各シーンの描画処理
+
+		//シャドウマップへの描画を終了
+		ShadowMap_DrawEnd();
+
+		//描画に使用するシャドウマップを設定
+		SetUseShadowMap(0, shadowMapHandle);
+
+		sceneBase->Draw();     //各シーンの描画処理
+
+		//描画に使用するシャドウマップの設定を解除
+		SetUseShadowMap(0, -1);
 		
 		//デバック用　デルタタイム計測
 		DrawFormatString(0, 500, GetColor(255, 255, 255), "%f", deltaTime, TRUE);
@@ -145,11 +170,13 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	if (RemoveFontResourceEx(fontPath, FR_PRIVATE, NULL)) {}
 	else { MessageBox(NULL, "remove failure", "", MB_OK); }
 
-	delete sceneBase;	//シーンの解放
-	
-	Effkseer_End();		//Effekseerの終了処理
-	
-	DxLib_End();		//Dxlib使用の終了処理
+	delete sceneBase;						//シーンの解放
 
-	return 0;			//ソフトの終了 
+	DeleteShadowMap(shadowMapHandle);		//シャドウマップの削除
+	
+	Effkseer_End();							//Effekseerの終了処理
+	
+	DxLib_End();							//Dxlib使用の終了処理
+
+	return 0;								//ソフトの終了 
 }

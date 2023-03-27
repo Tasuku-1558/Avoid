@@ -78,14 +78,9 @@ void UiManager::Draw(GameScene::GameState gameState, int font, int countDown, in
 	case GameScene::GameState::GAME:
 		FrameDraw();
 		GameUIDraw(font, countDown, score, wave);
-		
 		break;
 
-	case GameScene::GameState::FINALWAVE:
-		FrameDraw();
-		GameUIDraw(font, countDown, score, wave);
-		fever = true;
-		FeverImageDraw();
+	case GameScene::GameState::RESULT:
 		break;
 	}
 }
@@ -95,6 +90,13 @@ void UiManager::StartGameDraw()
 	
 }
 
+/// <summary>
+/// ゲーム内UI描画
+/// </summary>
+/// <param name="font">ゲームフォント</param>
+/// <param name="countDown">ゲーム内時間</param>
+/// <param name="score">獲得スコア</param>
+/// <param name="wave">ウェーブ</param>
 void UiManager::GameUIDraw(int font, int countDown, int score, int wave)
 {
 	//制限時間表示
@@ -108,7 +110,7 @@ void UiManager::GameUIDraw(int font, int countDown, int score, int wave)
 }
 
 /// <summary>
-/// 制限時間とスコアの枠描画処理
+/// 枠描画
 /// </summary>
 void UiManager::FrameDraw()
 {

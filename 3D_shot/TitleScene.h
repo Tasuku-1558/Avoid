@@ -69,6 +69,6 @@ private:
 	const int	 PLAY_POSITION;			//タイトル動画の再生位置
 	const float  START_SPHERE_POSY;		//スタート状態の球のY座標
 	const float  EXIT_SPHERE_POSY;		//終了状態の球のY座標
-	const float  CHANGE_FRAME;
+	const float  CHANGE_FRAME;			//シーン遷移するフレーム数
 
 };
