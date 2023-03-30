@@ -5,7 +5,6 @@ enum class SceneType
 {
 	TITLE,			//タイトル画面
 	GAME,			//ゲーム画面
-	RESULT,			//リザルト画面
 	END,			//終了
 };
 

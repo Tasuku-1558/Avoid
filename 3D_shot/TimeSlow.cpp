@@ -1,24 +1,34 @@
 #include "TimeSlow.h"
 
 
+/// <summary>
+/// コンストラクタ
+/// </summary>
 TimeSlow::TimeSlow()
-	: slow(false)
+	: slowFlag(false)
 {
 	//処理なし
 }
 
+/// <summary>
+/// デストラクタ
+/// </summary>
 TimeSlow::~TimeSlow()
 {
 	//処理なし
 }
 
+/// <summary>
+/// アドレスを返す
+/// </summary>
+/// <returns></returns>
 TimeSlow& TimeSlow::GetInstance()
 {
 	static TimeSlow timeSlow;
 	return timeSlow;
 }
 
-void TimeSlow::SetTimeSlow(bool time)
+void TimeSlow::SetTimeSlow(bool slow)
 {
-	slow = time;
+	slowFlag = slow;
 }

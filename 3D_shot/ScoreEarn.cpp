@@ -58,6 +58,9 @@ void ScoreEarn::UpdateGood()
 	goodCount++;
 }
 
+/// <summary>
+/// スコア計算
+/// </summary>
 void ScoreEarn::Scoring()
 {
 	//目標スコアになるまでスコアを足し引きする

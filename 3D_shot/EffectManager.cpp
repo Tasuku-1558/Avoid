@@ -6,8 +6,8 @@
 /// コンストラクタ
 /// </summary>
 EffectManager::EffectManager()
-	: EFFECT_FOLDER_PATH("Data/effect/")
-	, EXPLOSION_EFFECT_PATH("Explosion.efkefc")
+	: EFFECT_FOLDER_PATH("Data/Effect/")
+	, EXPLOSION_EFFECT_PATH("Explosion/Explosion.efkefc")
 	, EXPLOSION_SIZE(30.0f)
 {
 	Initialize();

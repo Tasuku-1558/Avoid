@@ -1,7 +1,6 @@
 #include "SceneBase.h"
 #include "TitleScene.h"
 #include "GameScene.h"
-#include "ResultScene.h"
 
 
 /// <summary>
@@ -39,10 +38,6 @@ SceneBase* SceneBase::CreateScene(SceneType nowScene)
 
 	case SceneType::GAME:
 		retScene = new GameScene();
-		break;
-
-	case SceneType::RESULT:
-		retScene = new ResultScene();
 		break;
 	}
 

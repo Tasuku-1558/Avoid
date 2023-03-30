@@ -30,10 +30,12 @@ void Player::Initialize()
 	//プレイヤーモデルの読み込みとサイズの設定
 	modelHandle = MV1DuplicateModel(ModelManager::GetInstance().GetModelHandle(ModelManager::PLAYER));
 	MV1SetScale(modelHandle, SIZE);
+	position = POSITION;
 
 	//プレイヤーリングモデルの読み込みとサイズの設定
 	lingModel = MV1DuplicateModel(ModelManager::GetInstance().GetModelHandle(ModelManager::PLAYER_LING));
 	MV1SetScale(lingModel, LING_SIZE);
+	rotateSpeed = LING_ROTATE_SPEED;
 
 	for (int i = 0; i < AFTER_IMAGE_NUMBER; i++)
 	{
@@ -50,10 +52,6 @@ void Player::Initialize()
 
 		pastPosition[i] = POSITION;
 	}
-
-	position = POSITION;
-
-	rotateSpeed = LING_ROTATE_SPEED;
 }
 
 /// <summary>

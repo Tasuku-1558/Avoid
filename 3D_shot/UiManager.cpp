@@ -1,5 +1,5 @@
 #include "UiManager.h"
-
+#include "DxLib.h"
 
 /// <summary>
 /// コンストラクタ
@@ -7,7 +7,7 @@
 UiManager::UiManager()
 	: uiHandle()
 	, fever(false)
-	, FOLDER_PATH("Data/image/")
+	, FOLDER_PATH("Data/Image/")
 	, UI_GRAPHIC_PATH("ui")
 	, FILENAME_EXTENSION(".png")
 {
@@ -78,9 +78,6 @@ void UiManager::Draw(GameScene::GameState gameState, int font, int countDown, in
 	case GameScene::GameState::GAME:
 		FrameDraw();
 		GameUIDraw(font, countDown, score, wave);
-		break;
-
-	case GameScene::GameState::RESULT:
 		break;
 	}
 }

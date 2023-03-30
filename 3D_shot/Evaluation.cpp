@@ -11,7 +11,7 @@ Evaluation::Evaluation()
 	, scale(0.0f)
 	, waitTime(0.0f)
 	, ui(Ui::NOMAL)
-	, IMAGE_FOLDER_PATH("Data/image/")
+	, IMAGE_FOLDER_PATH("Data/Image/")
 	, EXCELLENT_PATH("ExcellentEffect.png")
 	, GREAT_PATH("GreatEffect.png")
 	, GOOD_PATH("GoodEffect.png")
@@ -51,8 +51,8 @@ void Evaluation::Initialize()
 /// <summary>
 /// 画像のパスを入力
 /// </summary>
-/// <param name="folderPath"></param>
-/// <param name="imagePath"></param>
+/// <param name="folderPath">フォルダまでのパス</param>
+/// <param name="imagePath">画像のパス</param>
 /// <returns></returns>
 std::string Evaluation::InputPath(std::string folderPath, std::string imagePath)
 {

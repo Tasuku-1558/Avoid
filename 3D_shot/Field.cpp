@@ -7,7 +7,7 @@
 /// </summary>
 Field::Field()
 	: lineHandle(0)
-	, IMAGE_FOLDER_PATH("Data/image/")
+	, IMAGE_FOLDER_PATH("Data/Image/")
 	, LINE_PATH("line.png")
 	, SIZE({ 6.0f, 1.0f, 3.0f })
 	, POSITION({ 0.0f, -50.0f, 1200.0f })

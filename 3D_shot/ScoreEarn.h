@@ -18,15 +18,15 @@ public:
 
 
 	const int GetScore() { return targetScore; }				//スコアを返す
-	const int GetExcellentCount() { return excellentCount; }
-	const int GetGreatCount() { return greatCount; }
-	const int GetGoodCount() { return goodCount; }
-	const int GetMissCount() { return missCount; }
+	const int GetExcellentCount() { return excellentCount; }	//excellentの回数を返す
+	const int GetGreatCount() { return greatCount; }			//greatの回数を返す
+	const int GetGoodCount() { return goodCount; }				//goodの回数を返す
+	const int GetMissCount() { return missCount; }				//missの回数を返す
 
 private:
 	ScoreEarn(const ScoreEarn&);	//コピーコンストラクタ
 
-	void Scoring();
+	void Scoring();				//スコア計算
 
 	int score;					//獲得スコア
 	int targetScore;			//目標スコア

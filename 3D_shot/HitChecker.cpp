@@ -1,10 +1,9 @@
 #include "HitChecker.h"
-#include "TimeSlow.h"
-#include "SoundManager.h"
 #include "Player.h"
 #include "Meteorite.h"
 #include "ScoreEarn.h"
-
+#include "TimeSlow.h"
+#include "SoundManager.h"
 
 using namespace Math3d;		//VECTORの計算に使用
 
@@ -94,6 +93,52 @@ void HitChecker::Decision(Player* player)
 }
 
 /// <summary>
+/// 判定終了
+/// </summary>
+/// <param name="scoreEarn"></param>
+void HitChecker::DecisionEnd(ScoreEarn* scoreEarn)
+{
+	if (excellent)
+	{
+		excellent = false;
+		TimeSlow::GetInstance().SetTimeSlow(excellent);
+
+		scoreEarn->UpdateExcellent();
+
+		//隕石が爆発した時のSE音を再生
+		SoundManager::GetInstance().SePlayFlag(SoundManager::EXPLOSION);
+
+		hit = true;
+	}
+
+	if (miss)
+	{
+		scoreEarn->UpdateMiss();
+		miss = false;
+		hit = true;
+	}
+
+	if (great)
+	{
+		great = false;
+		TimeSlow::GetInstance().SetTimeSlow(great);
+
+		scoreEarn->UpdateGreat();
+
+		hit = true;
+	}
+
+	if (good)
+	{
+		scoreEarn->UpdateGood();
+		good = false;
+		hit = true;
+	}
+
+	decisionFlag = false;
+}
+
+/// <summary>
 /// プレイヤーと隕石の衝突判定
 /// </summary>
 /// <param name="player"></param>
@@ -123,45 +168,11 @@ void HitChecker::PlayerAndMeteorite(Player* player, vector<Meteorite*>* meteorit
 		{
 			if (excellent)
 			{
-				excellent = false;
-				TimeSlow::GetInstance().SetTimeSlow(excellent);
-
-				scoreEarn->UpdateExcellent();
-
 				//爆発エフェクトを出す
 				effectManager->CreateExplosionEffect((*itr)->GetPosition());
-
-				//隕石が爆発した時のSE音を再生
-				SoundManager::GetInstance().SePlayFlag(SoundManager::EXPLOSION);
-
-				hit = true;
 			}
-
-			if (miss)
-			{
-				scoreEarn->UpdateMiss();
-				miss = false;
-				hit = true;
-			}
-
-			if (great)
-			{
-				great = false;
-				TimeSlow::GetInstance().SetTimeSlow(great);
-
-				scoreEarn->UpdateGreat();
-
-				hit = true;
-			}
-
-			if (good)
-			{
-				scoreEarn->UpdateGood();
-				good = false;
-				hit = true;
-			}
-
-			decisionFlag = false;
+			
+			DecisionEnd(scoreEarn);
 		}
 	}
 }

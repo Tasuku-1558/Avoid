@@ -15,7 +15,7 @@
 #include "FadeManager.h"
 #include "SoundManager.h"
 #include "TimeSlow.h"
-
+#include "ResultUi.h"
 
 /// <summary>
 /// コンストラクタ
@@ -28,18 +28,18 @@ GameScene::GameScene()
 	, nowTime(0)
 	, countDown(0)
 	, score(0)
-	, font(0)
-	, wave(0)
 	, excellentCount(0)
 	, greatCount(0)
 	, goodCount(0)
 	, missCount(0)
+	, scoreFont(0)
+	, fontHandle(0)
+	, wave(0)
 	, frame(0.0f)
 	, meteoritePopCount(0.0f)
+	, sceneChangeTitle(false)
 	, pUpdate(nullptr)
 	, GAME_TIME(5)
-	, displayCount(0.0f)
-	, scoreFont(0)
 {
 	Initialize();
 }
@@ -55,7 +55,8 @@ GameScene::~GameScene()
 	}
 
 	//作成したフォントデータの削除
-	DeleteFontToHandle(font);
+	DeleteFontToHandle(scoreFont);
+	DeleteFontToHandle(fontHandle);
 }
 
 /// <summary>
@@ -86,8 +87,11 @@ void GameScene::Initialize()
 
 	fadeManager = new FadeManager();
 
-	font = CreateFontToHandle("Oranienbaum", 80, 1);
+	resultUi = new ResultUi();
+
+	//フォントの生成
 	scoreFont = CreateFontToHandle("Oranienbaum", 130, 1);
+	fontHandle = CreateFontToHandle("Oranienbaum", 80, 1);
 
 	//ゲーム起動時の時間を取得
 	startTime = GetNowCount();
@@ -134,28 +138,29 @@ void GameScene::MeteoritePop(float deltaTime)
 {
 	meteoritePopCount += deltaTime;
 
-	if (meteoritePopCount > 1.2f)
+	if (countDown > 80 && meteoritePopCount > 1.2f)
 	{
 		Meteorite* newMeteorite = new Meteorite(player);
 		EntryMeteorite(newMeteorite);
 		meteoritePopCount = 0.0f;
 		wave = 1;
 	}
-}
 
-/// <summary>
-/// スコアを取得
-/// </summary>
-void GameScene::GetScore()
-{
-	score		   = scoreEarn->GetScore();
-	excellentCount = scoreEarn->GetExcellentCount();
-	greatCount	   = scoreEarn->GetGreatCount();
-	goodCount	   = scoreEarn->GetGoodCount();
-	missCount	   = scoreEarn->GetMissCount();
+	if (countDown < 80 && meteoritePopCount > 1.0f)
+	{
+		Meteorite* newMeteorite = new Meteorite(player);
+		EntryMeteorite(newMeteorite);
+		meteoritePopCount = 0.0f;
+		wave = 2;
+	}
 
-	//スコアを計算
-	scoreEarn->Update();
+	if (countDown < 60 && meteoritePopCount > 2.0f)
+	{
+		Meteorite* newMeteorite = new Meteorite(player);
+		EntryMeteorite(newMeteorite);
+		meteoritePopCount = 0.0f;
+		wave = 3;
+	}
 }
 
 /// <summary>
@@ -172,6 +177,19 @@ void GameScene::GameCountDown()
 		gameState = GameState::FINISH;
 		pUpdate = &GameScene::UpdateFinish;
 	}
+}
+
+void GameScene::ResultScore()
+{
+	//スコアを計算
+	scoreEarn->Update();
+
+	//スコアを取得
+	score = scoreEarn->GetScore();
+	excellentCount = scoreEarn->GetExcellentCount();
+	greatCount = scoreEarn->GetGreatCount();
+	goodCount = scoreEarn->GetGoodCount();
+	missCount = scoreEarn->GetMissCount();
 }
 
 /// <summary>
@@ -222,11 +240,9 @@ void GameScene::UpdateGame(float deltaTime)
 		}
 	}
 
-	//プレイヤーと隕石の衝突判定
 	hitChecker->PlayerAndMeteorite(player, &meteorite, scoreEarn);
 
-	//スコアを取得
-	GetScore();
+	ResultScore();
 
 	GameCountDown();
 }
@@ -244,16 +260,19 @@ void GameScene::UpdateFinish(float deltaTime)
 
 	TimeSlow::GetInstance().SetTimeSlow(false);
 
+	//1秒経過したら
 	if (frame > 1.0f)
 	{
 		fadeManager->FadeMove();
 	}
 
-	//フレーム数が3.2秒経過したら
-	if (frame > 3.2f)
+	//フェードが終わったら
+	if (fadeManager->FadeEnd())
 	{
 		gameState = GameState::RESULT;
 		pUpdate = &GameScene::UpdateResult;
+
+		fadeManager->FadeReset();
 	}
 }
 
@@ -268,21 +287,30 @@ void GameScene::UpdateResult(float deltaTime)
 	//リザルトBGMを再生
 	SoundManager::GetInstance().PlayBgm(SoundManager::RESULT);
 
-	//タイトル画面へ
-	if (CheckHitKey(KEY_INPUT_RETURN))
+	if (CheckHitKey(KEY_INPUT_BACK))
 	{
+		sceneChangeTitle = true;
+	}
+
+	if (sceneChangeTitle)
+	{
+		fadeManager->FadeMove();
+
 		//リザルトBGMを停止
 		SoundManager::GetInstance().StopBgm();
 
-		nowSceneType = SceneType::TITLE;
+		//フェードが終わったら
+		if (fadeManager->FadeEnd())
+		{
+			//タイトル画面へ
+			nowSceneType = SceneType::TITLE;
+		}
 	}
 
-	if (CheckHitKey(KEY_INPUT_G))
+	if (CheckHitKey(KEY_INPUT_RETURN))
 	{
-		Initialize();
-
 		gameState = GameState::START;
-		pUpdate = &GameScene::UpdateStart;
+		Initialize();
 	}
 }
 
@@ -307,46 +335,17 @@ void GameScene::Draw()
 		}
 
 		effectManager->Draw();
-
-		uiManager->Draw(gameState, font, countDown, score, wave);
 	}
 
-	if (gameState == GameState::FINISH)
-	{
-		fadeManager->Draw();
-	}
+	uiManager->Draw(gameState, fontHandle, countDown, score, wave);
 
-	//リザルト画面の表示
 	if (gameState == GameState::RESULT)
 	{
-		DrawResult();
+		resultUi->Draw(scoreFont, fontHandle, score, excellentCount, greatCount, goodCount, missCount);
 	}
-}
 
-void GameScene::DrawResult()
-{
-	displayCount ++;
-
-	if (displayCount > 10.0f)
+	if (gameState == GameState::FINISH || gameState == GameState::RESULT)
 	{
-		DrawFormatStringToHandle(650, 250, GetColor(255, 69, 0), scoreFont, "SCORE : %d", score);
-
-		if (displayCount > 30.0f)
-		{
-			DrawFormatStringToHandle(650, 400, GetColor(255, 255, 0), font, "Excellent   ×  %d", excellentCount);
-			if (displayCount > 50.0f)
-			{
-				DrawFormatStringToHandle(650, 500, GetColor(255, 105, 180), font, "Great         ×  %d", greatCount);
-				if (displayCount > 70.0f)
-				{
-					DrawFormatStringToHandle(650, 600, GetColor(175, 238, 238), font, "Good          ×  %d", goodCount);
-					if (displayCount > 90.0f)
-					{
-						DrawFormatStringToHandle(650, 700, GetColor(169, 169, 169), font, "Miss          ×  %d", missCount);
-						displayCount = 90.0f;
-					}
-				}
-			}
-		}
+		fadeManager->Draw();
 	}
 }

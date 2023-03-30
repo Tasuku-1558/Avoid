@@ -15,6 +15,7 @@ class EffectManager;
 class Evaluation;
 class ScoreEarn;
 class FadeManager;
+class ResultUi;
 
 /// <summary>
 /// ゲームシーンクラス
@@ -54,14 +55,14 @@ private:
 	Evaluation* evaluation;
 	ScoreEarn* scoreEarn;
 	FadeManager* fadeManager;
+	ResultUi* resultUi;
 	
 	void Initialize()override;							//初期化処理
-	void GameCountDown();								//ゲーム時間計算
 	void EntryMeteorite(Meteorite* newMeteorite);		//隕石を登録
 	void DeleteMeteorite(Meteorite* deleteMeteorite);	//隕石を削除
 	void MeteoritePop(float deltaTime);					//隕石の出現間隔
-	void GetScore();									//スコアを取得
-	void DrawResult();
+	void GameCountDown();								//ゲーム時間計算
+	void ResultScore();
 
 	//各状態に応じた更新処理
 	void UpdateStart(float deltaTime);					//ゲーム開始前
@@ -80,13 +81,14 @@ private:
 	int greatCount;				//greatの数
 	int goodCount;				//goodの数
 	int missCount;				//missの数
-	int font;					//ゲームフォント
+	int scoreFont;				//スコアフォント
+	int fontHandle;				//フォントハンドル
 	int wave;					//ゲームの区分け
 	float frame;				//フレーム数
 	float meteoritePopCount;	//隕石出現カウント
+	bool sceneChangeTitle;		//タイトル画面へ遷移するかどうか
 
-	float displayCount;
-	int scoreFont;
+
 	//定数
 	const int GAME_TIME;		//ゲーム時間
 };

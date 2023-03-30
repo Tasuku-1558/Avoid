@@ -47,7 +47,7 @@ private:
 
 
 	//定数
-	const string IMAGE_FOLDER_PATH;	//imageフォルダまでのパス
+	const string IMAGE_FOLDER_PATH;	//Imageフォルダまでのパス
 	const string EXCELLENT_PATH;	//excellent画像のパス
 	const string GREAT_PATH;		//great画像のパス
 	const string GOOD_PATH;			//good画像のパス

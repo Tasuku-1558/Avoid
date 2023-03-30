@@ -29,8 +29,8 @@ private:
 	void Initialize()override;			//初期化処理
 	void Blink();						//文字の点滅
 	void ChangeState();					//タイトルの状態の変更
-	void ReturnScreen(float deltaTime);	//画面を遷移する
-	void InputScene(float deltaTime, SceneType sceneType);		//シーンを入力
+	void ReturnScreen();				//画面を遷移する
+	void InputScene(SceneType sceneType);		//シーンを入力
 
 	string InputPath(string folderPath,
 					 string path);		//パスを入力
@@ -49,7 +49,6 @@ private:
 	int exitUi;				//ゲームを終了する遷移キーのUI格納用
 	int alpha;				//透過度
 	int inc;
-	float frame;			//フレーム数
 	bool sceneChangeGame;	//ゲームシーンに切り替えるか
 	bool sceneChangeEnd;	//エンドシーンに切り替えるか
 	VECTOR spherePosition;	//3D球体の位置
@@ -69,6 +68,5 @@ private:
 	const int	 PLAY_POSITION;			//タイトル動画の再生位置
 	const float  START_SPHERE_POSY;		//スタート状態の球のY座標
 	const float  EXIT_SPHERE_POSY;		//終了状態の球のY座標
-	const float  CHANGE_FRAME;			//シーン遷移するフレーム数
 
 };

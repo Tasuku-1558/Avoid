@@ -173,7 +173,6 @@
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="PlayerBase.cpp" />
     <ClCompile Include="GameScene.cpp" />
-    <ClCompile Include="ResultScene.cpp" />
     <ClCompile Include="SoundManager.cpp" />
     <ClCompile Include="TimeSlow.cpp" />
     <ClCompile Include="TitleScene.cpp" />
@@ -201,7 +200,6 @@
     <ClInclude Include="Player.h" />
     <ClInclude Include="PlayerBase.h" />
     <ClInclude Include="GameScene.h" />
-    <ClInclude Include="ResultScene.h" />
     <ClInclude Include="SceneBase.h" />
     <ClInclude Include="SoundManager.h" />
     <ClInclude Include="TimeSlow.h" />

@@ -18,21 +18,19 @@ TitleScene::TitleScene()
 	, exitUi(0)
 	, alpha(255)
 	, inc(-2)
-	, frame(0.0f)
 	, sceneChangeGame(false)
 	, sceneChangeEnd(false)
 	, spherePosition({ -360.0f, 0.0f, 0.0f })
 	, VIDEO_FOLDER_PATH("Data/Video/")
-	, IMAGE_FOLDER_PATH("Data/image/")
+	, IMAGE_FOLDER_PATH("Data/Image/")
 	, PLAY_VIDEO_PATH("PlayVideo.mp4")
 	, TITLENAME_PATH("titleName.png")
-	, START_UI_PATH("titleUi.png")
+	, START_UI_PATH("startUi.png")
 	, EXIT_UI_PATH("exitUi.png")
 	, MAX_ALPHA(255)
 	, PLAY_POSITION(5000)
 	, START_SPHERE_POSY(90.0f)
 	, EXIT_SPHERE_POSY(0.0f)
-	, CHANGE_FRAME(2.1f)
 {
 	Initialize();
 }
@@ -107,12 +105,13 @@ SceneType TitleScene::Update(float deltaTime)
 		PlayMovieToGraph(titleMovie);
 	}
 
+	//シーンが切り替わっていないならば
 	if (!sceneChangeGame && !sceneChangeEnd)
 	{
 		ChangeState();
 	}
 
-	ReturnScreen(deltaTime);
+	ReturnScreen();
 
 	return nowSceneType;
 }
@@ -160,35 +159,31 @@ void TitleScene::ChangeState()
 /// <summary>
 /// 画面を遷移する
 /// </summary>
-/// <param name="deltaTime"></param>
-void TitleScene::ReturnScreen(float deltaTime)
+void TitleScene::ReturnScreen()
 {
 	if (sceneChangeGame)
 	{
 		//ゲーム画面へ
-		InputScene(deltaTime, SceneType::GAME);
+		InputScene(SceneType::GAME);
 	}
 
 	if (sceneChangeEnd)
 	{
 		//ゲームを終了する
-		InputScene(deltaTime, SceneType::END);
+		InputScene(SceneType::END);
 	}
 }
 
 /// <summary>
 /// シーンを入力
 /// </summary>
-/// <param name="deltaTime"></param>
 /// <param name="sceneType"></param>
-void TitleScene::InputScene(float deltaTime, SceneType sceneType)
+void TitleScene::InputScene(SceneType sceneType)
 {
-	frame += deltaTime;
-
 	fadeManager->FadeMove();
 
-	//フレーム数が2.1秒経過したら
-	if (frame > CHANGE_FRAME)
+	//フェードが終わったら
+	if (fadeManager->FadeEnd())
 	{
 		//タイトルBGMを停止
 		SoundManager::GetInstance().StopBgm();

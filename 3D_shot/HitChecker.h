@@ -1,9 +1,9 @@
 #pragma once
 
+#include <vector>
 #include "Math3D.h"
 #include "EffectManager.h"
 #include "Evaluation.h"
-#include <vector>
 
 class Meteorite;
 class Player;
@@ -22,14 +22,15 @@ public:
 
 	void PlayerAndMeteorite(Player* player, 
 							vector<Meteorite*>* meteorite, 
-							ScoreEarn* scoreEarn);				//プレイヤーとエネミーの衝突判定
+							ScoreEarn* scoreEarn);			//プレイヤーとエネミーの衝突判定
 
 	const bool Hit() { return hit; }	//隕石と衝突したかを返す
 
 private:
 	HitChecker(const HitChecker&);		//コピーコンストラクタ
 
-	void Decision(Player* player);		//各評価の判定
+	void Decision(Player* player);				//各評価の判定
+	void DecisionEnd(ScoreEarn* scoreEarn);		//判定終了
 
 	EffectManager* effectManager;		//エフェクトマネージャーのポインタ
 	Evaluation* evaluation;				//評価UIクラスのポインタ

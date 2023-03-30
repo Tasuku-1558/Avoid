@@ -1,6 +1,5 @@
 #pragma once
 
-#include "DxLib.h"
 #include "GameScene.h"
 #include <string>
 
@@ -29,8 +28,8 @@ private:
 		GRAPHIC_AMOUNT,	//‰æ‘œ‚Ì”
 	};
 	
-	void Initialize();
-	void Finalize();
+	void Initialize();			//‰Šú‰»ˆ—
+	void Finalize();			//I—¹ˆ—
 	void StartGameDraw();
 	void GameUIDraw(int font, int countDown, int score, int wave);		//ƒQ[ƒ€“àUI•`‰æ
 	void FrameDraw();					//˜g•`‰æ

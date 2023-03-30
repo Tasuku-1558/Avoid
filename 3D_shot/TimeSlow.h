@@ -1,6 +1,5 @@
 #pragma once
 
-
 /// <summary>
 /// 時間低速クラス
 /// シングルトン
@@ -14,12 +13,12 @@ public:
 
 	static TimeSlow& GetInstance();	//アドレスを返す
 
-	void SetTimeSlow(const bool time);
-	const bool GetTimeSlow() { return slow; }
+	void SetTimeSlow(const bool slow);
+	const bool GetTimeSlow() { return slowFlag; }
 
 private:
 	 TimeSlow(const TimeSlow&);		//コピーコンストラクタ
 
-	bool slow;						//時間を低速にするかしないか
+	bool slowFlag;					//時間を低速にするかしないか
 	
 };
