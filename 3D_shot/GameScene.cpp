@@ -39,7 +39,7 @@ GameScene::GameScene()
 	, meteoritePopCount(0.0f)
 	, sceneChangeTitle(false)
 	, pUpdate(nullptr)
-	, GAME_TIME(5)
+	, GAME_TIME(40)
 {
 	Initialize();
 }
@@ -49,11 +49,6 @@ GameScene::GameScene()
 /// </summary>
 GameScene::~GameScene()
 {
-	for (auto meteoritePtr : meteorite)
-	{
-		DeleteMeteorite(meteoritePtr);
-	}
-
 	//作成したフォントデータの削除
 	DeleteFontToHandle(scoreFont);
 	DeleteFontToHandle(fontHandle);
@@ -146,7 +141,7 @@ void GameScene::MeteoritePop(float deltaTime)
 		wave = 1;
 	}
 
-	if (countDown < 80 && meteoritePopCount > 1.0f)
+	if (countDown < 80 && countDown > 60 && meteoritePopCount > 1.0f)
 	{
 		Meteorite* newMeteorite = new Meteorite(player);
 		EntryMeteorite(newMeteorite);
@@ -154,12 +149,28 @@ void GameScene::MeteoritePop(float deltaTime)
 		wave = 2;
 	}
 
-	if (countDown < 60 && meteoritePopCount > 2.0f)
+	if (countDown < 60 && countDown > 40 && meteoritePopCount > 0.7f)
 	{
 		Meteorite* newMeteorite = new Meteorite(player);
 		EntryMeteorite(newMeteorite);
 		meteoritePopCount = 0.0f;
 		wave = 3;
+	}
+
+	if (countDown < 40 && countDown > 20 && meteoritePopCount > 0.9f)
+	{
+		Meteorite* newMeteorite = new Meteorite(player);
+		EntryMeteorite(newMeteorite);
+		meteoritePopCount = 0.0f;
+		wave = 4;
+	}
+
+	if (countDown < 20 && meteoritePopCount > 0.7f)
+	{
+		Meteorite* newMeteorite = new Meteorite(player);
+		EntryMeteorite(newMeteorite);
+		meteoritePopCount = 0.0f;
+		wave = 5;
 	}
 }
 
@@ -232,6 +243,11 @@ void GameScene::UpdateGame(float deltaTime)
 	for (auto meteoritePtr : meteorite)
 	{
 		meteoritePtr->Update(deltaTime);
+
+		if (wave == 5)
+		{
+			meteoritePtr->SpeedUp();
+		}
 
 		//隕石と衝突したもしくは制限時間が0になったら隕石を消す
 		if (hitChecker->Hit() || countDown == 0)

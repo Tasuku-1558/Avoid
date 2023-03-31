@@ -22,10 +22,10 @@ HitChecker::HitChecker(EffectManager* const inEffect, Evaluation* const inEvalua
 	, decisionFlag(false)
 	, DECISION_START_LINE(150)
 	, DECISION_END_LINE(-140)
-	, RADIUS_EXCELLENT(40.0f)
+	, RADIUS_EXCELLENT(60.0f)
 	, RADIUS_GREAT(150.0f)
 	, RADIUS_GOOD(1500.0f)
-	, RADIUS_MISS(4.0f)
+	, RADIUS_MISS(50.0f)
 {
 	effectManager = inEffect;
 
@@ -100,10 +100,10 @@ void HitChecker::DecisionEnd(ScoreEarn* scoreEarn)
 {
 	if (excellent)
 	{
-		excellent = false;
-		TimeSlow::GetInstance().SetTimeSlow(excellent);
-
 		scoreEarn->UpdateExcellent();
+		excellent = false;
+
+		TimeSlow::GetInstance().SetTimeSlow(excellent);
 
 		//隕石が爆発した時のSE音を再生
 		SoundManager::GetInstance().SePlayFlag(SoundManager::EXPLOSION);
@@ -114,16 +114,17 @@ void HitChecker::DecisionEnd(ScoreEarn* scoreEarn)
 	if (miss)
 	{
 		scoreEarn->UpdateMiss();
+
 		miss = false;
 		hit = true;
 	}
 
 	if (great)
 	{
-		great = false;
-		TimeSlow::GetInstance().SetTimeSlow(great);
-
 		scoreEarn->UpdateGreat();
+		great = false;
+
+		TimeSlow::GetInstance().SetTimeSlow(great);
 
 		hit = true;
 	}
@@ -131,6 +132,7 @@ void HitChecker::DecisionEnd(ScoreEarn* scoreEarn)
 	if (good)
 	{
 		scoreEarn->UpdateGood();
+
 		good = false;
 		hit = true;
 	}
@@ -169,9 +171,12 @@ void HitChecker::PlayerAndMeteorite(Player* player, vector<Meteorite*>* meteorit
 			if (excellent)
 			{
 				//爆発エフェクトを出す
-				effectManager->CreateExplosionEffect((*itr)->GetPosition());
+				effectManager->CreateEffect(0, (*itr)->GetPosition());
 			}
 			
+			//炎エフェクトを出す
+			effectManager->CreateEffect(1, (*itr)->GetPosition());
+
 			DecisionEnd(scoreEarn);
 		}
 	}

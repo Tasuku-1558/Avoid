@@ -54,7 +54,7 @@ private:
 	const int	 DECISION_S_LINE;		//S評価判定ライン
 	const int	 EVALUATION_NUMBER;		//評価文字数
 	const int	 MAX_ALPHA;				//最大透過度
-	const unsigned int PINK;			//ゲージのカラー
+	const unsigned int ORANGE;			//ゲージのカラー
 	const float  MAX_SCORE_GAUGE;		//最大スコアゲージ
 	const float  GAUGE_INCREASE;		//スコア増加量
 

@@ -1,5 +1,5 @@
 #include "EffectManager.h"
-#include "ExplosionEffect.h"
+#include "Effect.h"
 
 
 /// <summary>
@@ -8,7 +8,9 @@
 EffectManager::EffectManager()
 	: EFFECT_FOLDER_PATH("Data/Effect/")
 	, EXPLOSION_EFFECT_PATH("Explosion/Explosion.efkefc")
+	, FIRE_EFFECT_PATH("Fire/Fire.efkefc")
 	, EXPLOSION_SIZE(30.0f)
+	, FIRE_SIZE(30.0f)
 {
 	Initialize();
 }
@@ -30,7 +32,8 @@ EffectManager::~EffectManager()
 void EffectManager::Initialize()
 {
 	//各エフェクトの読み込み
-	effect[0] = new ExplosionEffect(InputPath(EFFECT_FOLDER_PATH, EXPLOSION_EFFECT_PATH), EXPLOSION_SIZE);
+	effect[0] = new Effect(InputPath(EFFECT_FOLDER_PATH, EXPLOSION_EFFECT_PATH), EXPLOSION_SIZE);
+	effect[1] = new Effect(InputPath(EFFECT_FOLDER_PATH, FIRE_EFFECT_PATH), FIRE_SIZE);
 }
 
 /// <summary>
@@ -45,12 +48,13 @@ void EffectManager::Draw()
 }
 
 /// <summary>
-/// 爆発エフェクトの生成
+/// エフェクトの生成
 /// </summary>
+/// <param name="number">エフェクトの種類</param>
 /// <param name="position">エフェクトの位置</param>
-void EffectManager::CreateExplosionEffect(VECTOR position)
+void EffectManager::CreateEffect(int number, VECTOR position)
 {
-	effect[EXPLOSION]->Update(position);
+	effect[number]->Update(position);
 }
 
 /// <summary>

@@ -26,7 +26,7 @@ ResultUi::ResultUi()
 	, DECISION_S_LINE(13100)
 	, EVALUATION_NUMBER(3)
 	, MAX_ALPHA(255)
-	, PINK(GetColor(186, 85, 211))
+	, ORANGE(GetColor(255, 165, 0))
 	, MAX_SCORE_GAUGE(1500.0f)
 	, GAUGE_INCREASE(5.0f)
 {
@@ -112,7 +112,7 @@ void ResultUi::ScoreDraw(int scoreFont, int countFont, int score, int excellentC
 void ResultUi::GaugeDraw(int score)
 {
 	//ÉXÉRÉAÉQÅ[ÉWï`âÊ
-	DrawBox(500, 200, 500 + 800 * (scoreGauge / MAX_SCORE_GAUGE), 117, PINK, TRUE);
+	DrawBox(500, 200, 500 + 800 * (scoreGauge / MAX_SCORE_GAUGE), 117, ORANGE, TRUE);
 
 	//ÉXÉRÉAÉQÅ[ÉWògï`âÊ
 	DrawGraph(218, -270, gaugeFrame, TRUE);
