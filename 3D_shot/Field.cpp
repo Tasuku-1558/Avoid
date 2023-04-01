@@ -1,6 +1,6 @@
 #include "Field.h"
 #include "ModelManager.h"
-
+#include "InputManager.h"
 
 /// <summary>
 /// コンストラクタ
@@ -33,14 +33,13 @@ void Field::Initialize()
 	//フィールドモデルの読み込み
 	modelHandle = MV1DuplicateModel(ModelManager::GetInstance().GetModelHandle(ModelManager::FIELD));
 
-	//フィールドモデルの位置,サイズ,回転値を設定
+	//フィールドモデルの位置、サイズ、回転値を設定
 	MV1SetPosition(modelHandle, POSITION);
 	MV1SetScale(modelHandle, SIZE);
 	MV1SetRotationXYZ(modelHandle, ROTATE);
 
 	//ライン画像の読み込み
-	string failePath = IMAGE_FOLDER_PATH + LINE_PATH;
-	lineHandle = LoadGraph(failePath.c_str());
+	lineHandle = LoadGraph(Input::InputPath(IMAGE_FOLDER_PATH, LINE_PATH).c_str());
 }
 
 /// <summary>

@@ -6,10 +6,12 @@
 /// </summary>
 UiManager::UiManager()
 	: uiHandle()
-	, fever(false)
+	, numberGraphicHandle()
 	, FOLDER_PATH("Data/Image/")
 	, UI_GRAPHIC_PATH("ui")
+	, COUNTDOWN_GRAPHIC_PATH("CountDown")
 	, FILENAME_EXTENSION(".png")
+	, COUNTDOWN_IMAGE_NUMBER(3)
 {
 	Initialize();
 }
@@ -45,6 +47,15 @@ void UiManager::Initialize()
 			printfDx("画像読み込みに失敗[%d]\n", i);
 		}
 	}
+
+	//数字画像読み込み
+	fullPath = FOLDER_PATH + COUNTDOWN_GRAPHIC_PATH + FILENAME_EXTENSION;
+	LoadDivGraph(fullPath.c_str(), 3, 3, 1, 383, 450, numberGraphicHandle);
+
+	if (numberGraphicHandle[0] < 0)
+	{
+		printfDx("画像読み込みに失敗_UiManager_number\n");
+	}
 }
 
 /// <summary>
@@ -57,34 +68,47 @@ void UiManager::Finalize()
 		DeleteGraph(uiHandle[i]);
 		uiHandle[i] = NULL;
 	}
+
+	for (int i = 0; i < COUNTDOWN_IMAGE_NUMBER; ++i)
+	{
+		DeleteGraph(numberGraphicHandle[i]);
+		numberGraphicHandle[i] = NULL;
+	}
 }
 
 /// <summary>
 /// 描画処理
 /// </summary>
-/// <param name="gameState"></param>
-/// <param name="font"></param>
-/// <param name="countDown"></param>
-/// <param name="score"></param>
-/// <param name="wave"></param>
-void UiManager::Draw(GameScene::GameState gameState, int font, int countDown, int score, int wave)
+/// <param name="gameState">ゲームの状態</param>
+/// <param name="frame">フレーム数</param>
+/// <param name="font">ゲームフォント</param>
+/// <param name="countDown">ゲーム内時間</param>
+/// <param name="score">獲得スコア</param>
+/// <param name="wave">ウェーブ</param>
+void UiManager::Draw(GameScene::GameState gameState, float frame, int font, int countDown, int score, int wave)
 {
 	switch (gameState)
 	{
 	case GameScene::GameState::START:
-		StartGameDraw();
+		StartCountDraw(frame);
 		break;
 
 	case GameScene::GameState::GAME:
 		FrameDraw();
-		GameUIDraw(font, countDown, score, wave);
+		GameUiDraw(font, countDown, score, wave);
 		break;
 	}
 }
 
-void UiManager::StartGameDraw()
+/// <summary>
+/// カウントダウン描画
+/// </summary>
+/// <param name="frame">フレーム数</param>
+void UiManager::StartCountDraw(float frame)
 {
-	
+	int num = (int)frame;
+
+	DrawGraph(800, 350, numberGraphicHandle[num], TRUE);
 }
 
 /// <summary>
@@ -94,7 +118,7 @@ void UiManager::StartGameDraw()
 /// <param name="countDown">ゲーム内時間</param>
 /// <param name="score">獲得スコア</param>
 /// <param name="wave">ウェーブ</param>
-void UiManager::GameUIDraw(int font, int countDown, int score, int wave)
+void UiManager::GameUiDraw(int font, int countDown, int score, int wave)
 {
 	//制限時間表示
 	DrawFormatStringToHandle(500, 100, GetColor(255, 0, 0), font, "TIME : %d", countDown);
@@ -112,15 +136,4 @@ void UiManager::GameUIDraw(int font, int countDown, int score, int wave)
 void UiManager::FrameDraw()
 {
 	DrawGraph(0, -150, uiHandle[FRAME], TRUE);
-}
-
-/// <summary>
-/// フィーバーモードUIの描画
-/// </summary>
-void UiManager::FeverImageDraw()
-{
-	if (fever)
-	{
-		DrawRotaGraph(950, 950, 1.5f, 0, uiHandle[FEVER_IMAGE], TRUE);
-	}
 }

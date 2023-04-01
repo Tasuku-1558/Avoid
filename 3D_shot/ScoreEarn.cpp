@@ -14,6 +14,7 @@ ScoreEarn::ScoreEarn()
 	, SCORE_GREAT(300)
 	, SCORE_GOOD(100)
 	, SCORE_MISS(300)
+	, TARGET_SCORE_INCREASE(100)
 {
 	//処理なし
 }
@@ -34,25 +35,37 @@ void ScoreEarn::Update()
 	Scoring();
 }
 
-void ScoreEarn::UpdateMiss()
+/// <summary>
+/// missのスコア
+/// </summary>
+void ScoreEarn::MissScore()
 {
 	score -= SCORE_MISS;
 	missCount++;
 }
 
-void ScoreEarn::UpdateExcellent()
+/// <summary>
+/// excellentのスコア
+/// </summary>
+void ScoreEarn::ExcellentScore()
 {
 	score += SCORE_EXCELLENT;
 	excellentCount++;
 }
 
-void ScoreEarn::UpdateGreat()
+/// <summary>
+/// greatのスコア
+/// </summary>
+void ScoreEarn::GreatScore()
 {
 	score += SCORE_GREAT;
 	greatCount++;
 }
 
-void ScoreEarn::UpdateGood()
+/// <summary>
+/// goodのスコア
+/// </summary>
+void ScoreEarn::GoodScore()
 {
 	score += SCORE_GOOD;
 	goodCount++;
@@ -68,11 +81,11 @@ void ScoreEarn::Scoring()
 	{
 		if (score > targetScore)
 		{
-			targetScore += 100;
+			targetScore += TARGET_SCORE_INCREASE;
 		}
 		else
 		{
-			targetScore -= 100;
+			targetScore -= TARGET_SCORE_INCREASE;
 		}
 	}
 }

@@ -77,13 +77,6 @@ void Player::Update(float deltaTime)
 {
 	Move(deltaTime);
 
-	//プレイヤーモデルの位置を設定
-	MV1SetPosition(modelHandle, position);
-
-	//プレイヤーリングモデルの位置と回転値を設定
-	MV1SetPosition(lingModel, position);
-	MV1SetRotationXYZ(lingModel, rotate);
-
 	AfterImage();
 
 	HitMeteorite(deltaTime);
@@ -117,6 +110,13 @@ void Player::Move(float deltaTime)
 		//十字キーの移動方向に移動
 		position += direction * SPEED * deltaTime;
 	}
+
+	//プレイヤーモデルの位置を設定
+	MV1SetPosition(modelHandle, position);
+
+	//プレイヤーリングモデルの位置と回転値を設定
+	MV1SetPosition(lingModel, position);
+	MV1SetRotationXYZ(lingModel, rotate);
 }
 
 /// <summary>

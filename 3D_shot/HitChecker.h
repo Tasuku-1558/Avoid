@@ -42,7 +42,7 @@ private:
 	bool great;							//greatだったら
 	bool good;							//goodだったら
 	bool decisionFlag;					//判定したか
-
+	bool decision[2];
 	//定数
 	const int   DECISION_START_LINE;	//判定開始ライン
 	const int   DECISION_END_LINE;		//判定終了ライン

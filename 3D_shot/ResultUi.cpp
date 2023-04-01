@@ -108,7 +108,7 @@ void ResultUi::ScoreDraw(int scoreFont, int countFont, int score, int excellentC
 /// <summary>
 /// ゲージ表示
 /// </summary>
-/// <param name="score"></param>
+/// <param name="score">獲得スコア</param>
 void ResultUi::GaugeDraw(int score)
 {
 	//スコアゲージ描画

@@ -29,8 +29,9 @@ TitleScene::TitleScene()
 	, EXIT_UI_PATH("exitUi.png")
 	, MAX_ALPHA(255)
 	, PLAY_POSITION(5000)
-	, START_SPHERE_POSY(90.0f)
-	, EXIT_SPHERE_POSY(0.0f)
+	, START_SPHERE_POS_Y(90.0f)
+	, EXIT_SPHERE_POS_Y(0.0f)
+	, SPHERE_RADIUS(15.0f)
 {
 	Initialize();
 }
@@ -40,8 +41,6 @@ TitleScene::TitleScene()
 /// </summary>
 TitleScene::~TitleScene()
 {
-	PauseMovieToGraph(titleMovie);
-
 	DeleteGraph(titleMovie);
 
 	DeleteGraph(titleName);
@@ -124,7 +123,7 @@ void TitleScene::ChangeState()
 	//スタート状態なら
 	if (titleState == TitleState::START)
 	{
-		spherePosition.y = START_SPHERE_POSY;
+		spherePosition.y = START_SPHERE_POS_Y;
 
 		if (CheckHitKey(KEY_INPUT_SPACE))
 		{
@@ -141,7 +140,7 @@ void TitleScene::ChangeState()
 	//終了状態なら
 	else
 	{
-		spherePosition.y = EXIT_SPHERE_POSY;
+		spherePosition.y = EXIT_SPHERE_POS_Y;
 
 		if (CheckHitKey(KEY_INPUT_SPACE))
 		{
@@ -240,9 +239,9 @@ void TitleScene::Draw()
 	DrawGraph(250, 450, titleName, TRUE);
 	
 	Blink();
-
+	
 	//3D球体の描画
-	DrawSphere3D(spherePosition, 15.0f, 32, GetColor(0, 255, 0), GetColor(255, 255, 255), TRUE);
+	DrawSphere3D(spherePosition, SPHERE_RADIUS, COLOR_BIT, GetColor(0, 255, 0), GetColor(255, 255, 255), TRUE);
 
 	fadeManager->Draw();
 }

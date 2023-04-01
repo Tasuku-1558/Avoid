@@ -39,7 +39,9 @@ GameScene::GameScene()
 	, meteoritePopCount(0.0f)
 	, sceneChangeTitle(false)
 	, pUpdate(nullptr)
-	, GAME_TIME(40)
+	, GAME_TIME(90)
+	, GAME_START_COUNT(3.0f)
+	, FADE_START_COUNT(1.0f)
 {
 	Initialize();
 }
@@ -87,9 +89,6 @@ void GameScene::Initialize()
 	//フォントの生成
 	scoreFont = CreateFontToHandle("Oranienbaum", 130, 1);
 	fontHandle = CreateFontToHandle("Oranienbaum", 80, 1);
-
-	//ゲーム起動時の時間を取得
-	startTime = GetNowCount();
 
 	//ゲームBGMを再生
 	SoundManager::GetInstance().PlayBgm(SoundManager::GAME);
@@ -223,8 +222,19 @@ SceneType GameScene::Update(float deltaTime)
 /// <param name="deltaTime"></param>
 void GameScene::UpdateStart(float deltaTime)
 {
-	gameState = GameState::GAME;
-	pUpdate = &GameScene::UpdateGame;
+	frame += deltaTime;
+
+	player->Update(deltaTime);
+
+	//3秒経過したら
+	if (frame > GAME_START_COUNT)
+	{
+		//ゲーム起動時の時間を取得
+		startTime = GetNowCount();
+
+		gameState = GameState::GAME;
+		pUpdate = &GameScene::UpdateGame;
+	}
 }
 
 /// <summary>
@@ -277,7 +287,7 @@ void GameScene::UpdateFinish(float deltaTime)
 	TimeSlow::GetInstance().SetTimeSlow(false);
 
 	//1秒経過したら
-	if (frame > 1.0f)
+	if (frame > FADE_START_COUNT)
 	{
 		fadeManager->FadeMove();
 	}
@@ -337,7 +347,7 @@ void GameScene::Draw()
 {
 	backGround->Draw();
 
-	if (gameState != GameState::RESULT)
+	if (gameState != GameState::RESULT && gameState != GameState::START)
 	{
 		evaluation->Draw();
 
@@ -353,7 +363,7 @@ void GameScene::Draw()
 		effectManager->Draw();
 	}
 
-	uiManager->Draw(gameState, fontHandle, countDown, score, wave);
+	uiManager->Draw(gameState, frame, fontHandle, countDown, score, wave);
 
 	if (gameState == GameState::RESULT)
 	{

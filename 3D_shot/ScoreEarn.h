@@ -9,12 +9,12 @@ public:
 	ScoreEarn();
 	virtual ~ScoreEarn();
 
-	void Update();
+	void Update();				//更新処理
 	
-	void UpdateMiss();
-	void UpdateExcellent();
-	void UpdateGreat();
-	void UpdateGood();
+	void MissScore();			//missのスコア
+	void ExcellentScore();		//excellentのスコア
+	void GreatScore();			//greatのスコア
+	void GoodScore();			//goodのスコア
 
 
 	const int GetScore() { return targetScore; }				//スコアを返す
@@ -37,8 +37,9 @@ private:
 	
 
 	//定数
-	const int SCORE_EXCELLENT;		//excellentのスコア
-	const int SCORE_GREAT;			//greatのスコア
-	const int SCORE_GOOD;			//goodのスコア
-	const int SCORE_MISS;			//missのスコア
+	const int SCORE_EXCELLENT;			//excellentのスコア
+	const int SCORE_GREAT;				//greatのスコア
+	const int SCORE_GOOD;				//goodのスコア
+	const int SCORE_MISS;				//missのスコア
+	const int TARGET_SCORE_INCREASE;	//目標スコアの増加量
 };

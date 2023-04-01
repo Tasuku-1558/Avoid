@@ -32,8 +32,8 @@ EffectManager::~EffectManager()
 void EffectManager::Initialize()
 {
 	//各エフェクトの読み込み
-	effect[0] = new Effect(InputPath(EFFECT_FOLDER_PATH, EXPLOSION_EFFECT_PATH), EXPLOSION_SIZE);
-	effect[1] = new Effect(InputPath(EFFECT_FOLDER_PATH, FIRE_EFFECT_PATH), FIRE_SIZE);
+	effect[EXPLOSION] = new Effect(InputPath(EFFECT_FOLDER_PATH, EXPLOSION_EFFECT_PATH), EXPLOSION_SIZE);
+	effect[FIRE] = new Effect(InputPath(EFFECT_FOLDER_PATH, FIRE_EFFECT_PATH), FIRE_SIZE);
 }
 
 /// <summary>

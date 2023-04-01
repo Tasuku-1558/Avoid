@@ -4,7 +4,6 @@
 
 /// <summary>
 /// カメラクラス
-/// 固定型カメラ
 /// </summary>
 class Camera final
 {

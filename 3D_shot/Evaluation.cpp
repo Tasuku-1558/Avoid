@@ -9,7 +9,7 @@ Evaluation::Evaluation()
 	: evaluationGraph()
 	, slowScreenGraph(0)
 	, scale(0.0f)
-	, waitTime(0.0f)
+	, displayTime(0.0f)
 	, ui(Ui::NOMAL)
 	, IMAGE_FOLDER_PATH("Data/Image/")
 	, EXCELLENT_PATH("ExcellentEffect.png")
@@ -18,6 +18,7 @@ Evaluation::Evaluation()
 	, MISS_PATH("MissEffect.png")
 	, SLOW_SCREEN_PATH("SlowScreen.png")
 	, EVALUATION_NUMBER(4)
+	, MAX_DISPLAY_TIME(50.0f)
 {
 	Initialize();
 }
@@ -54,9 +55,9 @@ void Evaluation::Initialize()
 /// <param name="folderPath">フォルダまでのパス</param>
 /// <param name="imagePath">画像のパス</param>
 /// <returns></returns>
-std::string Evaluation::InputPath(std::string folderPath, std::string imagePath)
+string Evaluation::InputPath(string folderPath, string imagePath)
 {
-	return std::string(folderPath + imagePath);
+	return string(folderPath + imagePath);
 }
 
 /// <summary>
@@ -75,7 +76,7 @@ void Evaluation::Finalize()
 /// <summary>
 /// 速度低速時の集中線の描画処理
 /// </summary>
-void Evaluation::SlowImageDraw()
+void Evaluation::SlowScreenDraw()
 {
 	DrawGraph(0, 0, slowScreenGraph, TRUE);
 }
@@ -83,28 +84,28 @@ void Evaluation::SlowImageDraw()
 /// <summary>
 /// 評価文字の動き
 /// </summary>
-/// <param name="evaluationGraph">評価画像格納</param>
+/// <param name="evaluationGraph">評価画像</param>
 void Evaluation::ImageMove(int evaluationGraph)
 {
 	DrawRotaGraph(500, 500, scale, 0, evaluationGraph, TRUE);
 
 	scale += 0.9f;
 
-	//文字の大きさを大きくする
+	//目的の大きさになったら
 	if (scale > 1.0f)
 	{
 		scale = 1.0f;
-		waitTime += 1.0f;
+		displayTime += 1.0f;
 
 		//表示時間が経過したら
-		if (waitTime > 30.0f)
+		if (displayTime > MAX_DISPLAY_TIME)
 		{
 			//通常状態に
 			ui = Ui::NOMAL;
 
 			//サイズと表示時間を初期化
 			scale = 0.0f;
-			waitTime = 0.0f;
+			displayTime = 0.0f;
 		}
 	}
 }
@@ -118,12 +119,12 @@ void Evaluation::EvaluationDraw()
 	switch (ui)
 	{
 	case Ui::EXCELLENT:
-		SlowImageDraw();
+		SlowScreenDraw();
 		ImageMove(evaluationGraph[0]);
 		break;
 
 	case Ui::GREAT:
-		SlowImageDraw();
+		SlowScreenDraw();
 		ImageMove(evaluationGraph[1]);
 		break;
 

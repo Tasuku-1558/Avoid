@@ -28,7 +28,7 @@ TimeSlow& TimeSlow::GetInstance()
 	return timeSlow;
 }
 
-void TimeSlow::SetTimeSlow(bool slow)
+void TimeSlow::SetTimeSlow(const bool slow)
 {
 	slowFlag = slow;
 }

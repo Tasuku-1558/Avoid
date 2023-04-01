@@ -4,9 +4,9 @@
 
 const bool IS_WINDOW_MODE = true;					//ウィンドウモードにするか
 
-const int SCREEN_WIDTH   = 1920;					//ウィンドウの幅
-const int SCREEN_HEIGHT  = 1080;					//ウィンドウの高さ
-const int COLOR_BIT      = 32;						//カラービット数
+const int SCREEN_WIDTH  = 1920;						//ウィンドウの幅
+const int SCREEN_HEIGHT = 1080;						//ウィンドウの高さ
+const int COLOR_BIT     = 32;						//カラービット数
 
 const int MAX_PARTICLE_NUMBER = 2200;               //画面に表示する最大パーティクル数
 

@@ -1,6 +1,9 @@
 #pragma once
 
 #include "ObjectBase.h"
+#include "Math3D.h"
+
+using namespace Math3d;		//VECTORの計算に使用
 
 /// <summary>
 /// 隕石基底クラス
@@ -24,10 +27,10 @@ protected:
 	//定数
 	const int    RANGE_DIRECTION;	//隕石が進む方向のランダム値の範囲
 	const float  SPEED;				//移動速度
-	const float  MAX_ROTATE;		//最大回転速度
 	const float  SPEED_UP;			//移動速度アップ
 	const VECTOR RANDOM_POSITION;	//ランダムな出現位置
 	const VECTOR SIZE;				//倍率
 	const VECTOR DIRECTION;			//方向
+	const VECTOR ROTATE_SPEED;		//ランダムな回転スピード
 
 };

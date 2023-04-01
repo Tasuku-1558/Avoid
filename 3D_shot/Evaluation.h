@@ -13,8 +13,6 @@ public:
 	Evaluation();
 	virtual ~Evaluation();
 
-	void Draw();
-
 	//評価の種類
 	enum class Ui
 	{
@@ -24,6 +22,8 @@ public:
 		GOOD,		//good評価
 		MISS,		//miss評価
 	};
+
+	void Draw();	//描画処理
 
 	enum class Ui ui;		//評価の種類
 
@@ -35,14 +35,14 @@ private:
 	void Finalize();						//終了処理
 	void ImageMove(int evaluationGraph);	//評価文字の動き
 	void EvaluationDraw();					//各評価の描画処理
-	void SlowImageDraw();					//速度低速時の集中線の描画処理
+	void SlowScreenDraw();					//速度低速時の集中線の描画処理
 
 	string InputPath(string folderPath,
 					 string imagePath);		//画像のパスを入力
 
 	int evaluationGraph[5];					//評価文字の格納用
 	int slowScreenGraph;					//速度低速時の集中線
-	float waitTime;							//評価文字の表示時間
+	float displayTime;						//表示時間
 	float scale;							//評価文字の大きさ
 
 
@@ -54,5 +54,6 @@ private:
 	const string MISS_PATH;			//miss画像のパス
 	const string SLOW_SCREEN_PATH;	//集中線画像のパス
 	const int	 EVALUATION_NUMBER;	//評価文字数
+	const float  MAX_DISPLAY_TIME;	//最大表示時間
 
 };

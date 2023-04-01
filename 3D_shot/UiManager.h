@@ -14,7 +14,7 @@ public:
 	UiManager();
 	virtual ~UiManager();
 
-	void Draw(GameScene::GameState gameState, int font, int countDown, int score, int wave);	//描画処理
+	void Draw(GameScene::GameState gameState, float frame, int font, int countDown, int score, int wave);	//描画処理
 
 private:
 
@@ -24,25 +24,23 @@ private:
 	enum Graphic
 	{
 		FRAME,			//枠画像
-		FEVER_IMAGE,
 		GRAPHIC_AMOUNT,	//画像の数
 	};
 	
 	void Initialize();			//初期化処理
 	void Finalize();			//終了処理
-	void StartGameDraw();
-	void GameUIDraw(int font, int countDown, int score, int wave);		//ゲーム内UI描画
+	void StartCountDraw(float frame);		//カウントダウン描画
+	void GameUiDraw(int font, int countDown, int score, int wave);		//ゲーム内UI描画
 	void FrameDraw();					//枠描画
-	void FeverImageDraw();				//フィーバーモードUIの描画
-	
 
 	int uiHandle[GRAPHIC_AMOUNT];		//画像ハンドル格納用
-	bool fever;
-
+	int numberGraphicHandle[3];			//カウントダウン画像格納用
 
 	//定数
-	const string FOLDER_PATH;			//画像格納フォルダ
-	const string UI_GRAPHIC_PATH;		//UI画像
-	const string FILENAME_EXTENSION;	//画像拡張子
+	const string FOLDER_PATH;				//画像格納フォルダ
+	const string UI_GRAPHIC_PATH;			//UI画像
+	const string COUNTDOWN_GRAPHIC_PATH;	//数字画像ファイルのパス
+	const string FILENAME_EXTENSION;		//画像拡張子
+	const int	 COUNTDOWN_IMAGE_NUMBER;	//カウントダウン画像の配列数
 	
 };

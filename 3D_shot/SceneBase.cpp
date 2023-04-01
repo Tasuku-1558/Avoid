@@ -25,7 +25,7 @@ SceneBase::~SceneBase()
 /// 新しいシーンを生成する
 /// </summary>
 /// <param name="nowScene">現在のシーン</param>
-/// <returns></returns>
+/// <returns>シーンを返す</returns>
 SceneBase* SceneBase::CreateScene(SceneType nowScene)
 {
 	SceneBase* retScene = nullptr;

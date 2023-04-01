@@ -1,7 +1,6 @@
 #pragma once
 
 #include "MeteoriteBase.h"
-#include "Math3D.h"
 
 class Player;
 

@@ -1,6 +1,6 @@
 #include "BackGround.h"
 #include "DxLib.h"
-
+#include "InputManager.h"
 
 /// <summary>
 /// コンストラクタ
@@ -9,7 +9,7 @@ BackGround::BackGround()
 	: backGroundHandle(0)
 	, VIDEO_FOLDER_PATH("Data/Video/")
 	, BACKGROUND_VIDEO_PATH("BackGround.mp4")
-	, PLAY_POSITION(5000)
+	, PLAY_POSITION(0)
 {
 	Initialize();
 }
@@ -28,8 +28,7 @@ BackGround::~BackGround()
 void BackGround::Initialize()
 {
 	//背景動画の読み込み
-	string failePath = VIDEO_FOLDER_PATH + BACKGROUND_VIDEO_PATH;
-	backGroundHandle = LoadGraph(failePath.c_str());
+	backGroundHandle = LoadGraph(Input::InputPath(VIDEO_FOLDER_PATH, BACKGROUND_VIDEO_PATH).c_str());
 }
 
 /// <summary>
@@ -37,8 +36,6 @@ void BackGround::Initialize()
 /// </summary>
 void BackGround::Finalize()
 {
-	PauseMovieToGraph(backGroundHandle);
-
 	DeleteGraph(backGroundHandle);
 }
 
@@ -50,7 +47,7 @@ void BackGround::Update()
 	//背景動画を再生中
 	if (!GetMovieStateToGraph(backGroundHandle))
 	{
-		//動画が終了したら5000秒の所からまた再生する
+		//動画が終了したら0秒の所からまた再生する
 		SeekMovieToGraph(backGroundHandle, PLAY_POSITION);
 
 		//動画を再生する

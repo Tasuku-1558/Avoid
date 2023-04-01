@@ -66,7 +66,8 @@ private:
 	const string EXIT_UI_PATH;			//ゲームを終了する遷移キーのUIのパス
 	const int	 MAX_ALPHA;				//最大透過度
 	const int	 PLAY_POSITION;			//タイトル動画の再生位置
-	const float  START_SPHERE_POSY;		//スタート状態の球のY座標
-	const float  EXIT_SPHERE_POSY;		//終了状態の球のY座標
+	const float  START_SPHERE_POS_Y;	//スタート状態の球のY座標
+	const float  EXIT_SPHERE_POS_Y;		//終了状態の球のY座標
+	const float  SPHERE_RADIUS;			//球の半径
 
 };

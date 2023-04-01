@@ -14,14 +14,14 @@ public:
 protected:
 
 	int    lingModel;					//リングモデル格納用
-	int	   afterImageModelHandle[3];	//残像モデル格納用
+	int	   afterImageModelHandle[10];	//残像モデル格納用
 	float  damageCount;					//ダメージ時間カウント
 	bool   inputFlag;					//キー入力フラグ
 	bool   noDrawFrame;					//モデルを2回に１回は描画しない
 	VECTOR inputDirection;				//入力された方向
 	VECTOR rotate;						//リング回転
 	VECTOR rotateSpeed;					//リング回転スピード
-	VECTOR pastPosition[3];				//プレイヤーの過去の位置
+	VECTOR pastPosition[10];			//プレイヤーの過去の位置
 
 
 	//定数

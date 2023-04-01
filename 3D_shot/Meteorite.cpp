@@ -4,12 +4,10 @@
 #include "ModelManager.h"
 
 
-using namespace Math3d;		//VECTORの計算に使用
-
 /// <summary>
 /// コンストラクタ
 /// </summary>
-/// <param name="player"></param>
+/// <param name="player">プレイヤーのポインタ</param>
 Meteorite::Meteorite(Player* player)
 {
 	Initialize();
@@ -37,12 +35,13 @@ void Meteorite::Initialize()
 	//隕石の位置をランダム値に
 	position = RANDOM_POSITION;
 
+	//隕石が進む方向にランダム値を入れる
 	randomDirection = rand() % RANGE_DIRECTION;
+
 	speed = SPEED;
 
 	//ランダムな回転速度を設定
-	rotateSpeed = VGet(GetRandf(0.0f, MAX_ROTATE), GetRandf(0.0f, MAX_ROTATE), GetRandf(0.0f, MAX_ROTATE));
-
+	rotateSpeed = ROTATE_SPEED;
 }
 
 /// <summary>

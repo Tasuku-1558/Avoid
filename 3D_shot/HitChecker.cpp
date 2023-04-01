@@ -20,12 +20,13 @@ HitChecker::HitChecker(EffectManager* const inEffect, Evaluation* const inEvalua
 	, great(false)
 	, good(false)
 	, decisionFlag(false)
+	, decision()
 	, DECISION_START_LINE(150)
 	, DECISION_END_LINE(-140)
-	, RADIUS_EXCELLENT(60.0f)
+	, RADIUS_EXCELLENT(100.0f)
 	, RADIUS_GREAT(150.0f)
 	, RADIUS_GOOD(1500.0f)
-	, RADIUS_MISS(50.0f)
+	, RADIUS_MISS(70.0f)
 {
 	effectManager = inEffect;
 
@@ -100,7 +101,7 @@ void HitChecker::DecisionEnd(ScoreEarn* scoreEarn)
 {
 	if (excellent)
 	{
-		scoreEarn->UpdateExcellent();
+		scoreEarn->ExcellentScore();
 		excellent = false;
 
 		TimeSlow::GetInstance().SetTimeSlow(excellent);
@@ -113,7 +114,7 @@ void HitChecker::DecisionEnd(ScoreEarn* scoreEarn)
 
 	if (miss)
 	{
-		scoreEarn->UpdateMiss();
+		scoreEarn->MissScore();
 
 		miss = false;
 		hit = true;
@@ -121,7 +122,7 @@ void HitChecker::DecisionEnd(ScoreEarn* scoreEarn)
 
 	if (great)
 	{
-		scoreEarn->UpdateGreat();
+		scoreEarn->GreatScore();
 		great = false;
 
 		TimeSlow::GetInstance().SetTimeSlow(great);
@@ -131,7 +132,7 @@ void HitChecker::DecisionEnd(ScoreEarn* scoreEarn)
 
 	if (good)
 	{
-		scoreEarn->UpdateGood();
+		scoreEarn->GoodScore();
 
 		good = false;
 		hit = true;
@@ -173,10 +174,12 @@ void HitChecker::PlayerAndMeteorite(Player* player, vector<Meteorite*>* meteorit
 				//爆発エフェクトを出す
 				effectManager->CreateEffect(0, (*itr)->GetPosition());
 			}
+			else
+			{
+				//炎エフェクトを出す
+				effectManager->CreateEffect(1, (*itr)->GetPosition());
+			}
 			
-			//炎エフェクトを出す
-			effectManager->CreateEffect(1, (*itr)->GetPosition());
-
 			DecisionEnd(scoreEarn);
 		}
 	}

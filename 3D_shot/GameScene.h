@@ -29,7 +29,6 @@ public:
 	SceneType Update(float deltaTime)override;		//更新処理
 	void Draw()override;							//描画処理
 
-
 	//ゲームの状態
 	enum class GameState
 	{
@@ -90,5 +89,7 @@ private:
 
 
 	//定数
-	const int GAME_TIME;		//ゲーム時間
+	const int	GAME_TIME;			//ゲーム時間
+	const float GAME_START_COUNT;	//ゲーム開始カウント
+	const float FADE_START_COUNT;	//フェード開始カウント
 };

@@ -49,7 +49,7 @@ void SoundManager::LoadAllSound()
 
 	for (int i = 0; i < BGM_AMOUNT; ++i)
 	{
-		fullPath = path + to_string(i) + SOUND_FILENAME_EXTENSION;		// + 連番数字 + .拡張子
+		fullPath = path + to_string(i) + SOUND_FILENAME_EXTENSION;		// + 連番数字 + 拡張子
 		bgmData[i] = LoadSoundMem(fullPath.c_str());
 
 		if (bgmData[i] < 0)
@@ -64,7 +64,7 @@ void SoundManager::LoadAllSound()
 
 	for (int i = 0; i < SE_AMOUNT; ++i)
 	{
-		fullPath = path + to_string(i) + SOUND_FILENAME_EXTENSION;		// + 連番数字 + .拡張子
+		fullPath = path + to_string(i) + SOUND_FILENAME_EXTENSION;		// + 連番数字 + 拡張子
 		seData[i] = LoadSoundMem(fullPath.c_str());
 
 		if (seData[i] < 0)
@@ -142,7 +142,7 @@ void SoundManager::SeUpdate()
 /// <summary>
 /// BGMを再生
 /// </summary>
-/// <param name="bgm"></param>
+/// <param name="bgm">Bgmの種類</param>
 void SoundManager::PlayBgm(Bgm bgm)
 {
 	PlaySoundMem(bgmData[bgm], DX_PLAYTYPE_LOOP);
