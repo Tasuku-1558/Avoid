@@ -39,7 +39,7 @@ GameScene::GameScene()
 	, meteoritePopCount(0.0f)
 	, sceneChangeTitle(false)
 	, pUpdate(nullptr)
-	, GAME_TIME(90)
+	, GAME_TIME(5)
 	, GAME_START_COUNT(3.0f)
 	, FADE_START_COUNT(1.0f)
 {

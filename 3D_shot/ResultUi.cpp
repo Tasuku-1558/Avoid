@@ -75,6 +75,16 @@ string ResultUi::InputPath(string folderPath, string path)
 	return string(folderPath + path);
 }
 
+struct Score
+{
+	int a;
+	int posY;
+	unsigned int color;
+	int font;
+	char name[30];
+	int b;
+};
+
 /// <summary>
 /// ÉXÉRÉAï\é¶
 /// </summary>
@@ -82,26 +92,21 @@ void ResultUi::ScoreDraw(int scoreFont, int countFont, int score, int excellentC
 {
 	displayCount++;
 
-	if (displayCount > 30)
+	Score s[] = 
 	{
-		DrawFormatStringToHandle(650, 250, GetColor(255, 69, 0), scoreFont, "SCORE : %d", score);
-	}
-	if (displayCount > 70)
+		{30,250,GetColor(255, 69, 0),scoreFont,"SCORE : %d",score},
+		{70,400,GetColor(255, 255, 0),countFont,"Excellent   Å~  %d",excellentCount},
+		{110,500,GetColor(255, 105, 180),countFont,"Great         Å~  %d",greatCount},
+		{150,600,GetColor(175, 238, 238),countFont,"Good          Å~  %d",goodCount},
+		{190,700,GetColor(169, 169, 169),countFont,"Miss          Å~  %d",missCount},
+	};
+
+	for (int i = 0; i < 5; i++)
 	{
-		DrawFormatStringToHandle(650, 400, GetColor(255, 255, 0), countFont, "Excellent   Å~  %d", excellentCount);
-	}
-	if (displayCount > 110)
-	{
-		DrawFormatStringToHandle(650, 500, GetColor(255, 105, 180), countFont, "Great         Å~  %d", greatCount);
-	}
-	if (displayCount > 150)
-	{
-		DrawFormatStringToHandle(650, 600, GetColor(175, 238, 238), countFont, "Good          Å~  %d", goodCount);
-	}
-	if (displayCount > 190)
-	{
-		DrawFormatStringToHandle(650, 700, GetColor(169, 169, 169), countFont, "Miss          Å~  %d", missCount);
-		displayCount = 190;
+		if (displayCount > s[i].a)
+		{
+			DrawFormatStringToHandle(650, s[i].posY, s[i].color, s[i].font, s[i].name, s[i].b);
+		}
 	}
 }
 

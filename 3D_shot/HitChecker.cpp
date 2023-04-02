@@ -172,12 +172,12 @@ void HitChecker::PlayerAndMeteorite(Player* player, vector<Meteorite*>* meteorit
 			if (excellent)
 			{
 				//爆発エフェクトを出す
-				effectManager->CreateEffect(0, (*itr)->GetPosition());
+				effectManager->CreateEffect((*itr)->GetPosition(), EffectManager::EXPLOSION);
 			}
 			else
 			{
 				//炎エフェクトを出す
-				effectManager->CreateEffect(1, (*itr)->GetPosition());
+				effectManager->CreateEffect((*itr)->GetPosition(), EffectManager::FIRE);
 			}
 			
 			DecisionEnd(scoreEarn);

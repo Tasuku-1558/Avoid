@@ -96,9 +96,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		//現在のフレームを更新
 		nowTime = GetNowHiPerformanceCount();
 		
-		//true：動きを遅くする false：通常速度
 		bool slow = TimeSlow::GetInstance().GetTimeSlow();
 
+		//動きを遅くする
 		if (slow)
 		{
 			deltaTime = (nowTime - prevTime) / 3000000.0f;

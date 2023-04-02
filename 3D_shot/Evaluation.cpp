@@ -18,6 +18,7 @@ Evaluation::Evaluation()
 	, MISS_PATH("MissEffect.png")
 	, SLOW_SCREEN_PATH("SlowScreen.png")
 	, EVALUATION_NUMBER(4)
+	, MAX_SCALE(1.0f)
 	, MAX_DISPLAY_TIME(50.0f)
 {
 	Initialize();
@@ -92,7 +93,7 @@ void Evaluation::ImageMove(int evaluationGraph)
 	scale += 0.9f;
 
 	//–Ú“I‚Ì‘å‚«‚³‚É‚È‚Á‚½‚ç
-	if (scale > 1.0f)
+	if (scale > MAX_SCALE)
 	{
 		scale = 1.0f;
 		displayTime += 1.0f;

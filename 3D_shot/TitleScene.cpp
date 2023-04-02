@@ -176,7 +176,7 @@ void TitleScene::ReturnScreen()
 /// <summary>
 /// シーンを入力
 /// </summary>
-/// <param name="sceneType"></param>
+/// <param name="sceneType">シーンの種類</param>
 void TitleScene::InputScene(SceneType sceneType)
 {
 	fadeManager->FadeMove();

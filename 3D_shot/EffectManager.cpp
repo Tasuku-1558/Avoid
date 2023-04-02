@@ -50,11 +50,11 @@ void EffectManager::Draw()
 /// <summary>
 /// エフェクトの生成
 /// </summary>
-/// <param name="number">エフェクトの種類</param>
 /// <param name="position">エフェクトの位置</param>
-void EffectManager::CreateEffect(int number, VECTOR position)
+/// <param name="effectType">エフェクトの種類</param>
+void EffectManager::CreateEffect(VECTOR position, EffectType effectType)
 {
-	effect[number]->Update(position);
+	effect[effectType]->Update(position);
 }
 
 /// <summary>

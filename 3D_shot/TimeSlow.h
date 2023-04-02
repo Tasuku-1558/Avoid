@@ -7,8 +7,6 @@
 class TimeSlow final
 {
 public:
-	TimeSlow();
-	virtual ~TimeSlow();
 
 	static TimeSlow& GetInstance();	//アドレスを返す
 
@@ -17,7 +15,9 @@ public:
 	const bool GetTimeSlow() { return slowFlag; }		//低速にするかしないかを返す
 
 private:
+	TimeSlow();
 	TimeSlow(const TimeSlow&);		//コピーコンストラクタ
+	virtual ~TimeSlow();
 
 	bool slowFlag;					//時間を低速にするかしないか
 	

@@ -24,5 +24,5 @@ private:
 
 	//定数
 	const int BLACK;			//フェードのカラー
-	const int MAX_FADE;
+	const int MAX_FADE;			//最大画面効果値
 };

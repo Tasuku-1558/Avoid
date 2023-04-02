@@ -78,11 +78,6 @@ void Meteorite::Move(float deltaTime)
 		//プレイヤーから隕石の座標を引いた値を取得
 		direction = playerPosition - position;
 
-		if (VSize(direction) > 0.1f)
-		{
-			direction = VNorm(direction);
-		}
-
 		popFlag = false;
 	}
 
@@ -92,6 +87,9 @@ void Meteorite::Move(float deltaTime)
 	{
 		direction = DIRECTION;
 	}
+
+	//ベクトルの正規化
+	direction = VNorm(direction);
 	
 	position += direction * deltaTime * speed;
 	rotate += rotateSpeed;
