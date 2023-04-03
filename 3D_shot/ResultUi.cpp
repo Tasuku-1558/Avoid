@@ -75,16 +75,6 @@ string ResultUi::InputPath(string folderPath, string path)
 	return string(folderPath + path);
 }
 
-struct Score
-{
-	int a;
-	int posY;
-	unsigned int color;
-	int font;
-	char name[30];
-	int b;
-};
-
 /// <summary>
 /// スコア表示
 /// </summary>

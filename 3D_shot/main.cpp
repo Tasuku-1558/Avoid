@@ -55,9 +55,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	LONGLONG nowTime;
 	LONGLONG prevTime = nowTime = GetNowHiPerformanceCount();
 
-	//待機フレーム時間(60fps)
-	float waitFrameTime = WAIT_FRAME_TIME;
-
 	//メインループ用フラグ変数
 	bool loop = true;
 
@@ -161,7 +158,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		prevSceneType = nowSceneType;
 
 		//60fps制御用ループ
-		while (GetNowHiPerformanceCount() - nowTime < waitFrameTime);
+		while (GetNowHiPerformanceCount() - nowTime < WAIT_FRAME_TIME);
 
 		prevTime = nowTime;
 	}

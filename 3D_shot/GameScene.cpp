@@ -90,9 +90,6 @@ void GameScene::Initialize()
 	scoreFont = CreateFontToHandle("Oranienbaum", 130, 1);
 	fontHandle = CreateFontToHandle("Oranienbaum", 80, 1);
 
-	//ƒQ[ƒ€BGM‚ðÄ¶
-	SoundManager::GetInstance().PlayBgm(SoundManager::GAME);
-
 	pUpdate = &GameScene::UpdateStart;
 }
 
@@ -232,6 +229,9 @@ void GameScene::UpdateStart(float deltaTime)
 		//ƒQ[ƒ€‹N“®Žž‚ÌŽžŠÔ‚ðŽæ“¾
 		startTime = GetNowCount();
 
+		//ƒQ[ƒ€BGM‚ðÄ¶
+		SoundManager::GetInstance().PlayBgm(SoundManager::GAME);
+
 		gameState = GameState::GAME;
 		pUpdate = &GameScene::UpdateGame;
 	}
@@ -347,10 +347,10 @@ void GameScene::Draw()
 {
 	backGround->Draw();
 
+	evaluation->Draw();
+
 	if (gameState != GameState::RESULT && gameState != GameState::START)
 	{
-		evaluation->Draw();
-
 		field->Draw();
 
 		player->Draw();
@@ -359,9 +359,9 @@ void GameScene::Draw()
 		{
 			meteoritePtr->Draw();
 		}
-
-		effectManager->Draw();
 	}
+
+	effectManager->Draw();
 
 	uiManager->Draw(gameState, frame, fontHandle, countDown, score, wave);
 

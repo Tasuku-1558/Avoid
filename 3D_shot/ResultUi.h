@@ -32,6 +32,17 @@ private:
 	string InputPath(string folderPath,
 					 string path);		//パスを入力
 
+	struct Score
+	{
+		int a;
+		int posY;
+		unsigned int color;
+		int font;
+		char name[30];
+		int b;
+	};
+
+
 	int displayCount;			//スコア表示カウント
 	int evaluationImage[3];		//スコア評価
 	int gaugeFrame;				//ゲージ枠格納用
