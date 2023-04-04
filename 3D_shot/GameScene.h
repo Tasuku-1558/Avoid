@@ -86,6 +86,7 @@ private:
 	float frame;				//フレーム数
 	float meteoritePopCount;	//隕石出現カウント
 	bool sceneChangeTitle;		//タイトル画面へ遷移するかどうか
+	bool sceneChangeGame;		//ゲーム画面へ遷移するかどうか
 
 
 	//定数

@@ -50,7 +50,7 @@ void UiManager::Initialize()
 
 	//”š‰æ‘œ“Ç‚İ‚İ
 	fullPath = FOLDER_PATH + COUNTDOWN_GRAPHIC_PATH + FILENAME_EXTENSION;
-	LoadDivGraph(fullPath.c_str(), 3, 3, 1, 383, 450, numberGraphicHandle);
+	LoadDivGraph(fullPath.c_str(), 3, 3, 1, 466, 467, numberGraphicHandle);
 
 	if (numberGraphicHandle[0] < 0)
 	{
@@ -106,9 +106,9 @@ void UiManager::Draw(GameScene::GameState gameState, float frame, int font, int 
 /// <param name="frame">ƒtƒŒ[ƒ€”</param>
 void UiManager::StartCountDraw(float frame)
 {
-	int num = (int)frame;
+	int number = (int)frame;
 
-	DrawGraph(800, 350, numberGraphicHandle[num], TRUE);
+	DrawGraph(720, 300, numberGraphicHandle[number], TRUE);
 }
 
 /// <summary>

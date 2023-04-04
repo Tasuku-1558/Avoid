@@ -38,8 +38,9 @@ GameScene::GameScene()
 	, frame(0.0f)
 	, meteoritePopCount(0.0f)
 	, sceneChangeTitle(false)
+	, sceneChangeGame(false)
 	, pUpdate(nullptr)
-	, GAME_TIME(5)
+	, GAME_TIME(90)
 	, GAME_START_COUNT(3.0f)
 	, FADE_START_COUNT(1.0f)
 {
@@ -318,6 +319,11 @@ void GameScene::UpdateResult(float deltaTime)
 		sceneChangeTitle = true;
 	}
 
+	if (CheckHitKey(KEY_INPUT_RETURN))
+	{
+		sceneChangeGame = true;
+	}
+
 	if (sceneChangeTitle)
 	{
 		fadeManager->FadeMove();
@@ -333,10 +339,24 @@ void GameScene::UpdateResult(float deltaTime)
 		}
 	}
 
-	if (CheckHitKey(KEY_INPUT_RETURN))
+	if (sceneChangeGame)
 	{
-		gameState = GameState::START;
-		Initialize();
+		fadeManager->FadeMove();
+
+		//リザルトBGMを停止
+		SoundManager::GetInstance().StopBgm();
+
+		//フェードが終わったら
+		if (fadeManager->FadeEnd())
+		{
+			//もう一度プレイする
+			gameState = GameState::START;
+			Initialize();
+
+			frame = 0.0f;
+
+			sceneChangeGame = false;
+		}
 	}
 }
 
