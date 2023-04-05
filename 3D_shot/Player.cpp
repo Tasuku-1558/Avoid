@@ -91,7 +91,12 @@ void Player::Move(float deltaTime)
 	//入力方向を初期化する
 	inputDirection = ZERO_VECTOR;
 
+	//リングを回転
 	rotate += rotateSpeed * deltaTime;
+
+	//プレイヤーリングモデルの位置と回転値を設定
+	MV1SetPosition(lingModel, position);
+	MV1SetRotationXYZ(lingModel, rotate);
 	
 	KeyInput();
 	
@@ -114,9 +119,6 @@ void Player::Move(float deltaTime)
 	//プレイヤーモデルの位置を設定
 	MV1SetPosition(modelHandle, position);
 
-	//プレイヤーリングモデルの位置と回転値を設定
-	MV1SetPosition(lingModel, position);
-	MV1SetRotationXYZ(lingModel, rotate);
 }
 
 /// <summary>

@@ -20,7 +20,6 @@ HitChecker::HitChecker(EffectManager* const inEffect, Evaluation* const inEvalua
 	, great(false)
 	, good(false)
 	, decisionFlag(false)
-	, decision()
 	, DECISION_START_LINE(150)
 	, DECISION_END_LINE(-140)
 	, RADIUS_EXCELLENT(100.0f)

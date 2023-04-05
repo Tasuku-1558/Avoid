@@ -15,20 +15,21 @@ ResultUi::ResultUi()
 	, scoreGauge(0.0f)
 	, earnScore(0.0f)
 	, displayFlag(false)
+	, DECISION_B_LINE(6900)
+	, DECISION_A_LINE(10000)
+	, DECISION_S_LINE(13100)
+	, EVALUATION_NUMBER(3)
+	, SCORE_DRAW_NUMBER(5)
+	, MAX_ALPHA(255)
+	, ORANGE(GetColor(255, 165, 0))
+	, MAX_SCORE_GAUGE(1500.0f)
+	, GAUGE_INCREASE(5.0f)
 	, IMAGE_FOLDER_PATH("Data/Image/")
 	, RESULT_UI_PATH("ResultUi.png")
 	, GAUGE_FRAME_PATH("GaugeFrame.png")
 	, SCORE_B_PATH("ScoreB.png")
 	, SCORE_A_PATH("ScoreA.png")
 	, SCORE_S_PATH("ScoreS.png")
-	, DECISION_B_LINE(6900)
-	, DECISION_A_LINE(10000)
-	, DECISION_S_LINE(13100)
-	, EVALUATION_NUMBER(3)
-	, MAX_ALPHA(255)
-	, ORANGE(GetColor(255, 165, 0))
-	, MAX_SCORE_GAUGE(1500.0f)
-	, GAUGE_INCREASE(5.0f)
 {
 	Initialize();
 }
@@ -91,11 +92,11 @@ void ResultUi::ScoreDraw(int scoreFont, int countFont, int score, int excellentC
 		{190,700,GetColor(169, 169, 169),countFont,"Miss          Å~  %d",missCount},
 	};
 
-	for (int i = 0; i < 5; i++)
+	for (int i = 0; i < SCORE_DRAW_NUMBER; i++)
 	{
-		if (displayCount > s[i].a)
+		if (displayCount > s[i].maxDisplayCount)
 		{
-			DrawFormatStringToHandle(650, s[i].posY, s[i].color, s[i].font, s[i].name, s[i].b);
+			DrawFormatStringToHandle(650, s[i].posY, s[i].color, s[i].font, s[i].name, s[i].scoreType);
 		}
 	}
 }

@@ -47,14 +47,14 @@ private:
 
 
 	//定数
+	const int	 EVALUATION_NUMBER;	//評価文字数
+	const float  MAX_SCALE;			//最大の文字の大きさ
+	const float  MAX_DISPLAY_TIME;	//最大表示時間
 	const string IMAGE_FOLDER_PATH;	//Imageフォルダまでのパス
 	const string EXCELLENT_PATH;	//excellent画像のパス
 	const string GREAT_PATH;		//great画像のパス
 	const string GOOD_PATH;			//good画像のパス
 	const string MISS_PATH;			//miss画像のパス
 	const string SLOW_SCREEN_PATH;	//集中線画像のパス
-	const int	 EVALUATION_NUMBER;	//評価文字数
-	const float  MAX_SCALE;			//最大の文字の大きさ
-	const float  MAX_DISPLAY_TIME;	//最大表示時間
 
 };

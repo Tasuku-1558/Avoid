@@ -7,11 +7,11 @@
 UiManager::UiManager()
 	: uiHandle()
 	, numberGraphicHandle()
+	, COUNTDOWN_IMAGE_NUMBER(3)
 	, FOLDER_PATH("Data/Image/")
 	, UI_GRAPHIC_PATH("ui")
 	, COUNTDOWN_GRAPHIC_PATH("CountDown")
 	, FILENAME_EXTENSION(".png")
-	, COUNTDOWN_IMAGE_NUMBER(3)
 {
 	Initialize();
 }

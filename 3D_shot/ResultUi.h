@@ -34,12 +34,12 @@ private:
 
 	struct Score
 	{
-		int a;
+		int maxDisplayCount;
 		int posY;
 		unsigned int color;
 		int font;
 		char name[30];
-		int b;
+		int scoreType;
 	};
 
 
@@ -54,19 +54,20 @@ private:
 	bool displayFlag;			//評価画像表示フラグ
 	
 	//定数
+	const int	 DECISION_B_LINE;		//B評価判定ライン
+	const int	 DECISION_A_LINE;		//A評価判定ライン
+	const int	 DECISION_S_LINE;		//S評価判定ライン
+	const int	 EVALUATION_NUMBER;		//評価文字数
+	const int	 SCORE_DRAW_NUMBER;		//表示するスコア数
+	const int	 MAX_ALPHA;				//最大透過度
+	const unsigned int ORANGE;			//ゲージのカラー
+	const float  MAX_SCORE_GAUGE;		//最大スコアゲージ
+	const float  GAUGE_INCREASE;		//スコア増加量
 	const string IMAGE_FOLDER_PATH;		//Imageフォルダまでのパス
 	const string RESULT_UI_PATH;		//遷移のUI画像のパス
 	const string GAUGE_FRAME_PATH;		//ゲージ枠画像のパス
 	const string SCORE_B_PATH;			//B評価画像のパス
 	const string SCORE_A_PATH;			//A評価画像のパス
 	const string SCORE_S_PATH;			//S評価画像のパス
-	const int	 DECISION_B_LINE;		//B評価判定ライン
-	const int	 DECISION_A_LINE;		//A評価判定ライン
-	const int	 DECISION_S_LINE;		//S評価判定ライン
-	const int	 EVALUATION_NUMBER;		//評価文字数
-	const int	 MAX_ALPHA;				//最大透過度
-	const unsigned int ORANGE;			//ゲージのカラー
-	const float  MAX_SCORE_GAUGE;		//最大スコアゲージ
-	const float  GAUGE_INCREASE;		//スコア増加量
 
 };

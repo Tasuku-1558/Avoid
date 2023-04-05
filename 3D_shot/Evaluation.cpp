@@ -11,15 +11,15 @@ Evaluation::Evaluation()
 	, scale(0.0f)
 	, displayTime(0.0f)
 	, ui(Ui::NOMAL)
+	, EVALUATION_NUMBER(4)
+	, MAX_SCALE(1.0f)
+	, MAX_DISPLAY_TIME(50.0f)
 	, IMAGE_FOLDER_PATH("Data/Image/")
 	, EXCELLENT_PATH("ExcellentEffect.png")
 	, GREAT_PATH("GreatEffect.png")
 	, GOOD_PATH("GoodEffect.png")
 	, MISS_PATH("MissEffect.png")
 	, SLOW_SCREEN_PATH("SlowScreen.png")
-	, EVALUATION_NUMBER(4)
-	, MAX_SCALE(1.0f)
-	, MAX_DISPLAY_TIME(50.0f)
 {
 	Initialize();
 }

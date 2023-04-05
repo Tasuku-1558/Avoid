@@ -7,9 +7,9 @@
 /// </summary>
 BackGround::BackGround()
 	: backGroundHandle(0)
+	, PLAY_POSITION(0)
 	, VIDEO_FOLDER_PATH("Data/Video/")
 	, BACKGROUND_VIDEO_PATH("BackGround.mp4")
-	, PLAY_POSITION(0)
 {
 	Initialize();
 }

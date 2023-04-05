@@ -37,10 +37,10 @@ private:
 	int numberGraphicHandle[3];			//カウントダウン画像格納用
 
 	//定数
+	const int	 COUNTDOWN_IMAGE_NUMBER;	//カウントダウン画像の配列数
 	const string FOLDER_PATH;				//画像格納フォルダ
 	const string UI_GRAPHIC_PATH;			//UI画像
 	const string COUNTDOWN_GRAPHIC_PATH;	//数字画像ファイルのパス
 	const string FILENAME_EXTENSION;		//画像拡張子
-	const int	 COUNTDOWN_IMAGE_NUMBER;	//カウントダウン画像の配列数
-	
+
 };
