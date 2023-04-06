@@ -1,6 +1,6 @@
 #include "ResultUi.h"
 #include "DxLib.h"
-
+#include "InputManager.h"
 
 /// <summary>
 /// コンストラクタ
@@ -54,26 +54,15 @@ ResultUi::~ResultUi()
 void ResultUi::Initialize()
 {
 	//リザルトUIの読み込み
-	gaugeFrame = LoadGraph(InputPath(IMAGE_FOLDER_PATH, GAUGE_FRAME_PATH).c_str());
+	gaugeFrame = LoadGraph(Input::InputPath(IMAGE_FOLDER_PATH, GAUGE_FRAME_PATH).c_str());
 
-	resultUi = LoadGraph(InputPath(IMAGE_FOLDER_PATH, RESULT_UI_PATH).c_str());
+	resultUi = LoadGraph(Input::InputPath(IMAGE_FOLDER_PATH, RESULT_UI_PATH).c_str());
 
-	evaluationImage[0] = LoadGraph(InputPath(IMAGE_FOLDER_PATH, SCORE_B_PATH).c_str());
+	evaluationImage[0] = LoadGraph(Input::InputPath(IMAGE_FOLDER_PATH, SCORE_B_PATH).c_str());
 
-	evaluationImage[1] = LoadGraph(InputPath(IMAGE_FOLDER_PATH, SCORE_A_PATH).c_str());
+	evaluationImage[1] = LoadGraph(Input::InputPath(IMAGE_FOLDER_PATH, SCORE_A_PATH).c_str());
 
-	evaluationImage[2] = LoadGraph(InputPath(IMAGE_FOLDER_PATH, SCORE_S_PATH).c_str());
-}
-
-/// <summary>
-/// パスを入力
-/// </summary>
-/// <param name="folderPath"></param>
-/// <param name="path"></param>
-/// <returns></returns>
-string ResultUi::InputPath(string folderPath, string path)
-{
-	return string(folderPath + path);
+	evaluationImage[2] = LoadGraph(Input::InputPath(IMAGE_FOLDER_PATH, SCORE_S_PATH).c_str());
 }
 
 /// <summary>

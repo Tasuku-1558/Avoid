@@ -29,9 +29,6 @@ private:
 	void ScoreDraw(int scoreFont, int countFont, int score, int excellentCount, int greatCount, int goodCount, int missCount);	//スコア表示
 	void GaugeDraw(int score);	//ゲージ表示
 
-	string InputPath(string folderPath,
-					 string path);		//パスを入力
-
 	struct Score
 	{
 		int maxDisplayCount;
@@ -41,7 +38,6 @@ private:
 		char name[30];
 		int scoreType;
 	};
-
 
 	int displayCount;			//スコア表示カウント
 	int evaluationImage[3];		//スコア評価

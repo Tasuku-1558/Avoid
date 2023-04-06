@@ -32,9 +32,6 @@ private:
 	void ReturnScreen();				//画面を遷移する
 	void InputScene(SceneType sceneType);		//シーンを入力
 
-	string InputPath(string folderPath,
-					 string path);		//パスを入力
-
 	//タイトルの状態
 	enum class TitleState
 	{

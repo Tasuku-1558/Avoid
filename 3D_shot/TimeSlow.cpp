@@ -21,7 +21,7 @@ TimeSlow::~TimeSlow()
 /// <summary>
 /// ƒAƒhƒŒƒX‚ð•Ô‚·
 /// </summary>
-/// <returns></returns>
+/// <returns>timeSlow‚ð•Ô‚·</returns>
 TimeSlow& TimeSlow::GetInstance()
 {
 	static TimeSlow timeSlow;

@@ -1,6 +1,6 @@
 #include "Evaluation.h"
 #include "DxLib.h"
-
+#include "InputManager.h"
 
 /// <summary>
 /// コンストラクタ
@@ -14,6 +14,7 @@ Evaluation::Evaluation()
 	, EVALUATION_NUMBER(4)
 	, MAX_SCALE(1.0f)
 	, MAX_DISPLAY_TIME(50.0f)
+	, DISPLAY_TIME_INCREASE(1.0f)
 	, IMAGE_FOLDER_PATH("Data/Image/")
 	, EXCELLENT_PATH("ExcellentEffect.png")
 	, GREAT_PATH("GreatEffect.png")
@@ -37,28 +38,22 @@ Evaluation::~Evaluation()
 /// </summary>
 void Evaluation::Initialize()
 {
+	EvaluationImage e[] =
+	{
+		{EXCELLENT_PATH},
+		{GREAT_PATH},
+		{GOOD_PATH},
+		{MISS_PATH},
+	};
+
 	//評価画像の読み込み
-	evaluationGraph[0] = LoadGraph(InputPath(IMAGE_FOLDER_PATH, EXCELLENT_PATH).c_str());
-
-	evaluationGraph[1] = LoadGraph(InputPath(IMAGE_FOLDER_PATH, GREAT_PATH).c_str());
-
-	evaluationGraph[2] = LoadGraph(InputPath(IMAGE_FOLDER_PATH, GOOD_PATH).c_str());
-
-	evaluationGraph[3] = LoadGraph(InputPath(IMAGE_FOLDER_PATH, MISS_PATH).c_str());
+	for (int i = 0; i < EVALUATION_NUMBER; i++)
+	{
+		evaluationGraph[i] = LoadGraph(Input::InputPath(IMAGE_FOLDER_PATH, e[i].path).c_str());
+	}
 
 	//集中線画像の読み込み
-	slowScreenGraph	= LoadGraph(InputPath(IMAGE_FOLDER_PATH, SLOW_SCREEN_PATH).c_str());
-}
-
-/// <summary>
-/// 画像のパスを入力
-/// </summary>
-/// <param name="folderPath">フォルダまでのパス</param>
-/// <param name="imagePath">画像のパス</param>
-/// <returns></returns>
-string Evaluation::InputPath(string folderPath, string imagePath)
-{
-	return string(folderPath + imagePath);
+	slowScreenGraph	= LoadGraph(Input::InputPath(IMAGE_FOLDER_PATH, SLOW_SCREEN_PATH).c_str());
 }
 
 /// <summary>
@@ -96,7 +91,7 @@ void Evaluation::ImageMove(int evaluationGraph)
 	if (scale > MAX_SCALE)
 	{
 		scale = 1.0f;
-		displayTime += 1.0f;
+		displayTime += DISPLAY_TIME_INCREASE;
 
 		//表示時間が経過したら
 		if (displayTime > MAX_DISPLAY_TIME)

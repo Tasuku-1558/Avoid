@@ -1,6 +1,6 @@
 #include "EffectManager.h"
 #include "Effect.h"
-
+#include "InputManager.h"
 
 /// <summary>
 /// コンストラクタ
@@ -32,8 +32,8 @@ EffectManager::~EffectManager()
 void EffectManager::Initialize()
 {
 	//各エフェクトの読み込み
-	effect[EXPLOSION] = new Effect(InputPath(EFFECT_FOLDER_PATH, EXPLOSION_EFFECT_PATH), EXPLOSION_SIZE);
-	effect[FIRE] = new Effect(InputPath(EFFECT_FOLDER_PATH, FIRE_EFFECT_PATH), FIRE_SIZE);
+	effect[EXPLOSION] = new Effect(Input::InputPath(EFFECT_FOLDER_PATH, EXPLOSION_EFFECT_PATH), EXPLOSION_SIZE);
+	effect[FIRE] = new Effect(Input::InputPath(EFFECT_FOLDER_PATH, FIRE_EFFECT_PATH), FIRE_SIZE);
 }
 
 /// <summary>
@@ -55,15 +55,4 @@ void EffectManager::Draw()
 void EffectManager::CreateEffect(VECTOR position, EffectType effectType)
 {
 	effect[effectType]->Update(position);
-}
-
-/// <summary>
-/// エフェクトパスの入力
-/// </summary>
-/// <param name="folderPath">エフェクトフォルダーのパス</param>
-/// <param name="effectPath">エフェクトのパス</param>
-/// <returns>エフェクトのパス</returns>
-string EffectManager::InputPath(string folderPath, string effectPath)
-{
-	return string(folderPath + effectPath);
 }

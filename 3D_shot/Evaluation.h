@@ -37,24 +37,26 @@ private:
 	void EvaluationDraw();					//各評価の描画処理
 	void SlowScreenDraw();					//速度低速時の集中線の描画処理
 
-	string InputPath(string folderPath,
-					 string imagePath);		//画像のパスを入力
-
 	int evaluationGraph[5];					//評価文字の格納用
 	int slowScreenGraph;					//速度低速時の集中線
 	float displayTime;						//表示時間
 	float scale;							//評価文字の大きさ
 
+	struct EvaluationImage
+	{
+		string path;
+	};
 
 	//定数
-	const int	 EVALUATION_NUMBER;	//評価文字数
-	const float  MAX_SCALE;			//最大の文字の大きさ
-	const float  MAX_DISPLAY_TIME;	//最大表示時間
-	const string IMAGE_FOLDER_PATH;	//Imageフォルダまでのパス
-	const string EXCELLENT_PATH;	//excellent画像のパス
-	const string GREAT_PATH;		//great画像のパス
-	const string GOOD_PATH;			//good画像のパス
-	const string MISS_PATH;			//miss画像のパス
-	const string SLOW_SCREEN_PATH;	//集中線画像のパス
+	const int	 EVALUATION_NUMBER;		//評価文字数
+	const float  MAX_SCALE;				//最大の文字の大きさ
+	const float  MAX_DISPLAY_TIME;		//最大表示時間
+	const float  DISPLAY_TIME_INCREASE;	//表示時間増加量
+	const string IMAGE_FOLDER_PATH;		//Imageフォルダまでのパス
+	const string EXCELLENT_PATH;		//excellent画像のパス
+	const string GREAT_PATH;			//great画像のパス
+	const string GOOD_PATH;				//good画像のパス
+	const string MISS_PATH;				//miss画像のパス
+	const string SLOW_SCREEN_PATH;		//集中線画像のパス
 
 };

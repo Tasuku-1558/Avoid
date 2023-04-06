@@ -1,6 +1,6 @@
 #include "ModelManager.h"
 #include "DxLib.h"
-
+#include "InputManager.h"
 
 /// <summary>
 /// コンストラクタ
@@ -27,7 +27,7 @@ ModelManager::~ModelManager()
 /// <summary>
 /// アドレスを返す
 /// </summary>
-/// <returns></returns>
+/// <returns>modelManagerを返す</returns>
 ModelManager& ModelManager::GetInstance()
 {
 	static ModelManager modelManager;
@@ -39,33 +39,24 @@ ModelManager& ModelManager::GetInstance()
 /// </summary>
 void ModelManager::LoadAllModel()
 {
-	modelHandle[PLAYER]		 = MV1LoadModel(InputPath(MODEL_FOLDER_PATH, PLAYER_PATH).c_str());
+	Model model[] =
+	{
+		{PLAYER_PATH},
+		{LING_PATH},
+		{METEORITE_PATH},
+		{FIELD_PATH},
+	};
 
-	modelHandle[PLAYER_LING] = MV1LoadModel(InputPath(MODEL_FOLDER_PATH, LING_PATH).c_str());
-
-	modelHandle[METEORITE]	 = MV1LoadModel(InputPath(MODEL_FOLDER_PATH, METEORITE_PATH).c_str());
-
-	modelHandle[FIELD]		 = MV1LoadModel(InputPath(MODEL_FOLDER_PATH, FIELD_PATH).c_str());
-
-	//読み込み失敗ならエラー
 	for (int i = 0; i < MODEL_AMOUNT; ++i)
 	{
+		modelHandle[i] = MV1LoadModel(Input::InputPath(MODEL_FOLDER_PATH, model[i].modelPath).c_str());
+
+		//読み込み失敗ならエラー
 		if (modelHandle[i] < 0)
 		{
 			printfDx("モデルデータ読み込み失敗[%d]\n", i);
 		}
 	}
-}
-
-/// <summary>
-/// モデルのパスを入力
-/// </summary>
-/// <param name="folderPath">モデルフォルダのパス</param>
-/// <param name="modelPath">モデルのパス</param>
-/// <returns></returns>
-string ModelManager::InputPath(string folderPath, string modelPath)
-{
-	return string(folderPath + modelPath);
 }
 
 /// <summary>
@@ -86,8 +77,8 @@ void ModelManager::DeleteAllModel()
 /// <summary>
 /// モデルハンドルの参照を返す
 /// </summary>
-/// <param name="modelType"></param>
-/// <returns></returns>
+/// <param name="modelType">モデルの種類</param>
+/// <returns>モデルハンドルを返す</returns>
 const int& ModelManager::GetModelHandle(ModelType modelType) const
 {
 	if (modelType == MODEL_AMOUNT)

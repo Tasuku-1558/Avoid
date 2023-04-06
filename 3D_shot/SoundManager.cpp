@@ -9,12 +9,12 @@ SoundManager::SoundManager()
 	: bgmData()
 	, seData()
 	, sePlayFlag()
+	, BGM_VOLUME(255 * 50 / 100)
+	, SE_VOLUME(255 * 50 / 100)
 	, SOUND_FOLDER_PATH("Data/Sound/")
 	, BGM_PATH("bgm")
 	, SE_PATH("se")
 	, SOUND_FILENAME_EXTENSION(".mp3")
-	, BGM_VOLUME(255 * 50 / 100)
-	, SE_VOLUME(255 * 50 / 100)
 {
 	LoadAllSound();
 	VolumeAdjustment();
@@ -31,7 +31,7 @@ SoundManager::~SoundManager()
 /// <summary>
 /// ƒAƒhƒŒƒX‚ð•Ô‚·
 /// </summary>
-/// <returns></returns>
+/// <returns>soundManager‚ð•Ô‚·</returns>
 SoundManager& SoundManager::GetInstance()
 {
 	static SoundManager soundManager;

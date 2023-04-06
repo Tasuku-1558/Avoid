@@ -29,9 +29,9 @@ private:
 	//定数
 	const string IMAGE_FOLDER_PATH;	//Imageフォルダまでのパス
 	const string LINE_PATH;			//ライン画像のパス
-	const VECTOR SIZE;				//倍率
-	const VECTOR POSITION;			//位置
-	const VECTOR ROTATE;			//回転値
+	const VECTOR SIZE;				//フィールドモデルの倍率
+	const VECTOR POSITION;			//フィールドモデルの位置
+	const VECTOR ROTATE;			//フィールドモデルの回転値
 	const VECTOR LINE_POSITION;		//ラインの位置
 
 };

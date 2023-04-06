@@ -28,10 +28,6 @@ private:
 
 	void Initialize();							//初期化処理
 
-	string InputPath(string folderPath,
-					 string effectPath);		//エフェクトパスの入力
-
-
 	EffectBase* effect[EFFECT_AMOUNT];			//エフェクト格納用
 
 

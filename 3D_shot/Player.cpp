@@ -118,7 +118,6 @@ void Player::Move(float deltaTime)
 
 	//プレイヤーモデルの位置を設定
 	MV1SetPosition(modelHandle, position);
-
 }
 
 /// <summary>

@@ -34,8 +34,10 @@ private:
 	void LoadAllModel();						//全てのモデルの読み込み
 	void DeleteAllModel();						//全てのモデルの削除
 
-	string InputPath(string folderPath,
-					 string modelPath);			//モデルのパスを入力
+	struct Model
+	{
+		string modelPath;
+	};
 
 	int modelHandle[MODEL_AMOUNT];				//モデルハンドル格納用
 
