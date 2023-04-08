@@ -18,7 +18,7 @@ public:
 private:
 	FadeManager(const FadeManager&);	//コピーコンストラクタ
 
-	int fade;
+	int fade;			//フェード値
 	int fadeInc;
 	bool fadeEnd;		//フェード終了フラグ
 

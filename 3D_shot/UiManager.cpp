@@ -8,10 +8,10 @@ UiManager::UiManager()
 	: uiHandle()
 	, numberGraphicHandle()
 	, COUNTDOWN_IMAGE_NUMBER(3)
-	, FOLDER_PATH("Data/Image/")
+	, IMAGE_FOLDER_PATH("Data/Image/")
 	, UI_GRAPHIC_PATH("ui")
 	, COUNTDOWN_GRAPHIC_PATH("CountDown")
-	, FILENAME_EXTENSION(".png")
+	, IMAGE_FILENAME_EXTENSION(".png")
 {
 	Initialize();
 }
@@ -33,28 +33,25 @@ UiManager::~UiManager()
 /// </summary>
 void UiManager::Initialize()
 {
-	//UI画像読み込み
-	string path = FOLDER_PATH + UI_GRAPHIC_PATH;	//フォルダパス + ファイル名
-	string fullPath = path;
-	
+	//Ui画像読み込み
 	for (int i = 0; i < GRAPHIC_AMOUNT; ++i)
 	{
-		fullPath = path + std::to_string(i) + FILENAME_EXTENSION;
-		uiHandle[i] = LoadGraph(fullPath.c_str());
+		string uiPath = IMAGE_FOLDER_PATH + UI_GRAPHIC_PATH + to_string(i) + IMAGE_FILENAME_EXTENSION;
+		uiHandle[i] = LoadGraph(uiPath.c_str());
 
 		if (uiHandle[i] < 0)
 		{
-			printfDx("画像読み込みに失敗[%d]\n", i);
+			printfDx("Ui画像読み込みに失敗[%d]\n", i);
 		}
 	}
 
 	//数字画像読み込み
-	fullPath = FOLDER_PATH + COUNTDOWN_GRAPHIC_PATH + FILENAME_EXTENSION;
-	LoadDivGraph(fullPath.c_str(), 3, 3, 1, 466, 467, numberGraphicHandle);
+	string numberPath = IMAGE_FOLDER_PATH + COUNTDOWN_GRAPHIC_PATH + IMAGE_FILENAME_EXTENSION;
+	LoadDivGraph(numberPath.c_str(), 3, 3, 1, 466, 467, numberGraphicHandle);
 
 	if (numberGraphicHandle[0] < 0)
 	{
-		printfDx("画像読み込みに失敗_UiManager_number\n");
+		printfDx("数字画像読み込みに失敗\n");
 	}
 }
 

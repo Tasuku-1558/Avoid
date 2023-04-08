@@ -36,7 +36,7 @@ private:
 
 	struct Model
 	{
-		string modelPath;
+		string modelPath;	//モデルのパス
 	};
 
 	int modelHandle[MODEL_AMOUNT];				//モデルハンドル格納用
