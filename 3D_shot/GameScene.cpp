@@ -40,9 +40,11 @@ GameScene::GameScene()
 	, sceneChangeTitle(false)
 	, sceneChangeGame(false)
 	, pUpdate(nullptr)
-	, GAME_TIME(5)
+	, GAME_TIME(82)
+	, METEORITE_POP_CATEGORY(5)
 	, GAME_START_COUNT(3.0f)
 	, FADE_START_COUNT(1.0f)
+	, a(false)
 {
 	Initialize();
 }
@@ -130,44 +132,24 @@ void GameScene::MeteoritePop(float deltaTime)
 {
 	meteoritePopCount += deltaTime;
 
-	if (countDown > 80 && meteoritePopCount > 1.2f)
+	Pop pop[] =
 	{
-		Meteorite* newMeteorite = new Meteorite(player);
-		EntryMeteorite(newMeteorite);
-		meteoritePopCount = 0.0f;
-		wave = 1;
-	}
+		{90,80,1.2f,1},
+		{80,60,1.0f,2},
+		{60,40,0.7f,3},
+		{40,20,0.9f,4},
+		{20, 0,0.7f,5},
+	};
 
-	if (countDown < 80 && countDown > 60 && meteoritePopCount > 1.0f)
+	for (int i = 0; i < METEORITE_POP_CATEGORY; i++)
 	{
-		Meteorite* newMeteorite = new Meteorite(player);
-		EntryMeteorite(newMeteorite);
-		meteoritePopCount = 0.0f;
-		wave = 2;
-	}
-
-	if (countDown < 60 && countDown > 40 && meteoritePopCount > 0.7f)
-	{
-		Meteorite* newMeteorite = new Meteorite(player);
-		EntryMeteorite(newMeteorite);
-		meteoritePopCount = 0.0f;
-		wave = 3;
-	}
-
-	if (countDown < 40 && countDown > 20 && meteoritePopCount > 0.9f)
-	{
-		Meteorite* newMeteorite = new Meteorite(player);
-		EntryMeteorite(newMeteorite);
-		meteoritePopCount = 0.0f;
-		wave = 4;
-	}
-
-	if (countDown < 20 && meteoritePopCount > 0.7f)
-	{
-		Meteorite* newMeteorite = new Meteorite(player);
-		EntryMeteorite(newMeteorite);
-		meteoritePopCount = 0.0f;
-		wave = 5;
+		if (countDown < pop[i].sTime && countDown > pop[i].eTime && meteoritePopCount > pop[i].popCount)
+		{
+			Meteorite* newMeteorite = new Meteorite(player);
+			EntryMeteorite(newMeteorite);
+			meteoritePopCount = 0.0f;
+			wave = pop[i].wave;
+		}
 	}
 }
 
@@ -176,8 +158,26 @@ void GameScene::MeteoritePop(float deltaTime)
 /// </summary>
 void GameScene::GameCountDown()
 {
-	nowTime = GetNowCount();
-	countDown = GAME_TIME - (nowTime - startTime) / 1000;
+	if (!a)
+	{
+		nowTime = GetNowCount();
+		countDown = GAME_TIME - (nowTime - startTime) / 1000;
+	}
+
+	if (countDown <= 80)
+	{
+		countDown = 80;
+
+		a = true;
+
+		nowTime = GetNowCount();
+
+		if (CheckHitKey(KEY_INPUT_J))
+		{
+			startTime = GetNowCount();
+			countDown = 80 - (nowTime - startTime) / 1000;
+		}
+	}
 
 	//§ŒÀŽžŠÔ‚ª0‚É‚È‚Á‚½‚ç
 	if (countDown == 0)

@@ -69,7 +69,14 @@ private:
 	void UpdateFinish(float deltaTime);					//ゲーム終了
 	void UpdateResult(float deltaTime);					//結果画面
 	void(GameScene::* pUpdate)(float deltaTime);		//Update関数ポインタ
-	
+
+	struct Pop
+	{
+		int sTime;
+		int eTime;
+		float popCount;		//隕石出現間隔
+		int wave;			//wave数
+	};
 
 	GameState gameState;		//ゲームの状態
 	int startTime;				//起動時間
@@ -88,9 +95,11 @@ private:
 	bool sceneChangeTitle;		//タイトル画面へ遷移するかどうか
 	bool sceneChangeGame;		//ゲーム画面へ遷移するかどうか
 
+	bool a;
 
 	//定数
-	const int	GAME_TIME;			//ゲーム時間
-	const float GAME_START_COUNT;	//ゲーム開始カウント
-	const float FADE_START_COUNT;	//フェード開始カウント
+	const int	GAME_TIME;				//ゲーム時間
+	const int	METEORITE_POP_CATEGORY;	//隕石出現の種類
+	const float GAME_START_COUNT;		//ゲーム開始カウント
+	const float FADE_START_COUNT;		//フェード開始カウント
 };

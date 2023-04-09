@@ -58,10 +58,6 @@ void Meteorite::Finalize()
 /// <param name="deltaTime"></param>
 void Meteorite::Update(float deltaTime)
 {
-	//隕石の位置と回転値をセット
-	MV1SetPosition(modelHandle, position);
-	MV1SetRotationXYZ(modelHandle, rotate);
-
 	Move(deltaTime);
 }
 
@@ -93,6 +89,10 @@ void Meteorite::Move(float deltaTime)
 	
 	position += direction * deltaTime * speed;
 	rotate += rotateSpeed;
+
+	//隕石の位置と回転値をセット
+	MV1SetPosition(modelHandle, position);
+	MV1SetRotationXYZ(modelHandle, rotate);
 }
 
 /// <summary>

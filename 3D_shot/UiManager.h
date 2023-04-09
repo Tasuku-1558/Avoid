@@ -17,7 +17,6 @@ public:
 	void Draw(GameScene::GameState gameState, float frame, int font, int countDown, int score, int wave);	//描画処理
 
 private:
-
 	UiManager(const UiManager&);		//コピーコンストラクタ
 
 	//画像の種類
@@ -35,6 +34,12 @@ private:
 
 	int uiHandle[GRAPHIC_AMOUNT];		//画像ハンドル格納用
 	int numberGraphicHandle[3];			//カウントダウン画像格納用
+
+	struct Vec2
+	{
+		int x;
+		int y;
+	};
 
 	//定数
 	const int	 COUNTDOWN_IMAGE_NUMBER;	//カウントダウン画像の配列数

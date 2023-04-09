@@ -65,5 +65,4 @@ private:
 	const string SCORE_B_PATH;			//B評価画像のパス
 	const string SCORE_A_PATH;			//A評価画像のパス
 	const string SCORE_S_PATH;			//S評価画像のパス
-
 };
