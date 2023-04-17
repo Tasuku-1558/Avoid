@@ -8,17 +8,17 @@ class TimeSlow final
 {
 public:
 
-	static TimeSlow& GetInstance();	//アドレスを返す
+	static TimeSlow& GetInstance();		//アドレスを返す
 
-	void SetTimeSlow(const bool slow);
+	void SetTimeSlow(const bool slow);	//低速するかしないかをセットする
 
-	const bool GetTimeSlow() { return slowFlag; }		//低速にするかしないかを返す
+	const bool GetTimeSlow() { return slowFlag; }	//低速にするかしないかを返す
 
 private:
 	TimeSlow();
 	TimeSlow(const TimeSlow&);		//コピーコンストラクタ
 	virtual ~TimeSlow();
 
-	bool slowFlag;					//時間を低速にするかしないか
+	bool slowFlag;	//時間を低速にするかしないか
 	
 };

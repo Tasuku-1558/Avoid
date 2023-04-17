@@ -11,11 +11,11 @@ public:
 	ObjectBase();
 	virtual ~ObjectBase();
 
-	virtual void Update(float deltaTime) = 0;				
-	virtual void Draw() = 0;
+	virtual void Update(float deltaTime) = 0;	//更新処理
+	virtual void Draw() = 0;					//描画処理
 
-	const VECTOR& GetPosition()  const { return position; }
-	const VECTOR& GetDirection() const { return direction; }
+	const VECTOR& GetPosition()  const { return position; }		//現在の座標を返す
+	const VECTOR& GetDirection() const { return direction; }	//向きベクトルを返す
 
 protected:
 

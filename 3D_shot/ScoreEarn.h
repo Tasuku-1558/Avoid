@@ -16,7 +16,6 @@ public:
 	void GreatScore();			//greatのスコア
 	void GoodScore();			//goodのスコア
 
-
 	const int GetScore() { return targetScore; }				//スコアを返す
 	const int GetExcellentCount() { return excellentCount; }	//excellentの回数を返す
 	const int GetGreatCount() { return greatCount; }			//greatの回数を返す
@@ -26,14 +25,14 @@ public:
 private:
 	ScoreEarn(const ScoreEarn&);	//コピーコンストラクタ
 
-	void Scoring();				//スコア計算
+	void Scoring();			//スコア計算
 
-	int score;					//獲得スコア
-	int targetScore;			//目標スコア
-	int excellentCount;			//excellentの数
-	int greatCount;				//greatの数
-	int goodCount;				//goodの数
-	int missCount;				//missの数
+	int score;				//獲得スコア
+	int targetScore;		//目標スコア
+	int excellentCount;		//excellentの数
+	int greatCount;			//greatの数
+	int goodCount;			//goodの数
+	int missCount;			//missの数
 	
 
 	//定数

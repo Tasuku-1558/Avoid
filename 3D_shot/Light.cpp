@@ -1,14 +1,22 @@
 #include "Light.h"
-#include "SceneBase.h"
+
 
 /// <summary>
 /// コンストラクタ
 /// </summary>
-Light::Light()
+/// <param name="number">ライトの種類</param>
+Light::Light(int number)
 	: TITLE_DIRECTION({ 0.0f, 0.0f, 0.5f })
 	, GAME_DIRECTION({ 0.0f, -0.5f, 0.0f })
 {
-	//処理なし
+	if (number == 0)
+	{
+		SetLightDirection(TITLE_DIRECTION);
+	}
+	else if (number == 1)
+	{
+		SetLightDirection(GAME_DIRECTION);
+	}
 }
 
 /// <summary>
@@ -17,20 +25,4 @@ Light::Light()
 Light::~Light()
 {
 	//処理なし
-}
-
-/// <summary>
-/// タイトルシーンのライトの方向
-/// </summary>
-void Light::TitleLight()
-{
-	SetLightDirection(TITLE_DIRECTION);
-}
-
-/// <summary>
-/// ゲームシーンのライトの方向
-/// </summary>
-void Light::GameLight()
-{
-	SetLightDirection(GAME_DIRECTION);
 }

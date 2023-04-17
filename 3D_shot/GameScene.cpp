@@ -23,7 +23,7 @@
 GameScene::GameScene()
 	: SceneBase(SceneType::GAME)
 	, gameState(GameState::START)
-	, meteorite()
+	, gameTime(90)
 	, startTime(0)
 	, nowTime(0)
 	, countDown(0)
@@ -40,11 +40,45 @@ GameScene::GameScene()
 	, sceneChangeTitle(false)
 	, sceneChangeGame(false)
 	, pUpdate(nullptr)
-	, GAME_TIME(82)
+	, STOP_TIME_CATEGORY(4)
+	, TIME_DIVISION(1000)
 	, METEORITE_POP_CATEGORY(5)
+	, SCORE_FONT_SIZE(130)
+	, FONT_SIZE(80)
+	, FONT_THICK(1)
+	, GAME_FINISH_TIME(0)
+	, WAVE1_POP_START_TIME(90)
+	, WAVE2_POP_START_TIME(80)
+	, WAVE3_POP_START_TIME(60)
+	, WAVE4_POP_START_TIME(40)
+	, WAVE5_POP_START_TIME(20)
+	, WAVE1_POP_END_TIME(80)
+	, WAVE2_POP_END_TIME(60)
+	, WAVE3_POP_END_TIME(40)
+	, WAVE4_POP_END_TIME(20)
+	, WAVE5_POP_END_TIME(0)
+	, WAVE1(1)
+	, WAVE2(2)
+	, WAVE3(3)
+	, WAVE4(4)
+	, WAVE5(5)
+	, WAVE2_STOP_TIME(80)
+	, WAVE3_STOP_TIME(60)
+	, WAVE4_STOP_TIME(40)
+	, WAVE5_STOP_TIME(20)
+	, WAVE2_RELEASE_TIME(79)
+	, WAVE3_RELEASE_TIME(59)
+	, WAVE4_RELEASE_TIME(39)
+	, WAVE5_RELEASE_TIME(19)
+	, WAVE1_POP_COUNT(1.2f)
+	, WAVE2_POP_COUNT(1.0f)
+	, WAVE3_POP_COUNT(0.7f)
+	, WAVE4_POP_COUNT(0.9f)
+	, WAVE5_POP_COUNT(0.7f)
+	, INITIAL_METEORITE_POP_COUNT(0.0f)
 	, GAME_START_COUNT(3.0f)
 	, FADE_START_COUNT(1.0f)
-	, a(false)
+	, countDownStop(false)
 {
 	Initialize();
 }
@@ -66,8 +100,7 @@ void GameScene::Initialize()
 {
 	camera = new Camera();
 
-	light = new Light();
-	light->GameLight();
+	light = new Light(1);
 
 	backGround = new BackGround();
 
@@ -90,8 +123,8 @@ void GameScene::Initialize()
 	resultUi = new ResultUi();
 
 	//フォントの生成
-	scoreFont = CreateFontToHandle("Oranienbaum", 130, 1);
-	fontHandle = CreateFontToHandle("Oranienbaum", 80, 1);
+	scoreFont = CreateFontToHandle("Oranienbaum", SCORE_FONT_SIZE, FONT_THICK);
+	fontHandle = CreateFontToHandle("Oranienbaum", FONT_SIZE, FONT_THICK);
 
 	pUpdate = &GameScene::UpdateStart;
 }
@@ -99,7 +132,7 @@ void GameScene::Initialize()
 /// <summary>
 /// 隕石を登録
 /// </summary>
-/// <param name="newMeteorite"></param>
+/// <param name="newMeteorite">登録する隕石のポインタ</param>
 void GameScene::EntryMeteorite(Meteorite* newMeteorite)
 {
 	meteorite.emplace_back(newMeteorite);
@@ -108,7 +141,7 @@ void GameScene::EntryMeteorite(Meteorite* newMeteorite)
 /// <summary>
 /// 隕石を削除
 /// </summary>
-/// <param name="deleteMeteorite"></param>
+/// <param name="deleteMeteorite">削除する隕石のポインタ</param>
 void GameScene::DeleteMeteorite(Meteorite* deleteMeteorite)
 {
 	//隕石オブジェクトから検索して削除
@@ -127,27 +160,27 @@ void GameScene::DeleteMeteorite(Meteorite* deleteMeteorite)
 /// <summary>
 /// 隕石の出現間隔
 /// </summary>
-/// <param name="deltaTime"></param>
+/// <param name="deltaTime">前フレームと現在のフレームの差分</param>
 void GameScene::MeteoritePop(float deltaTime)
 {
 	meteoritePopCount += deltaTime;
 
 	Pop pop[] =
 	{
-		{90,80,1.2f,1},
-		{80,60,1.0f,2},
-		{60,40,0.7f,3},
-		{40,20,0.9f,4},
-		{20, 0,0.7f,5},
+		{WAVE1_POP_START_TIME, WAVE1_POP_END_TIME, WAVE1_POP_COUNT, WAVE1},
+		{WAVE2_POP_START_TIME, WAVE2_POP_END_TIME, WAVE2_POP_COUNT, WAVE2},
+		{WAVE3_POP_START_TIME, WAVE3_POP_END_TIME, WAVE3_POP_COUNT, WAVE3},
+		{WAVE4_POP_START_TIME, WAVE4_POP_END_TIME, WAVE4_POP_COUNT, WAVE4},
+		{WAVE5_POP_START_TIME, WAVE5_POP_END_TIME, WAVE5_POP_COUNT, WAVE5},
 	};
 
 	for (int i = 0; i < METEORITE_POP_CATEGORY; i++)
 	{
-		if (countDown < pop[i].sTime && countDown > pop[i].eTime && meteoritePopCount > pop[i].popCount)
+		if (countDown < pop[i].popStartTime && countDown > pop[i].popEndTime && meteoritePopCount > pop[i].popCount)
 		{
 			Meteorite* newMeteorite = new Meteorite(player);
 			EntryMeteorite(newMeteorite);
-			meteoritePopCount = 0.0f;
+			meteoritePopCount = INITIAL_METEORITE_POP_COUNT;
 			wave = pop[i].wave;
 		}
 	}
@@ -158,162 +191,58 @@ void GameScene::MeteoritePop(float deltaTime)
 /// </summary>
 void GameScene::GameCountDown()
 {
-	if (!a)
+	//現在の時間を取得
+	nowTime = GetNowCount();
+
+	if (!countDownStop)
 	{
-		nowTime = GetNowCount();
-		countDown = GAME_TIME - (nowTime - startTime) / 1000;
+		countDown = gameTime - (nowTime - startTime) / TIME_DIVISION;
 	}
 
-	if (countDown <= 80)
+	Time time[] =
 	{
-		countDown = 80;
+		{WAVE2_STOP_TIME, WAVE2_RELEASE_TIME},
+		{WAVE3_STOP_TIME, WAVE3_RELEASE_TIME},
+		{WAVE4_STOP_TIME, WAVE4_RELEASE_TIME},
+		{WAVE5_STOP_TIME, WAVE5_RELEASE_TIME},
+	};
 
-		a = true;
-
-		nowTime = GetNowCount();
-
-		if (CheckHitKey(KEY_INPUT_J))
+	for (int i = 0; i < STOP_TIME_CATEGORY; i++)
+	{
+		//制限時間を止める時間になったら
+		if (countDown == time[i].stopTime)
 		{
-			startTime = GetNowCount();
-			countDown = 80 - (nowTime - startTime) / 1000;
+			countDown = time[i].stopTime;
+			countDownStop = true;
+
+			//ウェーブ画像の透過処理が終わったら
+			if (uiManager->AlphaEnd())
+			{
+				//ゲーム起動時の時間を取得
+				startTime = GetNowCount();
+
+				//透過処理の初期化
+				uiManager->AlphaReset();
+
+				countDownStop = false;
+				gameTime = time[i].releaseTime;
+			}
 		}
 	}
 
 	//制限時間が0になったら
-	if (countDown == 0)
+	if (countDown == GAME_FINISH_TIME)
 	{
 		gameState = GameState::FINISH;
 		pUpdate = &GameScene::UpdateFinish;
 	}
 }
 
-void GameScene::ResultScore()
-{
-	//スコアを計算
-	scoreEarn->Update();
-
-	//スコアを取得
-	score = scoreEarn->GetScore();
-	excellentCount = scoreEarn->GetExcellentCount();
-	greatCount = scoreEarn->GetGreatCount();
-	goodCount = scoreEarn->GetGoodCount();
-	missCount = scoreEarn->GetMissCount();
-}
-
 /// <summary>
-/// 更新処理
+/// シーン切り替え
 /// </summary>
-/// <param name="deltaTime"></param>
-SceneType GameScene::Update(float deltaTime)
+void GameScene::SceneChange()
 {
-	if (pUpdate != nullptr)
-	{
-		(this->*pUpdate)(deltaTime);		//状態ごとに更新
-
-		return nowSceneType;
-	}
-}
-
-/// <summary>
-/// ゲーム開始前
-/// </summary>
-/// <param name="deltaTime"></param>
-void GameScene::UpdateStart(float deltaTime)
-{
-	frame += deltaTime;
-
-	player->Update(deltaTime);
-
-	//3秒経過したら
-	if (frame > GAME_START_COUNT)
-	{
-		//ゲーム起動時の時間を取得
-		startTime = GetNowCount();
-
-		//ゲームBGMを再生
-		SoundManager::GetInstance().PlayBgm(SoundManager::GAME);
-
-		gameState = GameState::GAME;
-		pUpdate = &GameScene::UpdateGame;
-	}
-}
-
-/// <summary>
-/// ゲーム中
-/// </summary>
-/// <param name="deltaTime"></param>
-void GameScene::UpdateGame(float deltaTime)
-{
-	backGround->Update();
-
-	player->Update(deltaTime);
-
-	//隕石の出現間隔
-	MeteoritePop(deltaTime);
-	
-	for (auto meteoritePtr : meteorite)
-	{
-		meteoritePtr->Update(deltaTime);
-
-		if (wave == 5)
-		{
-			meteoritePtr->SpeedUp();
-		}
-
-		//隕石と衝突したもしくは制限時間が0になったら隕石を消す
-		if (hitChecker->Hit() || countDown == 0)
-		{
-			DeleteMeteorite(meteoritePtr);
-		}
-	}
-
-	hitChecker->PlayerAndMeteorite(player, &meteorite, scoreEarn);
-
-	ResultScore();
-
-	GameCountDown();
-}
-
-/// <summary>
-/// ゲーム終了
-/// </summary>
-/// <param name="deltaTime"></param>
-void GameScene::UpdateFinish(float deltaTime)
-{
-	frame += deltaTime;
-
-	//ゲームBGMを停止
-	SoundManager::GetInstance().StopBgm();
-
-	TimeSlow::GetInstance().SetTimeSlow(false);
-
-	//1秒経過したら
-	if (frame > FADE_START_COUNT)
-	{
-		fadeManager->FadeMove();
-	}
-
-	//フェードが終わったら
-	if (fadeManager->FadeEnd())
-	{
-		gameState = GameState::RESULT;
-		pUpdate = &GameScene::UpdateResult;
-
-		fadeManager->FadeReset();
-	}
-}
-
-/// <summary>
-/// 結果画面
-/// </summary>
-/// <param name="deltaTime"></param>
-void GameScene::UpdateResult(float deltaTime)
-{
-	backGround->Update();
-
-	//リザルトBGMを再生
-	SoundManager::GetInstance().PlayBgm(SoundManager::RESULT);
-
 	if (CheckHitKey(KEY_INPUT_BACK))
 	{
 		sceneChangeTitle = true;
@@ -323,7 +252,13 @@ void GameScene::UpdateResult(float deltaTime)
 	{
 		sceneChangeGame = true;
 	}
+}
 
+/// <summary>
+/// 画面を遷移する
+/// </summary>
+void GameScene::ReturnScreen()
+{
 	if (sceneChangeTitle)
 	{
 		fadeManager->FadeMove();
@@ -361,6 +296,145 @@ void GameScene::UpdateResult(float deltaTime)
 }
 
 /// <summary>
+/// リザルト画面用スコア
+/// </summary>
+void GameScene::ResultScore()
+{
+	//スコアを計算
+	scoreEarn->Update();
+
+	//スコアを取得
+	score = scoreEarn->GetScore();
+	excellentCount = scoreEarn->GetExcellentCount();
+	greatCount = scoreEarn->GetGreatCount();
+	goodCount = scoreEarn->GetGoodCount();
+	missCount = scoreEarn->GetMissCount();
+}
+
+/// <summary>
+/// 更新処理
+/// </summary>
+/// <param name="deltaTime">前フレームと現在のフレームの差分</param>
+SceneType GameScene::Update(float deltaTime)
+{
+	if (pUpdate != nullptr)
+	{
+		(this->*pUpdate)(deltaTime);		//状態ごとに更新
+	}
+
+	return nowSceneType;
+}
+
+/// <summary>
+/// ゲーム開始前
+/// </summary>
+/// <param name="deltaTime">前フレームと現在のフレームの差分</param>
+void GameScene::UpdateStart(float deltaTime)
+{
+	frame += deltaTime;
+
+	player->Update(deltaTime);
+
+	//3秒経過したら
+	if (frame > GAME_START_COUNT)
+	{
+		//ゲーム起動時の時間を取得
+		startTime = GetNowCount();
+
+		//ゲームBGMを再生
+		SoundManager::GetInstance().PlayBgm(SoundManager::GAME);
+
+		gameState = GameState::GAME;
+		pUpdate = &GameScene::UpdateGame;
+	}
+}
+
+/// <summary>
+/// ゲーム中
+/// </summary>
+/// <param name="deltaTime">前フレームと現在のフレームの差分</param>
+void GameScene::UpdateGame(float deltaTime)
+{
+	backGround->Update();
+
+	player->Update(deltaTime);
+
+	//隕石の出現間隔
+	MeteoritePop(deltaTime);
+	
+	for (auto meteoritePtr : meteorite)
+	{
+		meteoritePtr->Update(deltaTime);
+
+		if (wave == 5)
+		{
+			meteoritePtr->SpeedUp();
+		}
+
+		//隕石と衝突したもしくは制限時間が0になったら隕石を消す
+		if (hitChecker->Hit() || countDown == GAME_FINISH_TIME)
+		{
+			DeleteMeteorite(meteoritePtr);
+		}
+	}
+
+	hitChecker->PlayerAndMeteorite(player, &meteorite, scoreEarn);
+
+	ResultScore();
+
+	GameCountDown();
+}
+
+/// <summary>
+/// ゲーム終了
+/// </summary>
+/// <param name="deltaTime">前フレームと現在のフレームの差分</param>
+void GameScene::UpdateFinish(float deltaTime)
+{
+	frame += deltaTime;
+
+	//ゲームBGMを停止
+	SoundManager::GetInstance().StopBgm();
+
+	TimeSlow::GetInstance().SetTimeSlow(false);
+
+	//1秒経過したら
+	if (frame > FADE_START_COUNT)
+	{
+		fadeManager->FadeMove();
+	}
+
+	//フェードが終わったら
+	if (fadeManager->FadeEnd())
+	{
+		gameState = GameState::RESULT;
+		pUpdate = &GameScene::UpdateResult;
+
+		fadeManager->FadeReset();
+	}
+}
+
+/// <summary>
+/// 結果画面
+/// </summary>
+/// <param name="deltaTime">前フレームと現在のフレームの差分</param>
+void GameScene::UpdateResult(float deltaTime)
+{
+	backGround->Update();
+
+	//リザルトBGMを再生
+	SoundManager::GetInstance().PlayBgm(SoundManager::RESULT);
+
+	//どのシーンにも遷移していないならば
+	if (!sceneChangeTitle && !sceneChangeGame)
+	{
+		SceneChange();
+	}
+
+	ReturnScreen();
+}
+
+/// <summary>
 /// 描画処理
 /// </summary>
 void GameScene::Draw()
@@ -369,7 +443,7 @@ void GameScene::Draw()
 
 	evaluation->Draw();
 
-	if (gameState != GameState::RESULT && gameState != GameState::START)
+	if (gameState == GameState::GAME || gameState == GameState::FINISH)
 	{
 		field->Draw();
 

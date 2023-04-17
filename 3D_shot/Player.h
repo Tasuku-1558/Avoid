@@ -33,5 +33,4 @@ private:
 	void HitMeteorite(float deltaTime);			//隕石に衝突した
 	void AfterImage();							//プレイヤーの残像処理
 	void Finalize();							//終了処理
-
 };

@@ -6,7 +6,7 @@
 /// コンストラクタ
 /// </summary>
 ResultUi::ResultUi()
-	: displayCount(0)
+	: displayTime(0)
 	, evaluationImage()
 	, gaugeFrame(0)
 	, resultUi(0)
@@ -21,6 +21,7 @@ ResultUi::ResultUi()
 	, EVALUATION_NUMBER(3)
 	, SCORE_DRAW_NUMBER(5)
 	, MAX_ALPHA(255)
+	, INC_SPEED(-1)
 	, ORANGE(GetColor(255, 165, 0))
 	, MAX_SCORE_GAUGE(1500.0f)
 	, GAUGE_INCREASE(5.0f)
@@ -53,7 +54,7 @@ ResultUi::~ResultUi()
 /// </summary>
 void ResultUi::Initialize()
 {
-	//リザルトUIの読み込み
+	//リザルトUI画像の読み込み
 	gaugeFrame = LoadGraph(Input::InputPath(IMAGE_FOLDER_PATH, GAUGE_FRAME_PATH).c_str());
 
 	resultUi = LoadGraph(Input::InputPath(IMAGE_FOLDER_PATH, RESULT_UI_PATH).c_str());
@@ -68,9 +69,16 @@ void ResultUi::Initialize()
 /// <summary>
 /// スコア表示
 /// </summary>
+/// <param name="scoreFont">スコアのフォント</param>
+/// <param name="countFont">評価の回数のフォント</param>
+/// <param name="score">ゲームスコア</param>
+/// <param name="excellentCount">excellentの数</param>
+/// <param name="greatCount">greatの数</param>
+/// <param name="goodCount">goodの数</param>
+/// <param name="missCount">missの数</param>
 void ResultUi::ScoreDraw(int scoreFont, int countFont, int score, int excellentCount, int greatCount, int goodCount, int missCount)
 {
-	displayCount++;
+	displayTime++;
 
 	Score s[] = 
 	{
@@ -83,7 +91,7 @@ void ResultUi::ScoreDraw(int scoreFont, int countFont, int score, int excellentC
 
 	for (int i = 0; i < SCORE_DRAW_NUMBER; i++)
 	{
-		if (displayCount > s[i].maxDisplayCount)
+		if (displayTime > s[i].maxDisplayTime)
 		{
 			DrawFormatStringToHandle(650, s[i].posY, s[i].color, s[i].font, s[i].name, s[i].scoreType);
 		}
@@ -142,7 +150,7 @@ void ResultUi::Blink()
 	if (alpha > MAX_ALPHA && inc > 0 ||
 		alpha < 0 && inc < 0)
 	{
-		inc *= -1;
+		inc *= INC_SPEED;
 	}
 
 	alpha += inc;

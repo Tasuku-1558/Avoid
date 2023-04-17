@@ -1,5 +1,4 @@
 #include "Meteorite.h"
-#include "PreCompiledHeader.h"
 #include "Player.h"
 #include "ModelManager.h"
 
@@ -41,7 +40,7 @@ void Meteorite::Initialize()
 	speed = SPEED;
 
 	//ランダムな回転速度を設定
-	rotateSpeed = ROTATE_SPEED;
+	rotateSpeed = RANDOM_ROTATE_SPEED;
 }
 
 /// <summary>
@@ -55,7 +54,7 @@ void Meteorite::Finalize()
 /// <summary>
 /// 更新処理
 /// </summary>
-/// <param name="deltaTime"></param>
+/// <param name="deltaTime">前フレームと現在のフレームの差分</param>
 void Meteorite::Update(float deltaTime)
 {
 	Move(deltaTime);
@@ -64,12 +63,12 @@ void Meteorite::Update(float deltaTime)
 /// <summary>
 /// 移動処理
 /// </summary>
-/// <param name="deltaTime"></param>
+/// <param name="deltaTime">前フレームと現在のフレームの差分</param>
 void Meteorite::Move(float deltaTime)
 {
 	//ランダム値が0で出現フラグがtrueなら
 	//プレイヤーに向かって跳ぶ
-	if (popFlag && randomDirection == 0)
+	if (popFlag && randomDirection == TRACKING_VALUE)
 	{
 		//プレイヤーから隕石の座標を引いた値を取得
 		direction = playerPosition - position;
@@ -79,7 +78,7 @@ void Meteorite::Move(float deltaTime)
 
 	//ランダム値が1なら
 	//真っすぐ跳ぶ
-	else if(randomDirection == 1)
+	else if(randomDirection == STRAIGHT_VALUE)
 	{
 		direction = DIRECTION;
 	}
@@ -87,20 +86,12 @@ void Meteorite::Move(float deltaTime)
 	//ベクトルの正規化
 	direction = VNorm(direction);
 	
-	position += direction * deltaTime * speed;
+	position += direction * speed * deltaTime;
 	rotate += rotateSpeed;
 
 	//隕石の位置と回転値をセット
 	MV1SetPosition(modelHandle, position);
 	MV1SetRotationXYZ(modelHandle, rotate);
-}
-
-/// <summary>
-/// 各Waveでの隕石の色変更
-/// </summary>
-void Meteorite::ChangeColor(float red, float green, float blue)
-{
-	MV1SetDifColorScale(modelHandle, GetColorF(red, green, blue, 1.0f));
 }
 
 /// <summary>

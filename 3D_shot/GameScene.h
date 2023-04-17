@@ -39,7 +39,6 @@ public:
 	};
 
 private:
-
 	GameScene(const GameScene&);		//コピーコンストラクタ
 
 	Camera* camera;
@@ -61,7 +60,9 @@ private:
 	void DeleteMeteorite(Meteorite* deleteMeteorite);	//隕石を削除
 	void MeteoritePop(float deltaTime);					//隕石の出現間隔
 	void GameCountDown();								//ゲーム時間計算
-	void ResultScore();
+	void SceneChange();									//シーン切り替え
+	void ReturnScreen();								//画面を遷移する
+	void ResultScore();									//リザルト画面用スコア
 
 	//各状態に応じた更新処理
 	void UpdateStart(float deltaTime);					//ゲーム開始前
@@ -72,13 +73,20 @@ private:
 
 	struct Pop
 	{
-		int sTime;
-		int eTime;
-		float popCount;		//隕石出現間隔
-		int wave;			//wave数
+		int popStartTime;	//隕石の出現開始時間
+		int popEndTime;		//隕石の出現終了時間
+		float popCount;		//隕石の出現間隔
+		int wave;			//隕石のwave
+	};
+
+	struct Time
+	{
+		int stopTime;		//一時的に制限時間を止める時間
+		int releaseTime;	//一時的に制限時間を解除する時間
 	};
 
 	GameState gameState;		//ゲームの状態
+	int gameTime;				//ゲーム時間
 	int startTime;				//起動時間
 	int nowTime;				//現在時間
 	int countDown;				//制限時間
@@ -94,12 +102,46 @@ private:
 	float meteoritePopCount;	//隕石出現カウント
 	bool sceneChangeTitle;		//タイトル画面へ遷移するかどうか
 	bool sceneChangeGame;		//ゲーム画面へ遷移するかどうか
+	bool countDownStop;			//制限時間を止めるかどうか
 
-	bool a;
 
 	//定数
-	const int	GAME_TIME;				//ゲーム時間
+	const int	STOP_TIME_CATEGORY;		//時間を止める種類
+	const int	TIME_DIVISION;			//時間を割る値
 	const int	METEORITE_POP_CATEGORY;	//隕石出現の種類
-	const float GAME_START_COUNT;		//ゲーム開始カウント
-	const float FADE_START_COUNT;		//フェード開始カウント
+	const int	SCORE_FONT_SIZE;		//スコアフォントのサイズ
+	const int	FONT_SIZE;				//フォントのサイズ
+	const int	FONT_THICK;				//フォントの太さ
+	const int	GAME_FINISH_TIME;		//ゲーム終了時間
+	const int	WAVE1_POP_START_TIME;
+	const int	WAVE2_POP_START_TIME;
+	const int	WAVE3_POP_START_TIME;
+	const int	WAVE4_POP_START_TIME;
+	const int	WAVE5_POP_START_TIME;
+	const int	WAVE1_POP_END_TIME;
+	const int	WAVE2_POP_END_TIME;
+	const int	WAVE3_POP_END_TIME;
+	const int	WAVE4_POP_END_TIME;
+	const int	WAVE5_POP_END_TIME;
+	const int	WAVE1;
+	const int	WAVE2;
+	const int	WAVE3;
+	const int	WAVE4;
+	const int	WAVE5;
+	const int	WAVE2_STOP_TIME;
+	const int	WAVE3_STOP_TIME;
+	const int	WAVE4_STOP_TIME;
+	const int	WAVE5_STOP_TIME;
+	const int	WAVE2_RELEASE_TIME;
+	const int	WAVE3_RELEASE_TIME;
+	const int	WAVE4_RELEASE_TIME;
+	const int	WAVE5_RELEASE_TIME;
+	const float WAVE1_POP_COUNT;
+	const float WAVE2_POP_COUNT;
+	const float WAVE3_POP_COUNT;
+	const float WAVE4_POP_COUNT;
+	const float WAVE5_POP_COUNT;
+	const float INITIAL_METEORITE_POP_COUNT;	//初期の隕石出現カウント
+	const float GAME_START_COUNT;				//ゲーム開始カウント
+	const float FADE_START_COUNT;				//フェード開始カウント
 };

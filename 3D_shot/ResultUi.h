@@ -19,7 +19,7 @@ public:
 			  int excellentCount, 
 			  int greatCount, 
 			  int goodCount, 
-			  int missCount);		//描画処理
+			  int missCount);	//描画処理
 
 private:
 	ResultUi(const ResultUi&);	//コピーコンストラクタ
@@ -31,24 +31,25 @@ private:
 
 	struct Score
 	{
-		int maxDisplayCount;
-		int posY;
-		unsigned int color;
-		int font;
-		char name[30];
-		int scoreType;
+		int maxDisplayTime;	//最大スコア表示時間
+		int posY;			//スコアのY座標
+		unsigned int color;	//スコアの色
+		int font;			//ゲームフォント
+		char name[30];		//スコア名
+		int scoreType;		//スコアの種類
 	};
 
-	int displayCount;			//スコア表示カウント
+	int displayTime;			//スコア表示時間
 	int evaluationImage[3];		//スコア評価
 	int gaugeFrame;				//ゲージ枠格納用
 	int resultUi;				//遷移のUI画像格納用
 	int alpha;					//透過度
-	int inc;
+	int inc;					//透過スピ―ド
 	float scoreGauge;			//スコアゲージ
 	float earnScore;			//獲得スコア
 	bool displayFlag;			//評価画像表示フラグ
 	
+
 	//定数
 	const int	 DECISION_B_LINE;		//B評価判定ライン
 	const int	 DECISION_A_LINE;		//A評価判定ライン
@@ -56,6 +57,7 @@ private:
 	const int	 EVALUATION_NUMBER;		//評価文字数
 	const int	 SCORE_DRAW_NUMBER;		//表示するスコア数
 	const int	 MAX_ALPHA;				//最大透過度
+	const int	 INC_SPEED;				//透過スピード
 	const unsigned int ORANGE;			//ゲージのカラー
 	const float  MAX_SCORE_GAUGE;		//最大スコアゲージ
 	const float  GAUGE_INCREASE;		//スコア増加量

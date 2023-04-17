@@ -7,12 +7,15 @@
 /// </summary>
 Field::Field()
 	: lineHandle(0)
-	, IMAGE_FOLDER_PATH("Data/Image/")
-	, LINE_PATH("line.png")
+	, LINE_CENTER_POSITION(0.5f)
+	, LINE_SIZE(1100.0f)
+	, LINE_ANGLE(0.0f)
 	, SIZE({ 6.0f, 1.0f, 3.0f })
 	, POSITION({ 0.0f, -50.0f, 1200.0f })
 	, ROTATE({ 0.0f, 90.0f * DX_PI_F / 180.0f, 0.0f })
 	, LINE_POSITION({ 0.0f, 120.0f, 230.0f })
+	, IMAGE_FOLDER_PATH("Data/Image/")
+	, LINE_PATH("line.png")
 {
 	Initialize();
 }
@@ -33,7 +36,7 @@ void Field::Initialize()
 	//フィールドモデルの読み込み
 	modelHandle = MV1DuplicateModel(ModelManager::GetInstance().GetModelHandle(ModelManager::FIELD));
 
-	//フィールドモデルの位置、サイズ、回転値を設定
+	//位置とサイズと回転値を設定
 	MV1SetPosition(modelHandle, POSITION);
 	MV1SetScale(modelHandle, SIZE);
 	MV1SetRotationXYZ(modelHandle, ROTATE);
@@ -55,7 +58,7 @@ void Field::Finalize()
 /// <summary>
 /// 更新処理
 /// </summary>
-/// <param name="deltaTime"></param>
+/// <param name="deltaTime">前フレームと現在のフレームの差分</param>
 void Field::Update(float deltaTime)
 {
 	//処理なし
@@ -68,5 +71,5 @@ void Field::Draw()
 {
 	MV1DrawModel(modelHandle);
 
-	DrawBillboard3D(LINE_POSITION, 0.5f, 0.5f, 1100.0f, 0.0f, lineHandle, TRUE);
+	DrawBillboard3D(LINE_POSITION, LINE_CENTER_POSITION, LINE_CENTER_POSITION, LINE_SIZE, LINE_ANGLE, lineHandle, TRUE);
 }

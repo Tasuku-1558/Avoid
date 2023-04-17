@@ -16,7 +16,7 @@ public:
 	enum ModelType
 	{
 		PLAYER,			//プレイヤーモデル
-		PLAYER_LING,	//プレイヤーリングモデル
+		PLAYER_LING,	//プレイヤーのリングモデル
 		METEORITE,		//隕石モデル
 		FIELD,			//ステージモデル
 		MODEL_AMOUNT,	//モデルの数
@@ -28,18 +28,18 @@ public:
 
 private:
 	ModelManager();
-	ModelManager(const ModelManager&);			//コピーコンストラクタ
+	ModelManager(const ModelManager&);	//コピーコンストラクタ
 	virtual ~ModelManager();
 
-	void LoadAllModel();						//全てのモデルの読み込み
-	void DeleteAllModel();						//全てのモデルの削除
+	void LoadAllModel();	//全てのモデルの読み込み
+	void DeleteAllModel();	//全てのモデルの削除
 
 	struct Model
 	{
 		string modelPath;	//モデルのパス
 	};
 
-	int modelHandle[MODEL_AMOUNT];				//モデルハンドル格納用
+	int modelHandle[MODEL_AMOUNT];	//モデルハンドル格納用
 
 	//定数
 	const string MODEL_FOLDER_PATH;		//Modelフォルダまでのパス

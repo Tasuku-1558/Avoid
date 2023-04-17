@@ -7,7 +7,15 @@
 UiManager::UiManager()
 	: uiHandle()
 	, numberGraphicHandle()
+	, alpha(255)
+	, inc(-1)
+	, displayTime(0)
+	, alphaEnd(false)
+	, MAX_ALPHA(255)
+	, MAX_DISPLAY_TIME(400)
+	, INC_SPEED(-1)
 	, COUNTDOWN_IMAGE_NUMBER(3)
+	, WAVE_CATEGORY(4)
 	, IMAGE_FOLDER_PATH("Data/Image/")
 	, UI_GRAPHIC_PATH("ui")
 	, COUNTDOWN_GRAPHIC_PATH("CountDown")
@@ -21,11 +29,7 @@ UiManager::UiManager()
 /// </summary>
 UiManager::~UiManager()
 {
-	//終了処理が呼ばれてなければ
-	if (uiHandle[0] != NULL)
-	{
-		Finalize();
-	}
+	Finalize();
 }
 
 /// <summary>
@@ -93,6 +97,7 @@ void UiManager::Draw(GameScene::GameState gameState, float frame, int font, int 
 	case GameScene::GameState::GAME:
 		FrameDraw();
 		GameUiDraw(font, countDown, score, wave);
+		WaveDraw(countDown);
 		break;
 	}
 }
@@ -106,6 +111,67 @@ void UiManager::StartCountDraw(float frame)
 	int number = (int)frame;
 
 	DrawGraph(720, 300, numberGraphicHandle[number], TRUE);
+}
+
+/// <summary>
+/// ウェーブ描画
+/// </summary>
+/// <param name="countDown">ゲーム内時間</param>
+void UiManager::WaveDraw(int countDown)
+{
+	displayTime++;
+
+	Wave w[] =
+	{
+		{80,WAVE2},
+		{60,WAVE3},
+		{40,WAVE4},
+		{20,FINAL_WAVE},
+	};
+
+	for (int i = 0; i < WAVE_CATEGORY; i++)
+	{
+		if (countDown == w[i].time && displayTime > MAX_DISPLAY_TIME)
+		{
+			WaveAlpha(w[i].graphic);
+		}
+	}
+}
+
+/// <summary>
+/// ウェーブ画像の透過処理
+/// </summary>
+/// <param name="graphic">Ui画像の種類</param>
+void UiManager::WaveAlpha(Graphic graphic)
+{
+	if (alpha > MAX_ALPHA && inc > 0)
+	{
+		inc *= INC_SPEED;
+	}
+
+	//透過が終わったら
+	if (alpha == inc)
+	{
+		alphaEnd = true;
+	}
+
+	alpha += inc;
+
+	SetDrawBlendMode(DX_BLENDMODE_ALPHA, alpha);
+
+	DrawGraph(0, 90, uiHandle[graphic], TRUE);
+
+	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, alpha);
+}
+
+/// <summary>
+/// 透過の初期化
+/// </summary>
+void UiManager::AlphaReset()
+{
+	alphaEnd = false;
+	alpha = MAX_ALPHA;
+	displayTime = 0;
 }
 
 /// <summary>

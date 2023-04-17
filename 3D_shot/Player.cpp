@@ -72,7 +72,7 @@ void Player::Finalize()
 /// <summary>
 /// 更新処理
 /// </summary>
-/// <param name="deltaTime"></param>
+/// <param name="deltaTime">前フレームと現在のフレームの差分</param>
 void Player::Update(float deltaTime)
 {
 	Move(deltaTime);
@@ -85,7 +85,7 @@ void Player::Update(float deltaTime)
 /// <summary>
 /// 移動処理
 /// </summary>
-/// <param name="deltaTime"></param>
+/// <param name="deltaTime">前フレームと現在のフレームの差分</param>
 void Player::Move(float deltaTime)
 {
 	//入力方向を初期化する
@@ -103,8 +103,8 @@ void Player::Move(float deltaTime)
 	//十字キーの入力があったら
 	if (inputFlag)
 	{
-		// 左右・上下同時押しなどで入力ベクトルが0の時
-		if (VSquareSize(inputDirection) < 1.0f)
+		// 左右・上下同時押しなどで入力ベクトルが1.0以下の時
+		if (VSquareSize(inputDirection) < MAX_INPUT_DIRECTION)
 		{
 			return;
 		}
@@ -184,7 +184,7 @@ void Player::KeyInput()
 /// <summary>
 /// 隕石に衝突した
 /// </summary>
-/// <param name="deltaTime"></param>
+/// <param name="deltaTime">前フレームと現在のフレームの差分</param>
 void Player::HitMeteorite(float deltaTime)
 {
 	//プレイヤーの状態が被弾状態なら
@@ -194,16 +194,16 @@ void Player::HitMeteorite(float deltaTime)
 		noDrawFrame = !noDrawFrame;
 
 		//ダメージカウントを開始する
-		damageCount += deltaTime;
+		damageTime += deltaTime;
 
 		//1秒間プレイヤーを点滅させる
-		if (damageCount > FLASH_TIME)
+		if (damageTime > MAX_FLASH_TIME)
 		{
 			//通常状態へ戻す
 			playerState = PlayerState::NOMAL;
 
 			noDrawFrame = false;
-			damageCount = 0.0f;
+			damageTime = INITIAL_DAMAGE_TIME;
 		}
 	}
 }

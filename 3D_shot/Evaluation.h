@@ -25,7 +25,7 @@ public:
 
 	void Draw();	//描画処理
 
-	enum class Ui ui;		//評価の種類
+	enum class Ui ui;	//評価の種類
 
 private:
 
@@ -37,20 +37,29 @@ private:
 	void EvaluationDraw();					//各評価の描画処理
 	void SlowScreenDraw();					//速度低速時の集中線の描画処理
 
-	int evaluationGraph[5];					//評価文字の格納用
-	int slowScreenGraph;					//速度低速時の集中線
+	int evaluationGraph[5];					//評価文字画像の格納用
+	int slowScreenGraph;					//集中線画像の格納用
 	float displayTime;						//表示時間
 	float scale;							//評価文字の大きさ
 
 	struct EvaluationImage
 	{
-		string path;
+		string evaluationPath;	//評価画像のパス
 	};
 
 	//定数
 	const int	 EVALUATION_NUMBER;		//評価文字数
+	const int	 SLOW_SCREEN_IMAGE_X;	//集中線画像のX座標
+	const int	 SLOW_SCREEN_IMAGE_Y;	//集中線画像のY座標
+	const int	 EVALUATION_IMAGE_X;	//評価文字画像のX座標
+	const int	 EVALUATION_IMAGE_Y;	//評価文字画像のY座標
+	const int	 ANGLE;					//評価文字画像の回転値
 	const float  MAX_SCALE;				//最大の文字の大きさ
 	const float  MAX_DISPLAY_TIME;		//最大表示時間
+	const float	 STOP_SCALE;			//止める文字の大きさ
+	const float  INITIAL_SCALE;			//初期の文字の大きさ
+	const float  INITIAL_DISPLAY_TIME;	//初期の最大表示時間
+	const float  SCALE_INCREASE;		//文字の大きさの増加量
 	const float  DISPLAY_TIME_INCREASE;	//表示時間増加量
 	const string IMAGE_FOLDER_PATH;		//Imageフォルダまでのパス
 	const string EXCELLENT_PATH;		//excellent画像のパス

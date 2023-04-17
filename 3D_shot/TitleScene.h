@@ -23,14 +23,13 @@ public:
 	void Draw()override;							//描画処理
 	
 private:
-
 	TitleScene(const TitleScene&);		//コピーコンストラクタ
 
-	void Initialize()override;			//初期化処理
-	void Blink();						//文字の点滅
-	void ChangeState();					//タイトルの状態の変更
-	void ReturnScreen();				//画面を遷移する
-	void InputScene(SceneType sceneType);		//シーンを入力
+	void Initialize()override;				//初期化処理
+	void Blink();							//文字の点滅
+	void ChangeState();						//タイトルの状態の変更
+	void ReturnScreen();					//画面を遷移する
+	void InputScene(SceneType sceneType);	//シーンを入力
 
 	//タイトルの状態
 	enum class TitleState
@@ -42,10 +41,10 @@ private:
 	TitleState titleState;	//タイトルの状態
 	int titleMovie;			//タイトル動画の格納用
 	int titleName;			//タイトル名の画像格納用
-	int startUi;			//ゲームを始める遷移キーのUI格納用
-	int exitUi;				//ゲームを終了する遷移キーのUI格納用
+	int startUi;			//ゲームを始める遷移キーのUI画像格納用
+	int exitUi;				//ゲームを終了する遷移キーのUI画像格納用
 	int alpha;				//透過度
-	int inc;
+	int inc;				//透過スピ―ド
 	bool sceneChangeGame;	//ゲームシーンに切り替えるか
 	bool sceneChangeEnd;	//エンドシーンに切り替えるか
 	VECTOR spherePosition;	//3D球体の位置
@@ -56,7 +55,16 @@ private:
 
 	//定数
 	const int	 MAX_ALPHA;				//最大透過度
+	const int	 INC_SPEED;				//透過スピード
 	const int	 PLAY_POSITION;			//タイトル動画の再生位置
+	const int	 START_UI_POS_X;		//ゲームを始める遷移キーのUI画像のX座標
+	const int	 START_UI_POS_Y;		//ゲームを始める遷移キーのUI画像のY座標
+	const int	 EXIT_UI_POS_X;			//ゲームを終了する遷移キーのUI画像のX座標
+	const int	 EXIT_UI_POS_Y;			//ゲームを終了する遷移キーのUI画像のY座標
+	const int	 TITLE_NAME_POS_X;		//タイトル名の画像のX座標
+	const int	 TITLE_NAME_POS_Y;		//タイトル名の画像のY座標
+	const unsigned int SPHERE_DIFCOLOR;	//球の頂点ディフューズカラー
+	const unsigned int SPHERE_SPCCOLOR;	//球の頂点スペキュラカラー
 	const float  START_SPHERE_POS_Y;	//スタート状態の球のY座標
 	const float  EXIT_SPHERE_POS_Y;		//終了状態の球のY座標
 	const float  SPHERE_RADIUS;			//球の半径

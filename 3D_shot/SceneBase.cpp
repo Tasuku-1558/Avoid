@@ -6,7 +6,7 @@
 /// <summary>
 /// コンストラクタ
 /// </summary>
-/// <param name="sceneType"></param>
+/// <param name="sceneType">シーンの種類</param>
 SceneBase::SceneBase(SceneType sceneType)
 	: nowSceneType(sceneType)
 {

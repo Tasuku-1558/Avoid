@@ -15,7 +15,7 @@ protected:
 
 	int    lingModel;					//リングモデル格納用
 	int	   afterImageModelHandle[10];	//残像モデル格納用
-	float  damageCount;					//ダメージ時間カウント
+	float  damageTime;					//ダメージ時間カウント
 	bool   inputFlag;					//キー入力フラグ
 	bool   noDrawFrame;					//モデルを2回に１回は描画しない
 	VECTOR inputDirection;				//入力された方向
@@ -33,7 +33,9 @@ protected:
 	const float   SPEED;				//移動速度
 	const float	  OPACITY;				//不透明度
 	const float   RADIUS;				//半径の範囲
-	const float   FLASH_TIME;			//点滅時間
+	const float   MAX_FLASH_TIME;		//最大点滅時間
+	const float	  INITIAL_DAMAGE_TIME;	//初期のダメージ時間
+	const float	  MAX_INPUT_DIRECTION;	//最大入力ベクトル
 	const VECTOR  POSITION;				//位置
 	const VECTOR  SIZE;					//倍率
 	const VECTOR  UP;					//上方向

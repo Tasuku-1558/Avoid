@@ -9,11 +9,8 @@ class Light final
 {
 public:
 
-	Light();
+	Light(int number);
 	virtual ~Light();
-
-	void TitleLight();			//タイトルシーン用ライト
-	void GameLight();			//ゲームシーン用ライト
 
 private:
 	Light(const Light&);		//コピーコンストラクタ

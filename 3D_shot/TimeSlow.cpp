@@ -28,6 +28,10 @@ TimeSlow& TimeSlow::GetInstance()
 	return timeSlow;
 }
 
+/// <summary>
+/// ’á‘¬‚·‚é‚©‚µ‚È‚¢‚©‚ðƒZƒbƒg‚·‚é
+/// </summary>
+/// <param name="slow">’á‘¬‚·‚é‚©‚µ‚È‚¢‚©</param>
 void TimeSlow::SetTimeSlow(const bool slow)
 {
 	slowFlag = slow;

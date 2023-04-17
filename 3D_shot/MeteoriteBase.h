@@ -25,12 +25,14 @@ protected:
 
 
 	//定数
-	const int    RANGE_DIRECTION;	//隕石が進む方向のランダム値の範囲
-	const float  SPEED;				//移動速度
-	const float  SPEED_UP;			//移動速度アップ
-	const VECTOR RANDOM_POSITION;	//ランダムな出現位置
-	const VECTOR SIZE;				//倍率
-	const VECTOR DIRECTION;			//方向
-	const VECTOR ROTATE_SPEED;		//ランダムな回転スピード
+	const int    RANGE_DIRECTION;		//隕石が進む方向のランダム値の範囲
+	const int	 TRACKING_VALUE;		//ランダム方向の追尾値
+	const int	 STRAIGHT_VALUE;		//ランダム方向の正面値
+	const float  SPEED;					//移動速度
+	const float  SPEED_UP;				//移動速度アップ
+	const VECTOR RANDOM_POSITION;		//ランダムな出現位置
+	const VECTOR SIZE;					//倍率
+	const VECTOR DIRECTION;				//方向
+	const VECTOR RANDOM_ROTATE_SPEED;	//ランダムな回転スピード
 
 };

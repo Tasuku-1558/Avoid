@@ -43,7 +43,7 @@ HitChecker::~HitChecker()
 /// <summary>
 /// 各評価の判定
 /// </summary>
-/// <param name="player"></param>
+/// <param name="player">プレイヤーのポインタ</param>
 void HitChecker::Decision(Player* player)
 {
 	//判定してないなら
@@ -95,7 +95,7 @@ void HitChecker::Decision(Player* player)
 /// <summary>
 /// 判定終了
 /// </summary>
-/// <param name="scoreEarn"></param>
+/// <param name="scoreEarn">スコア計算のポインタ</param>
 void HitChecker::DecisionEnd(ScoreEarn* scoreEarn)
 {
 	if (excellent)
@@ -143,9 +143,9 @@ void HitChecker::DecisionEnd(ScoreEarn* scoreEarn)
 /// <summary>
 /// プレイヤーと隕石の衝突判定
 /// </summary>
-/// <param name="player"></param>
-/// <param name="meteorite"></param>
-/// <param name="scoreEarn"></param>
+/// <param name="player">プレイヤーのポインタ</param>
+/// <param name="meteorite">隕石のポインタ</param>
+/// <param name="scoreEarn">スコア計算のポインタ</param>
 void HitChecker::PlayerAndMeteorite(Player* player, vector<Meteorite*>* meteorite, ScoreEarn* scoreEarn)
 {
 	//隕石と衝突していない

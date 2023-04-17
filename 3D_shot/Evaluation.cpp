@@ -6,14 +6,23 @@
 /// コンストラクタ
 /// </summary>
 Evaluation::Evaluation()
-	: evaluationGraph()
+	: ui(Ui::NOMAL)
+	, evaluationGraph()
 	, slowScreenGraph(0)
 	, scale(0.0f)
 	, displayTime(0.0f)
-	, ui(Ui::NOMAL)
 	, EVALUATION_NUMBER(4)
+	, SLOW_SCREEN_IMAGE_X(0)
+	, SLOW_SCREEN_IMAGE_Y(0)
+	, EVALUATION_IMAGE_X(500)
+	, EVALUATION_IMAGE_Y(500)
+	, ANGLE(0)
 	, MAX_SCALE(1.0f)
 	, MAX_DISPLAY_TIME(50.0f)
+	, STOP_SCALE(1.0f)
+	, INITIAL_SCALE(0.0f)
+	, INITIAL_DISPLAY_TIME(0.0f)
+	, SCALE_INCREASE(0.9f)
 	, DISPLAY_TIME_INCREASE(1.0f)
 	, IMAGE_FOLDER_PATH("Data/Image/")
 	, EXCELLENT_PATH("ExcellentEffect.png")
@@ -38,7 +47,7 @@ Evaluation::~Evaluation()
 /// </summary>
 void Evaluation::Initialize()
 {
-	EvaluationImage e[] =
+	EvaluationImage evaluationImage[] =
 	{
 		{EXCELLENT_PATH},
 		{GREAT_PATH},
@@ -49,7 +58,7 @@ void Evaluation::Initialize()
 	//評価画像の読み込み
 	for (int i = 0; i < EVALUATION_NUMBER; i++)
 	{
-		evaluationGraph[i] = LoadGraph(Input::InputPath(IMAGE_FOLDER_PATH, e[i].path).c_str());
+		evaluationGraph[i] = LoadGraph(Input::InputPath(IMAGE_FOLDER_PATH, evaluationImage[i].evaluationPath).c_str());
 	}
 
 	//集中線画像の読み込み
@@ -74,34 +83,34 @@ void Evaluation::Finalize()
 /// </summary>
 void Evaluation::SlowScreenDraw()
 {
-	DrawGraph(0, 0, slowScreenGraph, TRUE);
+	DrawGraph(SLOW_SCREEN_IMAGE_X, SLOW_SCREEN_IMAGE_Y, slowScreenGraph, TRUE);
 }
 
 /// <summary>
 /// 評価文字の動き
 /// </summary>
-/// <param name="evaluationGraph">評価画像</param>
+/// <param name="evaluationGraph">評価文字の画像</param>
 void Evaluation::ImageMove(int evaluationGraph)
 {
-	DrawRotaGraph(500, 500, scale, 0, evaluationGraph, TRUE);
+	DrawRotaGraph(EVALUATION_IMAGE_X, EVALUATION_IMAGE_Y, scale, ANGLE, evaluationGraph, TRUE);
 
-	scale += 0.9f;
+	scale += SCALE_INCREASE;
 
 	//目的の大きさになったら
 	if (scale > MAX_SCALE)
 	{
-		scale = 1.0f;
+		scale = STOP_SCALE;
 		displayTime += DISPLAY_TIME_INCREASE;
 
-		//表示時間が経過したら
+		//目的の表示時間が経過したら
 		if (displayTime > MAX_DISPLAY_TIME)
 		{
 			//通常状態に
 			ui = Ui::NOMAL;
 
-			//サイズと表示時間を初期化
-			scale = 0.0f;
-			displayTime = 0.0f;
+			//大きさと表示時間を初期化
+			scale = INITIAL_SCALE;
+			displayTime = INITIAL_DISPLAY_TIME;
 		}
 	}
 }

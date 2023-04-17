@@ -23,7 +23,16 @@ TitleScene::TitleScene()
 	, sceneChangeEnd(false)
 	, spherePosition({ -360.0f, 0.0f, 0.0f })
 	, MAX_ALPHA(255)
+	, INC_SPEED(-1)
 	, PLAY_POSITION(5000)
+	, START_UI_POS_X(400)
+	, START_UI_POS_Y(700)
+	, EXIT_UI_POS_X(400)
+	, EXIT_UI_POS_Y(850)
+	, TITLE_NAME_POS_X(250)
+	, TITLE_NAME_POS_Y(450)
+	, SPHERE_DIFCOLOR(GetColor(0, 255, 0))
+	, SPHERE_SPCCOLOR(GetColor(255, 255, 255))
 	, START_SPHERE_POS_Y(90.0f)
 	, EXIT_SPHERE_POS_Y(0.0f)
 	, SPHERE_RADIUS(15.0f)
@@ -56,8 +65,7 @@ TitleScene::~TitleScene()
 /// </summary>
 void TitleScene::Initialize()
 {
-	light = new Light();
-	light->TitleLight();
+	light = new Light(0);
 
 	camera = new Camera();
 
@@ -66,7 +74,7 @@ void TitleScene::Initialize()
 	//動画データの読み込み
 	titleMovie = LoadGraph(Input::InputPath(VIDEO_FOLDER_PATH, PLAY_VIDEO_PATH).c_str());
 
-	//タイトルUIの読み込み
+	//タイトルUI画像の読み込み
 	titleName = LoadGraph(Input::InputPath(IMAGE_FOLDER_PATH, TITLENAME_PATH).c_str());
 
 	startUi = LoadGraph(Input::InputPath(IMAGE_FOLDER_PATH, START_UI_PATH).c_str());
@@ -80,8 +88,8 @@ void TitleScene::Initialize()
 /// <summary>
 /// 更新処理
 /// </summary>
-/// <param name="deltaTime"></param>
-/// <returns></returns>
+/// <param name="deltaTime">前フレームと現在のフレームの差分</param>
+/// <returns>シーンの種類を返す</returns>
 SceneType TitleScene::Update(float deltaTime)
 {
 	//デモ動画を再生
@@ -189,7 +197,7 @@ void TitleScene::Blink()
 	if (alpha > MAX_ALPHA && inc > 0 ||
 		alpha < 0 && inc < 0)
 	{
-		inc *= -1;
+		inc *= INC_SPEED;
 	}
 
 	alpha += inc;
@@ -199,19 +207,19 @@ void TitleScene::Blink()
 	{
 		SetDrawBlendMode(DX_BLENDMODE_ALPHA, alpha);
 
-		DrawGraph(400, 700, startUi, TRUE);
+		DrawGraph(START_UI_POS_X, START_UI_POS_Y, startUi, TRUE);
 
 		SetDrawBlendMode(DX_BLENDMODE_NOBLEND, alpha);
 
-		DrawGraph(400, 850, exitUi, TRUE);
+		DrawGraph(EXIT_UI_POS_X, EXIT_UI_POS_Y, exitUi, TRUE);
 	}
 	else
 	{
-		DrawGraph(400, 700, startUi, TRUE);
+		DrawGraph(START_UI_POS_X, START_UI_POS_Y, startUi, TRUE);
 
 		SetDrawBlendMode(DX_BLENDMODE_ALPHA, alpha);
 
-		DrawGraph(400, 850, exitUi, TRUE);
+		DrawGraph(EXIT_UI_POS_X, EXIT_UI_POS_Y, exitUi, TRUE);
 
 		SetDrawBlendMode(DX_BLENDMODE_NOBLEND, alpha);
 	}
@@ -226,12 +234,12 @@ void TitleScene::Draw()
 	DrawGraph(0, 0, titleMovie, FALSE);
 
 	//タイトル名描画
-	DrawGraph(250, 450, titleName, TRUE);
+	DrawGraph(TITLE_NAME_POS_X, TITLE_NAME_POS_Y, titleName, TRUE);
 	
 	Blink();
 	
 	//3D球体の描画
-	DrawSphere3D(spherePosition, SPHERE_RADIUS, COLOR_BIT, GetColor(0, 255, 0), GetColor(255, 255, 255), TRUE);
+	DrawSphere3D(spherePosition, SPHERE_RADIUS, COLOR_BIT, SPHERE_DIFCOLOR, SPHERE_SPCCOLOR, TRUE);
 
 	fadeManager->Draw();
 }

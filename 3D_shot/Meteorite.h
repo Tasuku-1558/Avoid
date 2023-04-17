@@ -17,7 +17,6 @@ public:
 	void Draw();						//描画処理
 
 	void SpeedUp();											//隕石のスピード変化
-	void ChangeColor(float red, float green, float blue);	//各Waveでの隕石の色変更
 
 private:
 	Meteorite(const Meteorite&);	//コピーコンストラクタ

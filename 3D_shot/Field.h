@@ -27,11 +27,14 @@ private:
 	int lineHandle;					//判定ライン格納用
 
 	//定数
-	const string IMAGE_FOLDER_PATH;	//Imageフォルダまでのパス
-	const string LINE_PATH;			//ライン画像のパス
-	const VECTOR SIZE;				//フィールドモデルの倍率
-	const VECTOR POSITION;			//フィールドモデルの位置
-	const VECTOR ROTATE;			//フィールドモデルの回転値
-	const VECTOR LINE_POSITION;		//ラインの位置
+	const float  LINE_CENTER_POSITION;	//ラインの中心座標
+	const float  LINE_SIZE;				//ラインのサイズ
+	const float  LINE_ANGLE;			//ラインの回転値
+	const VECTOR SIZE;					//フィールドモデルの倍率
+	const VECTOR POSITION;				//フィールドモデルの位置
+	const VECTOR ROTATE;				//フィールドモデルの回転値
+	const VECTOR LINE_POSITION;			//ラインの位置
+	const string IMAGE_FOLDER_PATH;		//Imageフォルダまでのパス
+	const string LINE_PATH;				//ライン画像のパス
 
 };
