@@ -61,6 +61,8 @@ private:
 	const int	 START_UI_POS_Y;		//ゲームを始める遷移キーのUI画像のY座標
 	const int	 EXIT_UI_POS_X;			//ゲームを終了する遷移キーのUI画像のX座標
 	const int	 EXIT_UI_POS_Y;			//ゲームを終了する遷移キーのUI画像のY座標
+	const int	 TITLE_MOVIE_POS_X;		//タイトル動画のX座標
+	const int	 TITLE_MOVIE_POS_Y;		//タイトル動画のY座標
 	const int	 TITLE_NAME_POS_X;		//タイトル名の画像のX座標
 	const int	 TITLE_NAME_POS_Y;		//タイトル名の画像のY座標
 

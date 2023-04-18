@@ -100,7 +100,7 @@ void GameScene::Initialize()
 {
 	camera = new Camera();
 
-	light = new Light(1);
+	light = new Light(Light::LightType::GAME_LIGHT);
 
 	backGround = new BackGround();
 

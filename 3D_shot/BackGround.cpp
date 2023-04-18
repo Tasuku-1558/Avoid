@@ -6,8 +6,10 @@
 /// ƒRƒ“ƒXƒgƒ‰ƒNƒ^
 /// </summary>
 BackGround::BackGround()
-	: backGroundHandle(0)
+	: backGroundMovie(0)
 	, PLAY_POSITION(0)
+	, BACKGROUND_MOVIE_POS_X(0)
+	, BACKGROUND_MOVIE_POS_Y(0)
 	, VIDEO_FOLDER_PATH("Data/Video/")
 	, BACKGROUND_VIDEO_PATH("BackGround.mp4")
 {
@@ -28,7 +30,7 @@ BackGround::~BackGround()
 void BackGround::Initialize()
 {
 	//”wŒi“®‰æ‚Ì“Ç‚İ‚İ
-	backGroundHandle = LoadGraph(Input::InputPath(VIDEO_FOLDER_PATH, BACKGROUND_VIDEO_PATH).c_str());
+	backGroundMovie = LoadGraph(Input::InputPath(VIDEO_FOLDER_PATH, BACKGROUND_VIDEO_PATH).c_str());
 }
 
 /// <summary>
@@ -36,7 +38,7 @@ void BackGround::Initialize()
 /// </summary>
 void BackGround::Finalize()
 {
-	DeleteGraph(backGroundHandle);
+	DeleteGraph(backGroundMovie);
 }
 
 /// <summary>
@@ -45,13 +47,13 @@ void BackGround::Finalize()
 void BackGround::Update()
 {
 	//”wŒi“®‰æ‚ğÄ¶’†
-	if (!GetMovieStateToGraph(backGroundHandle))
+	if (!GetMovieStateToGraph(backGroundMovie))
 	{
 		//“®‰æ‚ªI—¹‚µ‚½‚ç0•b‚ÌŠ‚©‚ç‚Ü‚½Ä¶‚·‚é
-		SeekMovieToGraph(backGroundHandle, PLAY_POSITION);
+		SeekMovieToGraph(backGroundMovie, PLAY_POSITION);
 
 		//“®‰æ‚ğÄ¶‚·‚é
-		PlayMovieToGraph(backGroundHandle);
+		PlayMovieToGraph(backGroundMovie);
 	}
 }
 
@@ -61,5 +63,5 @@ void BackGround::Update()
 void BackGround::Draw()
 {
 	//”wŒi“®‰æ‚ğÄ¶‚·‚é
-	DrawGraph(0, 0, backGroundHandle, FALSE);
+	DrawGraph(BACKGROUND_MOVIE_POS_X, BACKGROUND_MOVIE_POS_Y, backGroundMovie, FALSE);
 }

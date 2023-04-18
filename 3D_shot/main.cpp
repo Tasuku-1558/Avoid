@@ -95,14 +95,14 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		
 		bool slow = TimeSlow::GetInstance().GetTimeSlow();
 
-		//動きを遅くする
+		//フレームの動きを遅くする
 		if (slow)
 		{
-			deltaTime = (nowTime - prevTime) / 3000000.0f;
+			deltaTime = (nowTime - prevTime) / A;
 		}
 		else
 		{
-			deltaTime = (nowTime - prevTime) / 1000000.0f;
+			deltaTime = (nowTime - prevTime) / B;
 		}
 
 		//マウスカーソルを表示しない
@@ -113,7 +113,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 		SoundManager::GetInstance().SeUpdate();
 
-		nowSceneType = sceneBase->Update(deltaTime);		//各シーンの更新処理
+		nowSceneType = sceneBase->Update(deltaTime);	//各シーンの更新処理
 
 		//画面を初期化する
 		ClearDrawScreen();

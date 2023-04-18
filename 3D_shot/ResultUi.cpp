@@ -112,11 +112,11 @@ void ResultUi::ScoreDraw(int scoreFont, int countFont, int score, int excellentC
 
 	Score s[] = 
 	{
-		{MAX_SCORE_DISPLAY_TIME,	 SCORE_POS_Y,	  SCORE_COLOR,		scoreFont, "SCORE : %d",			score},
-		{MAX_EXCELLENT_DISPLAY_TIME, EXCELLENT_POS_Y, EXCELLENT_COLOR,	countFont, "Excellent   Å~  %d",	excellentCount},
-		{MAX_GREAT_DISPLAY_TIME,	 GREAT_POS_Y,	  GREAT_COLOR,		countFont, "Great         Å~  %d",	greatCount},
-		{MAX_GOOD_DISPLAY_TIME,		 GOOD_POS_Y,	  GOOD_COLOR,		countFont, "Good          Å~  %d",	goodCount},
-		{MAX_MISS_DISPLAY_TIME,		 MISS_POS_Y,	  MISS_COLOR,		countFont, "Miss          Å~  %d",	missCount},
+		{MAX_SCORE_DISPLAY_TIME,	 SCORE_POS_Y,	  SCORE_COLOR,	   scoreFont, "SCORE : %d",			  score},
+		{MAX_EXCELLENT_DISPLAY_TIME, EXCELLENT_POS_Y, EXCELLENT_COLOR, countFont, "Excellent   Å~  %d",	  excellentCount},
+		{MAX_GREAT_DISPLAY_TIME,	 GREAT_POS_Y,	  GREAT_COLOR,	   countFont, "Great         Å~  %d", greatCount},
+		{MAX_GOOD_DISPLAY_TIME,		 GOOD_POS_Y,	  GOOD_COLOR,	   countFont, "Good          Å~  %d", goodCount},
+		{MAX_MISS_DISPLAY_TIME,		 MISS_POS_Y,	  MISS_COLOR,	   countFont, "Miss          Å~  %d", missCount},
 	};
 
 	for (int i = 0; i < SCORE_DRAW_NUMBER; i++)

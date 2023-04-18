@@ -29,6 +29,8 @@ TitleScene::TitleScene()
 	, START_UI_POS_Y(700)
 	, EXIT_UI_POS_X(400)
 	, EXIT_UI_POS_Y(850)
+	, TITLE_MOVIE_POS_X(0)
+	, TITLE_MOVIE_POS_Y(0)
 	, TITLE_NAME_POS_X(250)
 	, TITLE_NAME_POS_Y(450)
 	, SPHERE_DIFCOLOR(GetColor(0, 255, 0))
@@ -65,7 +67,7 @@ TitleScene::~TitleScene()
 /// </summary>
 void TitleScene::Initialize()
 {
-	light = new Light(0);
+	light = new Light(Light::LightType::TITLE_LIGHT);
 
 	camera = new Camera();
 
@@ -231,7 +233,7 @@ void TitleScene::Blink()
 void TitleScene::Draw()
 {
 	//デモ動画を再生する
-	DrawGraph(0, 0, titleMovie, FALSE);
+	DrawGraph(TITLE_MOVIE_POS_X, TITLE_MOVIE_POS_Y, titleMovie, FALSE);
 
 	//タイトル名描画
 	DrawGraph(TITLE_NAME_POS_X, TITLE_NAME_POS_Y, titleName, TRUE);

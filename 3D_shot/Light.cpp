@@ -4,16 +4,17 @@
 /// <summary>
 /// コンストラクタ
 /// </summary>
-/// <param name="number">ライトの種類</param>
-Light::Light(int number)
+/// <param name="lightType">ライトの種類</param>
+Light::Light(LightType lightType)
 	: TITLE_DIRECTION({ 0.0f, 0.0f, 0.5f })
 	, GAME_DIRECTION({ 0.0f, -0.5f, 0.0f })
 {
-	if (number == 0)
+	if (lightType == LightType::TITLE_LIGHT)
 	{
 		SetLightDirection(TITLE_DIRECTION);
 	}
-	else if (number == 1)
+
+	if (lightType == LightType::GAME_LIGHT)
 	{
 		SetLightDirection(GAME_DIRECTION);
 	}

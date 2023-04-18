@@ -9,7 +9,14 @@ class Light final
 {
 public:
 
-	Light(int number);
+	//ライトの種類
+	enum class LightType
+	{
+		TITLE_LIGHT,	//タイトルシーンのライト
+		GAME_LIGHT,		//ゲームシーンのライト
+	};
+
+	Light(LightType lightType);
 	virtual ~Light();
 
 private:
