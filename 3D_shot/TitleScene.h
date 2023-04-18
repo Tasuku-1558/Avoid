@@ -63,11 +63,14 @@ private:
 	const int	 EXIT_UI_POS_Y;			//ゲームを終了する遷移キーのUI画像のY座標
 	const int	 TITLE_NAME_POS_X;		//タイトル名の画像のX座標
 	const int	 TITLE_NAME_POS_Y;		//タイトル名の画像のY座標
+
 	const unsigned int SPHERE_DIFCOLOR;	//球の頂点ディフューズカラー
 	const unsigned int SPHERE_SPCCOLOR;	//球の頂点スペキュラカラー
+
 	const float  START_SPHERE_POS_Y;	//スタート状態の球のY座標
 	const float  EXIT_SPHERE_POS_Y;		//終了状態の球のY座標
 	const float  SPHERE_RADIUS;			//球の半径
+
 	const string VIDEO_FOLDER_PATH;		//Videoフォルダまでのパス
 	const string IMAGE_FOLDER_PATH;		//Imageフォルダまでのパス
 	const string PLAY_VIDEO_PATH;		//タイトル動画のパス

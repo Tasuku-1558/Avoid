@@ -134,9 +134,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		//描画に使用するシャドウマップの設定を解除
 		SetUseShadowMap(0, -1);
 		
-		//デバック用　デルタタイム計測
-		DrawFormatString(0, 500, GetColor(255, 255, 255), "%f", deltaTime, TRUE);
-
 		//裏画面の内容を表画面に反映させる
 		ScreenFlip();
 

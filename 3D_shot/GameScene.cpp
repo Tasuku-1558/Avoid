@@ -23,7 +23,7 @@
 GameScene::GameScene()
 	: SceneBase(SceneType::GAME)
 	, gameState(GameState::START)
-	, gameTime(90)
+	, gameTime(3)
 	, startTime(0)
 	, nowTime(0)
 	, countDown(0)
@@ -304,11 +304,11 @@ void GameScene::ResultScore()
 	scoreEarn->Update();
 
 	//ƒXƒRƒA‚ðŽæ“¾
-	score = scoreEarn->GetScore();
+	score		   = scoreEarn->GetScore();
 	excellentCount = scoreEarn->GetExcellentCount();
-	greatCount = scoreEarn->GetGreatCount();
-	goodCount = scoreEarn->GetGoodCount();
-	missCount = scoreEarn->GetMissCount();
+	greatCount	   = scoreEarn->GetGreatCount();
+	goodCount	   = scoreEarn->GetGoodCount();
+	missCount	   = scoreEarn->GetMissCount();
 }
 
 /// <summary>

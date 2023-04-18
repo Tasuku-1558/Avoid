@@ -12,8 +12,8 @@ FadeManager::FadeManager()
 	, fadeEnd(false)
 	, INITIAL_FADE(0)
 	, INITIAL_FADE_INC(2)
-	, TOP_LEFT_VERTEX_X(0)
-	, TOP_LEFT_VERTEX_Y(0)
+	, TOP_LEFT_VERTEX_POS_X(0)
+	, TOP_LEFT_VERTEX_POS_Y(0)
 	, BLACK(GetColor(0, 0, 0))
 	, MAX_FADE(255)
 	, FADE_SPEED(-1)
@@ -61,6 +61,6 @@ void FadeManager::Draw()
 {
 	//画面全体フェード用の矩形黒色の背景を描画
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, fade);
-	DrawBox(TOP_LEFT_VERTEX_X, TOP_LEFT_VERTEX_Y, SCREEN_WIDTH, SCREEN_HEIGHT, BLACK, TRUE);
+	DrawBox(TOP_LEFT_VERTEX_POS_X, TOP_LEFT_VERTEX_POS_Y, SCREEN_WIDTH, SCREEN_HEIGHT, BLACK, TRUE);
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, fade);
 }

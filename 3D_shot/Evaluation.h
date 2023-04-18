@@ -54,6 +54,7 @@ private:
 	const int	 EVALUATION_IMAGE_X;	//評価文字画像のX座標
 	const int	 EVALUATION_IMAGE_Y;	//評価文字画像のY座標
 	const int	 ANGLE;					//評価文字画像の回転値
+
 	const float  MAX_SCALE;				//最大の文字の大きさ
 	const float  MAX_DISPLAY_TIME;		//最大表示時間
 	const float	 STOP_SCALE;			//止める文字の大きさ
@@ -61,6 +62,7 @@ private:
 	const float  INITIAL_DISPLAY_TIME;	//初期の最大表示時間
 	const float  SCALE_INCREASE;		//文字の大きさの増加量
 	const float  DISPLAY_TIME_INCREASE;	//表示時間増加量
+
 	const string IMAGE_FOLDER_PATH;		//Imageフォルダまでのパス
 	const string EXCELLENT_PATH;		//excellent画像のパス
 	const string GREAT_PATH;			//great画像のパス

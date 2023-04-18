@@ -6,16 +6,40 @@
 /// </summary>
 UiManager::UiManager()
 	: uiHandle()
-	, numberGraphicHandle()
+	, numberImage()
 	, alpha(255)
 	, inc(-1)
 	, displayTime(0)
 	, alphaEnd(false)
 	, MAX_ALPHA(255)
 	, MAX_DISPLAY_TIME(400)
+	, INITIAL_DISPLAY_TIME(0)
 	, INC_SPEED(-1)
+	, GAME_UI_NUMBER(3)
 	, COUNTDOWN_IMAGE_NUMBER(3)
 	, WAVE_CATEGORY(4)
+	, WAVE2_TIME(80)
+	, WAVE3_TIME(60)
+	, WAVE4_TIME(40)
+	, WAVE5_TIME(20)
+	, TOTAL_COUNT(3)
+	, LANDSCAPE_COUNT(3)
+	, PORTRAIT_COUNT(1)
+	, SIZE_X(466)
+	, SIZE_Y(467)
+	, NUMBER_IMAGE_POS_X(720)
+	, NUMBER_IMAGE_POS_Y(300)
+	, WAVE_IMAGE_POS_X(0)
+	, WAVE_IMAGE_POS_Y(90)
+	, TIME_UI_POS_X(500)
+	, SCORE_UI_POS_X(1000)
+	, WAVE_UI_POS_X(100)
+	, GAME_UI_POS_Y(100)
+	, FRAME_IMAGE_POS_X(0)
+	, FRAME_IMAGE_POS_Y(-150)
+	, TIME_UI_COLOR(GetColor(255, 0, 0))
+	, SCORE_UI_COLOR(GetColor(255, 255, 0))
+	, WAVE_UI_COLOR(GetColor(0, 255, 0))
 	, IMAGE_FOLDER_PATH("Data/Image/")
 	, UI_GRAPHIC_PATH("ui")
 	, COUNTDOWN_GRAPHIC_PATH("CountDown")
@@ -51,9 +75,9 @@ void UiManager::Initialize()
 
 	//数字画像読み込み
 	string numberPath = IMAGE_FOLDER_PATH + COUNTDOWN_GRAPHIC_PATH + IMAGE_FILENAME_EXTENSION;
-	LoadDivGraph(numberPath.c_str(), 3, 3, 1, 466, 467, numberGraphicHandle);
+	LoadDivGraph(numberPath.c_str(), TOTAL_COUNT, LANDSCAPE_COUNT, PORTRAIT_COUNT, SIZE_X, SIZE_Y, numberImage);
 
-	if (numberGraphicHandle[0] < 0)
+	if (numberImage[0] < 0)
 	{
 		printfDx("数字画像読み込みに失敗\n");
 	}
@@ -72,8 +96,8 @@ void UiManager::Finalize()
 
 	for (int i = 0; i < COUNTDOWN_IMAGE_NUMBER; ++i)
 	{
-		DeleteGraph(numberGraphicHandle[i]);
-		numberGraphicHandle[i] = NULL;
+		DeleteGraph(numberImage[i]);
+		numberImage[i] = NULL;
 	}
 }
 
@@ -110,7 +134,7 @@ void UiManager::StartCountDraw(float frame)
 {
 	int number = (int)frame;
 
-	DrawGraph(720, 300, numberGraphicHandle[number], TRUE);
+	DrawGraph(NUMBER_IMAGE_POS_X, NUMBER_IMAGE_POS_Y, numberImage[number], TRUE);
 }
 
 /// <summary>
@@ -121,19 +145,19 @@ void UiManager::WaveDraw(int countDown)
 {
 	displayTime++;
 
-	Wave w[] =
+	Wave wave[] =
 	{
-		{80,WAVE2},
-		{60,WAVE3},
-		{40,WAVE4},
-		{20,FINAL_WAVE},
+		{WAVE2_TIME, WAVE2},
+		{WAVE3_TIME, WAVE3},
+		{WAVE4_TIME, WAVE4},
+		{WAVE5_TIME, FINAL_WAVE},
 	};
 
 	for (int i = 0; i < WAVE_CATEGORY; i++)
 	{
-		if (countDown == w[i].time && displayTime > MAX_DISPLAY_TIME)
+		if (countDown == wave[i].time && displayTime > MAX_DISPLAY_TIME)
 		{
-			WaveAlpha(w[i].graphic);
+			WaveAlpha(wave[i].graphic);
 		}
 	}
 }
@@ -159,7 +183,7 @@ void UiManager::WaveAlpha(Graphic graphic)
 
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, alpha);
 
-	DrawGraph(0, 90, uiHandle[graphic], TRUE);
+	DrawGraph(WAVE_IMAGE_POS_X, WAVE_IMAGE_POS_Y, uiHandle[graphic], TRUE);
 
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, alpha);
 }
@@ -171,11 +195,11 @@ void UiManager::AlphaReset()
 {
 	alphaEnd = false;
 	alpha = MAX_ALPHA;
-	displayTime = 0;
+	displayTime = INITIAL_DISPLAY_TIME;
 }
 
 /// <summary>
-/// ゲーム内UI描画
+/// ゲーム内Ui描画
 /// </summary>
 /// <param name="font">ゲームフォント</param>
 /// <param name="countDown">ゲーム内時間</param>
@@ -183,14 +207,18 @@ void UiManager::AlphaReset()
 /// <param name="wave">ウェーブ</param>
 void UiManager::GameUiDraw(int font, int countDown, int score, int wave)
 {
-	//制限時間表示
-	DrawFormatStringToHandle(500, 100, GetColor(255, 0, 0), font, "TIME : %d", countDown);
+	GameUi gameUi[] =
+	{
+		{TIME_UI_POS_X,  TIME_UI_COLOR,  "TIME : %d",  countDown},
+		{SCORE_UI_POS_X, SCORE_UI_COLOR, "SCORE : %d", score},
+		{WAVE_UI_POS_X,  WAVE_UI_COLOR,  "WAVE : %d",  wave},
+	};
 
-	//獲得スコア表示
-	DrawFormatStringToHandle(1000, 100, GetColor(255, 255, 0), font, "SCORE : %d", score);
-
-	//隕石のウェーブ表示
-	DrawFormatStringToHandle(100, 100, GetColor(0, 255, 0), font, "WAVE : %d", wave);
+	for (int i = 0; i < GAME_UI_NUMBER; i++)
+	{
+		//ゲームUi文字の表示
+		DrawFormatStringToHandle(gameUi[i].posX, GAME_UI_POS_Y, gameUi[i].color, font, gameUi[i].name, gameUi[i].uiType);
+	}
 }
 
 /// <summary>
@@ -198,5 +226,5 @@ void UiManager::GameUiDraw(int font, int countDown, int score, int wave)
 /// </summary>
 void UiManager::FrameDraw()
 {
-	DrawGraph(0, -150, uiHandle[FRAME], TRUE);
+	DrawGraph(FRAME_IMAGE_POS_X, FRAME_IMAGE_POS_Y, uiHandle[FRAME], TRUE);
 }

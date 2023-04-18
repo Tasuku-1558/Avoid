@@ -25,8 +25,8 @@ private:
 	//定数
 	const int INITIAL_FADE;			//初期の画面効果値
 	const int INITIAL_FADE_INC;		//初期の画面効果スピード値
-	const int TOP_LEFT_VERTEX_X;	//左上の頂点X座標
-	const int TOP_LEFT_VERTEX_Y;	//左上の頂点Y座標
+	const int TOP_LEFT_VERTEX_POS_X;//左上の頂点X座標
+	const int TOP_LEFT_VERTEX_POS_Y;//左上の頂点Y座標
 	const int BLACK;				//フェードのカラー
 	const int MAX_FADE;				//最大画面効果値
 	const int FADE_SPEED;			//画面効果のスピード

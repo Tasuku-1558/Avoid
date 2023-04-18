@@ -81,8 +81,8 @@ private:
 
 	struct Time
 	{
-		int stopTime;		//一時的に制限時間を止める時間
-		int releaseTime;	//一時的に制限時間を解除する時間
+		int stopTime;		//制限時間を止める時間
+		int releaseTime;	//制限時間を解除する時間
 	};
 
 	GameState gameState;		//ゲームの状態
@@ -113,34 +113,35 @@ private:
 	const int	FONT_SIZE;				//フォントのサイズ
 	const int	FONT_THICK;				//フォントの太さ
 	const int	GAME_FINISH_TIME;		//ゲーム終了時間
-	const int	WAVE1_POP_START_TIME;
-	const int	WAVE2_POP_START_TIME;
-	const int	WAVE3_POP_START_TIME;
-	const int	WAVE4_POP_START_TIME;
-	const int	WAVE5_POP_START_TIME;
-	const int	WAVE1_POP_END_TIME;
-	const int	WAVE2_POP_END_TIME;
-	const int	WAVE3_POP_END_TIME;
-	const int	WAVE4_POP_END_TIME;
-	const int	WAVE5_POP_END_TIME;
-	const int	WAVE1;
-	const int	WAVE2;
-	const int	WAVE3;
-	const int	WAVE4;
-	const int	WAVE5;
-	const int	WAVE2_STOP_TIME;
-	const int	WAVE3_STOP_TIME;
-	const int	WAVE4_STOP_TIME;
-	const int	WAVE5_STOP_TIME;
-	const int	WAVE2_RELEASE_TIME;
-	const int	WAVE3_RELEASE_TIME;
-	const int	WAVE4_RELEASE_TIME;
-	const int	WAVE5_RELEASE_TIME;
-	const float WAVE1_POP_COUNT;
-	const float WAVE2_POP_COUNT;
-	const float WAVE3_POP_COUNT;
-	const float WAVE4_POP_COUNT;
-	const float WAVE5_POP_COUNT;
+	const int	WAVE1_POP_START_TIME;	//ウェーブ1の隕石の出現開始時間
+	const int	WAVE2_POP_START_TIME;	//ウェーブ2の隕石の出現開始時間
+	const int	WAVE3_POP_START_TIME;	//ウェーブ3の隕石の出現開始時間
+	const int	WAVE4_POP_START_TIME;	//ウェーブ4の隕石の出現開始時間
+	const int	WAVE5_POP_START_TIME;	//ウェーブ5の隕石の出現開始時間
+	const int	WAVE1_POP_END_TIME;		//ウェーブ1の隕石の出現終了時間
+	const int	WAVE2_POP_END_TIME;		//ウェーブ2の隕石の出現終了時間
+	const int	WAVE3_POP_END_TIME;		//ウェーブ3の隕石の出現終了時間
+	const int	WAVE4_POP_END_TIME;		//ウェーブ4の隕石の出現終了時間
+	const int	WAVE5_POP_END_TIME;		//ウェーブ5の隕石の出現終了時間
+	const int	WAVE1;					//隕石のウェーブ1
+	const int	WAVE2;					//隕石のウェーブ2
+	const int	WAVE3;					//隕石のウェーブ3
+	const int	WAVE4;					//隕石のウェーブ4
+	const int	WAVE5;					//隕石のウェーブ5
+	const int	WAVE2_STOP_TIME;		//ウェーブ2の制限時間を止める時間
+	const int	WAVE3_STOP_TIME;		//ウェーブ3の制限時間を止める時間
+	const int	WAVE4_STOP_TIME;		//ウェーブ4の制限時間を止める時間
+	const int	WAVE5_STOP_TIME;		//ウェーブ5の制限時間を止める時間
+	const int	WAVE2_RELEASE_TIME;		//ウェーブ2の制限時間を解除する時間
+	const int	WAVE3_RELEASE_TIME;		//ウェーブ3の制限時間を解除する時間
+	const int	WAVE4_RELEASE_TIME;		//ウェーブ4の制限時間を解除する時間
+	const int	WAVE5_RELEASE_TIME;		//ウェーブ5の制限時間を解除する時間
+
+	const float WAVE1_POP_COUNT;				//ウェーブ1の隕石の出現間隔
+	const float WAVE2_POP_COUNT;				//ウェーブ2の隕石の出現間隔
+	const float WAVE3_POP_COUNT;				//ウェーブ3の隕石の出現間隔
+	const float WAVE4_POP_COUNT;				//ウェーブ4の隕石の出現間隔
+	const float WAVE5_POP_COUNT;				//ウェーブ5の隕石の出現間隔
 	const float INITIAL_METEORITE_POP_COUNT;	//初期の隕石出現カウント
 	const float GAME_START_COUNT;				//ゲーム開始カウント
 	const float FADE_START_COUNT;				//フェード開始カウント

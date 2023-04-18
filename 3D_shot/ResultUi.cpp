@@ -22,9 +22,39 @@ ResultUi::ResultUi()
 	, SCORE_DRAW_NUMBER(5)
 	, MAX_ALPHA(255)
 	, INC_SPEED(-1)
+	, MAX_SCORE_DISPLAY_TIME(30)
+	, MAX_EXCELLENT_DISPLAY_TIME(70)
+	, MAX_GREAT_DISPLAY_TIME(110)
+	, MAX_GOOD_DISPLAY_TIME(150)
+	, MAX_MISS_DISPLAY_TIME(190)
+	, SCORE_POS_X(650)
+	, SCORE_POS_Y(250)
+	, EXCELLENT_POS_Y(400)
+	, GREAT_POS_Y(500)
+	, GOOD_POS_Y(600)
+	, MISS_POS_Y(700)
+	, EVALUATION_IMAGE_POS_X(1450)
+	, EVALUATION_IMAGE_POS_Y(150)
+	, RESULT_UI_POS_X(1150)
+	, RESULT_UI_POS_Y(900)
+	, TOP_LEFT_VERTEX_POS_X(500)
+	, TOP_LEFT_VERTEX_POS_Y(200)
+	, BOTTOM_RIGHT_VERTEX_POS_X(500)
+	, BOTTOM_RIGHT_VERTEX_POS_Y(117)
+	, ADD_POS_X(800)
+	, GAUGE_FRAME_POS_X(218)
+	, GAUGE_FRAME_POS_Y(-270)
+	, SCORE_COLOR(GetColor(255, 69, 0))
+	, EXCELLENT_COLOR(GetColor(255, 255, 0))
+	, GREAT_COLOR(GetColor(255, 105, 180))
+	, GOOD_COLOR(GetColor(175, 238, 238))
+	, MISS_COLOR(GetColor(169, 169, 169))
 	, ORANGE(GetColor(255, 165, 0))
 	, MAX_SCORE_GAUGE(1500.0f)
 	, GAUGE_INCREASE(5.0f)
+	, EVALUATION_IMAGE_SCALE(1.0f)
+	, EVALUATION_IMAGE_ANGLE(0.5f)
+	, SCORE_DIVISION(10.0f)
 	, IMAGE_FOLDER_PATH("Data/Image/")
 	, RESULT_UI_PATH("ResultUi.png")
 	, GAUGE_FRAME_PATH("GaugeFrame.png")
@@ -82,18 +112,18 @@ void ResultUi::ScoreDraw(int scoreFont, int countFont, int score, int excellentC
 
 	Score s[] = 
 	{
-		{30,250,GetColor(255, 69, 0),scoreFont,"SCORE : %d",score},
-		{70,400,GetColor(255, 255, 0),countFont,"Excellent   Å~  %d",excellentCount},
-		{110,500,GetColor(255, 105, 180),countFont,"Great         Å~  %d",greatCount},
-		{150,600,GetColor(175, 238, 238),countFont,"Good          Å~  %d",goodCount},
-		{190,700,GetColor(169, 169, 169),countFont,"Miss          Å~  %d",missCount},
+		{MAX_SCORE_DISPLAY_TIME,	 SCORE_POS_Y,	  SCORE_COLOR,		scoreFont, "SCORE : %d",			score},
+		{MAX_EXCELLENT_DISPLAY_TIME, EXCELLENT_POS_Y, EXCELLENT_COLOR,	countFont, "Excellent   Å~  %d",	excellentCount},
+		{MAX_GREAT_DISPLAY_TIME,	 GREAT_POS_Y,	  GREAT_COLOR,		countFont, "Great         Å~  %d",	greatCount},
+		{MAX_GOOD_DISPLAY_TIME,		 GOOD_POS_Y,	  GOOD_COLOR,		countFont, "Good          Å~  %d",	goodCount},
+		{MAX_MISS_DISPLAY_TIME,		 MISS_POS_Y,	  MISS_COLOR,		countFont, "Miss          Å~  %d",	missCount},
 	};
 
 	for (int i = 0; i < SCORE_DRAW_NUMBER; i++)
 	{
 		if (displayTime > s[i].maxDisplayTime)
 		{
-			DrawFormatStringToHandle(650, s[i].posY, s[i].color, s[i].font, s[i].name, s[i].scoreType);
+			DrawFormatStringToHandle(SCORE_POS_X, s[i].posY, s[i].color, s[i].font, s[i].name, s[i].scoreType);
 		}
 	}
 }
@@ -105,12 +135,15 @@ void ResultUi::ScoreDraw(int scoreFont, int countFont, int score, int excellentC
 void ResultUi::GaugeDraw(int score)
 {
 	//ÉXÉRÉAÉQÅ[ÉWï`âÊ
-	DrawBox(500, 200, 500 + 800 * (scoreGauge / MAX_SCORE_GAUGE), 117, ORANGE, TRUE);
+	DrawBox(TOP_LEFT_VERTEX_POS_X,
+			TOP_LEFT_VERTEX_POS_Y,
+			(float)BOTTOM_RIGHT_VERTEX_POS_X + (float)ADD_POS_X * (scoreGauge / MAX_SCORE_GAUGE),
+			BOTTOM_RIGHT_VERTEX_POS_Y, ORANGE, TRUE);
 
-	//ÉXÉRÉAÉQÅ[ÉWògï`âÊ
-	DrawGraph(218, -270, gaugeFrame, TRUE);
+	//ògï`âÊ
+	DrawGraph(GAUGE_FRAME_POS_X, GAUGE_FRAME_POS_Y, gaugeFrame, TRUE);
 
-	earnScore = (score / 10.0f);
+	earnScore = (score / SCORE_DIVISION);
 
 	//älìæÉXÉRÉAÇ‹Ç≈ÉQÅ[ÉWÇëùÇ‚Ç∑
 	if (scoreGauge != earnScore)
@@ -126,24 +159,24 @@ void ResultUi::GaugeDraw(int score)
 	//BîªíË
 	if (score > DECISION_B_LINE && displayFlag)
 	{
-		DrawRotaGraph(1450, 150, 1.0f, 0.5, evaluationImage[0], TRUE);
+		DrawRotaGraph(EVALUATION_IMAGE_POS_X, EVALUATION_IMAGE_POS_Y, EVALUATION_IMAGE_SCALE, EVALUATION_IMAGE_ANGLE, evaluationImage[0], TRUE);
 	}
 
 	//AîªíË
 	if (score > DECISION_A_LINE && displayFlag)
 	{
-		DrawRotaGraph(1450, 150, 1.0f, 0.5, evaluationImage[1], TRUE);
+		DrawRotaGraph(EVALUATION_IMAGE_POS_X, EVALUATION_IMAGE_POS_Y, EVALUATION_IMAGE_SCALE, EVALUATION_IMAGE_ANGLE, evaluationImage[1], TRUE);
 	}
 
 	//SîªíË
 	if (score > DECISION_S_LINE && displayFlag)
 	{
-		DrawRotaGraph(1450, 150, 1.0f, 0.5, evaluationImage[2], TRUE);
+		DrawRotaGraph(EVALUATION_IMAGE_POS_X, EVALUATION_IMAGE_POS_Y, EVALUATION_IMAGE_SCALE, EVALUATION_IMAGE_ANGLE, evaluationImage[2], TRUE);
 	}
 }
 
 /// <summary>
-/// ï∂éöÇÃì_ñ≈
+/// ëJà⁄UiâÊëúÇÃì_ñ≈
 /// </summary>
 void ResultUi::Blink()
 {
@@ -157,7 +190,7 @@ void ResultUi::Blink()
 
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, alpha);
 
-	DrawGraph(1150, 900, resultUi, TRUE);
+	DrawGraph(RESULT_UI_POS_X, RESULT_UI_POS_Y, resultUi, TRUE);
 
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, alpha);
 }
@@ -165,13 +198,13 @@ void ResultUi::Blink()
 /// <summary>
 /// ï`âÊèàóù
 /// </summary>
-/// <param name="scoreFont"></param>
-/// <param name="countFont"></param>
-/// <param name="score"></param>
-/// <param name="excellentCount"></param>
-/// <param name="greatCount"></param>
-/// <param name="goodCount"></param>
-/// <param name="missCount"></param>
+/// <param name="scoreFont">ÉXÉRÉAÇÃÉtÉHÉìÉg</param>
+/// <param name="countFont">ï]âøÇÃâÒêîÇÃÉtÉHÉìÉg</param>
+/// <param name="score">ÉQÅ[ÉÄÉXÉRÉA</param>
+/// <param name="excellentCount">excellentÇÃêî</param>
+/// <param name="greatCount">greatÇÃêî</param>
+/// <param name="goodCount">goodÇÃêî</param>
+/// <param name="missCount">missÇÃêî</param>
 void ResultUi::Draw(int scoreFont, int countFont, int score, int excellentCount, int greatCount, int goodCount, int missCount)
 {
 	ScoreDraw(scoreFont, countFont, score, excellentCount, greatCount, goodCount, missCount);
