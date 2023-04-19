@@ -23,7 +23,7 @@
 GameScene::GameScene()
 	: SceneBase(SceneType::GAME)
 	, gameState(GameState::START)
-	, gameTime(3)
+	, gameTime(90)
 	, startTime(0)
 	, nowTime(0)
 	, countDown(0)

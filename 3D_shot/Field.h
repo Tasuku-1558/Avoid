@@ -11,7 +11,6 @@ using namespace std;
 class Field final : public ObjectBase
 {
 public:
-
 	Field();
 	virtual ~Field();
 
@@ -24,7 +23,7 @@ private:
 	void Finalize();				//終了処理
 	void Update(float deltaTime);	//更新処理
 
-	int lineHandle;					//判定ライン格納用
+	int lineImage;					//判定ライン画像格納用
 
 	//定数
 	const float  LINE_CENTER_POSITION;	//ラインの中心座標

@@ -13,10 +13,10 @@ public:
 	Meteorite(Player* player);
 	virtual ~Meteorite();
 
-	void Update(float deltaTime);		//更新処理
-	void Draw();						//描画処理
+	void Update(float deltaTime);	//更新処理
+	void Draw();					//描画処理
 
-	void SpeedUp();											//隕石のスピード変化
+	void SpeedUp();					//隕石のスピード変化
 
 private:
 	Meteorite(const Meteorite&);	//コピーコンストラクタ

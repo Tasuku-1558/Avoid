@@ -112,7 +112,6 @@ void HitChecker::DecisionEnd(ScoreEarn* scoreEarn)
 	if (miss)
 	{
 		scoreEarn->MissScore();
-
 		miss = false;
 	}
 
@@ -127,9 +126,10 @@ void HitChecker::DecisionEnd(ScoreEarn* scoreEarn)
 	if (good)
 	{
 		scoreEarn->GoodScore();
-
 		good = false;
 	}
+
+	hit = true;
 
 	decisionFlag = false;
 }
@@ -174,8 +174,6 @@ void HitChecker::PlayerAndMeteorite(Player* player, vector<Meteorite*>* meteorit
 			}
 			
 			DecisionEnd(scoreEarn);
-
-			hit = true;
 		}
 	}
 }

@@ -137,7 +137,7 @@ void ResultUi::GaugeDraw(int score)
 	//ÉXÉRÉAÉQÅ[ÉWï`âÊ
 	DrawBox(TOP_LEFT_VERTEX_POS_X,
 			TOP_LEFT_VERTEX_POS_Y,
-			(float)BOTTOM_RIGHT_VERTEX_POS_X + (float)ADD_POS_X * (scoreGauge / MAX_SCORE_GAUGE),
+			BOTTOM_RIGHT_VERTEX_POS_X + ADD_POS_X * (scoreGauge / MAX_SCORE_GAUGE),
 			BOTTOM_RIGHT_VERTEX_POS_Y, ORANGE, TRUE);
 
 	//ògï`âÊ

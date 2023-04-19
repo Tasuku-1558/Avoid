@@ -27,10 +27,10 @@ public:
 private:
 	Player(const Player&);		//コピーコンストラクタ
 
-	void Initialize();							//初期化処理
-	void Move(float deltaTime);					//移動処理
-	void KeyInput();							//キー入力処理
-	void HitMeteorite(float deltaTime);			//隕石に衝突した
-	void AfterImage();							//プレイヤーの残像処理
-	void Finalize();							//終了処理
+	void Initialize();						//初期化処理
+	void Move(float deltaTime);				//移動処理
+	void KeyInput();						//キー入力処理
+	void HitMeteorite(float deltaTime);		//隕石に衝突した
+	void AfterImage();						//プレイヤーの残像処理
+	void Finalize();						//終了処理
 };

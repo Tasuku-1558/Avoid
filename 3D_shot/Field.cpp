@@ -6,7 +6,7 @@
 /// コンストラクタ
 /// </summary>
 Field::Field()
-	: lineHandle(0)
+	: lineImage(0)
 	, LINE_CENTER_POSITION(0.5f)
 	, LINE_SIZE(1100.0f)
 	, LINE_ANGLE(0.0f)
@@ -42,7 +42,7 @@ void Field::Initialize()
 	MV1SetRotationXYZ(modelHandle, ROTATE);
 
 	//ライン画像の読み込み
-	lineHandle = LoadGraph(Input::InputPath(IMAGE_FOLDER_PATH, LINE_PATH).c_str());
+	lineImage = LoadGraph(Input::InputPath(IMAGE_FOLDER_PATH, LINE_PATH).c_str());
 }
 
 /// <summary>
@@ -52,7 +52,7 @@ void Field::Finalize()
 {
 	MV1DeleteModel(modelHandle);
 
-	DeleteGraph(lineHandle);
+	DeleteGraph(lineImage);
 }
 
 /// <summary>
@@ -71,5 +71,5 @@ void Field::Draw()
 {
 	MV1DrawModel(modelHandle);
 
-	DrawBillboard3D(LINE_POSITION, LINE_CENTER_POSITION, LINE_CENTER_POSITION, LINE_SIZE, LINE_ANGLE, lineHandle, TRUE);
+	DrawBillboard3D(LINE_POSITION, LINE_CENTER_POSITION, LINE_CENTER_POSITION, LINE_SIZE, LINE_ANGLE, lineImage, TRUE);
 }
