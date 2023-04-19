@@ -14,13 +14,13 @@ public:
 	virtual void Update(float deltaTime) = 0;	//更新処理
 	virtual void Draw() = 0;					//描画処理
 
-	const VECTOR& GetPosition()  const { return position; }		//現在の座標を返す
+	const VECTOR& GetPosition()  const { return position; }		//座標ベクトルを返す
 	const VECTOR& GetDirection() const { return direction; }	//向きベクトルを返す
 
 protected:
 
 	int	   modelHandle;		//モデルハンドル
-	VECTOR position;		//現在の座標
+	VECTOR position;		//座標ベクトル
 	VECTOR direction;		//向きベクトル
 	
 };

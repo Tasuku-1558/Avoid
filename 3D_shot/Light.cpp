@@ -9,6 +9,7 @@ Light::Light(LightType lightType)
 	: TITLE_DIRECTION({ 0.0f, 0.0f, 0.5f })
 	, GAME_DIRECTION({ 0.0f, -0.5f, 0.0f })
 {
+	//ライトの種類によってライトの方向を変える
 	if (lightType == LightType::TITLE_LIGHT)
 	{
 		SetLightDirection(TITLE_DIRECTION);

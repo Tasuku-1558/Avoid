@@ -199,7 +199,7 @@ void UiManager::AlphaReset()
 }
 
 /// <summary>
-/// ゲーム内Ui描画
+/// ゲームUi文字描画
 /// </summary>
 /// <param name="font">ゲームフォント</param>
 /// <param name="countDown">ゲーム内時間</param>

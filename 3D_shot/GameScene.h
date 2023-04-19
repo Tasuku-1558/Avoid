@@ -97,7 +97,7 @@ private:
 	int missCount;				//missの数
 	int scoreFont;				//スコアフォント
 	int fontHandle;				//フォントハンドル
-	int wave;					//ゲームの区分け
+	int wave;					//隕石のウェーブ
 	float frame;				//フレーム数
 	float meteoritePopCount;	//隕石出現カウント
 	bool sceneChangeTitle;		//タイトル画面へ遷移するかどうか

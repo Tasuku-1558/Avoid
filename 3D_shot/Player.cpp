@@ -48,7 +48,7 @@ void Player::Initialize()
 		MV1SetOpacityRate(afterImageModelHandle[i], OPACITY);
 
 		//モデルのエミッシブカラーを変更
-		MV1SetMaterialEmiColor(afterImageModelHandle[i], 0, AFTER_IMAGE_COLOR);
+		MV1SetMaterialEmiColor(afterImageModelHandle[i], MATERIAL_INDEX, AFTER_IMAGE_COLOR);
 
 		pastPosition[i] = POSITION;
 	}
@@ -197,7 +197,7 @@ void Player::HitMeteorite(float deltaTime)
 		damageTime += deltaTime;
 
 		//1秒間プレイヤーを点滅させる
-		if (damageTime > MAX_FLASH_TIME)
+		if (damageTime > MAX_DAMAGE_TIME)
 		{
 			//通常状態へ戻す
 			playerState = PlayerState::NOMAL;

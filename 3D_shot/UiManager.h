@@ -56,7 +56,7 @@ private:
 	void Initialize();						//初期化処理
 	void Finalize();						//終了処理
 	void StartCountDraw(float frame);		//カウントダウン描画
-	void GameUiDraw(int font, int countDown, int score, int wave);		//ゲーム内Ui描画
+	void GameUiDraw(int font, int countDown, int score, int wave);		//ゲームUi文字描画
 	void FrameDraw();						//枠描画
 	void WaveDraw(int countDown);			//ウェーブ描画
 	void WaveAlpha(Graphic graphic);		//ウェーブ画像の透過処理

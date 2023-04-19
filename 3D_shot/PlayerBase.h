@@ -30,11 +30,12 @@ protected:
 	const int     LEFT_RANGE;			//左方向の移動範囲
 	const int     RIGHT_RANGE;			//右方向の移動範囲
 	const int	  AFTER_IMAGE_NUMBER;	//プレイヤーの残像枚数
+	const int	  MATERIAL_INDEX;		//エミッシブカラーを変更するマテリアルの番号
 
 	const float   SPEED;				//移動速度
 	const float	  OPACITY;				//不透明度
 	const float   RADIUS;				//半径の範囲
-	const float   MAX_FLASH_TIME;		//最大点滅時間
+	const float   MAX_DAMAGE_TIME;		//最大点滅時間
 	const float	  INITIAL_DAMAGE_TIME;	//初期のダメージ時間
 	const float	  MAX_INPUT_DIRECTION;	//最大入力ベクトル
 

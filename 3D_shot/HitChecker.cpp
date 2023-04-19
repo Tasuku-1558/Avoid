@@ -107,8 +107,6 @@ void HitChecker::DecisionEnd(ScoreEarn* scoreEarn)
 
 		//è¦Î‚ª”š”­‚µ‚½Žž‚ÌSE‰¹‚ðÄ¶
 		SoundManager::GetInstance().SePlayFlag(SoundManager::EXPLOSION);
-
-		hit = true;
 	}
 
 	if (miss)
@@ -116,7 +114,6 @@ void HitChecker::DecisionEnd(ScoreEarn* scoreEarn)
 		scoreEarn->MissScore();
 
 		miss = false;
-		hit = true;
 	}
 
 	if (great)
@@ -125,8 +122,6 @@ void HitChecker::DecisionEnd(ScoreEarn* scoreEarn)
 		great = false;
 
 		TimeSlow::GetInstance().SetTimeSlow(great);
-
-		hit = true;
 	}
 
 	if (good)
@@ -134,7 +129,6 @@ void HitChecker::DecisionEnd(ScoreEarn* scoreEarn)
 		scoreEarn->GoodScore();
 
 		good = false;
-		hit = true;
 	}
 
 	decisionFlag = false;
@@ -180,6 +174,8 @@ void HitChecker::PlayerAndMeteorite(Player* player, vector<Meteorite*>* meteorit
 			}
 			
 			DecisionEnd(scoreEarn);
+
+			hit = true;
 		}
 	}
 }

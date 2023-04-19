@@ -98,11 +98,12 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		//フレームの動きを遅くする
 		if (slow)
 		{
-			deltaTime = (nowTime - prevTime) / A;
+			deltaTime = (nowTime - prevTime) / SLOW_DELETA_TIME_DIVISION;
 		}
 		else
 		{
-			deltaTime = (nowTime - prevTime) / B;
+			//差分を100万分の1にして保存する(マイクロ秒換算)
+			deltaTime = (nowTime - prevTime) / NOMAL_DELETA_TIME_DIVISION;
 		}
 
 		//マウスカーソルを表示しない
