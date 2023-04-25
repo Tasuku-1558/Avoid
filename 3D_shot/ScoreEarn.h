@@ -34,7 +34,6 @@ private:
 	int goodCount;			//goodの数
 	int missCount;			//missの数
 	
-
 	//定数
 	const int SCORE_EXCELLENT;			//excellentのスコア
 	const int SCORE_GREAT;				//greatのスコア

@@ -35,5 +35,4 @@ private:
 	const VECTOR LINE_POSITION;			//ラインの位置
 	const string IMAGE_FOLDER_PATH;		//Imageフォルダまでのパス
 	const string LINE_PATH;				//ライン画像のパス
-
 };

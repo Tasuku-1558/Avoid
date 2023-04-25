@@ -23,7 +23,6 @@ protected:
 	VECTOR rotateSpeed;					//リング回転スピード
 	VECTOR pastPosition[10];			//プレイヤーの過去の位置
 
-
 	//定数
 	const int	  UP_RANGE;				//上方向の移動範囲
 	const int     DOWN_RANGE;			//下方向の移動範囲
@@ -49,5 +48,4 @@ protected:
 	const VECTOR  LING_ROTATE_SPEED;	//リング回転スピード
 
 	const COLOR_F AFTER_IMAGE_COLOR;	//残像モデルのエミッシブカラー
-
 };

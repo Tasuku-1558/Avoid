@@ -24,11 +24,11 @@ public:
 	void CreateEffect(VECTOR position, EffectType effectType);	//エフェクトの生成
 
 private:
-	EffectManager(const EffectManager&);		//コピーコンストラクタ
+	EffectManager(const EffectManager&);	//コピーコンストラクタ
 
-	void Initialize();							//初期化処理
+	void Initialize();						//初期化処理
 
-	EffectBase* effect[EFFECT_AMOUNT];			//エフェクト格納用
+	EffectBase* effect[EFFECT_AMOUNT];		//エフェクト格納用
 
 
 	//エフェクト

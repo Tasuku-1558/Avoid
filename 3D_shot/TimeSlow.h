@@ -20,5 +20,4 @@ private:
 	virtual ~TimeSlow();
 
 	bool slowFlag;	//ŽžŠÔ‚ð’á‘¬‚É‚·‚é‚©‚µ‚È‚¢‚©
-	
 };

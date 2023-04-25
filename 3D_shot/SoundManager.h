@@ -56,5 +56,4 @@ private:
 	const string BGM_PATH;					//BGMフォルダまでのパス
 	const string SE_PATH;					//SEフォルダまでのパス
 	const string SOUND_FILENAME_EXTENSION;	//BGMとSEの拡張子
-
 };

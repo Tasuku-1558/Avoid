@@ -77,9 +77,12 @@ void UiManager::Initialize()
 	string numberPath = IMAGE_FOLDER_PATH + COUNTDOWN_GRAPHIC_PATH + IMAGE_FILENAME_EXTENSION;
 	LoadDivGraph(numberPath.c_str(), TOTAL_COUNT, LANDSCAPE_COUNT, PORTRAIT_COUNT, SIZE_X, SIZE_Y, numberImage);
 
-	if (numberImage[0] < 0)
+	for (int i = 0; i < COUNTDOWN_IMAGE_NUMBER; ++i)
 	{
-		printfDx("”Žš‰æ‘œ“Ç‚Ýž‚Ý‚ÉŽ¸”s\n");
+		if (numberImage[i] < 0)
+		{
+			printfDx("”Žš‰æ‘œ“Ç‚Ýž‚Ý‚ÉŽ¸”s[%d]\n");
+		}
 	}
 }
 

@@ -76,7 +76,7 @@ void TitleScene::Initialize()
 	//動画データの読み込み
 	titleMovie = LoadGraph(Input::InputPath(VIDEO_FOLDER_PATH, PLAY_VIDEO_PATH).c_str());
 
-	//タイトルUI画像の読み込み
+	//タイトルUi画像の読み込み
 	titleName = LoadGraph(Input::InputPath(IMAGE_FOLDER_PATH, TITLENAME_PATH).c_str());
 
 	startUi = LoadGraph(Input::InputPath(IMAGE_FOLDER_PATH, START_UI_PATH).c_str());
@@ -213,11 +213,13 @@ void TitleScene::Blink()
 
 		SetDrawBlendMode(DX_BLENDMODE_NOBLEND, alpha);
 
+
 		DrawGraph(EXIT_UI_POS_X, EXIT_UI_POS_Y, exitUi, TRUE);
 	}
 	else
 	{
 		DrawGraph(START_UI_POS_X, START_UI_POS_Y, startUi, TRUE);
+
 
 		SetDrawBlendMode(DX_BLENDMODE_ALPHA, alpha);
 

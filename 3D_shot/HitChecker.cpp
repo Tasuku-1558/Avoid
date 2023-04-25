@@ -11,7 +11,7 @@ using namespace Math3d;		//VECTORの計算に使用
 /// コンストラクタ
 /// </summary>
 /// <param name="inEffect">エフェクトマネージャーのポインタ</param>
-/// <param name="inEvaluation">評価UIクラスのポインタ</param>
+/// <param name="inEvaluation">評価Uiクラスのポインタ</param>
 HitChecker::HitChecker(EffectManager* const inEffect, Evaluation* const inEvaluation)
 	: distance(0.0f)
 	, hit(false)

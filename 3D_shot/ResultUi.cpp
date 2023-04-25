@@ -52,9 +52,9 @@ ResultUi::ResultUi()
 	, ORANGE(GetColor(255, 165, 0))
 	, MAX_SCORE_GAUGE(1500.0f)
 	, GAUGE_INCREASE(5.0f)
-	, EVALUATION_IMAGE_SCALE(1.0f)
-	, EVALUATION_IMAGE_ANGLE(0.5f)
 	, SCORE_DIVISION(10.0f)
+	, EVALUATION_IMAGE_SCALE(1.0)
+	, EVALUATION_IMAGE_ANGLE(0.5)
 	, IMAGE_FOLDER_PATH("Data/Image/")
 	, RESULT_UI_PATH("ResultUi.png")
 	, GAUGE_FRAME_PATH("GaugeFrame.png")
@@ -84,7 +84,7 @@ ResultUi::~ResultUi()
 /// </summary>
 void ResultUi::Initialize()
 {
-	//リザルトUI画像の読み込み
+	//リザルトUi画像の読み込み
 	gaugeFrame = LoadGraph(Input::InputPath(IMAGE_FOLDER_PATH, GAUGE_FRAME_PATH).c_str());
 
 	resultUi = LoadGraph(Input::InputPath(IMAGE_FOLDER_PATH, RESULT_UI_PATH).c_str());

@@ -23,7 +23,6 @@ protected:
 	VECTOR rotate;			//回転値
 	VECTOR rotateSpeed;		//回転速度
 
-
 	//定数
 	const int    RANGE_DIRECTION;		//隕石が進む方向のランダム値の範囲
 	const int	 TRACKING_VALUE;		//ランダム方向の追尾値
@@ -34,5 +33,4 @@ protected:
 	const VECTOR SIZE;					//倍率
 	const VECTOR DIRECTION;				//方向
 	const VECTOR RANDOM_ROTATE_SPEED;	//ランダムな回転スピード
-
 };

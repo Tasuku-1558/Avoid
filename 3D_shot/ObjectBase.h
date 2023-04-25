@@ -22,5 +22,4 @@ protected:
 	int	   modelHandle;		//モデルハンドル
 	VECTOR position;		//座標ベクトル
 	VECTOR direction;		//向きベクトル
-	
 };

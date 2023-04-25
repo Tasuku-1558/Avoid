@@ -47,5 +47,4 @@ private:
 	const string LING_PATH;				//lingモデルファイルのパス
 	const string METEORITE_PATH;		//meteoriteモデルファイルのパス
 	const string FIELD_PATH;			//fieldモデルファイルのパス
-
 };

@@ -33,7 +33,7 @@ private:
 	void DecisionEnd(ScoreEarn* scoreEarn);		//判定終了
 
 	EffectManager* effectManager;		//エフェクトマネージャーのポインタ
-	Evaluation* evaluation;				//評価UIクラスのポインタ
+	Evaluation* evaluation;				//評価Uiクラスのポインタ
 
 	float distance;						//距離
 	bool hit;							//隕石と衝突したか
