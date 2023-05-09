@@ -39,6 +39,7 @@ GameScene::GameScene()
 	, meteoritePopCount(0.0f)
 	, sceneChangeTitle(false)
 	, sceneChangeGame(false)
+	, countDownStop(false)
 	, pUpdate(nullptr)
 	, STOP_TIME_CATEGORY(4)
 	, TIME_DIVISION(1000)
@@ -78,7 +79,7 @@ GameScene::GameScene()
 	, INITIAL_METEORITE_POP_COUNT(0.0f)
 	, GAME_START_COUNT(3.0f)
 	, FADE_START_COUNT(1.0f)
-	, countDownStop(false)
+	, INITIAL_FRAME(0.0f)
 {
 	Initialize();
 }
@@ -130,34 +131,6 @@ void GameScene::Initialize()
 }
 
 /// <summary>
-/// 隕石を登録
-/// </summary>
-/// <param name="newMeteorite">登録する隕石のポインタ</param>
-void GameScene::EntryMeteorite(Meteorite* newMeteorite)
-{
-	meteorite.emplace_back(newMeteorite);
-}
-
-/// <summary>
-/// 隕石を削除
-/// </summary>
-/// <param name="deleteMeteorite">削除する隕石のポインタ</param>
-void GameScene::DeleteMeteorite(Meteorite* deleteMeteorite)
-{
-	//隕石オブジェクトから検索して削除
-	auto iter = std::find(meteorite.begin(), meteorite.end(), deleteMeteorite);
-
-	if (iter != meteorite.end())
-	{
-		//隕石オブジェクトを最後尾に移動してデータを消す
-		std::iter_swap(iter, meteorite.end() - 1);
-		meteorite.pop_back();
-
-		return;
-	}
-}
-
-/// <summary>
 /// 隕石の出現間隔
 /// </summary>
 /// <param name="deltaTime">前フレームと現在のフレームの差分</param>
@@ -178,8 +151,8 @@ void GameScene::MeteoritePop(float deltaTime)
 	{
 		if (countDown < pop[i].popStartTime && countDown > pop[i].popEndTime && meteoritePopCount > pop[i].popCount)
 		{
-			Meteorite* newMeteorite = new Meteorite(player);
-			EntryMeteorite(newMeteorite);
+			activeMeteorite.emplace_back(new Meteorite(player->GetPosition()));
+
 			meteoritePopCount = INITIAL_METEORITE_POP_COUNT;
 			wave = pop[i].wave;
 		}
@@ -255,44 +228,47 @@ void GameScene::SceneChange()
 }
 
 /// <summary>
+/// シーンの入力
+/// </summary>
+/// <param name="sceneChange">どのシーンに遷移するか</param>
+/// <param name="sceneType">シーンの種類</param>
+void GameScene::InputScene(bool sceneChange, SceneType sceneType)
+{
+	if (sceneChange)
+	{
+		fadeManager->FadeMove();
+
+		//リザルトBGMを停止
+		SoundManager::GetInstance().StopBgm();
+
+		//フェードが終わったら
+		if (fadeManager->FadeEnd())
+		{
+			//シーンを変える
+			nowSceneType = sceneType;
+
+			//ゲームシーンに遷移するならば初期化処理を行う
+			if (sceneChange == sceneChangeGame)
+			{
+				gameState = GameState::START;
+				Initialize();
+
+				frame = INITIAL_FRAME;
+
+				sceneChangeGame = false;
+			}
+		}
+	}
+}
+
+/// <summary>
 /// 画面を遷移する
 /// </summary>
 void GameScene::ReturnScreen()
 {
-	if (sceneChangeTitle)
-	{
-		fadeManager->FadeMove();
+	InputScene(sceneChangeTitle, SceneType::TITLE);
 
-		//リザルトBGMを停止
-		SoundManager::GetInstance().StopBgm();
-
-		//フェードが終わったら
-		if (fadeManager->FadeEnd())
-		{
-			//タイトル画面へ
-			nowSceneType = SceneType::TITLE;
-		}
-	}
-
-	if (sceneChangeGame)
-	{
-		fadeManager->FadeMove();
-
-		//リザルトBGMを停止
-		SoundManager::GetInstance().StopBgm();
-
-		//フェードが終わったら
-		if (fadeManager->FadeEnd())
-		{
-			//もう一度プレイする
-			gameState = GameState::START;
-			Initialize();
-
-			frame = 0.0f;
-
-			sceneChangeGame = false;
-		}
-	}
+	InputScene(sceneChangeGame, SceneType::GAME);
 }
 
 /// <summary>
@@ -362,23 +338,29 @@ void GameScene::UpdateGame(float deltaTime)
 	//隕石の出現間隔
 	MeteoritePop(deltaTime);
 	
-	for (auto meteoritePtr : meteorite)
+	for (auto itr = activeMeteorite.begin(); itr != activeMeteorite.end(); ++itr)
 	{
-		meteoritePtr->Update(deltaTime);
+		(*itr)->Update(deltaTime);
 
-		if (wave == 5)
+		if (wave == WAVE5)
 		{
-			meteoritePtr->SpeedUp();
+			(*itr)->SpeedUp();
 		}
 
 		//隕石と衝突したもしくは制限時間が0になったら隕石を消す
 		if (hitChecker->Hit() || countDown == GAME_FINISH_TIME)
 		{
-			DeleteMeteorite(meteoritePtr);
+			if (itr != activeMeteorite.end())
+			{
+				std::iter_swap(itr, activeMeteorite.end() - 1);
+				activeMeteorite.pop_back();
+
+				return;
+			}
 		}
 	}
 
-	hitChecker->PlayerAndMeteorite(player, &meteorite, scoreEarn);
+	hitChecker->PlayerAndMeteorite(player->GetPosition(), player, &activeMeteorite, scoreEarn);
 
 	ResultScore();
 
@@ -449,9 +431,9 @@ void GameScene::Draw()
 
 		player->Draw();
 
-		for (auto meteoritePtr : meteorite)
+		for (auto itr = activeMeteorite.begin(); itr != activeMeteorite.end(); ++itr)
 		{
-			meteoritePtr->Draw();
+			(*itr)->Draw();
 		}
 	}
 

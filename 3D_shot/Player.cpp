@@ -125,58 +125,43 @@ void Player::Move(float deltaTime)
 /// </summary>
 void Player::KeyInput()
 {
-	//ã‰ºˆÚ“®
-	if (CheckHitKey(KEY_INPUT_UP))
+	Key key[] =
 	{
-		//ã•ûŒü‚ÌˆÚ“®”ÍˆÍ“à‚È‚ç
-		if (position.y < UP_RANGE)
-		{
-			inputDirection += UP;
-			inputFlag = true;
-		}
-		else
-		{
-			inputDirection = ZERO_VECTOR;
-		}
-	}
-	if (CheckHitKey(KEY_INPUT_DOWN))
+		{KEY_INPUT_UP,	  position.y, UP_RANGE,	   UP},
+		{KEY_INPUT_RIGHT, position.x, RIGHT_RANGE, RIGHT},
+	};
+
+	Key key2[] =
 	{
-		//‰º•ûŒü‚ÌˆÚ“®”ÍˆÍ“à‚È‚ç
-		if (position.y > DOWN_RANGE)
-		{
-			inputDirection += DOWN;
-			inputFlag = true;
-		}
-		else
-		{
-			inputDirection = ZERO_VECTOR;
-		}
-	}
-	//¶‰EˆÚ“®
-	if (CheckHitKey(KEY_INPUT_RIGHT))
+		{KEY_INPUT_DOWN, position.y, DOWN_RANGE, DOWN},
+		{KEY_INPUT_LEFT, position.x, LEFT_RANGE, LEFT},
+	};
+
+	for (int i = 0; i < 2; i++)
 	{
-		//‰E•ûŒü‚ÌˆÚ“®”ÍˆÍ“à‚È‚ç
-		if (position.x < RIGHT_RANGE)
+		if (CheckHitKey(key[i].input))
 		{
-			inputDirection += RIGHT;
-			inputFlag = true;
+			if (key[i].position < key[i].range)
+			{
+				inputDirection += key[i].dir;
+				inputFlag = true;
+			}
+			else
+			{
+				inputDirection = ZERO_VECTOR;
+			}
 		}
-		else
+		if (CheckHitKey(key2[i].input))
 		{
-			inputDirection = ZERO_VECTOR;
-		}
-	}
-	if (CheckHitKey(KEY_INPUT_LEFT))
-	{
-		//¶•ûŒü‚ÌˆÚ“®”ÍˆÍ“à‚È‚ç
-		if (position.x > LEFT_RANGE)
-		{
-			inputDirection += LEFT;
-			inputFlag = true;
-		}
-		else
-		{
-			inputDirection = ZERO_VECTOR;
+			if (key2[i].position > key2[i].range)
+			{
+				inputDirection += key2[i].dir;
+				inputFlag = true;
+			}
+			else
+			{
+				inputDirection = ZERO_VECTOR;
+			}
 		}
 	}
 }

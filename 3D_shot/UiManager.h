@@ -1,7 +1,7 @@
 #pragma once
 
-#include "GameScene.h"
 #include <string>
+#include "GameScene.h"
 
 using namespace std;
 

@@ -1,17 +1,16 @@
 #include "Meteorite.h"
-#include "Player.h"
 #include "ModelManager.h"
 
 
 /// <summary>
 /// コンストラクタ
 /// </summary>
-/// <param name="player">プレイヤーのポインタ</param>
-Meteorite::Meteorite(Player* player)
+/// <param name="inPlayerPosition">プレイヤーの座標</param>
+Meteorite::Meteorite(VECTOR inPlayerPosition)
 {
 	Initialize();
 
-	playerPosition = player->GetPosition();
+	playerPosition = inPlayerPosition;
 }
 
 /// <summary>

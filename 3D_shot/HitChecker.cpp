@@ -137,10 +137,11 @@ void HitChecker::DecisionEnd(ScoreEarn* scoreEarn)
 /// <summary>
 /// プレイヤーと隕石の衝突判定
 /// </summary>
+/// <param name="playerPosition">プレイヤーの座標</param>
 /// <param name="player">プレイヤーのポインタ</param>
 /// <param name="meteorite">隕石のポインタ</param>
 /// <param name="scoreEarn">スコア計算のポインタ</param>
-void HitChecker::PlayerAndMeteorite(Player* player, vector<Meteorite*>* meteorite, ScoreEarn* scoreEarn)
+void HitChecker::PlayerAndMeteorite(VECTOR playerPosition, Player* player, vector<Meteorite*>* meteorite, ScoreEarn* scoreEarn)
 {
 	//隕石と衝突していない
 	hit = false;
@@ -151,7 +152,7 @@ void HitChecker::PlayerAndMeteorite(Player* player, vector<Meteorite*>* meteorit
 		if ((*itr)->GetPosition().z <= DECISION_START_LINE)
 		{
 			//プレイヤーから隕石の座標を引いた値を取得
-			VECTOR sub = player->GetPosition() - (*itr)->GetPosition();
+			VECTOR sub = playerPosition - (*itr)->GetPosition();
 
 			//プレイヤーと隕石の距離を計算
 			distance = VSize(sub);

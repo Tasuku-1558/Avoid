@@ -22,6 +22,14 @@ public:
 		DAMAGE,		//被弾状態
 	};
 
+	struct Key
+	{
+		int input;	//キー操作
+		float position;
+		int range;
+		VECTOR dir;	//方向
+	};
+
 	PlayerState playerState;	//プレイヤーの状態
 
 private:

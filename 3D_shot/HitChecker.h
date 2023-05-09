@@ -20,7 +20,8 @@ public:
 	HitChecker(EffectManager* const inEffect, Evaluation* const inEvaluation);
 	virtual ~HitChecker();
 
-	void PlayerAndMeteorite(Player* player, 
+	void PlayerAndMeteorite(VECTOR playerPosition, 
+							Player* player,
 							vector<Meteorite*>* meteorite, 
 							ScoreEarn* scoreEarn);			//プレイヤーとエネミーの衝突判定
 

@@ -1,6 +1,6 @@
 #include "FadeManager.h"
-#include "PreCompiledHeader.h"
 #include <math.h>
+#include "PreCompiledHeader.h"
 
 
 /// <summary>

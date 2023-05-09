@@ -1,7 +1,7 @@
 #pragma once
 
-#include "SceneBase.h"
 #include <vector>
+#include "SceneBase.h"
 
 class Camera;
 class Light;
@@ -46,7 +46,7 @@ private:
 	BackGround* backGround;
 	Field* field;
 	Player* player;
-	std::vector<Meteorite*> meteorite;
+	Meteorite* meteorite;
 	HitChecker* hitChecker;
 	UiManager* uiManager;
 	EffectManager* effectManager;
@@ -54,22 +54,24 @@ private:
 	ScoreEarn* scoreEarn;
 	FadeManager* fadeManager;
 	ResultUi* resultUi;
-	
-	void Initialize()override;							//初期化処理
-	void EntryMeteorite(Meteorite* newMeteorite);		//隕石を登録
-	void DeleteMeteorite(Meteorite* deleteMeteorite);	//隕石を削除
-	void MeteoritePop(float deltaTime);					//隕石の出現間隔
-	void GameCountDown();								//ゲーム時間計算
-	void SceneChange();									//シーン切り替え
-	void ReturnScreen();								//画面を遷移する
-	void ResultScore();									//リザルト画面用スコア
+
+	std::vector<Meteorite*> activeMeteorite;
+	std::vector<Meteorite*> deactiveMeteorite;
+
+	void Initialize()override;									//初期化処理
+	void MeteoritePop(float deltaTime);							//隕石の出現間隔
+	void GameCountDown();										//ゲーム時間計算
+	void SceneChange();											//シーン切り替え
+	void ReturnScreen();										//画面を遷移する
+	void ResultScore();											//リザルト画面用スコア
+	void InputScene(bool sceneChange, SceneType sceneType);		//シーンの入力
 
 	//各状態に応じた更新処理
-	void UpdateStart(float deltaTime);					//ゲーム開始前
-	void UpdateGame(float deltaTime);					//ゲーム中
-	void UpdateFinish(float deltaTime);					//ゲーム終了
-	void UpdateResult(float deltaTime);					//結果画面
-	void(GameScene::* pUpdate)(float deltaTime);		//Update関数ポインタ
+	void UpdateStart(float deltaTime);				//ゲーム開始前
+	void UpdateGame(float deltaTime);				//ゲーム中
+	void UpdateFinish(float deltaTime);				//ゲーム終了
+	void UpdateResult(float deltaTime);				//結果画面
+	void(GameScene::* pUpdate)(float deltaTime);	//Update関数ポインタ
 
 	struct Pop
 	{
@@ -145,4 +147,5 @@ private:
 	const float INITIAL_METEORITE_POP_COUNT;	//初期の隕石出現カウント
 	const float GAME_START_COUNT;				//ゲーム開始カウント
 	const float FADE_START_COUNT;				//フェード開始カウント
+	const float INITIAL_FRAME;					//初期のフレーム数
 };

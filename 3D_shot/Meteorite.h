@@ -2,15 +2,13 @@
 
 #include "MeteoriteBase.h"
 
-class Player;
-
 /// <summary>
 /// 隕石クラス
 /// </summary>
 class Meteorite final : public MeteoriteBase
 {
 public:
-	Meteorite(Player* player);
+	Meteorite(VECTOR inPlayerPosition);
 	virtual ~Meteorite();
 
 	void Update(float deltaTime);	//更新処理

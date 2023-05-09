@@ -19,7 +19,7 @@ protected:
 	int    randomDirection;	//隕石が進む方向のランダム値の格納用
 	float  speed;			//移動速度
 	bool   popFlag;			//隕石出現フラグ
-	VECTOR playerPosition;	//プレイヤーの位置
+	VECTOR playerPosition;	//プレイヤーの座標格納用
 	VECTOR rotate;			//回転値
 	VECTOR rotateSpeed;		//回転速度
 

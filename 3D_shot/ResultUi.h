@@ -49,6 +49,7 @@ private:
 	float earnScore;			//獲得スコア
 	bool displayFlag;			//評価画像表示フラグ
 
+
 	//定数
 	const int DECISION_B_LINE;				//B評価判定ライン
 	const int DECISION_A_LINE;				//A評価判定ライン
