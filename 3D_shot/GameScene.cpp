@@ -350,13 +350,9 @@ void GameScene::UpdateGame(float deltaTime)
 		//θ¦Ξ‚ΖΥ“Λ‚µ‚½‚ΰ‚µ‚­‚Ν§ΐΤ‚ª0‚Ι‚Θ‚Α‚½‚ηθ¦Ξ‚πΑ‚·
 		if (hitChecker->Hit() || countDown == GAME_FINISH_TIME)
 		{
-			if (itr != activeMeteorite.end())
-			{
-				std::iter_swap(itr, activeMeteorite.end() - 1);
-				activeMeteorite.pop_back();
+			activeMeteorite.erase(activeMeteorite.begin());
 
-				return;
-			}
+			break;
 		}
 	}
 

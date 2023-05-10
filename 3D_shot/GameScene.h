@@ -56,7 +56,6 @@ private:
 	ResultUi* resultUi;
 
 	std::vector<Meteorite*> activeMeteorite;
-	std::vector<Meteorite*> deactiveMeteorite;
 
 	void Initialize()override;									//‰Šú‰»ˆ—
 	void MeteoritePop(float deltaTime);							//è¦Î‚ÌoŒ»ŠÔŠu
