@@ -24,10 +24,10 @@ public:
 
 	struct Key
 	{
-		int input;	//キー操作
-		float position;
-		int range;
-		VECTOR dir;	//方向
+		int input;			//キー操作
+		float position;		//プレイヤーの位置
+		int range;			//範囲
+		VECTOR dir;			//方向
 	};
 
 	PlayerState playerState;	//プレイヤーの状態
@@ -36,7 +36,8 @@ private:
 	Player(const Player&);		//コピーコンストラクタ
 
 	void Initialize();						//初期化処理
-	void Move(float deltaTime);				//移動処理
+	void PlayerMove(float deltaTime);		//プレイヤー移動処理
+	void LingMove(float deltaTime);			//リング移動処理
 	void KeyInput();						//キー入力処理
 	void HitMeteorite(float deltaTime);		//隕石に衝突した
 	void AfterImage();						//プレイヤーの残像処理

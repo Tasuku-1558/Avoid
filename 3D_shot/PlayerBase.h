@@ -24,6 +24,7 @@ protected:
 	VECTOR pastPosition[10];			//プレイヤーの過去の位置
 
 	//定数
+	const int	  KEY_INPUT_PATTERN;	//キー入力パターン
 	const int	  UP_RANGE;				//上方向の移動範囲
 	const int     DOWN_RANGE;			//下方向の移動範囲
 	const int     LEFT_RANGE;			//左方向の移動範囲
@@ -38,7 +39,7 @@ protected:
 	const float	  INITIAL_DAMAGE_TIME;	//初期のダメージ時間
 	const float	  MAX_INPUT_DIRECTION;	//最大入力ベクトル
 
-	const VECTOR  POSITION;				//位置
+	const VECTOR  INITIAL_POSITION;		//初期のプレイヤーの位置
 	const VECTOR  SIZE;					//倍率
 	const VECTOR  UP;					//上方向
 	const VECTOR  DOWN;					//下方向

@@ -20,10 +20,7 @@ EffectManager::EffectManager()
 /// </summary>
 EffectManager::~EffectManager()
 {
-	for (int i = 0; i < EFFECT_AMOUNT; i++)
-	{
-		delete effect[i];
-	}
+	DeleteEffect();
 }
 
 /// <summary>
@@ -31,9 +28,32 @@ EffectManager::~EffectManager()
 /// </summary>
 void EffectManager::Initialize()
 {
-	//各エフェクトの読み込み
-	effect[EXPLOSION] = new Effect(Input::InputPath(EFFECT_FOLDER_PATH, EXPLOSION_EFFECT_PATH), EXPLOSION_SIZE);
-	effect[FIRE] = new Effect(Input::InputPath(EFFECT_FOLDER_PATH, FIRE_EFFECT_PATH), FIRE_SIZE);
+	Effects effects[] =
+	{
+		{EXPLOSION_EFFECT_PATH, EXPLOSION_SIZE},
+		{FIRE_EFFECT_PATH,		FIRE_SIZE},
+	};
+
+	for (int i = 0; i < EFFECT_AMOUNT; i++)
+	{
+		//各エフェクトの読み込み
+		effect[i] = new Effect(Input::InputPath(EFFECT_FOLDER_PATH, effects[i].effectPath), effects[i].effectSize);
+	}
+}
+
+/// <summary>
+/// エフェクトの削除
+/// </summary>
+void EffectManager::DeleteEffect()
+{
+	for (int i = 0; i < EFFECT_AMOUNT; i++)
+	{
+		if (effect[i] != NULL)
+		{
+			delete effect[i];
+			effect[i] = NULL;
+		}
+	}
 }
 
 /// <summary>

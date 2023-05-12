@@ -30,7 +30,7 @@ void Player::Initialize()
 	//プレイヤーモデルの読み込みとサイズの設定
 	modelHandle = MV1DuplicateModel(ModelManager::GetInstance().GetModelHandle(ModelManager::PLAYER));
 	MV1SetScale(modelHandle, SIZE);
-	position = POSITION;
+	position = INITIAL_POSITION;
 
 	//プレイヤーリングモデルの読み込みとサイズの設定
 	lingModel = MV1DuplicateModel(ModelManager::GetInstance().GetModelHandle(ModelManager::PLAYER_LING));
@@ -50,7 +50,7 @@ void Player::Initialize()
 		//モデルのエミッシブカラーを変更
 		MV1SetMaterialEmiColor(afterImageModelHandle[i], MATERIAL_INDEX, AFTER_IMAGE_COLOR);
 
-		pastPosition[i] = POSITION;
+		pastPosition[i] = INITIAL_POSITION;
 	}
 }
 
@@ -75,7 +75,7 @@ void Player::Finalize()
 /// <param name="deltaTime">前フレームと現在のフレームの差分</param>
 void Player::Update(float deltaTime)
 {
-	Move(deltaTime);
+	PlayerMove(deltaTime);
 
 	AfterImage();
 
@@ -83,20 +83,15 @@ void Player::Update(float deltaTime)
 }
 
 /// <summary>
-/// 移動処理
+/// プレイヤー移動処理
 /// </summary>
 /// <param name="deltaTime">前フレームと現在のフレームの差分</param>
-void Player::Move(float deltaTime)
+void Player::PlayerMove(float deltaTime)
 {
 	//入力方向を初期化する
 	inputDirection = ZERO_VECTOR;
 
-	//リングを回転
-	rotate += rotateSpeed * deltaTime;
-
-	//プレイヤーリングモデルの位置と回転値を設定
-	MV1SetPosition(lingModel, position);
-	MV1SetRotationXYZ(lingModel, rotate);
+	LingMove(deltaTime);
 	
 	KeyInput();
 	
@@ -121,6 +116,20 @@ void Player::Move(float deltaTime)
 }
 
 /// <summary>
+/// リング移動処理
+/// </summary>
+/// <param name="deltaTime">前フレームと現在のフレームの差分</param>
+void Player::LingMove(float deltaTime)
+{
+	//リングを回転
+	rotate += rotateSpeed * deltaTime;
+
+	//プレイヤーリングモデルの位置と回転値を設定
+	MV1SetPosition(lingModel, position);
+	MV1SetRotationXYZ(lingModel, rotate);
+}
+
+/// <summary>
 /// キー入力処理
 /// </summary>
 void Player::KeyInput()
@@ -137,8 +146,9 @@ void Player::KeyInput()
 		{KEY_INPUT_LEFT, position.x, LEFT_RANGE, LEFT},
 	};
 
-	for (int i = 0; i < 2; i++)
+	for (int i = 0; i < KEY_INPUT_PATTERN; i++)
 	{
+		//上と右の入力
 		if (CheckHitKey(key[i].input))
 		{
 			if (key[i].position < key[i].range)
@@ -151,6 +161,7 @@ void Player::KeyInput()
 				inputDirection = ZERO_VECTOR;
 			}
 		}
+		//下と左の入力
 		if (CheckHitKey(key2[i].input))
 		{
 			if (key2[i].position > key2[i].range)
